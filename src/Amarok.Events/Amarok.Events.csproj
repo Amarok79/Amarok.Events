@@ -38,7 +38,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="NewFolder\Events\" />
+	  <Folder Include="Events\" />
 	</ItemGroup>
 
 </Project>
