@@ -1,33 +1,34 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.1;net471</TargetFrameworks>
-    <RootNamespace>Amarok</RootNamespace>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>netcoreapp2.1;net471</TargetFrameworks>
+		<RootNamespace>Amarok</RootNamespace>
+		<CodeAnalysisRuleSet>..\Global.ruleset</CodeAnalysisRuleSet>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\..\bin\tests\</OutputPath>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <LangVersion>latest</LangVersion>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <WarningsAsErrors />
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<OutputPath>..\..\bin\tests\</OutputPath>
+		<GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+		<LangVersion>latest</LangVersion>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<WarningsAsErrors />
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>..\..\bin\tests\</OutputPath>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<OutputPath>..\..\bin\tests\</OutputPath>
+		<GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Include="..\Amarok.Events.licenseheader" Link="Amarok.Events.licenseheader" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\Amarok.Events.licenseheader" Link="Amarok.Events.licenseheader" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Moq" Version="4.8.3" />
-    <PackageReference Include="NCrunch.Framework" Version="3.17.0" />
-    <PackageReference Include="NFluent" Version="2.3.1" />
-    <PackageReference Include="NUnit" Version="3.10.1" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Moq" Version="4.8.3" />
+		<PackageReference Include="NCrunch.Framework" Version="3.17.0" />
+		<PackageReference Include="NFluent" Version="2.3.1" />
+		<PackageReference Include="NUnit" Version="3.10.1" />
+	</ItemGroup>
 
 </Project>
