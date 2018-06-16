@@ -22,7 +22,7 @@
 		<DocumentationFile>..\..\bin\lib\netstandard2.0\Amarok.Events.xml</DocumentationFile>
 		<GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
 		<LangVersion>latest</LangVersion>
-		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
 		<WarningsAsErrors />
 	</PropertyGroup>
 
@@ -35,10 +35,6 @@
 
 	<ItemGroup>
 	  <None Include="..\Amarok.Events.licenseheader" Link="Amarok.Events.licenseheader" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Events\" />
 	</ItemGroup>
 
 </Project>
