@@ -31,4 +31,8 @@
 		<PackageReference Include="NUnit" Version="3.10.1" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\Amarok.Events\Amarok.Events.csproj" />
+	</ItemGroup>
+
 </Project>
