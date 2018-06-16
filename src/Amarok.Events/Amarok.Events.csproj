@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<RootNamespace>Amarok</RootNamespace>
+		<Version>1.0.0-alpha.1</Version>
+		<Authors>Olaf Kober</Authors>
+		<Company>&lt;none&gt;</Company>
+		<Description>TODO</Description>
+		<Copyright>Copyright (c) 2018, Olaf Kober</Copyright>
+		<PackageLicenseUrl>https://raw.githubusercontent.com/Amarok79/Events/master/LICENSE</PackageLicenseUrl>
+		<PackageProjectUrl>https://github.com/Amarok79/Events</PackageProjectUrl>
+		<PackageIconUrl>https://amarok.blob.core.windows.net/public/amarok.ico</PackageIconUrl>
+		<CodeAnalysisRuleSet>..\Global.ruleset</CodeAnalysisRuleSet>
+		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<OutputPath>..\..\bin\lib\</OutputPath>
+		<DocumentationFile>..\..\bin\lib\netstandard2.0\Amarok.Events.xml</DocumentationFile>
+		<GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+		<LangVersion>latest</LangVersion>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<WarningsAsErrors />
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<OutputPath>..\..\bin\lib\</OutputPath>
+		<DocumentationFile>..\..\bin\lib\netstandard2.0\Amarok.Events.xml</DocumentationFile>
+		<GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Include="..\Amarok.Events.licenseheader" Link="Amarok.Events.licenseheader" />
+	</ItemGroup>
+
+</Project>
