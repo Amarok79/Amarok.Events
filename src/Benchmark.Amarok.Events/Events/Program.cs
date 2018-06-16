@@ -4,14 +4,15 @@
  */
 
 using System;
+using BenchmarkDotNet.Running;
 
-
-namespace Amarok
+namespace Amarok.Events
 {
     public static class Program
     {
         public static void Main()
         {
+			BenchmarkRunner.Run<DotNetEventsBenchmarks>();
         }
     }
 }
