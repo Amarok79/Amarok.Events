@@ -3,16 +3,15 @@
  * https://github.com/Amarok79/Events
  */
 
-using System;
 using BenchmarkDotNet.Running;
 
 namespace Amarok.Events
 {
-    public static class Program
-    {
-        public static void Main()
-        {
-			BenchmarkRunner.Run<DotNetEventsBenchmarks>();
-        }
-    }
+	public static class Program
+	{
+		public static void Main()
+		{
+			BenchmarkRunner.Run<Benchmarks>();
+		}
+	}
 }

@@ -41,7 +41,10 @@ namespace Amarok.Events
 
 		public IDisposable Subscribe(Action<T> action)
 		{
-			return null;
+			if (mEventSource == null)
+				return null;
+
+			return mEventSource.Add(action);
 		}
 
 		public IDisposable Subscribe(Func<T, Task> func)

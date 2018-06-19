@@ -4,8 +4,11 @@
  */
 
 using System;
+using System.Collections.Immutable;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
+
 
 namespace Amarok.Events
 {
@@ -18,12 +21,21 @@ namespace Amarok.Events
 		// data
 		private readonly Event<T> mEvent;
 
+		private Boolean mIsDisposed;
+
+		private Int32 mNumberOfPendingCalls;
+
+		private ImmutableArray<Subscription<T>> mSubscriptions = ImmutableArray<Subscription<T>>.Empty;
+
+
+
+
 
 		#region ++ IDisposable Interface ++
 
 		public void Dispose()
 		{
-			
+
 		}
 
 		#endregion
@@ -47,6 +59,16 @@ namespace Amarok.Events
 
 		public Boolean Invoke(T value)
 		{
+			if (mIsDisposed)
+				return false;
+
+			var subscriptions = mSubscriptions;
+
+			if (subscriptions.Length == 0)
+				return false;
+
+			_ReportImpl(subscriptions, value);
+
 			return true;
 		}
 
@@ -68,6 +90,21 @@ namespace Amarok.Events
 		public Boolean Invoke<TArg1, TArg2, TArg3>(Func<TArg1, TArg2, TArg3, T> valueFactory, TArg1 arg1, TArg2 arg2, TArg3 arg3)
 		{
 			return true;
+		}
+
+
+		private static void _ReportImpl(ImmutableArray<Subscription<T>> subscriptions, T value)
+		{
+			for (Int32 i = 0; i < subscriptions.Length; i++)
+			{
+				try
+				{
+					subscriptions[i].Invoke(value);
+				}
+				catch (Exception exception)
+				{
+				}
+			}
 		}
 
 
@@ -116,7 +153,30 @@ namespace Amarok.Events
 
 		internal IDisposable Add(Action<T> action)
 		{
-			return null;
+			var subscription = new Subscription<T>(this, action);
+
+			if (mIsDisposed)
+				return null;
+
+			try
+			{
+				Interlocked.Increment(ref mNumberOfPendingCalls);
+
+				ImmutableArray<Subscription<T>> initial, computed;
+				do
+				{
+					initial = mSubscriptions;
+					computed = initial.Add(subscription);
+				}
+				while (initial != ImmutableInterlocked.InterlockedCompareExchange(
+					ref mSubscriptions, computed, initial));
+
+				return subscription;
+			}
+			finally
+			{
+				Interlocked.Decrement(ref mNumberOfPendingCalls);
+			}
 		}
 
 		internal IDisposable Add(Func<T, Task> func)
@@ -134,7 +194,7 @@ namespace Amarok.Events
 			return null;
 		}
 
-		internal void Remove()
+		internal void Remove(Subscription<T> subscription)
 		{
 		}
 
