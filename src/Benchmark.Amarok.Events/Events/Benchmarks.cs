@@ -4,6 +4,7 @@
  */
 
 using System;
+using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Attributes.Jobs;
 
@@ -106,12 +107,30 @@ namespace Amarok.Events
 			{
 			}
 
+			private Task HandleFooChangedAsync(String args)
+			{
+				return Task.CompletedTask;
+			}
+
 
 			public FooServiceImpl ServiceHandlerCount0;
 			public FooServiceImpl ServiceHandlerCount1;
 			public FooServiceImpl ServiceHandlerCount3;
 			public FooServiceImpl ServiceHandlerCount5;
 			public FooServiceImpl ServiceHandlerCount9;
+
+			public FooServiceImpl ServiceAsyncHandlerCount0;
+			public FooServiceImpl ServiceAsyncHandlerCount1;
+			public FooServiceImpl ServiceAsyncHandlerCount3;
+			public FooServiceImpl ServiceAsyncHandlerCount5;
+			public FooServiceImpl ServiceAsyncHandlerCount9;
+
+			public FooServiceImpl ServiceWeakHandlerCount0;
+			public FooServiceImpl ServiceWeakHandlerCount1;
+			public FooServiceImpl ServiceWeakHandlerCount3;
+			public FooServiceImpl ServiceWeakHandlerCount5;
+			public FooServiceImpl ServiceWeakHandlerCount9;
+
 
 			public Amarok()
 			{
@@ -142,6 +161,66 @@ namespace Amarok.Events
 				ServiceHandlerCount9.FooChanged.Subscribe(HandleFooChanged);
 				ServiceHandlerCount9.FooChanged.Subscribe(HandleFooChanged);
 				ServiceHandlerCount9.FooChanged.Subscribe(HandleFooChanged);
+
+
+
+				ServiceAsyncHandlerCount0 = new FooServiceImpl();
+
+				ServiceAsyncHandlerCount1 = new FooServiceImpl();
+				ServiceAsyncHandlerCount1.FooChanged.Subscribe(HandleFooChangedAsync);
+
+				ServiceAsyncHandlerCount3 = new FooServiceImpl();
+				ServiceAsyncHandlerCount3.FooChanged.Subscribe(HandleFooChangedAsync);
+				ServiceAsyncHandlerCount3.FooChanged.Subscribe(HandleFooChangedAsync);
+				ServiceAsyncHandlerCount3.FooChanged.Subscribe(HandleFooChangedAsync);
+
+				ServiceAsyncHandlerCount5 = new FooServiceImpl();
+				ServiceAsyncHandlerCount5.FooChanged.Subscribe(HandleFooChangedAsync);
+				ServiceAsyncHandlerCount5.FooChanged.Subscribe(HandleFooChangedAsync);
+				ServiceAsyncHandlerCount5.FooChanged.Subscribe(HandleFooChangedAsync);
+				ServiceAsyncHandlerCount5.FooChanged.Subscribe(HandleFooChangedAsync);
+				ServiceAsyncHandlerCount5.FooChanged.Subscribe(HandleFooChangedAsync);
+
+				ServiceAsyncHandlerCount9 = new FooServiceImpl();
+				ServiceAsyncHandlerCount9.FooChanged.Subscribe(HandleFooChangedAsync);
+				ServiceAsyncHandlerCount9.FooChanged.Subscribe(HandleFooChangedAsync);
+				ServiceAsyncHandlerCount9.FooChanged.Subscribe(HandleFooChangedAsync);
+				ServiceAsyncHandlerCount9.FooChanged.Subscribe(HandleFooChangedAsync);
+				ServiceAsyncHandlerCount9.FooChanged.Subscribe(HandleFooChangedAsync);
+				ServiceAsyncHandlerCount9.FooChanged.Subscribe(HandleFooChangedAsync);
+				ServiceAsyncHandlerCount9.FooChanged.Subscribe(HandleFooChangedAsync);
+				ServiceAsyncHandlerCount9.FooChanged.Subscribe(HandleFooChangedAsync);
+				ServiceAsyncHandlerCount9.FooChanged.Subscribe(HandleFooChangedAsync);
+
+
+
+				ServiceWeakHandlerCount0 = new FooServiceImpl();
+
+				ServiceWeakHandlerCount1 = new FooServiceImpl();
+				ServiceWeakHandlerCount1.FooChanged.SubscribeWeak(HandleFooChanged);
+
+				ServiceWeakHandlerCount3 = new FooServiceImpl();
+				ServiceWeakHandlerCount3.FooChanged.SubscribeWeak(HandleFooChanged);
+				ServiceWeakHandlerCount3.FooChanged.SubscribeWeak(HandleFooChanged);
+				ServiceWeakHandlerCount3.FooChanged.SubscribeWeak(HandleFooChanged);
+
+				ServiceWeakHandlerCount5 = new FooServiceImpl();
+				ServiceWeakHandlerCount5.FooChanged.SubscribeWeak(HandleFooChanged);
+				ServiceWeakHandlerCount5.FooChanged.SubscribeWeak(HandleFooChanged);
+				ServiceWeakHandlerCount5.FooChanged.SubscribeWeak(HandleFooChanged);
+				ServiceWeakHandlerCount5.FooChanged.SubscribeWeak(HandleFooChanged);
+				ServiceWeakHandlerCount5.FooChanged.SubscribeWeak(HandleFooChanged);
+
+				ServiceWeakHandlerCount9 = new FooServiceImpl();
+				ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged);
+				ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged);
+				ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged);
+				ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged);
+				ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged);
+				ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged);
+				ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged);
+				ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged);
+				ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged);
 			}
 		}
 
@@ -219,6 +298,18 @@ namespace Amarok.Events
 		//}
 
 
+		[Benchmark]
+		public void Amarok_Raise_AsyncHandlerCount_1()
+		{
+			mAmarok.ServiceAsyncHandlerCount1.Do();
+		}
+
+		[Benchmark]
+		public void Amarok_Raise_WeakHandlerCount_1()
+		{
+			mAmarok.ServiceWeakHandlerCount1.Do();
+		}
+
 
 		//	BenchmarkDotNet=v0.10.14, OS=Windows 10.0.17134
 		//	Intel Core i7-6700HQ CPU 2.60GHz (Skylake), 1 CPU, 8 logical and 4 physical cores
@@ -241,5 +332,16 @@ namespace Amarok.Events
 		//	 Raise_HandlerCount_3 | Core |    Core | 16.591 ns | 0.1582 ns | 0.1235 ns | 16.622 ns |       0 B |
 		//	 Raise_HandlerCount_5 | Core |    Core | 24.190 ns | 0.5631 ns | 0.6485 ns | 23.966 ns |       0 B |
 		//	 Raise_HandlerCount_9 | Core |    Core | 40.276 ns | 0.8409 ns | 1.9152 ns | 39.589 ns |       0 B |	
+
+
+
+
+		// SubscriptionBase with virtual method
+
+		//                       Method |     Mean |     Error |    StdDev | Scaled | ScaledSD |  Gen 0 | Allocated |
+		// ---------------------------- |---------:|----------:|----------:|-------:|---------:|-------:|----------:|
+		//  DotNet_Raise_HandlerCount_1 | 6.392 ns | 0.1354 ns | 0.1131 ns |   1.00 |     0.00 | 0.0076 |      24 B |
+		//  Amarok_Raise_HandlerCount_1 | 8.580 ns | 0.4323 ns | 0.4246 ns |   1.34 |     0.07 |      - |       0 B |
+
 	}
 }

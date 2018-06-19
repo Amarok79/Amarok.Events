@@ -153,7 +153,7 @@ namespace Amarok.Events
 
 		internal IDisposable Add(Action<T> action)
 		{
-			var subscription = new Subscription<T>(this, action);
+			var subscription = new ActionSubscription<T>(this, action);
 
 			if (mIsDisposed)
 				return null;
@@ -181,12 +181,62 @@ namespace Amarok.Events
 
 		internal IDisposable Add(Func<T, Task> func)
 		{
-			return null;
+			var subscription = new FuncSubscription<T>(this, func);
+
+			if (mIsDisposed)
+				return null;
+
+			try
+			{
+				Interlocked.Increment(ref mNumberOfPendingCalls);
+
+				ImmutableArray<Subscription<T>> initial, computed;
+				do
+				{
+					initial = mSubscriptions;
+					computed = initial.Add(subscription);
+				}
+				while (initial != ImmutableInterlocked.InterlockedCompareExchange(
+					ref mSubscriptions, computed, initial));
+
+				return subscription;
+			}
+			finally
+			{
+				Interlocked.Decrement(ref mNumberOfPendingCalls);
+			}
 		}
 
 		internal IDisposable AddWeak(Action<T> action)
 		{
-			return null;
+			var strongSubscription = new ActionSubscription<T>(this, action);
+
+			var weakSubscription = new WeakSubscription<T>(this, strongSubscription);
+
+			strongSubscription.SetBackReference(weakSubscription);
+
+			if (mIsDisposed)
+				return null;
+
+			try
+			{
+				Interlocked.Increment(ref mNumberOfPendingCalls);
+
+				ImmutableArray<Subscription<T>> initial, computed;
+				do
+				{
+					initial = mSubscriptions;
+					computed = initial.Add(weakSubscription);
+				}
+				while (initial != ImmutableInterlocked.InterlockedCompareExchange(
+					ref mSubscriptions, computed, initial));
+
+				return strongSubscription;
+			}
+			finally
+			{
+				Interlocked.Decrement(ref mNumberOfPendingCalls);
+			}
 		}
 
 		internal IDisposable AddWeak(Func<T, Task> func)

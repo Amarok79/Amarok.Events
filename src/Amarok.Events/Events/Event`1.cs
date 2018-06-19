@@ -49,18 +49,24 @@ namespace Amarok.Events
 
 		public IDisposable Subscribe(Func<T, Task> func)
 		{
-			return null;
+			if (mEventSource == null)
+				return null;
+
+			return mEventSource.Add(func);
 		}
 
-		public IDisposable SusbcribeWeak(Action<T> action)
+		public IDisposable SubscribeWeak(Action<T> action)
 		{
-			return null;
+			if (mEventSource == null)
+				return null;
+
+			return mEventSource.AddWeak(action);
 		}
 
-		public IDisposable SubscribeWeak(Func<T, Task> func)
-		{
-			return null;
-		}
+		//public IDisposable SubscribeWeak(Func<T, Task> func)
+		//{
+		//	return null;
+		//}
 
 
 
