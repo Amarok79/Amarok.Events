@@ -153,11 +153,19 @@ namespace Amarok.Events
 
 		internal IDisposable Add(Action<T> action)
 		{
+			if (mIsDisposed)
+				return NullSubscription.Instance;
+
 			var subscription = new ActionSubscription<T>(this, action);
 
-			if (mIsDisposed)
-				return null;
+			Add(subscription);
 
+			return subscription;
+		}
+
+
+		internal void Add(Subscription<T> subscription)
+		{
 			try
 			{
 				Interlocked.Increment(ref mNumberOfPendingCalls);
@@ -170,14 +178,15 @@ namespace Amarok.Events
 				}
 				while (initial != ImmutableInterlocked.InterlockedCompareExchange(
 					ref mSubscriptions, computed, initial));
-
-				return subscription;
 			}
 			finally
 			{
 				Interlocked.Decrement(ref mNumberOfPendingCalls);
 			}
 		}
+
+
+
 
 		internal IDisposable Add(Func<T, Task> func)
 		{
@@ -246,6 +255,23 @@ namespace Amarok.Events
 
 		internal void Remove(Subscription<T> subscription)
 		{
+			try
+			{
+				Interlocked.Increment(ref mNumberOfPendingCalls);
+
+				ImmutableArray<Subscription<T>> initial, computed;
+				do
+				{
+					initial = mSubscriptions;
+					computed = initial.Remove(subscription);
+				}
+				while (initial != ImmutableInterlocked.InterlockedCompareExchange(
+					ref mSubscriptions, computed, initial));
+			}
+			finally
+			{
+				Interlocked.Decrement(ref mNumberOfPendingCalls);
+			}
 		}
 
 		#endregion

@@ -35,8 +35,4 @@
 	  <ProjectReference Include="..\Amarok.Events\Amarok.Events.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Events\" />
-	</ItemGroup>
-
 </Project>

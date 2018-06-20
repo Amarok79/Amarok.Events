@@ -5,7 +5,6 @@
 
 using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 
 
@@ -14,7 +13,7 @@ namespace Amarok.Events
 	/// <summary>
 	/// </summary>
 	[DebuggerStepThrough]
-	public readonly struct Event<T> : 
+	public readonly struct Event<T> :
 		IEquatable<Event<T>>
 	{
 		// data
@@ -28,8 +27,9 @@ namespace Amarok.Events
 		/// </summary>
 		public EventSource<T> Source => mEventSource;
 
-		// TODO: HasSource, IsSourceConnected, ?!?!
-
+		/// <summary>
+		/// </summary>
+		public Boolean IsNull => mEventSource == null;
 
 
 		public Event(EventSource<T> eventSource)
@@ -38,11 +38,12 @@ namespace Amarok.Events
 		}
 
 
-
+		/// <summary>
+		/// </summary>
 		public IDisposable Subscribe(Action<T> action)
 		{
 			if (mEventSource == null)
-				return null;
+				return NullSubscription.Instance;
 
 			return mEventSource.Add(action);
 		}
