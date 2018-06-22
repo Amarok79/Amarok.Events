@@ -8,15 +8,24 @@ using System;
 
 namespace Amarok.Events
 {
+	/// <summary>
+	/// Implementation class that represents a null subscription.
+	/// </summary>
 	internal sealed class NullSubscription :
 		IDisposable
 	{
 		public static readonly IDisposable Instance = new NullSubscription();
 
 
+		private NullSubscription()
+		{
+			// shouldn't be construct-able; use Instance instead
+		}
+
+
 		public void Dispose()
 		{
-			// Method intentionally left empty.
+			// intentionally left empty
 		}
 	}
 }
