@@ -27,7 +27,7 @@ namespace Amarok.Events
 		public abstract void Invoke(T value);
 
 		/// <summary>
-		/// Invokes the subscription's handler in a asynchronous way.
+		/// Invokes the subscription's handler in an asynchronous way.
 		/// </summary>
 		public abstract ValueTask InvokeAsync(T value);
 
