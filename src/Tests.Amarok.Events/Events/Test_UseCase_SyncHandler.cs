@@ -10,7 +10,6 @@ using NUnit.Framework;
 
 namespace Amarok.Events
 {
-	[TestFixture]
 	public class Test_UseCase_SyncHandler
 	{
 		public interface IFooService
@@ -1872,49 +1871,5 @@ namespace Amarok.Events
 					.WithProperty(x => x.ParamName, "valueFactory");
 			}
 		}
-
-
-
-
-
-		//[Test]
-		//public void Invoked_Disposed_Subscription()
-		//{
-		//	var service = new FooService();
-
-		//	Int32 called = 0;
-		//	FooArgs arg = null;
-
-		//	var subscription = service.Changed.Subscribe(x => { arg = x; called++; });
-
-		//	var flag = service.Do(123);
-
-		//	Check.That(flag)
-		//		.IsTrue();
-		//	Check.That(called)
-		//		.IsEqualTo(1);
-		//	Check.That(arg.Value)
-		//		.IsEqualTo(123);
-
-		//	called = 0;
-		//	flag = service.Do(456);
-
-		//	Check.That(flag)
-		//		.IsTrue();
-		//	Check.That(called)
-		//		.IsEqualTo(1);
-		//	Check.That(arg.Value)
-		//		.IsEqualTo(456);
-
-		//	subscription.Dispose();
-
-		//	called = 0;
-		//	flag = service.Do(789);
-
-		//	Check.That(flag)
-		//		.IsFalse();
-		//	Check.That(called)
-		//		.IsEqualTo(0);
-		//}
 	}
 }
