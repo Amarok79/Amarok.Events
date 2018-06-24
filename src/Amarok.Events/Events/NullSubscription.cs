@@ -27,5 +27,10 @@ namespace Amarok.Events
 		{
 			// intentionally left empty
 		}
+
+		public override String ToString()
+		{
+			return "=> <null>";
+		}
 	}
 }

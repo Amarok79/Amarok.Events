@@ -74,8 +74,8 @@ namespace Amarok.Events
 					.IsEqualTo(service.Changed);
 				Check.That(service.Changed.Source)
 					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.IsNull)
-					.IsFalse();
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -127,8 +127,8 @@ namespace Amarok.Events
 					.IsEqualTo(service.Changed);
 				Check.That(service.Changed.Source)
 					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.IsNull)
-					.IsFalse();
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -208,8 +208,8 @@ namespace Amarok.Events
 					.IsEqualTo(service.Changed);
 				Check.That(service.Changed.Source)
 					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.IsNull)
-					.IsFalse();
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -283,8 +283,8 @@ namespace Amarok.Events
 					.IsEqualTo(service.Changed);
 				Check.That(service.Changed.Source)
 					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.IsNull)
-					.IsFalse();
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -326,8 +326,8 @@ namespace Amarok.Events
 					.IsEqualTo(service.Changed);
 				Check.That(service.Changed.Source)
 					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.IsNull)
-					.IsFalse();
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -369,8 +369,8 @@ namespace Amarok.Events
 					.IsEqualTo(service.Changed);
 				Check.That(service.Changed.Source)
 					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.IsNull)
-					.IsFalse();
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 		}
 
@@ -395,8 +395,8 @@ namespace Amarok.Events
 					.IsEqualTo(service.Changed);
 				Check.That(service.Changed.Source)
 					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.IsNull)
-					.IsFalse();
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -454,8 +454,8 @@ namespace Amarok.Events
 					.IsEqualTo(service.Changed);
 				Check.That(service.Changed.Source)
 					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.IsNull)
-					.IsFalse();
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -541,8 +541,8 @@ namespace Amarok.Events
 					.IsEqualTo(service.Changed);
 				Check.That(service.Changed.Source)
 					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.IsNull)
-					.IsFalse();
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -619,8 +619,8 @@ namespace Amarok.Events
 					.IsEqualTo(service.Changed);
 				Check.That(service.Changed.Source)
 					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.IsNull)
-					.IsFalse();
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -665,8 +665,8 @@ namespace Amarok.Events
 					.IsEqualTo(service.Changed);
 				Check.That(service.Changed.Source)
 					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.IsNull)
-					.IsFalse();
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -711,8 +711,8 @@ namespace Amarok.Events
 					.IsEqualTo(service.Changed);
 				Check.That(service.Changed.Source)
 					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.IsNull)
-					.IsFalse();
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -747,8 +747,8 @@ namespace Amarok.Events
 					.IsEqualTo(service.Changed);
 				Check.That(service.Changed.Source)
 					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.IsNull)
-					.IsFalse();
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -812,8 +812,8 @@ namespace Amarok.Events
 					.IsEqualTo(service.Changed);
 				Check.That(service.Changed.Source)
 					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.IsNull)
-					.IsFalse();
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -905,8 +905,8 @@ namespace Amarok.Events
 					.IsEqualTo(service.Changed);
 				Check.That(service.Changed.Source)
 					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.IsNull)
-					.IsFalse();
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -986,8 +986,8 @@ namespace Amarok.Events
 					.IsEqualTo(service.Changed);
 				Check.That(service.Changed.Source)
 					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.IsNull)
-					.IsFalse();
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -1032,8 +1032,8 @@ namespace Amarok.Events
 					.IsEqualTo(service.Changed);
 				Check.That(service.Changed.Source)
 					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.IsNull)
-					.IsFalse();
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -1078,8 +1078,8 @@ namespace Amarok.Events
 					.IsEqualTo(service.Changed);
 				Check.That(service.Changed.Source)
 					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.IsNull)
-					.IsFalse();
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -1114,8 +1114,8 @@ namespace Amarok.Events
 					.IsEqualTo(service.Changed);
 				Check.That(service.Changed.Source)
 					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.IsNull)
-					.IsFalse();
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -1185,8 +1185,8 @@ namespace Amarok.Events
 					.IsEqualTo(service.Changed);
 				Check.That(service.Changed.Source)
 					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.IsNull)
-					.IsFalse();
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -1284,8 +1284,8 @@ namespace Amarok.Events
 					.IsEqualTo(service.Changed);
 				Check.That(service.Changed.Source)
 					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.IsNull)
-					.IsFalse();
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -1368,8 +1368,8 @@ namespace Amarok.Events
 					.IsEqualTo(service.Changed);
 				Check.That(service.Changed.Source)
 					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.IsNull)
-					.IsFalse();
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -1414,8 +1414,8 @@ namespace Amarok.Events
 					.IsEqualTo(service.Changed);
 				Check.That(service.Changed.Source)
 					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.IsNull)
-					.IsFalse();
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -1460,8 +1460,8 @@ namespace Amarok.Events
 					.IsEqualTo(service.Changed);
 				Check.That(service.Changed.Source)
 					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.IsNull)
-					.IsFalse();
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -1496,8 +1496,8 @@ namespace Amarok.Events
 					.IsEqualTo(service.Changed);
 				Check.That(service.Changed.Source)
 					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.IsNull)
-					.IsFalse();
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -1573,8 +1573,8 @@ namespace Amarok.Events
 					.IsEqualTo(service.Changed);
 				Check.That(service.Changed.Source)
 					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.IsNull)
-					.IsFalse();
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -1678,8 +1678,8 @@ namespace Amarok.Events
 					.IsEqualTo(service.Changed);
 				Check.That(service.Changed.Source)
 					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.IsNull)
-					.IsFalse();
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -1765,8 +1765,8 @@ namespace Amarok.Events
 					.IsEqualTo(service.Changed);
 				Check.That(service.Changed.Source)
 					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.IsNull)
-					.IsFalse();
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -1811,8 +1811,8 @@ namespace Amarok.Events
 					.IsEqualTo(service.Changed);
 				Check.That(service.Changed.Source)
 					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.IsNull)
-					.IsFalse();
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -1857,8 +1857,8 @@ namespace Amarok.Events
 					.IsEqualTo(service.Changed);
 				Check.That(service.Changed.Source)
 					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.IsNull)
-					.IsFalse();
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]

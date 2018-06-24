@@ -458,7 +458,7 @@ namespace Amarok.Events
 		/// A string that represents the current instance.</returns>
 		public override String ToString()
 		{
-			return null;
+			return $"EventSource<{typeof(T).Name}>(Subscriptions: {mSubscriptions.Length})";
 		}
 
 

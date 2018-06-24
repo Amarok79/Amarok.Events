@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Amarok.Events
 {
 	/// <summary>
-	/// This type represents an Event that allows consumers to subscribe.
+	/// This type represents an Event that allows consumers to subscribe on in.
 	/// </summary>
 	[DebuggerStepThrough]
 	public readonly struct Event<T> :
@@ -28,15 +28,15 @@ namespace Amarok.Events
 
 		/// <summary>
 		/// Gets a reference to the owning <see cref="EventSource{T}"/>, or null if this <see cref="Event{T}"/>
-		/// isn't associated with an <see cref="EventSource{T}"/>. See also <see cref="IsNull"/>.
+		/// isn't associated with an <see cref="EventSource{T}"/>. See also <see cref="HasSource"/>.
 		/// </summary>
 		public EventSource<T> Source => mSource;
 
 		/// <summary>
-		/// Gets a boolean value indicating whether this <see cref="Event{T}"/> represents a null event not
-		/// associated with an <see cref="EventSource{T}"/>. See also <see cref="Source"/>.
+		/// Gets a boolean value indicating whether this <see cref="Event{T}"/> is associated with an 
+		/// <see cref="EventSource{T}"/>. See also <see cref="Source"/>.
 		/// </summary>
-		public Boolean IsNull => mSource == null;
+		public Boolean HasSource => mSource != null;
 
 
 		/// <summary>
@@ -105,7 +105,7 @@ namespace Amarok.Events
 			if (action == null)
 				throw new ArgumentNullException(nameof(action));
 			if (mSource == null)
-				return null;
+				return NullSubscription.Instance;
 
 			return mSource.AddWeak(action);
 		}
@@ -133,7 +133,7 @@ namespace Amarok.Events
 			if (func == null)
 				throw new ArgumentNullException(nameof(func));
 			if (mSource == null)
-				return null;
+				return NullSubscription.Instance;
 
 			return mSource.Add(func);
 		}
@@ -167,7 +167,7 @@ namespace Amarok.Events
 			if (func == null)
 				throw new ArgumentNullException(nameof(func));
 			if (mSource == null)
-				return null;
+				return NullSubscription.Instance;
 
 			return mSource.AddWeak(func);
 		}
@@ -178,10 +178,10 @@ namespace Amarok.Events
 		/// </summary>
 		public override String ToString()
 		{
-			if (this.IsNull)
-				return $"Event<{typeof(T).Name}> :=: <null-source>";
-			else
+			if (this.HasSource)
 				return $"Event<{typeof(T).Name}> :=: {mSource}";
+			else
+				return $"Event<{typeof(T).Name}> :=: <null>";
 		}
 
 		#endregion
