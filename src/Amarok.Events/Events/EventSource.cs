@@ -1,16 +1,22 @@
-﻿namespace Amarok.Events
+﻿using System;
+using System.Linq;
+
+
+namespace Amarok.Events
 {
 	/// <summary>
 	/// </summary>
 	public static class EventSource
 	{
+		private readonly static EventSource<Exception> sUnobservedExceptionEventSource = new EventSource<Exception>();
+
+
+		internal static EventSource<Exception> UnobservedExceptionEventSource => sUnobservedExceptionEventSource;
+
 		/// <summary>
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <returns></returns>
-		public static EventSource<T> Create<T>()
-		{
-			return new EventSource<T>();
-		}
+		public static Event<Exception> UnobservedException => sUnobservedExceptionEventSource.Event;
+
+
 	}
 }

@@ -33,5 +33,10 @@ namespace Amarok.Events
 				TaskContinuationOptions.ExecuteSynchronously | TaskContinuationOptions.OnlyOnFaulted
 			);
 		}
+
+		public override ValueTask InvokeAsync(T value)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

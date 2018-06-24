@@ -28,7 +28,7 @@ namespace Amarok.Events
 		/// an optional weak reference back to another subscription holding this subscription
 		/// also via weak reference; necessary for automatic removal magic of weak subscriptions
 		/// </summary>
-		private WeakReference<Subscription<T>> mBackReference;
+		private WeakReference<Subscription<T>> mPreviousSubscription;
 
 
 		/// <summary>
@@ -45,9 +45,9 @@ namespace Amarok.Events
 		/// Invoked to establish a weak reference back to another subscription. Only called
 		/// for weak subscriptions.
 		/// </summary>
-		public void SetBackReference(Subscription<T> subscription)
+		public void SetPreviousSubscription(Subscription<T> subscription)
 		{
-			mBackReference = new WeakReference<Subscription<T>>(subscription);
+			mPreviousSubscription = new WeakReference<Subscription<T>>(subscription);
 		}
 
 		/// <summary>
@@ -73,11 +73,11 @@ namespace Amarok.Events
 		/// </summary>
 		public override void Dispose()
 		{
-			if (mBackReference != null)
+			if (mPreviousSubscription != null)
 			{
 				// dispose the previous subscription, if still reachable
-				if (mBackReference.TryGetTarget(out var target))
-					target.Dispose();
+				if (mPreviousSubscription.TryGetTarget(out var subscription))
+					subscription.Dispose();
 			}
 			else
 			{
@@ -95,16 +95,16 @@ namespace Amarok.Events
 		}
 
 
-		internal Subscription<T> TestingGetBackReference()
+		internal Subscription<T> TestingGetPreviousSubscription()
 		{
-			if (mBackReference == null)
+			if (mPreviousSubscription == null)
 			{
 				return null;
 			}
 			else
 			{
-				if (mBackReference.TryGetTarget(out var target))
-					return target;
+				if (mPreviousSubscription.TryGetTarget(out var subscription))
+					return subscription;
 				else
 					return null;
 			}

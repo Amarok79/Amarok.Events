@@ -298,17 +298,17 @@ namespace Amarok.Events
 		//}
 
 
-		[Benchmark]
-		public void Amarok_Raise_AsyncHandlerCount_1()
-		{
-			mAmarok.ServiceAsyncHandlerCount1.Do();
-		}
+		//[Benchmark]
+		//public void Amarok_Raise_AsyncHandlerCount_1()
+		//{
+		//	mAmarok.ServiceAsyncHandlerCount1.Do();
+		//}
 
-		[Benchmark]
-		public void Amarok_Raise_WeakHandlerCount_1()
-		{
-			mAmarok.ServiceWeakHandlerCount1.Do();
-		}
+		//[Benchmark]
+		//public void Amarok_Raise_WeakHandlerCount_1()
+		//{
+		//	mAmarok.ServiceWeakHandlerCount1.Do();
+		//}
 
 
 		//	BenchmarkDotNet=v0.10.14, OS=Windows 10.0.17134
