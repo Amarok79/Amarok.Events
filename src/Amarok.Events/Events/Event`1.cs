@@ -11,80 +11,178 @@ using System.Threading.Tasks;
 namespace Amarok.Events
 {
 	/// <summary>
+	/// This type represents an Event that allows consumers to subscribe.
 	/// </summary>
 	[DebuggerStepThrough]
 	public readonly struct Event<T> :
 		IEquatable<Event<T>>
 	{
-		// data
+		/// <summary>
+		/// a reference to the owning event source; can be null
+		/// </summary>
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private readonly EventSource<T> mEventSource;
+		private readonly EventSource<T> mSource;
 
 
 		#region ++ Public Interface ++
 
 		/// <summary>
+		/// Gets a reference to the owning <see cref="EventSource{T}"/>, or null if this <see cref="Event{T}"/>
+		/// isn't associated with an <see cref="EventSource{T}"/>. See also <see cref="IsNull"/>.
 		/// </summary>
-		public EventSource<T> Source => mEventSource;
+		public EventSource<T> Source => mSource;
 
 		/// <summary>
+		/// Gets a boolean value indicating whether this <see cref="Event{T}"/> represents a null event not
+		/// associated with an <see cref="EventSource{T}"/>. See also <see cref="Source"/>.
 		/// </summary>
-		public Boolean IsNull => mEventSource == null;
+		public Boolean IsNull => mSource == null;
 
 
-		public Event(EventSource<T> eventSource)
+		/// <summary>
+		/// Initializes a new instance.
+		/// </summary>
+		internal Event(EventSource<T> eventSource)
 		{
-			mEventSource = eventSource;
+			mSource = eventSource;
 		}
 
 
 		/// <summary>
+		/// Subscribes the given callback on the event. The callback will be invoked every time the event is raised.
+		/// 
+		/// This method establishes a strong reference between the event source and the object holding the supplied
+		/// callback, aka subscriber. This means as long as the event source is kept in memory, it will also keep 
+		/// the subscriber in memory. To break this strong reference, you can dispose the returned subscription.
 		/// </summary>
+		/// 
+		/// <param name="action">
+		/// The callback to subscribe on the event.</param>
+		/// 
+		/// <returns>
+		/// An object that represents the newly created subscription. Disposing this object will cancel the 
+		/// subscription and remove the callback from the event source's subscription list.
+		/// </returns>
+		/// 
+		/// <exception cref="ArgumentNullException">
+		/// A null reference was passed to a method that did not accept it as a valid argument.</exception>
 		public IDisposable Subscribe(Action<T> action)
 		{
-			if (mEventSource == null)
+			if (action == null)
+				throw new ArgumentNullException(nameof(action));
+			if (mSource == null)
 				return NullSubscription.Instance;
 
-			return mEventSource.Add(action);
+			return mSource.Add(action);
 		}
 
-		public IDisposable Subscribe(Func<T, Task> func)
-		{
-			if (mEventSource == null)
-				return null;
-
-			return mEventSource.Add(func);
-		}
-
+		/// <summary>
+		/// Subscribes the given callback on the event. The callback will be invoked every time the event is raised.
+		/// 
+		/// This method establishes a weak reference between the event source and the object holding the supplied
+		/// callback, aka subscriber. This means that the subscription is kept active only as long as both event 
+		/// source and subscriber are kept in memory via strong references. The event source alone doesn't keep 
+		/// the subscriber in memory. You have to keep a strong reference to the returned subscription object to
+		/// achieve this.
+		/// 
+		/// The subscription can be canceled at any time by disposing the returned subscription object. Otherwise, the 
+		/// subscription is automatically canceled if the subscriber is being garbage collected. For this to happen
+		/// no other strong reference to the returned subscription must exist.
+		/// </summary>
+		/// 
+		/// <param name="action">
+		/// The callback to subscribe on the event.</param>
+		/// 
+		/// <returns>
+		/// An object that represents the newly created subscription. Disposing this object will cancel the 
+		/// subscription and remove the callback from the event source's subscription list.
+		/// </returns>
+		/// 
+		/// <exception cref="ArgumentNullException">
+		/// A null reference was passed to a method that did not accept it as a valid argument.</exception>
 		public IDisposable SubscribeWeak(Action<T> action)
 		{
-			if (mEventSource == null)
+			if (action == null)
+				throw new ArgumentNullException(nameof(action));
+			if (mSource == null)
 				return null;
 
-			return mEventSource.AddWeak(action);
+			return mSource.AddWeak(action);
 		}
 
-		//public IDisposable SubscribeWeak(Func<T, Task> func)
-		//{
-		//	return null;
-		//}
+		/// <summary>
+		/// Subscribes the given callback on the event. The callback will be invoked every time the event is raised.
+		/// 
+		/// This method establishes a strong reference between the event source and the object holding the supplied
+		/// callback, aka subscriber. This means as long as the event source is kept in memory, it will also keep 
+		/// the subscriber in memory. To break this strong reference, you can dispose the returned subscription.
+		/// </summary>
+		/// 
+		/// <param name="func">
+		/// The callback to subscribe on the event.</param>
+		/// 
+		/// <returns>
+		/// An object that represents the newly created subscription. Disposing this object will cancel the 
+		/// subscription and remove the callback from the event source's subscription list.
+		/// </returns>
+		/// 
+		/// <exception cref="ArgumentNullException">
+		/// A null reference was passed to a method that did not accept it as a valid argument.</exception>
+		public IDisposable Subscribe(Func<T, Task> func)
+		{
+			if (func == null)
+				throw new ArgumentNullException(nameof(func));
+			if (mSource == null)
+				return null;
 
+			return mSource.Add(func);
+		}
+
+		/// <summary>
+		/// Subscribes the given callback on the event. The callback will be invoked every time the event is raised.
+		/// 
+		/// This method establishes a weak reference between the event source and the object holding the supplied
+		/// callback, aka subscriber. This means that the subscription is kept active only as long as both event 
+		/// source and subscriber are kept in memory via strong references. The event source alone doesn't keep 
+		/// the subscriber in memory. You have to keep a strong reference to the returned subscription object to
+		/// achieve this.
+		/// 
+		/// The subscription can be canceled at any time by disposing the returned subscription object. Otherwise, the 
+		/// subscription is automatically canceled if the subscriber is being garbage collected. For this to happen
+		/// no other strong reference to the returned subscription must exist.
+		/// </summary>
+		/// 
+		/// <param name="func">
+		/// The callback to subscribe on the event.</param>
+		/// 
+		/// <returns>
+		/// An object that represents the newly created subscription. Disposing this object will cancel the 
+		/// subscription and remove the callback from the event source's subscription list.
+		/// </returns>
+		/// 
+		/// <exception cref="ArgumentNullException">
+		/// A null reference was passed to a method that did not accept it as a valid argument.</exception>
+		public IDisposable SubscribeWeak(Func<T, Task> func)
+		{
+			if (func == null)
+				throw new ArgumentNullException(nameof(func));
+			if (mSource == null)
+				return null;
+
+			return mSource.AddWeak(func);
+		}
 
 
 		/// <summary>
 		/// Returns a string that represents the current instance.
 		/// </summary>
-		/// 
-		/// <returns>
-		/// A string that represents the current instance.</returns>
 		public override String ToString()
 		{
-			return null;
+			if (this.IsNull)
+				return $"Event<{typeof(T).Name}> :=: <null-source>";
+			else
+				return $"Event<{typeof(T).Name}> :=: {mSource}";
 		}
-
-
-
-		// TODO: Subscribe -> IProgress<T>, ...
 
 		#endregion
 
@@ -98,7 +196,7 @@ namespace Amarok.Events
 		/// A 32-bit signed integer hash code.</returns>
 		public override Int32 GetHashCode()
 		{
-			return 0;
+			return mSource?.GetHashCode() ?? 0;
 		}
 
 
@@ -106,14 +204,14 @@ namespace Amarok.Events
 		/// Determines whether the specified instance is equal to the current instance.
 		/// </summary>
 		/// 
-		/// <param name="other">
+		/// <param name="obj">
 		/// The instance to compare with the current instance.</param>
 		/// 
 		/// <returns>
 		/// True, if the specified instance is equal to the current instance; otherwise, False.</returns>
-		public override Boolean Equals(Object other)
+		public override Boolean Equals(Object obj)
 		{
-			return true;
+			return obj is Event<T> && Equals((Event<T>)obj);
 		}
 
 		/// <summary>
@@ -127,7 +225,7 @@ namespace Amarok.Events
 		/// True, if the specified instance is equal to the current instance; otherwise, False.</returns>
 		public Boolean Equals(Event<T> other)
 		{
-			return true;
+			return Object.ReferenceEquals(mSource, other.mSource);
 		}
 
 
@@ -162,12 +260,5 @@ namespace Amarok.Events
 		}
 
 		#endregion
-
-
-
-
-
-
-
 	}
 }
