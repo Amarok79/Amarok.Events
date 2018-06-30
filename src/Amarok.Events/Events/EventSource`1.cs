@@ -77,8 +77,7 @@ namespace Amarok.Events
 			}
 
 			// wait for other threads to complete execution of local code
-			SpinWait.SpinUntil(() =>
-			{
+			SpinWait.SpinUntil(() => {
 				Int32 result = -1;
 				Interlocked.Exchange(ref result, mNumberOfThreadsExecuting);
 				return result == 0;
@@ -131,22 +130,24 @@ namespace Amarok.Events
 
 
 		/// <summary>
-		/// Raises the event with the supplied event value. All subscribers are being invoked and the supplied event 
-		/// value is forwarded to them. If no subscribers are registered or the event source has already been disposed, 
-		/// then the event value is ignored and False is returned immediately.
-		/// 
+		/// <para>
+		/// Raises the event with the supplied event argument value. All subscribers are being invoked and the supplied 
+		/// event argument value is forwarded to them. If no subscribers are registered or if the event source has 
+		/// already been disposed, then the event argument value is ignored, no subscribers are called and False is 
+		/// returned.</para>
+		/// <para>
 		/// Exceptions thrown by subscribers are caught and forwarded to <see cref="EventSource.UnobservedException"/>.
-		/// Regardless of thrown exceptions all subscribers are being invoked.
-		/// 
+		/// Regardless of exceptions, always all subscribers are being invoked.</para>
+		/// <para>
 		/// This method invokes all subscribers synchronously in a blocking fashion, meaning the calling thread raising
-		/// the event invokes all subscribers directly. The calling thread returns after all subscribers have been 
-		/// executed, except for asynchronous subscribers that run only to their first await statement. That means this 
-		/// method potentially returns before asynchronous subscribers have been completed. To await their completion 
-		/// use <see cref="InvokeAsync(T)"/> instead.
+		/// the event invokes all subscribers directly. The method returns after all subscribers have been executed, 
+		/// except for asynchronous subscribers that run only to their first await statement and then return. That 
+		/// means this method potentially returns before asynchronous subscribers have been completed. To await their 
+		/// completion use <see cref="InvokeAsync(T)"/> instead.</para>
 		/// </summary>
 		/// 
 		/// <param name="value">
-		/// The event value to forward to the subscribers.</param>
+		/// The event argument value to forward to subscribers.</param>
 		/// 
 		/// <returns>
 		/// A boolean value indicating whether at least a single subscriber has been called.
@@ -167,23 +168,25 @@ namespace Amarok.Events
 		}
 
 		/// <summary>
-		/// Raises the event with the supplied event value. All subscribers are being invoked and the supplied event 
-		/// value is forwarded to them. If no subscribers are registered or the event source has already been disposed, 
-		/// then the event value is ignored and False is returned immediately.
-		/// 
+		/// <para>
+		/// Raises the event with the supplied event argument value. All subscribers are being invoked and the supplied 
+		/// event argument value is forwarded to them. If no subscribers are registered or if the event source has 
+		/// already been disposed, then the event argument value is ignored, no subscribers are called and False is 
+		/// returned.</para>
+		/// <para>
 		/// Exceptions thrown by subscribers are caught and forwarded to <see cref="EventSource.UnobservedException"/>.
-		/// Regardless of thrown exceptions all subscribers are being invoked.
-		/// 
+		/// Regardless of exceptions, always all subscribers are being invoked.</para>
+		/// <para>
 		/// This method invokes all subscribers synchronously in a blocking fashion, meaning the calling thread raising
-		/// the event invokes all subscribers directly. The calling thread returns after all subscribers have been 
-		/// executed, except for asynchronous subscribers that run only to their first await statement. That means this 
-		/// method potentially returns before asynchronous subscribers have been completed. To await their completion 
-		/// use <see cref="InvokeAsync(T)"/> instead.
+		/// the event invokes all subscribers directly. The method returns after all subscribers have been executed, 
+		/// except for asynchronous subscribers that run only to their first await statement and then return. That 
+		/// means this method potentially returns before asynchronous subscribers have been completed. To await their 
+		/// completion use <see cref="InvokeAsync(T)"/> instead.</para>
 		/// </summary>
 		/// 
 		/// <param name="valueFactory">
-		/// A value factory to determine the event value to forward to the subscribers. The factory is only
-		/// called if at least a single subscriber is registered, preventing potentially costly processing.</param>
+		/// A value factory to determine the event argument value to forward to subscribers. The factory is called 
+		/// only if at least a single subscriber is registered, preventing potentially costly processing.</param>
 		/// 
 		/// <returns>
 		/// A boolean value indicating whether at least a single subscriber has been called.
@@ -210,23 +213,25 @@ namespace Amarok.Events
 		}
 
 		/// <summary>
-		/// Raises the event with the supplied event value. All subscribers are being invoked and the supplied event 
-		/// value is forwarded to them. If no subscribers are registered or the event source has already been disposed, 
-		/// then the event value is ignored and False is returned immediately.
-		/// 
+		/// <para>
+		/// Raises the event with the supplied event argument value. All subscribers are being invoked and the supplied 
+		/// event argument value is forwarded to them. If no subscribers are registered or if the event source has 
+		/// already been disposed, then the event argument value is ignored, no subscribers are called and False is 
+		/// returned.</para>
+		/// <para>
 		/// Exceptions thrown by subscribers are caught and forwarded to <see cref="EventSource.UnobservedException"/>.
-		/// Regardless of thrown exceptions all subscribers are being invoked.
-		/// 
+		/// Regardless of exceptions, always all subscribers are being invoked.</para>
+		/// <para>
 		/// This method invokes all subscribers synchronously in a blocking fashion, meaning the calling thread raising
-		/// the event invokes all subscribers directly. The calling thread returns after all subscribers have been 
-		/// executed, except for asynchronous subscribers that run only to their first await statement. That means this 
-		/// method potentially returns before asynchronous subscribers have been completed. To await their completion 
-		/// use <see cref="InvokeAsync(T)"/> instead.
+		/// the event invokes all subscribers directly. The method returns after all subscribers have been executed, 
+		/// except for asynchronous subscribers that run only to their first await statement and then return. That 
+		/// means this method potentially returns before asynchronous subscribers have been completed. To await their 
+		/// completion use <see cref="InvokeAsync(T)"/> instead.</para>
 		/// </summary>
 		/// 
 		/// <param name="valueFactory">
-		/// A value factory to determine the event value to forward to the subscribers. The factory is only
-		/// called if at least a single subscriber is registered, preventing potentially costly processing.</param>
+		/// A value factory to determine the event argument value to forward to subscribers. The factory is called 
+		/// only if at least a single subscriber is registered, preventing potentially costly processing.</param>
 		/// <param name="arg">
 		/// An argument that is supplied to the given value factory. Useful to prevent closure allocations.</param>
 		/// 
@@ -255,23 +260,25 @@ namespace Amarok.Events
 		}
 
 		/// <summary>
-		/// Raises the event with the supplied event value. All subscribers are being invoked and the supplied event 
-		/// value is forwarded to them. If no subscribers are registered or the event source has already been disposed, 
-		/// then the event value is ignored and False is returned immediately.
-		/// 
+		/// <para>
+		/// Raises the event with the supplied event argument value. All subscribers are being invoked and the supplied 
+		/// event argument value is forwarded to them. If no subscribers are registered or if the event source has 
+		/// already been disposed, then the event argument value is ignored, no subscribers are called and False is 
+		/// returned.</para>
+		/// <para>
 		/// Exceptions thrown by subscribers are caught and forwarded to <see cref="EventSource.UnobservedException"/>.
-		/// Regardless of thrown exceptions all subscribers are being invoked.
-		/// 
+		/// Regardless of exceptions, always all subscribers are being invoked.</para>
+		/// <para>
 		/// This method invokes all subscribers synchronously in a blocking fashion, meaning the calling thread raising
-		/// the event invokes all subscribers directly. The calling thread returns after all subscribers have been 
-		/// executed, except for asynchronous subscribers that run only to their first await statement. That means this 
-		/// method potentially returns before asynchronous subscribers have been completed. To await their completion 
-		/// use <see cref="InvokeAsync(T)"/> instead.
+		/// the event invokes all subscribers directly. The method returns after all subscribers have been executed, 
+		/// except for asynchronous subscribers that run only to their first await statement and then return. That 
+		/// means this method potentially returns before asynchronous subscribers have been completed. To await their 
+		/// completion use <see cref="InvokeAsync(T)"/> instead.</para>
 		/// </summary>
 		/// 
 		/// <param name="valueFactory">
-		/// A value factory to determine the event value to forward to the subscribers. The factory is only
-		/// called if at least a single subscriber is registered, preventing potentially costly processing.</param>
+		/// A value factory to determine the event argument value to forward to subscribers. The factory is called 
+		/// only if at least a single subscriber is registered, preventing potentially costly processing.</param>
 		/// <param name="arg1">
 		/// An argument that is supplied to the given value factory. Useful to prevent closure allocations.</param>
 		/// <param name="arg2">
@@ -302,23 +309,25 @@ namespace Amarok.Events
 		}
 
 		/// <summary>
-		/// Raises the event with the supplied event value. All subscribers are being invoked and the supplied event 
-		/// value is forwarded to them. If no subscribers are registered or the event source has already been disposed, 
-		/// then the event value is ignored and False is returned immediately.
-		/// 
+		/// <para>
+		/// Raises the event with the supplied event argument value. All subscribers are being invoked and the supplied 
+		/// event argument value is forwarded to them. If no subscribers are registered or if the event source has 
+		/// already been disposed, then the event argument value is ignored, no subscribers are called and False is 
+		/// returned.</para>
+		/// <para>
 		/// Exceptions thrown by subscribers are caught and forwarded to <see cref="EventSource.UnobservedException"/>.
-		/// Regardless of thrown exceptions all subscribers are being invoked.
-		/// 
+		/// Regardless of exceptions, always all subscribers are being invoked.</para>
+		/// <para>
 		/// This method invokes all subscribers synchronously in a blocking fashion, meaning the calling thread raising
-		/// the event invokes all subscribers directly. The calling thread returns after all subscribers have been 
-		/// executed, except for asynchronous subscribers that run only to their first await statement. That means this 
-		/// method potentially returns before asynchronous subscribers have been completed. To await their completion 
-		/// use <see cref="InvokeAsync(T)"/> instead.
+		/// the event invokes all subscribers directly. The method returns after all subscribers have been executed, 
+		/// except for asynchronous subscribers that run only to their first await statement and then return. That 
+		/// means this method potentially returns before asynchronous subscribers have been completed. To await their 
+		/// completion use <see cref="InvokeAsync(T)"/> instead.</para>
 		/// </summary>
 		/// 
 		/// <param name="valueFactory">
-		/// A value factory to determine the event value to forward to the subscribers. The factory is only
-		/// called if at least a single subscriber is registered, preventing potentially costly processing.</param>
+		/// A value factory to determine the event argument value to forward to subscribers. The factory is called 
+		/// only if at least a single subscriber is registered, preventing potentially costly processing.</param>
 		/// <param name="arg1">
 		/// An argument that is supplied to the given value factory. Useful to prevent closure allocations.</param>
 		/// <param name="arg2">
@@ -366,21 +375,246 @@ namespace Amarok.Events
 		}
 
 
-
-
-
-
-
+		/// <summary>
+		/// <para>
+		/// Raises the event with the supplied event argument value. All subscribers are being invoked and the supplied 
+		/// event argument value is forwarded to them. If no subscribers are registered or if the event source has 
+		/// already been disposed, then the event argument value is ignored, no subscribers are called and False is 
+		/// returned.</para>
+		/// <para>
+		/// Exceptions thrown by subscribers are caught and forwarded to <see cref="EventSource.UnobservedException"/>.
+		/// Regardless of exceptions, always all subscribers are being invoked.</para>
+		/// <para>
+		/// This method invokes all subscribers asynchronously in an awaitable fashion. The calling thread raising the
+		/// event invokes all subscribers directly. Synchronous subscribers will be sequentially executed by the 
+		/// calling thread. Asynchronous subscribers will be invoked by the calling thread too, but will only run to 
+		/// their first await statement. This method returns immediately after all synchronous subscribers have been
+		/// executed and all asynchronous subscribers encountered their first await statements. The returned task 
+		/// object can be used to await the completion of those pending asynchronous subscribers. That means this 
+		/// method is guaranteed to complete after all synchronous or asynchronous subscribers have been completed 
+		/// too. This is in contrast to <see cref="Invoke(T)"/>, which invokes asynchronous subscribers in a fire-
+		/// and-forget fashion.</para>
+		/// </summary>
+		/// 
+		/// <param name="value">
+		/// The event argument value to forward to subscribers.</param>
+		/// 
+		/// <returns>
+		/// A boolean value indicating whether at least a single subscriber has been called.
+		/// </returns>
+		/// 
+		/// <exception cref="ArgumentNullException">
+		/// A null reference was passed to a method that did not accept it as a valid argument.</exception>
 		public ValueTask<Boolean> InvokeAsync(T value)
 		{
 			if (mIsDisposed)
-				return TaskUtils.FalseValueTask;
+				return new ValueTask<Boolean>(TaskUtils.FalseTask);
 
 			var subscriptions = mSubscriptions;
 
 			if (subscriptions.Length == 0)
-				return TaskUtils.FalseValueTask;
+				return new ValueTask<Boolean>(TaskUtils.FalseTask);
 
+			return _InvokeAsyncCore(subscriptions, value);
+		}
+
+		/// <summary>
+		/// <para>
+		/// Raises the event with the supplied event argument value. All subscribers are being invoked and the supplied 
+		/// event argument value is forwarded to them. If no subscribers are registered or if the event source has 
+		/// already been disposed, then the event argument value is ignored, no subscribers are called and False is 
+		/// returned.</para>
+		/// <para>
+		/// Exceptions thrown by subscribers are caught and forwarded to <see cref="EventSource.UnobservedException"/>.
+		/// Regardless of exceptions, always all subscribers are being invoked.</para>
+		/// <para>
+		/// This method invokes all subscribers asynchronously in an awaitable fashion. The calling thread raising the
+		/// event invokes all subscribers directly. Synchronous subscribers will be sequentially executed by the 
+		/// calling thread. Asynchronous subscribers will be invoked by the calling thread too, but will only run to 
+		/// their first await statement. This method returns immediately after all synchronous subscribers have been
+		/// executed and all asynchronous subscribers encountered their first await statements. The returned task 
+		/// object can be used to await the completion of those pending asynchronous subscribers. That means this 
+		/// method is guaranteed to complete after all synchronous or asynchronous subscribers have been completed 
+		/// too. This is in contrast to <see cref="Invoke(T)"/>, which invokes asynchronous subscribers in a fire-
+		/// and-forget fashion.</para>
+		/// </summary>
+		/// 
+		/// <param name="valueFactory">
+		/// A value factory to determine the event argument value to forward to subscribers. The factory is called 
+		/// only if at least a single subscriber is registered, preventing potentially costly processing.</param>
+		/// 
+		/// <returns>
+		/// A boolean value indicating whether at least a single subscriber has been called.
+		/// </returns>
+		/// 
+		/// <exception cref="ArgumentNullException">
+		/// A null reference was passed to a method that did not accept it as a valid argument.</exception>
+		public ValueTask<Boolean> InvokeAsync(Func<T> valueFactory)
+		{
+			if (valueFactory == null)
+				throw new ArgumentNullException(nameof(valueFactory));
+			if (mIsDisposed)
+				return new ValueTask<Boolean>(TaskUtils.FalseTask);
+
+			var subscriptions = mSubscriptions;
+
+			if (subscriptions.Length == 0)
+				return new ValueTask<Boolean>(TaskUtils.FalseTask);
+
+			var value = valueFactory();
+			return _InvokeAsyncCore(subscriptions, value);
+		}
+
+		/// <summary>
+		/// <para>
+		/// Raises the event with the supplied event argument value. All subscribers are being invoked and the supplied 
+		/// event argument value is forwarded to them. If no subscribers are registered or if the event source has 
+		/// already been disposed, then the event argument value is ignored, no subscribers are called and False is 
+		/// returned.</para>
+		/// <para>
+		/// Exceptions thrown by subscribers are caught and forwarded to <see cref="EventSource.UnobservedException"/>.
+		/// Regardless of exceptions, always all subscribers are being invoked.</para>
+		/// <para>
+		/// This method invokes all subscribers asynchronously in an awaitable fashion. The calling thread raising the
+		/// event invokes all subscribers directly. Synchronous subscribers will be sequentially executed by the 
+		/// calling thread. Asynchronous subscribers will be invoked by the calling thread too, but will only run to 
+		/// their first await statement. This method returns immediately after all synchronous subscribers have been
+		/// executed and all asynchronous subscribers encountered their first await statements. The returned task 
+		/// object can be used to await the completion of those pending asynchronous subscribers. That means this 
+		/// method is guaranteed to complete after all synchronous or asynchronous subscribers have been completed 
+		/// too. This is in contrast to <see cref="Invoke(T)"/>, which invokes asynchronous subscribers in a fire-
+		/// and-forget fashion.</para>
+		/// </summary>
+		/// 
+		/// <param name="valueFactory">
+		/// A value factory to determine the event argument value to forward to subscribers. The factory is called 
+		/// only if at least a single subscriber is registered, preventing potentially costly processing.</param>
+		/// <param name="arg">
+		/// An argument that is supplied to the given value factory. Useful to prevent closure allocations.</param>
+		/// 
+		/// <returns>
+		/// A boolean value indicating whether at least a single subscriber has been called.
+		/// </returns>
+		/// 
+		/// <exception cref="ArgumentNullException">
+		/// A null reference was passed to a method that did not accept it as a valid argument.</exception>
+		public ValueTask<Boolean> InvokeAsync<TArg>(Func<TArg, T> valueFactory, TArg arg)
+		{
+			if (valueFactory == null)
+				throw new ArgumentNullException(nameof(valueFactory));
+			if (mIsDisposed)
+				return new ValueTask<Boolean>(TaskUtils.FalseTask);
+
+			var subscriptions = mSubscriptions;
+
+			if (subscriptions.Length == 0)
+				return new ValueTask<Boolean>(TaskUtils.FalseTask);
+
+			var value = valueFactory(arg);
+			return _InvokeAsyncCore(subscriptions, value);
+		}
+
+		/// <summary>
+		/// <para>
+		/// Raises the event with the supplied event argument value. All subscribers are being invoked and the supplied 
+		/// event argument value is forwarded to them. If no subscribers are registered or if the event source has 
+		/// already been disposed, then the event argument value is ignored, no subscribers are called and False is 
+		/// returned.</para>
+		/// <para>
+		/// Exceptions thrown by subscribers are caught and forwarded to <see cref="EventSource.UnobservedException"/>.
+		/// Regardless of exceptions, always all subscribers are being invoked.</para>
+		/// <para>
+		/// This method invokes all subscribers asynchronously in an awaitable fashion. The calling thread raising the
+		/// event invokes all subscribers directly. Synchronous subscribers will be sequentially executed by the 
+		/// calling thread. Asynchronous subscribers will be invoked by the calling thread too, but will only run to 
+		/// their first await statement. This method returns immediately after all synchronous subscribers have been
+		/// executed and all asynchronous subscribers encountered their first await statements. The returned task 
+		/// object can be used to await the completion of those pending asynchronous subscribers. That means this 
+		/// method is guaranteed to complete after all synchronous or asynchronous subscribers have been completed 
+		/// too. This is in contrast to <see cref="Invoke(T)"/>, which invokes asynchronous subscribers in a fire-
+		/// and-forget fashion.</para>
+		/// </summary>
+		/// 
+		/// <param name="valueFactory">
+		/// A value factory to determine the event argument value to forward to subscribers. The factory is called 
+		/// only if at least a single subscriber is registered, preventing potentially costly processing.</param>
+		/// <param name="arg1">
+		/// An argument that is supplied to the given value factory. Useful to prevent closure allocations.</param>
+		/// <param name="arg2">
+		/// A second argument that is supplied to the given value factory. Useful to prevent closure allocations.</param>
+		/// 
+		/// <returns>
+		/// A boolean value indicating whether at least a single subscriber has been called.
+		/// </returns>
+		/// 
+		/// <exception cref="ArgumentNullException">
+		/// A null reference was passed to a method that did not accept it as a valid argument.</exception>
+		public ValueTask<Boolean> InvokeAsync<TArg1, TArg2>(Func<TArg1, TArg2, T> valueFactory, TArg1 arg1, TArg2 arg2)
+		{
+			if (valueFactory == null)
+				throw new ArgumentNullException(nameof(valueFactory));
+			if (mIsDisposed)
+				return new ValueTask<Boolean>(TaskUtils.FalseTask);
+
+			var subscriptions = mSubscriptions;
+
+			if (subscriptions.Length == 0)
+				return new ValueTask<Boolean>(TaskUtils.FalseTask);
+
+			var value = valueFactory(arg1, arg2);
+			return _InvokeAsyncCore(subscriptions, value);
+		}
+
+		/// <summary>
+		/// <para>
+		/// Raises the event with the supplied event argument value. All subscribers are being invoked and the supplied 
+		/// event argument value is forwarded to them. If no subscribers are registered or if the event source has 
+		/// already been disposed, then the event argument value is ignored, no subscribers are called and False is 
+		/// returned.</para>
+		/// <para>
+		/// Exceptions thrown by subscribers are caught and forwarded to <see cref="EventSource.UnobservedException"/>.
+		/// Regardless of exceptions, always all subscribers are being invoked.</para>
+		/// <para>
+		/// This method invokes all subscribers asynchronously in an awaitable fashion. The calling thread raising the
+		/// event invokes all subscribers directly. Synchronous subscribers will be sequentially executed by the 
+		/// calling thread. Asynchronous subscribers will be invoked by the calling thread too, but will only run to 
+		/// their first await statement. This method returns immediately after all synchronous subscribers have been
+		/// executed and all asynchronous subscribers encountered their first await statements. The returned task 
+		/// object can be used to await the completion of those pending asynchronous subscribers. That means this 
+		/// method is guaranteed to complete after all synchronous or asynchronous subscribers have been completed 
+		/// too. This is in contrast to <see cref="Invoke(T)"/>, which invokes asynchronous subscribers in a fire-
+		/// and-forget fashion.</para>
+		/// </summary>
+		/// 
+		/// <param name="valueFactory">
+		/// A value factory to determine the event argument value to forward to subscribers. The factory is called 
+		/// only if at least a single subscriber is registered, preventing potentially costly processing.</param>
+		/// <param name="arg1">
+		/// An argument that is supplied to the given value factory. Useful to prevent closure allocations.</param>
+		/// <param name="arg2">
+		/// A second argument that is supplied to the given value factory. Useful to prevent closure allocations.</param>
+		/// <param name="arg3">
+		/// A third argument that is supplied to the given value factory. Useful to prevent closure allocations.</param>
+		/// 
+		/// <returns>
+		/// A boolean value indicating whether at least a single subscriber has been called.
+		/// </returns>
+		/// 
+		/// <exception cref="ArgumentNullException">
+		/// A null reference was passed to a method that did not accept it as a valid argument.</exception>
+		public ValueTask<Boolean> InvokeAsync<TArg1, TArg2, TArg3>(Func<TArg1, TArg2, TArg3, T> valueFactory, TArg1 arg1, TArg2 arg2, TArg3 arg3)
+		{
+			if (valueFactory == null)
+				throw new ArgumentNullException(nameof(valueFactory));
+			if (mIsDisposed)
+				return new ValueTask<Boolean>(TaskUtils.FalseTask);
+
+			var subscriptions = mSubscriptions;
+
+			if (subscriptions.Length == 0)
+				return new ValueTask<Boolean>(TaskUtils.FalseTask);
+
+			var value = valueFactory(arg1, arg2, arg3);
 			return _InvokeAsyncCore(subscriptions, value);
 		}
 
@@ -394,15 +628,18 @@ namespace Amarok.Events
 				{
 					var valueTask = subscriptions[i].InvokeAsync(value);
 
-					if (valueTask.IsCompletedSuccessfully)
-						continue;
 					if (valueTask.IsCompleted)
-						EventSource.UnobservedExceptionEventSource.Invoke(valueTask.AsTask().Exception);
+					{
+						if (valueTask.IsFaulted)
+							EventSource.UnobservedExceptionEventSource.Invoke(valueTask.AsTask().Exception);
+					}
+					else
+					{
+						if (tasks == null)
+							tasks = new List<Task>(subscriptions.Length);
 
-					if (tasks == null)
-						tasks = new List<Task>(subscriptions.Length);
-
-					tasks.Add(valueTask.AsTask());
+						tasks.Add(valueTask.AsTask());
+					}
 				}
 				catch (Exception exception)
 				{
@@ -410,15 +647,22 @@ namespace Amarok.Events
 				}
 			}
 
+			if (tasks == null || tasks.Count == 0)
+				return new ValueTask<Boolean>(TaskUtils.TrueTask);
+
+			return _InvokeAsyncCore_WaitForPendingTasks(tasks);
+		}
+
+		private static ValueTask<Boolean> _InvokeAsyncCore_WaitForPendingTasks(IEnumerable<Task> tasks)
+		{
 			var taskCompletionSource = new TaskCompletionSource<Boolean>();
 
 			Task.WhenAll(tasks)
-				.ContinueWith(x =>
-				{
-					if (x.IsFaulted)
+				.ContinueWith(_tasks => {
+					if (_tasks.IsFaulted)
 					{
-						for (Int32 i = 0; i < x.Exception.InnerExceptions.Count; i++)
-							EventSource.UnobservedExceptionEventSource.Invoke(x.Exception.InnerExceptions[i]);
+						for (Int32 i = 0; i < _tasks.Exception.InnerExceptions.Count; i++)
+							EventSource.UnobservedExceptionEventSource.Invoke(_tasks.Exception.InnerExceptions[i]);
 					}
 
 					taskCompletionSource.SetResult(true);
@@ -427,27 +671,6 @@ namespace Amarok.Events
 
 			return new ValueTask<Boolean>(taskCompletionSource.Task);
 		}
-
-		public ValueTask<Boolean> InvokeAsync(Func<T> valueFactory)
-		{
-			return new ValueTask<Boolean>();
-		}
-
-		public ValueTask<Boolean> InvokeAsync<TArg>(Func<TArg, T> valueFactory, TArg arg)
-		{
-			return new ValueTask<Boolean>();
-		}
-
-		public ValueTask<Boolean> InvokeAsync<TArg1, TArg2>(Func<TArg1, TArg2, T> valueFactory, TArg1 arg1, TArg2 arg2)
-		{
-			return new ValueTask<Boolean>();
-		}
-
-		public ValueTask<Boolean> InvokeAsync<TArg1, TArg2, TArg3>(Func<TArg1, TArg2, TArg3, T> valueFactory, TArg1 arg1, TArg2 arg2, TArg3 arg3)
-		{
-			return new ValueTask<Boolean>();
-		}
-
 
 
 		/// <summary>
@@ -460,7 +683,6 @@ namespace Amarok.Events
 		{
 			return $"EventSource<{typeof(T).Name}>(Subscriptions: {mSubscriptions.Length})";
 		}
-
 
 		#endregion
 
