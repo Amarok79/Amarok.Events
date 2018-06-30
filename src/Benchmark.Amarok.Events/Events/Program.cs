@@ -5,6 +5,7 @@
 
 using BenchmarkDotNet.Running;
 
+
 namespace Amarok.Events
 {
 	public static class Program
