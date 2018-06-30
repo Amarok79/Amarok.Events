@@ -109,5 +109,10 @@ namespace Amarok.Events
 					return null;
 			}
 		}
+
+		internal void TestingClearNextSubscription()
+		{
+			mPreviousSubscription.SetTarget(null);
+		}
 	}
 }
