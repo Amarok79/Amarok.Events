@@ -3,11 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Amarok.Events", "src\Amarok.Events\Amarok.Events.csproj", "{1FCE1A28-F159-49EA-8F47-92A5FDFFAFDE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amarok.Events", "src\Amarok.Events\Amarok.Events.csproj", "{1FCE1A28-F159-49EA-8F47-92A5FDFFAFDE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Amarok.Events", "src\Tests.Amarok.Events\Tests.Amarok.Events.csproj", "{22B0507E-5916-435D-8D47-2E5E06C00FB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Amarok.Events", "src\Tests.Amarok.Events\Tests.Amarok.Events.csproj", "{22B0507E-5916-435D-8D47-2E5E06C00FB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmark.Amarok.Events", "src\Benchmark.Amarok.Events\Benchmark.Amarok.Events.csproj", "{69D06772-DC49-4E90-BFC5-397E8B2CA52C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmark.Amarok.Events", "src\Benchmark.Amarok.Events\Benchmark.Amarok.Events.csproj", "{69D06772-DC49-4E90-BFC5-397E8B2CA52C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{34C76F3A-BE4D-4DB9-B854-CC4EC86BFF16}"
+	ProjectSection(SolutionItems) = preProject
+		src\Amarok.Events.licenseheader = src\Amarok.Events.licenseheader
+		src\Global.ruleset = src\Global.ruleset
+		src\Minimal.ruleset = src\Minimal.ruleset
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

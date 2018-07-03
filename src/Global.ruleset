@@ -2,49 +2,49 @@
 <RuleSet Name="Global Rules" ToolsVersion="15.0">
   <IncludeAll Action="Warning" />
   <Rules AnalyzerId="DevExpress.CodeAnalysis.CSharp.Diagnostics" RuleNamespace="DevExpress.CodeAnalysis.CSharp.Diagnostics">
-    <Rule Id="CRR0013" Action="None" />
-    <Rule Id="CRR0014" Action="None" />
+    <Rule Id="CRR0013" Action="Warning" />
+    <Rule Id="CRR0014" Action="Warning" />
   </Rules>
   <Rules AnalyzerId="DevExpress.CodeAnalysis.CSharp.Features" RuleNamespace="DevExpress.CodeAnalysis.CSharp.Features">
-    <Rule Id="CR0001" Action="None" />
-    <Rule Id="CR0009" Action="None" />
-    <Rule Id="CR0010" Action="None" />
+    <Rule Id="CR0001" Action="Warning" />
+    <Rule Id="CR0009" Action="Warning" />
+    <Rule Id="CR0010" Action="Warning" />
   </Rules>
   <Rules AnalyzerId="DevExpress.CodeAnalysis.VisualBasic.Diagnostics" RuleNamespace="DevExpress.CodeAnalysis.VisualBasic.Diagnostics">
-    <Rule Id="CRR0001" Action="None" />
-    <Rule Id="CRR0004" Action="None" />
-    <Rule Id="CRR0005" Action="None" />
-    <Rule Id="CRR0006" Action="None" />
-    <Rule Id="CRR0007" Action="None" />
-    <Rule Id="CRR0008" Action="None" />
-    <Rule Id="CRR0009" Action="None" />
-    <Rule Id="CRR0010" Action="None" />
-    <Rule Id="CRR0012" Action="None" />
-    <Rule Id="CRR0013" Action="None" />
-    <Rule Id="CRR0014" Action="None" />
-    <Rule Id="CRR0015" Action="None" />
-    <Rule Id="CRR0016" Action="None" />
-    <Rule Id="CRR0017" Action="None" />
-    <Rule Id="CRR0018" Action="None" />
-    <Rule Id="CRR0019" Action="None" />
-    <Rule Id="CRR0020" Action="None" />
-    <Rule Id="CRR0021" Action="None" />
-    <Rule Id="CRR0022" Action="None" />
-    <Rule Id="CRR0023" Action="None" />
-    <Rule Id="CRR0024" Action="None" />
-    <Rule Id="CRR0025" Action="None" />
-    <Rule Id="CRR0026" Action="None" />
-    <Rule Id="CRR1000" Action="None" />
+    <Rule Id="CRR0001" Action="Warning" />
+    <Rule Id="CRR0004" Action="Warning" />
+    <Rule Id="CRR0005" Action="Warning" />
+    <Rule Id="CRR0006" Action="Warning" />
+    <Rule Id="CRR0007" Action="Warning" />
+    <Rule Id="CRR0008" Action="Warning" />
+    <Rule Id="CRR0009" Action="Warning" />
+    <Rule Id="CRR0010" Action="Warning" />
+    <Rule Id="CRR0012" Action="Warning" />
+    <Rule Id="CRR0013" Action="Warning" />
+    <Rule Id="CRR0014" Action="Warning" />
+    <Rule Id="CRR0015" Action="Warning" />
+    <Rule Id="CRR0016" Action="Warning" />
+    <Rule Id="CRR0017" Action="Warning" />
+    <Rule Id="CRR0018" Action="Warning" />
+    <Rule Id="CRR0019" Action="Warning" />
+    <Rule Id="CRR0020" Action="Warning" />
+    <Rule Id="CRR0021" Action="Warning" />
+    <Rule Id="CRR0022" Action="Warning" />
+    <Rule Id="CRR0023" Action="Warning" />
+    <Rule Id="CRR0024" Action="Warning" />
+    <Rule Id="CRR0025" Action="Warning" />
+    <Rule Id="CRR0026" Action="Warning" />
+    <Rule Id="CRR1000" Action="Warning" />
   </Rules>
   <Rules AnalyzerId="DevExpress.CodeAnalysis.VisualBasic.Features" RuleNamespace="DevExpress.CodeAnalysis.VisualBasic.Features">
-    <Rule Id="CR0001" Action="None" />
-    <Rule Id="CR0002" Action="None" />
-    <Rule Id="CR0003" Action="None" />
-    <Rule Id="CR0004" Action="None" />
-    <Rule Id="CR0006" Action="None" />
-    <Rule Id="CR0008" Action="None" />
-    <Rule Id="CR0009" Action="None" />
-    <Rule Id="CR0010" Action="None" />
+    <Rule Id="CR0001" Action="Warning" />
+    <Rule Id="CR0002" Action="Warning" />
+    <Rule Id="CR0003" Action="Warning" />
+    <Rule Id="CR0004" Action="Warning" />
+    <Rule Id="CR0006" Action="Warning" />
+    <Rule Id="CR0008" Action="Warning" />
+    <Rule Id="CR0009" Action="Warning" />
+    <Rule Id="CR0010" Action="Warning" />
   </Rules>
   <Rules AnalyzerId="ErrorProne.Net.StructAnalyzers" RuleNamespace="ErrorProne.Net.StructAnalyzers">
     <Rule Id="EPS01" Action="Info" />

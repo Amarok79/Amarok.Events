@@ -245,7 +245,7 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				EventSource.UnobservedException.SubscribeWeak(x => exception = x);
+				EventSystem.UnobservedException.SubscribeWeak(x => exception = x);
 
 				var flag1 = service.Do("abc");
 
@@ -516,7 +516,7 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				EventSource.UnobservedException.SubscribeWeak(x => exception = x);
+				EventSystem.UnobservedException.SubscribeWeak(x => exception = x);
 
 				Int32 factoryCalled = 0;
 				var flag1 = service.Do(() => { factoryCalled++; return "abc"; });
@@ -818,7 +818,7 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				EventSource.UnobservedException.SubscribeWeak(x => exception = x);
+				EventSystem.UnobservedException.SubscribeWeak(x => exception = x);
 
 				Int32 factoryCalled = 0;
 				Int32 fa = 0;
@@ -1135,7 +1135,7 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				EventSource.UnobservedException.SubscribeWeak(x => exception = x);
+				EventSystem.UnobservedException.SubscribeWeak(x => exception = x);
 
 				Int32 factoryCalled = 0;
 				Int32 fa = 0;
@@ -1467,7 +1467,7 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				EventSource.UnobservedException.SubscribeWeak(x => exception = x);
+				EventSystem.UnobservedException.SubscribeWeak(x => exception = x);
 
 				Int32 factoryCalled = 0;
 				Int32 fa = 0;
@@ -1755,7 +1755,7 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				EventSource.UnobservedException.SubscribeWeak(x => exception = x);
+				EventSystem.UnobservedException.SubscribeWeak(x => exception = x);
 
 				var flag1 = await service.DoAsync("abc");
 
@@ -2026,7 +2026,7 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				EventSource.UnobservedException.SubscribeWeak(x => exception = x);
+				EventSystem.UnobservedException.SubscribeWeak(x => exception = x);
 
 				Int32 factoryCalled = 0;
 				var flag1 = await service.DoAsync(() => { factoryCalled++; return "abc"; });
@@ -2328,7 +2328,7 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				EventSource.UnobservedException.SubscribeWeak(x => exception = x);
+				EventSystem.UnobservedException.SubscribeWeak(x => exception = x);
 
 				Int32 factoryCalled = 0;
 				Int32 fa = 0;
@@ -2645,7 +2645,7 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				EventSource.UnobservedException.SubscribeWeak(x => exception = x);
+				EventSystem.UnobservedException.SubscribeWeak(x => exception = x);
 
 				Int32 factoryCalled = 0;
 				Int32 fa = 0;
@@ -2977,7 +2977,7 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				EventSource.UnobservedException.SubscribeWeak(x => exception = x);
+				EventSystem.UnobservedException.SubscribeWeak(x => exception = x);
 
 				Int32 factoryCalled = 0;
 				Int32 fa = 0;

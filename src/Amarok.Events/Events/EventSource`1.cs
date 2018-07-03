@@ -138,7 +138,7 @@ namespace Amarok.Events
 		/// already been disposed, then the event argument value is ignored, no subscribers are called and False is 
 		/// returned.</para>
 		/// <para>
-		/// Exceptions thrown by subscribers are caught and forwarded to <see cref="EventSource.UnobservedException"/>.
+		/// Exceptions thrown by subscribers are caught and forwarded to <see cref="EventSystem.UnobservedException"/>.
 		/// Regardless of exceptions, always all subscribers are being invoked.</para>
 		/// <para>
 		/// This method invokes all subscribers synchronously in a blocking fashion, meaning the calling thread raising
@@ -177,7 +177,7 @@ namespace Amarok.Events
 		/// already been disposed, then the event argument value is ignored, no subscribers are called and False is 
 		/// returned.</para>
 		/// <para>
-		/// Exceptions thrown by subscribers are caught and forwarded to <see cref="EventSource.UnobservedException"/>.
+		/// Exceptions thrown by subscribers are caught and forwarded to <see cref="EventSystem.UnobservedException"/>.
 		/// Regardless of exceptions, always all subscribers are being invoked.</para>
 		/// <para>
 		/// This method invokes all subscribers synchronously in a blocking fashion, meaning the calling thread raising
@@ -223,7 +223,7 @@ namespace Amarok.Events
 		/// already been disposed, then the event argument value is ignored, no subscribers are called and False is 
 		/// returned.</para>
 		/// <para>
-		/// Exceptions thrown by subscribers are caught and forwarded to <see cref="EventSource.UnobservedException"/>.
+		/// Exceptions thrown by subscribers are caught and forwarded to <see cref="EventSystem.UnobservedException"/>.
 		/// Regardless of exceptions, always all subscribers are being invoked.</para>
 		/// <para>
 		/// This method invokes all subscribers synchronously in a blocking fashion, meaning the calling thread raising
@@ -271,7 +271,7 @@ namespace Amarok.Events
 		/// already been disposed, then the event argument value is ignored, no subscribers are called and False is 
 		/// returned.</para>
 		/// <para>
-		/// Exceptions thrown by subscribers are caught and forwarded to <see cref="EventSource.UnobservedException"/>.
+		/// Exceptions thrown by subscribers are caught and forwarded to <see cref="EventSystem.UnobservedException"/>.
 		/// Regardless of exceptions, always all subscribers are being invoked.</para>
 		/// <para>
 		/// This method invokes all subscribers synchronously in a blocking fashion, meaning the calling thread raising
@@ -321,7 +321,7 @@ namespace Amarok.Events
 		/// already been disposed, then the event argument value is ignored, no subscribers are called and False is 
 		/// returned.</para>
 		/// <para>
-		/// Exceptions thrown by subscribers are caught and forwarded to <see cref="EventSource.UnobservedException"/>.
+		/// Exceptions thrown by subscribers are caught and forwarded to <see cref="EventSystem.UnobservedException"/>.
 		/// Regardless of exceptions, always all subscribers are being invoked.</para>
 		/// <para>
 		/// This method invokes all subscribers synchronously in a blocking fashion, meaning the calling thread raising
@@ -376,7 +376,7 @@ namespace Amarok.Events
 				}
 				catch (Exception exception)
 				{
-					EventSource.UnobservedExceptionEventSource.Invoke(exception);
+					EventSystem.NotifyUnobservedException(exception);
 				}
 			}
 		}
@@ -389,7 +389,7 @@ namespace Amarok.Events
 		/// already been disposed, then the event argument value is ignored, no subscribers are called and False is 
 		/// returned.</para>
 		/// <para>
-		/// Exceptions thrown by subscribers are caught and forwarded to <see cref="EventSource.UnobservedException"/>.
+		/// Exceptions thrown by subscribers are caught and forwarded to <see cref="EventSystem.UnobservedException"/>.
 		/// Regardless of exceptions, always all subscribers are being invoked.</para>
 		/// <para>
 		/// This method invokes all subscribers asynchronously in an awaitable fashion. The calling thread raising the
@@ -433,7 +433,7 @@ namespace Amarok.Events
 		/// already been disposed, then the event argument value is ignored, no subscribers are called and False is 
 		/// returned.</para>
 		/// <para>
-		/// Exceptions thrown by subscribers are caught and forwarded to <see cref="EventSource.UnobservedException"/>.
+		/// Exceptions thrown by subscribers are caught and forwarded to <see cref="EventSystem.UnobservedException"/>.
 		/// Regardless of exceptions, always all subscribers are being invoked.</para>
 		/// <para>
 		/// This method invokes all subscribers asynchronously in an awaitable fashion. The calling thread raising the
@@ -481,7 +481,7 @@ namespace Amarok.Events
 		/// already been disposed, then the event argument value is ignored, no subscribers are called and False is 
 		/// returned.</para>
 		/// <para>
-		/// Exceptions thrown by subscribers are caught and forwarded to <see cref="EventSource.UnobservedException"/>.
+		/// Exceptions thrown by subscribers are caught and forwarded to <see cref="EventSystem.UnobservedException"/>.
 		/// Regardless of exceptions, always all subscribers are being invoked.</para>
 		/// <para>
 		/// This method invokes all subscribers asynchronously in an awaitable fashion. The calling thread raising the
@@ -531,7 +531,7 @@ namespace Amarok.Events
 		/// already been disposed, then the event argument value is ignored, no subscribers are called and False is 
 		/// returned.</para>
 		/// <para>
-		/// Exceptions thrown by subscribers are caught and forwarded to <see cref="EventSource.UnobservedException"/>.
+		/// Exceptions thrown by subscribers are caught and forwarded to <see cref="EventSystem.UnobservedException"/>.
 		/// Regardless of exceptions, always all subscribers are being invoked.</para>
 		/// <para>
 		/// This method invokes all subscribers asynchronously in an awaitable fashion. The calling thread raising the
@@ -583,7 +583,7 @@ namespace Amarok.Events
 		/// already been disposed, then the event argument value is ignored, no subscribers are called and False is 
 		/// returned.</para>
 		/// <para>
-		/// Exceptions thrown by subscribers are caught and forwarded to <see cref="EventSource.UnobservedException"/>.
+		/// Exceptions thrown by subscribers are caught and forwarded to <see cref="EventSystem.UnobservedException"/>.
 		/// Regardless of exceptions, always all subscribers are being invoked.</para>
 		/// <para>
 		/// This method invokes all subscribers asynchronously in an awaitable fashion. The calling thread raising the
@@ -643,7 +643,7 @@ namespace Amarok.Events
 					if (valueTask.IsCompleted)
 					{
 						if (valueTask.IsFaulted)
-							EventSource.UnobservedExceptionEventSource.Invoke(valueTask.AsTask().Exception);
+							EventSystem.NotifyUnobservedException(valueTask.AsTask().Exception);
 					}
 					else
 					{
@@ -655,7 +655,7 @@ namespace Amarok.Events
 				}
 				catch (Exception exception)
 				{
-					EventSource.UnobservedExceptionEventSource.Invoke(exception);
+					EventSystem.NotifyUnobservedException(exception);
 				}
 			}
 
@@ -674,7 +674,7 @@ namespace Amarok.Events
 					if (_tasks.IsFaulted)
 					{
 						for (Int32 i = 0; i < _tasks.Exception.InnerExceptions.Count; i++)
-							EventSource.UnobservedExceptionEventSource.Invoke(_tasks.Exception.InnerExceptions[i]);
+							EventSystem.NotifyUnobservedException(_tasks.Exception.InnerExceptions[i]);
 					}
 
 					taskCompletionSource.SetResult(true);
