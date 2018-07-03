@@ -10,6 +10,8 @@ namespace Amarok.Events
 {
 	/// <summary>
 	/// This type provides static members that affect the entire event system.
+	/// 
+	/// This type is thread-safe.
 	/// </summary>
 	public static class EventSystem
 	{
