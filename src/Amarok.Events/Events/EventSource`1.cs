@@ -726,6 +726,32 @@ namespace Amarok.Events
 			return strongSubscription;
 		}
 
+		internal IDisposable Add(Func<T, Task> func)
+		{
+			if (mIsDisposed)
+				return NullSubscription.Instance;
+
+			var subscription = new FuncSubscription<T>(this, func);
+
+			_AddCore(subscription);
+
+			return subscription;
+		}
+
+		internal IDisposable AddWeak(Func<T, Task> func)
+		{
+			if (mIsDisposed)
+				return NullSubscription.Instance;
+
+			var strongSubscription = new FuncSubscription<T>(this, func);
+			var weakSubscription = new WeakSubscription<T>(this, strongSubscription);
+			strongSubscription.SetPreviousSubscription(weakSubscription);
+
+			_AddCore(weakSubscription);
+
+			return strongSubscription;
+		}
+
 		private void _AddCore(Subscription<T> subscription)
 		{
 			try
@@ -746,43 +772,6 @@ namespace Amarok.Events
 				Interlocked.Decrement(ref mNumberOfThreadsExecuting);
 			}
 		}
-
-
-
-
-		internal IDisposable Add(Func<T, Task> func)
-		{
-			var subscription = new FuncSubscription<T>(this, func);
-
-			if (mIsDisposed)
-				return null;
-
-			try
-			{
-				Interlocked.Increment(ref mNumberOfThreadsExecuting);
-
-				ImmutableArray<Subscription<T>> initial, computed;
-				do
-				{
-					initial = mSubscriptions;
-					computed = initial.Add(subscription);
-				}
-				while (initial != ImmutableInterlocked.InterlockedCompareExchange(
-					ref mSubscriptions, computed, initial));
-
-				return subscription;
-			}
-			finally
-			{
-				Interlocked.Decrement(ref mNumberOfThreadsExecuting);
-			}
-		}
-
-		internal IDisposable AddWeak(Func<T, Task> func)
-		{
-			return null;
-		}
-
 
 		internal void Remove(Subscription<T> subscription)
 		{

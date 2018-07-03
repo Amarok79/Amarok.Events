@@ -9,23 +9,45 @@ using System.Threading.Tasks;
 
 namespace Amarok.Events
 {
+	/// <summary>
+	/// Implementation class that represents a subscription to an async handler method.
+	/// </summary>
 	internal sealed class FuncSubscription<T> : Subscription<T>
 	{
+		// a reference to the event source; necessary for disposal
 		private readonly EventSource<T> mSource;
+
+		// a delegate to the handler method
 		private readonly Func<T, Task> mFunc;
 
+		// an optional weak reference back to another subscription holding this subscription
+		// also via weak reference; necessary for automatic removal magic of weak subscriptions
+		private WeakReference<Subscription<T>> mPreviousSubscription;
 
+
+		/// <summary>
+		/// Initializes a new instance.
+		/// </summary>
 		public FuncSubscription(EventSource<T> source, Func<T, Task> func)
 		{
 			mSource = source;
 			mFunc = func;
 		}
 
-		public override void Dispose()
+
+		/// <summary>
+		/// Invoked to establish a weak reference back to another subscription. Only called
+		/// for weak subscriptions.
+		/// </summary>
+		public void SetPreviousSubscription(Subscription<T> subscription)
 		{
-			mSource.Remove(this);
+			mPreviousSubscription = new WeakReference<Subscription<T>>(subscription);
 		}
 
+
+		/// <summary>
+		/// Invokes the subscription's handler in a synchronous way.
+		/// </summary>
 		public override void Invoke(T value)
 		{
 			var task = mFunc(value);
@@ -39,9 +61,61 @@ namespace Amarok.Events
 			);
 		}
 
+		/// <summary>
+		/// Invokes the subscription's handler in an asynchronous way.
+		/// </summary>
 		public override ValueTask InvokeAsync(T value)
 		{
-			throw new NotImplementedException();
+			var task = mFunc(value);
+
+			return new ValueTask(task);
+		}
+
+		/// <summary>
+		/// Disposes the subscription; removes it from the event source.
+		/// </summary>
+		public override void Dispose()
+		{
+			if (mPreviousSubscription != null)
+			{
+				// dispose the previous subscription, if still reachable
+				if (mPreviousSubscription.TryGetTarget(out var subscription))
+					subscription.Dispose();
+			}
+			else
+			{
+				// remove ourself from event source
+				mSource.Remove(this);
+			}
+		}
+
+		/// <summary>
+		/// Returns a string that represents the current instance.
+		/// </summary>
+		public override String ToString()
+		{
+			return $"=> {mFunc.Method.DeclaringType.FullName}.{mFunc.Method.Name}()";
+		}
+
+
+		internal Subscription<T> TestingGetPreviousSubscription()
+		{
+			if (mPreviousSubscription == null)
+			{
+				return null;
+			}
+			else
+			{
+				if (mPreviousSubscription.TryGetTarget(out var subscription))
+					return subscription;
+				else
+					return null;
+			}
+		}
+
+		internal void TestingClearNextSubscription()
+		{
+			mPreviousSubscription.SetTarget(null);
 		}
 	}
 }

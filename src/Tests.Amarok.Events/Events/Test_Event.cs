@@ -8,6 +8,7 @@
 #pragma warning disable CS1718 // Comparison made to same variable
 
 using System;
+using System.Threading.Tasks;
 using NFluent;
 using NUnit.Framework;
 
@@ -16,6 +17,33 @@ namespace Amarok.Events
 {
 	public class Test_Event
 	{
+		[TestFixture]
+		public class Source
+		{
+			[Test]
+			public void NullEvent()
+			{
+				var evt = new Event<Int32>();
+
+				Check.That(evt.Source)
+					.IsNull();
+				Check.That(evt.HasSource)
+					.IsFalse();
+			}
+
+			[Test]
+			public void RealEvent()
+			{
+				var src = new EventSource<Int32>();
+				var evt = src.Event;
+
+				Check.That(evt.Source)
+					.IsSameReferenceAs(src);
+				Check.That(evt.HasSource)
+					.IsTrue();
+			}
+		}
+
 		[TestFixture]
 		public class Subscribe_Action
 		{
@@ -231,6 +259,224 @@ namespace Amarok.Events
 				Check.ThatCode(() => src.Event.SubscribeWeak((Action<String>)null))
 					.Throws<ArgumentNullException>()
 					.WithProperty(x => x.ParamName, "action");
+			}
+		}
+
+		[TestFixture]
+		public class Subscribe_Func
+		{
+			[Test]
+			public void Subscribe_On_NullEvent()
+			{
+				var evt = new Event<String>();
+				var sub = evt.Subscribe(async x => { });
+
+				Check.That(evt.Source)
+					.IsNull();
+				Check.That(evt.HasSource)
+					.IsFalse();
+				Check.That(evt.ToString())
+					.IsEqualTo("Event<String> :=: <null>");
+
+				Check.That(sub)
+					.IsInstanceOf<NullSubscription>();
+				Check.That(sub.ToString())
+					.IsEqualTo("=> <null>");
+				Check.ThatCode(() => sub.Dispose())
+					.DoesNotThrow();
+			}
+
+			[Test]
+			public void Subscribe_On_Event()
+			{
+				var src = new EventSource<String>();
+				var evt = src.Event;
+				var sub = evt.Subscribe(async x => { });
+
+				Check.That(src.NumberOfSubscriptions)
+					.IsEqualTo(1);
+				Check.That(src.IsDisposed)
+					.IsFalse();
+				Check.That(src.ToString())
+					.IsEqualTo("EventSource<String>(Subscriptions: 1)");
+
+				Check.That(evt.Source)
+					.IsSameReferenceAs(src);
+				Check.That(evt.HasSource)
+					.IsTrue();
+				Check.That(evt.ToString())
+					.IsEqualTo("Event<String> :=: EventSource<String>(Subscriptions: 1)");
+
+				Check.That(sub)
+					.IsInstanceOf<FuncSubscription<String>>();
+				Check.That(sub.ToString())
+					.StartsWith("=> Amarok.Events.Test_Event");
+
+				sub.Dispose();
+
+				Check.That(src.NumberOfSubscriptions)
+					.IsEqualTo(0);
+				Check.That(src.IsDisposed)
+					.IsFalse();
+				Check.That(src.ToString())
+					.IsEqualTo("EventSource<String>(Subscriptions: 0)");
+			}
+
+			[Test]
+			public void Subscribe_On_DisposedEventSource()
+			{
+				var src = new EventSource<String>();
+				src.Dispose();
+
+				var evt = src.Event;
+				var sub = evt.Subscribe(async x => { });
+
+				Check.That(src.NumberOfSubscriptions)
+					.IsEqualTo(0);
+				Check.That(src.IsDisposed)
+					.IsTrue();
+				Check.That(src.ToString())
+					.IsEqualTo("EventSource<String>(Subscriptions: 0)");
+
+				Check.That(evt.Source)
+					.IsSameReferenceAs(src);
+				Check.That(evt.HasSource)
+					.IsTrue();
+				Check.That(evt.ToString())
+					.IsEqualTo("Event<String> :=: EventSource<String>(Subscriptions: 0)");
+
+				Check.That(sub)
+					.IsInstanceOf<NullSubscription>();
+				Check.That(sub.ToString())
+					.StartsWith("=> <null>");
+
+				sub.Dispose();
+
+				Check.That(src.NumberOfSubscriptions)
+					.IsEqualTo(0);
+				Check.That(src.IsDisposed)
+					.IsTrue();
+				Check.That(src.ToString())
+					.IsEqualTo("EventSource<String>(Subscriptions: 0)");
+			}
+
+			[Test]
+			public void Exception_For_NullCallback()
+			{
+				var src = new EventSource<String>();
+
+				Check.ThatCode(() => src.Event.Subscribe((Func<String, Task>)null))
+					.Throws<ArgumentNullException>()
+					.WithProperty(x => x.ParamName, "func");
+			}
+		}
+
+		[TestFixture]
+		public class SubscribeWeak_Func
+		{
+			[Test]
+			public void Subscribe_On_NullEvent()
+			{
+				var evt = new Event<String>();
+				var sub = evt.SubscribeWeak(async x => { });
+
+				Check.That(evt.Source)
+					.IsNull();
+				Check.That(evt.HasSource)
+					.IsFalse();
+				Check.That(evt.ToString())
+					.IsEqualTo("Event<String> :=: <null>");
+
+				Check.That(sub)
+					.IsInstanceOf<NullSubscription>();
+				Check.That(sub.ToString())
+					.IsEqualTo("=> <null>");
+				Check.ThatCode(() => sub.Dispose())
+					.DoesNotThrow();
+			}
+
+			[Test]
+			public void Subscribe_On_Event()
+			{
+				var src = new EventSource<String>();
+				var evt = src.Event;
+				var sub = evt.SubscribeWeak(async x => { });
+
+				Check.That(src.NumberOfSubscriptions)
+					.IsEqualTo(1);
+				Check.That(src.IsDisposed)
+					.IsFalse();
+				Check.That(src.ToString())
+					.IsEqualTo("EventSource<String>(Subscriptions: 1)");
+
+				Check.That(evt.Source)
+					.IsSameReferenceAs(src);
+				Check.That(evt.HasSource)
+					.IsTrue();
+				Check.That(evt.ToString())
+					.IsEqualTo("Event<String> :=: EventSource<String>(Subscriptions: 1)");
+
+				Check.That(sub)
+					.IsInstanceOf<FuncSubscription<String>>();
+				Check.That(sub.ToString())
+					.StartsWith("=> Amarok.Events.Test_Event");
+
+				sub.Dispose();
+
+				Check.That(src.NumberOfSubscriptions)
+					.IsEqualTo(0);
+				Check.That(src.IsDisposed)
+					.IsFalse();
+				Check.That(src.ToString())
+					.IsEqualTo("EventSource<String>(Subscriptions: 0)");
+			}
+
+			[Test]
+			public void Subscribe_On_DisposedEventSource()
+			{
+				var src = new EventSource<String>();
+				src.Dispose();
+
+				var evt = src.Event;
+				var sub = evt.SubscribeWeak(async x => { });
+
+				Check.That(src.NumberOfSubscriptions)
+					.IsEqualTo(0);
+				Check.That(src.IsDisposed)
+					.IsTrue();
+				Check.That(src.ToString())
+					.IsEqualTo("EventSource<String>(Subscriptions: 0)");
+
+				Check.That(evt.Source)
+					.IsSameReferenceAs(src);
+				Check.That(evt.HasSource)
+					.IsTrue();
+				Check.That(evt.ToString())
+					.IsEqualTo("Event<String> :=: EventSource<String>(Subscriptions: 0)");
+
+				Check.That(sub)
+					.IsInstanceOf<NullSubscription>();
+				Check.That(sub.ToString())
+					.StartsWith("=> <null>");
+
+				sub.Dispose();
+
+				Check.That(src.NumberOfSubscriptions)
+					.IsEqualTo(0);
+				Check.That(src.IsDisposed)
+					.IsTrue();
+				Check.That(src.ToString())
+					.IsEqualTo("EventSource<String>(Subscriptions: 0)");
+			}
+
+			[Test]
+			public void Exception_For_NullCallback()
+			{
+				var src = new EventSource<String>();
+
+				Check.ThatCode(() => src.Event.SubscribeWeak((Func<String, Task>)null))
+					.Throws<ArgumentNullException>()
+					.WithProperty(x => x.ParamName, "func");
 			}
 		}
 

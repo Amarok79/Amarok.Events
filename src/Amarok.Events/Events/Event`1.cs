@@ -11,15 +11,13 @@ using System.Threading.Tasks;
 namespace Amarok.Events
 {
 	/// <summary>
-	/// This type represents an Event that allows consumers to subscribe on in.
+	/// This type represents an Event that allows consumers to subscribe on.
 	/// </summary>
 	[DebuggerStepThrough]
 	public readonly struct Event<T> :
 		IEquatable<Event<T>>
 	{
-		/// <summary>
-		/// a reference to the owning event source; can be null
-		/// </summary>
+		// a reference to the owning event source; can be null
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private readonly EventSource<T> mSource;
 
@@ -52,7 +50,7 @@ namespace Amarok.Events
 		/// Subscribes the given callback on the event. The callback will be invoked every time the event is raised.
 		/// 
 		/// This method establishes a strong reference between the event source and the object holding the supplied
-		/// callback, aka subscriber. This means as long as the event source is kept in memory, it will also keep 
+		/// callback, aka subscriber. That means as long as the event source is kept in memory, it will also keep 
 		/// the subscriber in memory. To break this strong reference, you can dispose the returned subscription.
 		/// </summary>
 		/// 
@@ -80,14 +78,14 @@ namespace Amarok.Events
 		/// Subscribes the given callback on the event. The callback will be invoked every time the event is raised.
 		/// 
 		/// This method establishes a weak reference between the event source and the object holding the supplied
-		/// callback, aka subscriber. This means that the subscription is kept active only as long as both event 
-		/// source and subscriber are kept in memory via strong references. The event source alone doesn't keep 
-		/// the subscriber in memory. You have to keep a strong reference to the returned subscription object to
+		/// callback, aka subscriber. That means that the subscription is kept alive only as long as both event source 
+		/// and subscriber are kept in memory via strong references from other objects. The event source alone doesn't 
+		/// keep the subscriber in memory. You have to keep a strong reference to the returned subscription object to
 		/// achieve this.
 		/// 
-		/// The subscription can be canceled at any time by disposing the returned subscription object. Otherwise, the 
-		/// subscription is automatically canceled if the subscriber is being garbage collected. For this to happen
-		/// no other strong reference to the returned subscription must exist.
+		/// The subscription can be canceled at any time by disposing the returned subscription object. Otherwise, 
+		/// the subscription is automatically canceled if the subscriber is being garbage collected. For this to 
+		/// happen no other strong reference to the returned subscription must exist.
 		/// </summary>
 		/// 
 		/// <param name="action">
@@ -114,7 +112,7 @@ namespace Amarok.Events
 		/// Subscribes the given callback on the event. The callback will be invoked every time the event is raised.
 		/// 
 		/// This method establishes a strong reference between the event source and the object holding the supplied
-		/// callback, aka subscriber. This means as long as the event source is kept in memory, it will also keep 
+		/// callback, aka subscriber. That means as long as the event source is kept in memory, it will also keep 
 		/// the subscriber in memory. To break this strong reference, you can dispose the returned subscription.
 		/// </summary>
 		/// 
@@ -142,14 +140,14 @@ namespace Amarok.Events
 		/// Subscribes the given callback on the event. The callback will be invoked every time the event is raised.
 		/// 
 		/// This method establishes a weak reference between the event source and the object holding the supplied
-		/// callback, aka subscriber. This means that the subscription is kept active only as long as both event 
-		/// source and subscriber are kept in memory via strong references. The event source alone doesn't keep 
-		/// the subscriber in memory. You have to keep a strong reference to the returned subscription object to
+		/// callback, aka subscriber. That means that the subscription is kept alive only as long as both event source 
+		/// and subscriber are kept in memory via strong references from other objects. The event source alone doesn't 
+		/// keep the subscriber in memory. You have to keep a strong reference to the returned subscription object to
 		/// achieve this.
 		/// 
-		/// The subscription can be canceled at any time by disposing the returned subscription object. Otherwise, the 
-		/// subscription is automatically canceled if the subscriber is being garbage collected. For this to happen
-		/// no other strong reference to the returned subscription must exist.
+		/// The subscription can be canceled at any time by disposing the returned subscription object. Otherwise, 
+		/// the subscription is automatically canceled if the subscriber is being garbage collected. For this to 
+		/// happen no other strong reference to the returned subscription must exist.
 		/// </summary>
 		/// 
 		/// <param name="func">

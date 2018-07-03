@@ -14,20 +14,14 @@ namespace Amarok.Events
 	/// </summary>
 	internal sealed class ActionSubscription<T> : Subscription<T>
 	{
-		/// <summary>
-		/// a reference to the event source; necessary for disposal
-		/// </summary>
+		// a reference to the event source; necessary for disposal
 		private readonly EventSource<T> mSource;
 
-		/// <summary>
-		/// a delegate to the handler method
-		/// </summary>
+		// a delegate to the handler method
 		private readonly Action<T> mAction;
 
-		/// <summary>
-		/// an optional weak reference back to another subscription holding this subscription
-		/// also via weak reference; necessary for automatic removal magic of weak subscriptions
-		/// </summary>
+		// an optional weak reference back to another subscription holding this subscription
+		// also via weak reference; necessary for automatic removal magic of weak subscriptions
 		private WeakReference<Subscription<T>> mPreviousSubscription;
 
 
