@@ -3,10 +3,10 @@
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<RootNamespace>Amarok</RootNamespace>
-		<Version>1.0.0-alpha.1</Version>
+		<Version>1.0.0-beta.1</Version>
 		<Authors>Olaf Kober</Authors>
 		<Company>&lt;none&gt;</Company>
-		<Description>TODO</Description>
+		<Description>A slim and light-weight implementation of the observer pattern that supports synchronous and asynchronous invocation and/or subscribers. A replacement for .NET events.</Description>
 		<Copyright>Copyright (c) 2018, Olaf Kober</Copyright>
 		<PackageLicenseUrl>https://raw.githubusercontent.com/Amarok79/Events/master/LICENSE</PackageLicenseUrl>
 		<PackageProjectUrl>https://github.com/Amarok79/Events</PackageProjectUrl>
@@ -22,7 +22,7 @@
 		<DocumentationFile>..\..\bin\lib\netstandard2.0\Amarok.Events.xml</DocumentationFile>
 		<GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
 		<LangVersion>latest</LangVersion>
-		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<WarningsAsErrors />
 	</PropertyGroup>
 
