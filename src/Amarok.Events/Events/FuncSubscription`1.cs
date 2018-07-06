@@ -44,7 +44,6 @@ namespace Amarok.Events
 			mPreviousSubscription = new WeakReference<Subscription<T>>(subscription);
 		}
 
-
 		/// <summary>
 		/// Invokes the subscription's handler in a synchronous way.
 		/// </summary>
