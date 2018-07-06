@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net471;netcoreapp2.1</TargetFrameworks>
+		<TargetFrameworks>net471</TargetFrameworks>
 		<RootNamespace>Amarok</RootNamespace>
 		<CodeAnalysisRuleSet>..\Global.ruleset</CodeAnalysisRuleSet>
 	</PropertyGroup>
@@ -32,7 +32,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Amarok.Events\Amarok.Events.csproj" />
+		<ProjectReference Include="..\Amarok.Events\Amarok.Events.csproj" />
 	</ItemGroup>
 
 </Project>
