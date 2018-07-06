@@ -570,7 +570,7 @@ namespace Amarok.Events
 				Check.That(arg)
 					.IsEqualTo("abc");
 
-				SpinWait.SpinUntil(() => exception != null, 1000);
+				SpinWait.SpinUntil(() => exception != null, 2000);
 
 				Check.That(exception)
 					.IsInstanceOf<ApplicationException>();
