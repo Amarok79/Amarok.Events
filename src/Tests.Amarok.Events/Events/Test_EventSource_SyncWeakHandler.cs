@@ -4,6 +4,7 @@
  */
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using NFluent;
 using NUnit.Framework;
@@ -275,7 +276,9 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				EventSystem.UnobservedException.SubscribeWeak(x => exception = x);
+				EventSystem.UnobservedException.SubscribeWeak(x => {
+					Volatile.Write(ref exception, x);
+				});
 
 				var flag1 = service.Do("abc");
 
@@ -654,7 +657,9 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				EventSystem.UnobservedException.SubscribeWeak(x => exception = x);
+				EventSystem.UnobservedException.SubscribeWeak(x => {
+					Volatile.Write(ref exception, x);
+				});
 
 				Int32 factoryCalled = 0;
 				var flag1 = service.Do(() => { factoryCalled++; return "abc"; });
@@ -1070,7 +1075,9 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				EventSystem.UnobservedException.SubscribeWeak(x => exception = x);
+				EventSystem.UnobservedException.SubscribeWeak(x => {
+					Volatile.Write(ref exception, x);
+				});
 
 				Int32 factoryCalled = 0;
 				Int32 fa = 0;
@@ -1507,7 +1514,9 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				EventSystem.UnobservedException.SubscribeWeak(x => exception = x);
+				EventSystem.UnobservedException.SubscribeWeak(x => {
+					Volatile.Write(ref exception, x);
+				});
 
 				Int32 factoryCalled = 0;
 				Int32 fa = 0;
@@ -1965,7 +1974,9 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				EventSystem.UnobservedException.SubscribeWeak(x => exception = x);
+				EventSystem.UnobservedException.SubscribeWeak(x => {
+					Volatile.Write(ref exception, x);
+				});
 
 				Int32 factoryCalled = 0;
 				Int32 fa = 0;
@@ -2354,7 +2365,9 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				EventSystem.UnobservedException.SubscribeWeak(x => exception = x);
+				EventSystem.UnobservedException.SubscribeWeak(x => {
+					Volatile.Write(ref exception, x);
+				});
 
 				var flag1 = await service.DoAsync("abc");
 
@@ -2678,7 +2691,9 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				EventSystem.UnobservedException.SubscribeWeak(x => exception = x);
+				EventSystem.UnobservedException.SubscribeWeak(x => {
+					Volatile.Write(ref exception, x);
+				});
 
 				Int32 factoryCalled = 0;
 				var flag1 = await service.DoAsync(() => { factoryCalled++; return "abc"; });
@@ -3039,7 +3054,9 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				EventSystem.UnobservedException.SubscribeWeak(x => exception = x);
+				EventSystem.UnobservedException.SubscribeWeak(x => {
+					Volatile.Write(ref exception, x);
+				});
 
 				Int32 factoryCalled = 0;
 				Int32 fa = 0;
@@ -3421,7 +3438,9 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				EventSystem.UnobservedException.SubscribeWeak(x => exception = x);
+				EventSystem.UnobservedException.SubscribeWeak(x => {
+					Volatile.Write(ref exception, x);
+				});
 
 				Int32 factoryCalled = 0;
 				Int32 fa = 0;
@@ -3823,7 +3842,9 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				EventSystem.UnobservedException.SubscribeWeak(x => exception = x);
+				EventSystem.UnobservedException.SubscribeWeak(x => {
+					Volatile.Write(ref exception, x);
+				});
 
 				Int32 factoryCalled = 0;
 				Int32 fa = 0;

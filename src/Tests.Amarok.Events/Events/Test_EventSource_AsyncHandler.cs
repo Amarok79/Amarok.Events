@@ -115,7 +115,7 @@ namespace Amarok.Events
 				Check.That(called)
 					.IsEqualTo(0);
 
-				SpinWait.SpinUntil(() => called == 1, 1000);
+				SpinWait.SpinUntil(() => called == 1, 2000);
 
 				Check.That(called)
 					.IsEqualTo(1);
@@ -184,7 +184,9 @@ namespace Amarok.Events
 					.IsNull();
 
 				Exception exception = null;
-				EventSystem.UnobservedException.SubscribeWeak(x => exception = x);
+				EventSystem.UnobservedException.SubscribeWeak(x => {
+					Volatile.Write(ref exception, x);
+				});
 
 				var flag1 = service.Do("abc");
 
@@ -194,7 +196,7 @@ namespace Amarok.Events
 					.IsEqualTo(1);
 				Check.That(arg)
 					.IsEqualTo("abc");
-				Check.That(exception)
+				Check.That(Volatile.Read(ref exception))
 					.IsNull();
 
 				Check.That(service.ChangedSource.NumberOfSubscriptions)
@@ -225,7 +227,9 @@ namespace Amarok.Events
 					.IsNull();
 
 				Exception exception = null;
-				EventSystem.UnobservedException.SubscribeWeak(x => exception = x);
+				EventSystem.UnobservedException.SubscribeWeak(x => {
+					Volatile.Write(ref exception, x);
+				});
 
 				var flag1 = service.Do("abc");
 
@@ -235,7 +239,7 @@ namespace Amarok.Events
 					.IsEqualTo(1);
 				Check.That(arg)
 					.IsEqualTo("abc");
-				Check.That(exception)
+				Check.That(Volatile.Read(ref exception))
 					.IsInstanceOf<ApplicationException>();
 
 				Check.That(service.ChangedSource.NumberOfSubscriptions)
@@ -265,7 +269,9 @@ namespace Amarok.Events
 					.IsNull();
 
 				Exception exception = null;
-				EventSystem.UnobservedException.SubscribeWeak(x => exception = x);
+				EventSystem.UnobservedException.SubscribeWeak(x => {
+					Volatile.Write(ref exception, x);
+				});
 
 				var flag1 = service.Do("abc");
 
@@ -276,9 +282,9 @@ namespace Amarok.Events
 				Check.That(arg)
 					.IsEqualTo("abc");
 
-				SpinWait.SpinUntil(() => exception != null, 1000);
+				SpinWait.SpinUntil(() => Volatile.Read(ref exception) != null, 2000);
 
-				Check.That(exception)
+				Check.That(Volatile.Read(ref exception))
 					.IsInstanceOf<ApplicationException>();
 
 				Check.That(service.ChangedSource.NumberOfSubscriptions)
@@ -424,7 +430,9 @@ namespace Amarok.Events
 					.IsNull();
 
 				Exception exception = null;
-				EventSystem.UnobservedException.SubscribeWeak(x => exception = x);
+				EventSystem.UnobservedException.SubscribeWeak(x => {
+					Volatile.Write(ref exception, x);
+				});
 
 				var flag1 = await service.DoAsync("abc");
 
@@ -434,7 +442,7 @@ namespace Amarok.Events
 					.IsEqualTo(1);
 				Check.That(arg)
 					.IsEqualTo("abc");
-				Check.That(exception)
+				Check.That(Volatile.Read(ref exception))
 					.IsNull();
 
 				Check.That(service.ChangedSource.NumberOfSubscriptions)
@@ -465,7 +473,9 @@ namespace Amarok.Events
 					.IsNull();
 
 				Exception exception = null;
-				EventSystem.UnobservedException.SubscribeWeak(x => exception = x);
+				EventSystem.UnobservedException.SubscribeWeak(x => {
+					Volatile.Write(ref exception, x);
+				});
 
 				var flag1 = await service.DoAsync("abc");
 
@@ -475,7 +485,7 @@ namespace Amarok.Events
 					.IsEqualTo(1);
 				Check.That(arg)
 					.IsEqualTo("abc");
-				Check.That(exception)
+				Check.That(Volatile.Read(ref exception))
 					.IsInstanceOf<ApplicationException>();
 
 				Check.That(service.ChangedSource.NumberOfSubscriptions)
@@ -505,7 +515,9 @@ namespace Amarok.Events
 					.IsNull();
 
 				Exception exception = null;
-				EventSystem.UnobservedException.SubscribeWeak(x => exception = x);
+				EventSystem.UnobservedException.SubscribeWeak(x => {
+					Volatile.Write(ref exception, x);
+				});
 
 				var flag1 = await service.DoAsync("abc");
 
@@ -516,9 +528,9 @@ namespace Amarok.Events
 				Check.That(arg)
 					.IsEqualTo("abc");
 
-				SpinWait.SpinUntil(() => exception != null, 1000);
+				SpinWait.SpinUntil(() => Volatile.Read(ref exception) != null, 2000);
 
-				Check.That(exception)
+				Check.That(Volatile.Read(ref exception))
 					.IsInstanceOf<ApplicationException>();
 
 				Check.That(service.ChangedSource.NumberOfSubscriptions)
