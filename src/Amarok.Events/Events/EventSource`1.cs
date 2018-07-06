@@ -3,9 +3,7 @@
  * https://github.com/Amarok79/Events
  */
 
-#pragma warning disable S1659 // Multiple variables should not be declared on the same line
 #pragma warning disable S2221 // "Exception" should not be caught when not required by called methods
-#pragma warning disable S4017 // Method signatures should not contain nested generic types
 
 using System;
 using System.Collections.Generic;
@@ -24,33 +22,23 @@ namespace Amarok.Events
 	public sealed class EventSource<T> :
 		IDisposable
 	{
-		/// <summary>
-		/// the associated public-facing event
-		/// </summary>
+		// the associated public-facing event
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private readonly Event<T> mEvent;
 
-		/// <summary>
-		/// the list of subscriptions
-		/// </summary>
+		// the list of subscriptions
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private ImmutableArray<Subscription<T>> mSubscriptions = ImmutableArray<Subscription<T>>.Empty;
 
-		/// <summary>
-		/// sync object for disposal
-		/// </summary>
+		// sync object for disposal
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private readonly Object mSyncDispose = new Object();
 
-		/// <summary>
-		/// state of disposal
-		/// </summary>
+		// state of disposal
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private volatile Boolean mIsDisposed;
 
-		/// <summary>
-		/// number of threads still executing
-		/// </summary>
+		// number of threads currently executing
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private Int32 mNumberOfThreadsExecuting;
 
@@ -68,6 +56,9 @@ namespace Amarok.Events
 		public void Dispose()
 		{
 			// ensure that we enter the subsequent code block only once
+			if (mIsDisposed)
+				return;
+
 			lock (mSyncDispose)
 			{
 				if (mIsDisposed)
@@ -106,15 +97,23 @@ namespace Amarok.Events
 		#region ++ Public Interface ++
 
 		/// <summary>
-		/// Gets the public-facing Event that allows consumers to subscribe to.
+		/// Gets the public-facing <see cref="Event{T}"/> that allows consumers to subscribe to.
 		/// </summary>
 		public Event<T> Event => mEvent;
 
 		/// <summary>
-		/// Gets the current number of subscriptions. This information can be slightly out-of-date in
+		/// Gets the current number of subscriptions. This information can be slightly out-of-date in 
 		/// multi-threading scenarios and is intended for diagnosis purposes only.
 		/// </summary>
-		public Int32 NumberOfSubscriptions => mSubscriptions.Length;
+		public Int32 NumberOfSubscriptions
+		{
+			get
+			{
+				ImmutableArray<Subscription<T>> subscriptions;
+				ImmutableInterlocked.InterlockedExchange(ref subscriptions, mSubscriptions);
+				return subscriptions.Length;
+			}
+		}
 
 		/// <summary>
 		/// Gets a boolean value indicating whether this object has been disposed.
@@ -643,13 +642,12 @@ namespace Amarok.Events
 					if (valueTask.IsCompleted)
 					{
 						if (valueTask.IsFaulted)
-							EventSystem.NotifyUnobservedException(valueTask.AsTask().Exception);
+							EventSystem.NotifyUnobservedException(valueTask.AsTask().Exception.InnerException);
 					}
 					else
 					{
 						if (tasks == null)
 							tasks = new List<Task>(subscriptions.Length);
-
 						tasks.Add(valueTask.AsTask());
 					}
 				}
@@ -672,10 +670,7 @@ namespace Amarok.Events
 			Task.WhenAll(tasks)
 				.ContinueWith(_tasks => {
 					if (_tasks.IsFaulted)
-					{
-						for (Int32 i = 0; i < _tasks.Exception.InnerExceptions.Count; i++)
-							EventSystem.NotifyUnobservedException(_tasks.Exception.InnerExceptions[i]);
-					}
+						EventSystem.NotifyUnobservedException(_tasks.Exception.InnerException);
 
 					taskCompletionSource.SetResult(true);
 				},

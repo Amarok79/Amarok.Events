@@ -56,7 +56,7 @@ namespace Amarok.Events
 				return;
 
 			task.ContinueWith(
-				x => { /* forward exception */ },
+				x => EventSystem.NotifyUnobservedException(x.Exception.InnerException),
 				TaskContinuationOptions.ExecuteSynchronously | TaskContinuationOptions.OnlyOnFaulted
 			);
 		}

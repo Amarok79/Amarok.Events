@@ -11,7 +11,7 @@ using NUnit.Framework;
 
 namespace Amarok.Events
 {
-	public class Test_UseCase_SyncHandler
+	public class Test_EventSource_SyncWeakHandler
 	{
 		public interface IFooService
 		{
@@ -86,7 +86,6 @@ namespace Amarok.Events
 			public void Invoke_Without_Handler()
 			{
 				var service = new FooService();
-
 				var flag = service.Do("abc");
 
 				Check.That(flag)
@@ -96,6 +95,13 @@ namespace Amarok.Events
 					.IsEqualTo(0);
 				Check.That(service.ChangedSource.IsDisposed)
 					.IsFalse();
+
+				Check.That(service.ChangedSource.Event)
+					.IsEqualTo(service.Changed);
+				Check.That(service.Changed.Source)
+					.IsSameReferenceAs(service.ChangedSource);
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -106,15 +112,17 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
 
 				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				var flag1 = service.Do("abc");
 
@@ -139,6 +147,13 @@ namespace Amarok.Events
 					.IsEqualTo(1);
 				Check.That(service.ChangedSource.IsDisposed)
 					.IsFalse();
+
+				Check.That(service.ChangedSource.Event)
+					.IsEqualTo(service.Changed);
+				Check.That(service.Changed.Source)
+					.IsSameReferenceAs(service.ChangedSource);
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -149,7 +164,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(x => {
+				var subscription1 = service.Changed.SubscribeWeak(x => {
 					arg1 = x;
 					called1++;
 				});
@@ -157,20 +172,24 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
 
 				Check.That(subscription1)
+					.IsNotNull();
+				Check.That(subscription1)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
+				Check.That(subscription2)
+					.IsNotNull();
 				Check.That(subscription2)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Check.That(subscription2)
 					.Not.IsSameReferenceAs(subscription1);
@@ -207,17 +226,24 @@ namespace Amarok.Events
 					.IsEqualTo(2);
 				Check.That(service.ChangedSource.IsDisposed)
 					.IsFalse();
+
+				Check.That(service.ChangedSource.Event)
+					.IsEqualTo(service.Changed);
+				Check.That(service.Changed.Source)
+					.IsSameReferenceAs(service.ChangedSource);
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
-			public void Invoke_With_MultipleHandler_OneThrowingExceptionButAllInvoked()
+			public void Invoke_With_MultipleHandler_OneThrowingExceptionAllInvoked()
 			{
 				var service = new FooService();
 
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(new Action<String>(x => {
+				var subscription1 = service.Changed.SubscribeWeak(new Action<String>(x => {
 					arg1 = x;
 					called1++;
 					throw new ApplicationException("1");
@@ -226,20 +252,24 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
 
 				Check.That(subscription1)
+					.IsNotNull();
+				Check.That(subscription1)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
+				Check.That(subscription2)
+					.IsNotNull();
 				Check.That(subscription2)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Check.That(subscription2)
 					.Not.IsSameReferenceAs(subscription1);
@@ -269,6 +299,66 @@ namespace Amarok.Events
 					.IsEqualTo(2);
 				Check.That(service.ChangedSource.IsDisposed)
 					.IsFalse();
+
+				Check.That(service.ChangedSource.Event)
+					.IsEqualTo(service.Changed);
+				Check.That(service.Changed.Source)
+					.IsSameReferenceAs(service.ChangedSource);
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
+			}
+
+			[Test]
+			public void Invoke_After_SubscriptionGCed()
+			{
+				var service = new FooService();
+
+				Int32 called = 0;
+				String arg = null;
+
+				var subscription = service.Changed.SubscribeWeak(x => {
+					arg = x;
+					called++;
+				});
+
+				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
+					.IsInstanceOf<ActionSubscription<String>>();
+				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
+					.IsInstanceOf<WeakSubscription<String>>();
+
+				var strongSub = ((ActionSubscription<String>)subscription);
+				var weakSub = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
+				strongSub.TestingClearNextSubscription();
+				weakSub.TestingClearNextSubscription();
+
+				var flag1 = service.Do("abc");
+
+				Check.That(flag1)
+					.IsTrue();
+				Check.That(called)
+					.IsEqualTo(0);
+				Check.That(service.ChangedSource.NumberOfSubscriptions)
+					.IsEqualTo(0);
+				Check.That(service.ChangedSource.IsDisposed)
+					.IsFalse();
+
+				var flag2 = service.Do("abc");
+
+				Check.That(flag2)
+					.IsFalse();
+				Check.That(called)
+					.IsEqualTo(0);
+				Check.That(service.ChangedSource.NumberOfSubscriptions)
+					.IsEqualTo(0);
+
+				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
+					.IsInstanceOf<ActionSubscription<String>>();
+				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
+					.IsNull();
 			}
 
 			[Test]
@@ -279,15 +369,17 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
 
 				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				subscription.Dispose();
 
@@ -302,6 +394,13 @@ namespace Amarok.Events
 					.IsEqualTo(0);
 				Check.That(service.ChangedSource.IsDisposed)
 					.IsFalse();
+
+				Check.That(service.ChangedSource.Event)
+					.IsEqualTo(service.Changed);
+				Check.That(service.Changed.Source)
+					.IsSameReferenceAs(service.ChangedSource);
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -312,15 +411,17 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
 
 				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				service.ChangedSource.Dispose();
 
@@ -334,6 +435,13 @@ namespace Amarok.Events
 				Check.That(service.ChangedSource.NumberOfSubscriptions)
 					.IsEqualTo(0);
 				Check.That(service.ChangedSource.IsDisposed)
+					.IsTrue();
+
+				Check.That(service.ChangedSource.Event)
+					.IsEqualTo(service.Changed);
+				Check.That(service.Changed.Source)
+					.IsSameReferenceAs(service.ChangedSource);
+				Check.That(service.Changed.HasSource)
 					.IsTrue();
 			}
 		}
@@ -345,8 +453,7 @@ namespace Amarok.Events
 			public void Invoke_Without_Handler()
 			{
 				var service = new FooService();
-
-				var flag = service.Do(() => { Assert.Fail("MUST NOT be called"); return "abc"; });
+				var flag = service.Do(() => { Assert.Fail("MUST NOT be calld"); return "abc"; });
 
 				Check.That(flag)
 					.IsFalse();
@@ -355,6 +462,13 @@ namespace Amarok.Events
 					.IsEqualTo(0);
 				Check.That(service.ChangedSource.IsDisposed)
 					.IsFalse();
+
+				Check.That(service.ChangedSource.Event)
+					.IsEqualTo(service.Changed);
+				Check.That(service.Changed.Source)
+					.IsSameReferenceAs(service.ChangedSource);
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -365,15 +479,17 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
 
 				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Int32 factoryCalled = 0;
 				var flag1 = service.Do(() => { factoryCalled++; return "abc"; });
@@ -404,6 +520,13 @@ namespace Amarok.Events
 					.IsEqualTo(1);
 				Check.That(service.ChangedSource.IsDisposed)
 					.IsFalse();
+
+				Check.That(service.ChangedSource.Event)
+					.IsEqualTo(service.Changed);
+				Check.That(service.Changed.Source)
+					.IsSameReferenceAs(service.ChangedSource);
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -414,7 +537,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(x => {
+				var subscription1 = service.Changed.SubscribeWeak(x => {
 					arg1 = x;
 					called1++;
 				});
@@ -422,20 +545,24 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
 
 				Check.That(subscription1)
+					.IsNotNull();
+				Check.That(subscription1)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
+				Check.That(subscription2)
+					.IsNotNull();
 				Check.That(subscription2)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Check.That(subscription2)
 					.Not.IsSameReferenceAs(subscription1);
@@ -478,17 +605,24 @@ namespace Amarok.Events
 					.IsEqualTo(2);
 				Check.That(service.ChangedSource.IsDisposed)
 					.IsFalse();
+
+				Check.That(service.ChangedSource.Event)
+					.IsEqualTo(service.Changed);
+				Check.That(service.Changed.Source)
+					.IsSameReferenceAs(service.ChangedSource);
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
-			public void Invoke_With_MultipleHandler_OneThrowingExceptionButAllInvoked()
+			public void Invoke_With_MultipleHandler_OneThrowingExceptionAllInvoked()
 			{
 				var service = new FooService();
 
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(new Action<String>(x => {
+				var subscription1 = service.Changed.SubscribeWeak(new Action<String>(x => {
 					arg1 = x;
 					called1++;
 					throw new ApplicationException("1");
@@ -497,20 +631,24 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
 
 				Check.That(subscription1)
+					.IsNotNull();
+				Check.That(subscription1)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
+				Check.That(subscription2)
+					.IsNotNull();
 				Check.That(subscription2)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Check.That(subscription2)
 					.Not.IsSameReferenceAs(subscription1);
@@ -543,6 +681,72 @@ namespace Amarok.Events
 					.IsEqualTo(2);
 				Check.That(service.ChangedSource.IsDisposed)
 					.IsFalse();
+
+				Check.That(service.ChangedSource.Event)
+					.IsEqualTo(service.Changed);
+				Check.That(service.Changed.Source)
+					.IsSameReferenceAs(service.ChangedSource);
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
+			}
+
+			[Test]
+			public void Invoke_After_SubscriptionGCed()
+			{
+				var service = new FooService();
+
+				Int32 called = 0;
+				String arg = null;
+
+				var subscription = service.Changed.SubscribeWeak(x => {
+					arg = x;
+					called++;
+				});
+
+				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
+					.IsInstanceOf<ActionSubscription<String>>();
+				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
+					.IsInstanceOf<WeakSubscription<String>>();
+
+				var strongSub = ((ActionSubscription<String>)subscription);
+				var weakSub = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
+				strongSub.TestingClearNextSubscription();
+				weakSub.TestingClearNextSubscription();
+
+				Int32 factoryCalled = 0;
+				var flag1 = service.Do(() => { factoryCalled++; return "abc"; });
+
+				Check.That(flag1)
+					.IsTrue();
+				Check.That(called)
+					.IsEqualTo(0);
+				Check.That(service.ChangedSource.NumberOfSubscriptions)
+					.IsEqualTo(0);
+				Check.That(service.ChangedSource.IsDisposed)
+					.IsFalse();
+				Check.That(factoryCalled)
+					.IsEqualTo(1);
+
+				factoryCalled = 0;
+				var flag2 = service.Do(() => { factoryCalled++; return "abc"; });
+
+				Check.That(flag2)
+					.IsFalse();
+				Check.That(called)
+					.IsEqualTo(0);
+				Check.That(service.ChangedSource.NumberOfSubscriptions)
+					.IsEqualTo(0);
+				Check.That(factoryCalled)
+					.IsEqualTo(0);
+
+				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
+					.IsInstanceOf<ActionSubscription<String>>();
+				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
+					.IsNull();
 			}
 
 			[Test]
@@ -553,15 +757,17 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
 
 				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				subscription.Dispose();
 
@@ -579,6 +785,13 @@ namespace Amarok.Events
 					.IsEqualTo(0);
 				Check.That(service.ChangedSource.IsDisposed)
 					.IsFalse();
+
+				Check.That(service.ChangedSource.Event)
+					.IsEqualTo(service.Changed);
+				Check.That(service.Changed.Source)
+					.IsSameReferenceAs(service.ChangedSource);
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -589,15 +802,17 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
 
 				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				service.ChangedSource.Dispose();
 
@@ -614,6 +829,13 @@ namespace Amarok.Events
 				Check.That(service.ChangedSource.NumberOfSubscriptions)
 					.IsEqualTo(0);
 				Check.That(service.ChangedSource.IsDisposed)
+					.IsTrue();
+
+				Check.That(service.ChangedSource.Event)
+					.IsEqualTo(service.Changed);
+				Check.That(service.Changed.Source)
+					.IsSameReferenceAs(service.ChangedSource);
+				Check.That(service.Changed.HasSource)
 					.IsTrue();
 			}
 
@@ -635,8 +857,7 @@ namespace Amarok.Events
 			public void Invoke_Without_Handler()
 			{
 				var service = new FooService();
-
-				var flag = service.Do((a) => { Assert.Fail("MUST NOT be called"); return "abc"; }, 123);
+				var flag = service.Do((a) => { Assert.Fail("MUST NOT be calld"); return "abc"; }, 123);
 
 				Check.That(flag)
 					.IsFalse();
@@ -645,6 +866,13 @@ namespace Amarok.Events
 					.IsEqualTo(0);
 				Check.That(service.ChangedSource.IsDisposed)
 					.IsFalse();
+
+				Check.That(service.ChangedSource.Event)
+					.IsEqualTo(service.Changed);
+				Check.That(service.Changed.Source)
+					.IsSameReferenceAs(service.ChangedSource);
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -655,15 +883,17 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
 
 				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Int32 factoryCalled = 0;
 				Int32 fa = 0;
@@ -700,6 +930,13 @@ namespace Amarok.Events
 					.IsEqualTo(1);
 				Check.That(service.ChangedSource.IsDisposed)
 					.IsFalse();
+
+				Check.That(service.ChangedSource.Event)
+					.IsEqualTo(service.Changed);
+				Check.That(service.Changed.Source)
+					.IsSameReferenceAs(service.ChangedSource);
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -710,7 +947,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(x => {
+				var subscription1 = service.Changed.SubscribeWeak(x => {
 					arg1 = x;
 					called1++;
 				});
@@ -718,20 +955,24 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
 
 				Check.That(subscription1)
+					.IsNotNull();
+				Check.That(subscription1)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
+				Check.That(subscription2)
+					.IsNotNull();
 				Check.That(subscription2)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Check.That(subscription2)
 					.Not.IsSameReferenceAs(subscription1);
@@ -780,17 +1021,24 @@ namespace Amarok.Events
 					.IsEqualTo(2);
 				Check.That(service.ChangedSource.IsDisposed)
 					.IsFalse();
+
+				Check.That(service.ChangedSource.Event)
+					.IsEqualTo(service.Changed);
+				Check.That(service.Changed.Source)
+					.IsSameReferenceAs(service.ChangedSource);
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
-			public void Invoke_With_MultipleHandler_OneThrowingExceptionButAllInvoked()
+			public void Invoke_With_MultipleHandler_OneThrowingExceptionAllInvoked()
 			{
 				var service = new FooService();
 
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(new Action<String>(x => {
+				var subscription1 = service.Changed.SubscribeWeak(new Action<String>(x => {
 					arg1 = x;
 					called1++;
 					throw new ApplicationException("1");
@@ -799,20 +1047,24 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
 
 				Check.That(subscription1)
+					.IsNotNull();
+				Check.That(subscription1)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
+				Check.That(subscription2)
+					.IsNotNull();
 				Check.That(subscription2)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Check.That(subscription2)
 					.Not.IsSameReferenceAs(subscription1);
@@ -848,6 +1100,78 @@ namespace Amarok.Events
 					.IsEqualTo(2);
 				Check.That(service.ChangedSource.IsDisposed)
 					.IsFalse();
+
+				Check.That(service.ChangedSource.Event)
+					.IsEqualTo(service.Changed);
+				Check.That(service.Changed.Source)
+					.IsSameReferenceAs(service.ChangedSource);
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
+			}
+
+			[Test]
+			public void Invoke_After_SubscriptionGCed()
+			{
+				var service = new FooService();
+
+				Int32 called = 0;
+				String arg = null;
+
+				var subscription = service.Changed.SubscribeWeak(x => {
+					arg = x;
+					called++;
+				});
+
+				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
+					.IsInstanceOf<ActionSubscription<String>>();
+				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
+					.IsInstanceOf<WeakSubscription<String>>();
+
+				var strongSub = ((ActionSubscription<String>)subscription);
+				var weakSub = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
+				strongSub.TestingClearNextSubscription();
+				weakSub.TestingClearNextSubscription();
+
+				Int32 factoryCalled = 0;
+				Int32 fa = 0;
+				var flag1 = service.Do((a) => { fa = a; factoryCalled++; return "abc"; }, 123);
+
+				Check.That(flag1)
+					.IsTrue();
+				Check.That(called)
+					.IsEqualTo(0);
+				Check.That(service.ChangedSource.NumberOfSubscriptions)
+					.IsEqualTo(0);
+				Check.That(service.ChangedSource.IsDisposed)
+					.IsFalse();
+				Check.That(factoryCalled)
+					.IsEqualTo(1);
+				Check.That(fa)
+					.IsEqualTo(123);
+
+				factoryCalled = 0;
+				fa = 0;
+				var flag2 = service.Do((a) => { fa = a; factoryCalled++; return "abc"; }, 456);
+
+				Check.That(flag2)
+					.IsFalse();
+				Check.That(called)
+					.IsEqualTo(0);
+				Check.That(service.ChangedSource.NumberOfSubscriptions)
+					.IsEqualTo(0);
+				Check.That(factoryCalled)
+					.IsEqualTo(0);
+				Check.That(fa)
+					.IsEqualTo(0);
+
+				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
+					.IsInstanceOf<ActionSubscription<String>>();
+				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
+					.IsNull();
 			}
 
 			[Test]
@@ -858,15 +1182,17 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
 
 				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				subscription.Dispose();
 
@@ -884,6 +1210,13 @@ namespace Amarok.Events
 					.IsEqualTo(0);
 				Check.That(service.ChangedSource.IsDisposed)
 					.IsFalse();
+
+				Check.That(service.ChangedSource.Event)
+					.IsEqualTo(service.Changed);
+				Check.That(service.Changed.Source)
+					.IsSameReferenceAs(service.ChangedSource);
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -894,15 +1227,17 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
 
 				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				service.ChangedSource.Dispose();
 
@@ -919,6 +1254,13 @@ namespace Amarok.Events
 				Check.That(service.ChangedSource.NumberOfSubscriptions)
 					.IsEqualTo(0);
 				Check.That(service.ChangedSource.IsDisposed)
+					.IsTrue();
+
+				Check.That(service.ChangedSource.Event)
+					.IsEqualTo(service.Changed);
+				Check.That(service.Changed.Source)
+					.IsSameReferenceAs(service.ChangedSource);
+				Check.That(service.Changed.HasSource)
 					.IsTrue();
 			}
 
@@ -940,8 +1282,7 @@ namespace Amarok.Events
 			public void Invoke_Without_Handler()
 			{
 				var service = new FooService();
-
-				var flag = service.Do((a, b) => { Assert.Fail("MUST NOT be called"); return "abc"; }, 123, 1.2);
+				var flag = service.Do((a, b) => { Assert.Fail("MUST NOT be calld"); return "abc"; }, 123, 1.2);
 
 				Check.That(flag)
 					.IsFalse();
@@ -950,6 +1291,13 @@ namespace Amarok.Events
 					.IsEqualTo(0);
 				Check.That(service.ChangedSource.IsDisposed)
 					.IsFalse();
+
+				Check.That(service.ChangedSource.Event)
+					.IsEqualTo(service.Changed);
+				Check.That(service.Changed.Source)
+					.IsSameReferenceAs(service.ChangedSource);
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -960,15 +1308,17 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
 
 				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Int32 factoryCalled = 0;
 				Int32 fa = 0;
@@ -1011,6 +1361,13 @@ namespace Amarok.Events
 					.IsEqualTo(1);
 				Check.That(service.ChangedSource.IsDisposed)
 					.IsFalse();
+
+				Check.That(service.ChangedSource.Event)
+					.IsEqualTo(service.Changed);
+				Check.That(service.Changed.Source)
+					.IsSameReferenceAs(service.ChangedSource);
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -1021,7 +1378,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(x => {
+				var subscription1 = service.Changed.SubscribeWeak(x => {
 					arg1 = x;
 					called1++;
 				});
@@ -1029,20 +1386,24 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
 
 				Check.That(subscription1)
+					.IsNotNull();
+				Check.That(subscription1)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
+				Check.That(subscription2)
+					.IsNotNull();
 				Check.That(subscription2)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Check.That(subscription2)
 					.Not.IsSameReferenceAs(subscription1);
@@ -1097,17 +1458,24 @@ namespace Amarok.Events
 					.IsEqualTo(2);
 				Check.That(service.ChangedSource.IsDisposed)
 					.IsFalse();
+
+				Check.That(service.ChangedSource.Event)
+					.IsEqualTo(service.Changed);
+				Check.That(service.Changed.Source)
+					.IsSameReferenceAs(service.ChangedSource);
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
-			public void Invoke_With_MultipleHandler_OneThrowingExceptionButAllInvoked()
+			public void Invoke_With_MultipleHandler_OneThrowingExceptionAllInvoked()
 			{
 				var service = new FooService();
 
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(new Action<String>(x => {
+				var subscription1 = service.Changed.SubscribeWeak(new Action<String>(x => {
 					arg1 = x;
 					called1++;
 					throw new ApplicationException("1");
@@ -1116,20 +1484,24 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
 
 				Check.That(subscription1)
+					.IsNotNull();
+				Check.That(subscription1)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
+				Check.That(subscription2)
+					.IsNotNull();
 				Check.That(subscription2)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Check.That(subscription2)
 					.Not.IsSameReferenceAs(subscription1);
@@ -1168,6 +1540,84 @@ namespace Amarok.Events
 					.IsEqualTo(2);
 				Check.That(service.ChangedSource.IsDisposed)
 					.IsFalse();
+
+				Check.That(service.ChangedSource.Event)
+					.IsEqualTo(service.Changed);
+				Check.That(service.Changed.Source)
+					.IsSameReferenceAs(service.ChangedSource);
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
+			}
+
+			[Test]
+			public void Invoke_After_SubscriptionGCed()
+			{
+				var service = new FooService();
+
+				Int32 called = 0;
+				String arg = null;
+
+				var subscription = service.Changed.SubscribeWeak(x => {
+					arg = x;
+					called++;
+				});
+
+				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
+					.IsInstanceOf<ActionSubscription<String>>();
+				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
+					.IsInstanceOf<WeakSubscription<String>>();
+
+				var strongSub = ((ActionSubscription<String>)subscription);
+				var weakSub = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
+				strongSub.TestingClearNextSubscription();
+				weakSub.TestingClearNextSubscription();
+
+				Int32 factoryCalled = 0;
+				Int32 fa = 0;
+				Double fb = 0.0;
+				var flag1 = service.Do((a, b) => { fa = a; fb = b; factoryCalled++; return "abc"; }, 123, 1.2);
+
+				Check.That(flag1)
+					.IsTrue();
+				Check.That(called)
+					.IsEqualTo(0);
+				Check.That(service.ChangedSource.NumberOfSubscriptions)
+					.IsEqualTo(0);
+				Check.That(service.ChangedSource.IsDisposed)
+					.IsFalse();
+				Check.That(factoryCalled)
+					.IsEqualTo(1);
+				Check.That(fa)
+					.IsEqualTo(123);
+				Check.That(fb)
+					.IsEqualTo(1.2);
+
+				factoryCalled = 0;
+				fa = 0;
+				fb = 0.0;
+				var flag2 = service.Do((a, b) => { fa = a; fb = b; factoryCalled++; return "abc"; }, 456, 3.4);
+
+				Check.That(flag2)
+					.IsFalse();
+				Check.That(called)
+					.IsEqualTo(0);
+				Check.That(service.ChangedSource.NumberOfSubscriptions)
+					.IsEqualTo(0);
+				Check.That(factoryCalled)
+					.IsEqualTo(0);
+				Check.That(fa)
+					.IsEqualTo(0);
+				Check.That(fb)
+					.IsEqualTo(0.0);
+
+				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
+					.IsInstanceOf<ActionSubscription<String>>();
+				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
+					.IsNull();
 			}
 
 			[Test]
@@ -1178,15 +1628,17 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
 
 				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				subscription.Dispose();
 
@@ -1204,6 +1656,13 @@ namespace Amarok.Events
 					.IsEqualTo(0);
 				Check.That(service.ChangedSource.IsDisposed)
 					.IsFalse();
+
+				Check.That(service.ChangedSource.Event)
+					.IsEqualTo(service.Changed);
+				Check.That(service.Changed.Source)
+					.IsSameReferenceAs(service.ChangedSource);
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -1214,15 +1673,17 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
 
 				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				service.ChangedSource.Dispose();
 
@@ -1239,6 +1700,13 @@ namespace Amarok.Events
 				Check.That(service.ChangedSource.NumberOfSubscriptions)
 					.IsEqualTo(0);
 				Check.That(service.ChangedSource.IsDisposed)
+					.IsTrue();
+
+				Check.That(service.ChangedSource.Event)
+					.IsEqualTo(service.Changed);
+				Check.That(service.Changed.Source)
+					.IsSameReferenceAs(service.ChangedSource);
+				Check.That(service.Changed.HasSource)
 					.IsTrue();
 			}
 
@@ -1260,8 +1728,7 @@ namespace Amarok.Events
 			public void Invoke_Without_Handler()
 			{
 				var service = new FooService();
-
-				var flag = service.Do((a, b, c) => { Assert.Fail("MUST NOT be called"); return "abc"; }, 123, 1.2, 'a');
+				var flag = service.Do((a, b, c) => { Assert.Fail("MUST NOT be calld"); return "abc"; }, 123, 1.2, 'a');
 
 				Check.That(flag)
 					.IsFalse();
@@ -1270,6 +1737,13 @@ namespace Amarok.Events
 					.IsEqualTo(0);
 				Check.That(service.ChangedSource.IsDisposed)
 					.IsFalse();
+
+				Check.That(service.ChangedSource.Event)
+					.IsEqualTo(service.Changed);
+				Check.That(service.Changed.Source)
+					.IsSameReferenceAs(service.ChangedSource);
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -1280,15 +1754,17 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
 
 				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Int32 factoryCalled = 0;
 				Int32 fa = 0;
@@ -1337,6 +1813,13 @@ namespace Amarok.Events
 					.IsEqualTo(1);
 				Check.That(service.ChangedSource.IsDisposed)
 					.IsFalse();
+
+				Check.That(service.ChangedSource.Event)
+					.IsEqualTo(service.Changed);
+				Check.That(service.Changed.Source)
+					.IsSameReferenceAs(service.ChangedSource);
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -1347,7 +1830,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(x => {
+				var subscription1 = service.Changed.SubscribeWeak(x => {
 					arg1 = x;
 					called1++;
 				});
@@ -1355,20 +1838,24 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
 
 				Check.That(subscription1)
+					.IsNotNull();
+				Check.That(subscription1)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
+				Check.That(subscription2)
+					.IsNotNull();
 				Check.That(subscription2)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Check.That(subscription2)
 					.Not.IsSameReferenceAs(subscription1);
@@ -1429,17 +1916,24 @@ namespace Amarok.Events
 					.IsEqualTo(2);
 				Check.That(service.ChangedSource.IsDisposed)
 					.IsFalse();
+
+				Check.That(service.ChangedSource.Event)
+					.IsEqualTo(service.Changed);
+				Check.That(service.Changed.Source)
+					.IsSameReferenceAs(service.ChangedSource);
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
-			public void Invoke_With_MultipleHandler_OneThrowingExceptionButAllInvoked()
+			public void Invoke_With_MultipleHandler_OneThrowingExceptionAllInvoked()
 			{
 				var service = new FooService();
 
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(new Action<String>(x => {
+				var subscription1 = service.Changed.SubscribeWeak(new Action<String>(x => {
 					arg1 = x;
 					called1++;
 					throw new ApplicationException("1");
@@ -1448,20 +1942,24 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
 
 				Check.That(subscription1)
+					.IsNotNull();
+				Check.That(subscription1)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
+				Check.That(subscription2)
+					.IsNotNull();
 				Check.That(subscription2)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Check.That(subscription2)
 					.Not.IsSameReferenceAs(subscription1);
@@ -1503,6 +2001,90 @@ namespace Amarok.Events
 					.IsEqualTo(2);
 				Check.That(service.ChangedSource.IsDisposed)
 					.IsFalse();
+
+				Check.That(service.ChangedSource.Event)
+					.IsEqualTo(service.Changed);
+				Check.That(service.Changed.Source)
+					.IsSameReferenceAs(service.ChangedSource);
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
+			}
+
+			[Test]
+			public void Invoke_After_SubscriptionGCed()
+			{
+				var service = new FooService();
+
+				Int32 called = 0;
+				String arg = null;
+
+				var subscription = service.Changed.SubscribeWeak(x => {
+					arg = x;
+					called++;
+				});
+
+				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
+					.IsInstanceOf<ActionSubscription<String>>();
+				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
+					.IsInstanceOf<WeakSubscription<String>>();
+
+				var strongSub = ((ActionSubscription<String>)subscription);
+				var weakSub = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
+				strongSub.TestingClearNextSubscription();
+				weakSub.TestingClearNextSubscription();
+
+				Int32 factoryCalled = 0;
+				Int32 fa = 0;
+				Double fb = 0.0;
+				Char fc = ' ';
+				var flag1 = service.Do((a, b, c) => { fa = a; fb = b; fc = c; factoryCalled++; return "abc"; }, 123, 1.2, 'a');
+
+				Check.That(flag1)
+					.IsTrue();
+				Check.That(called)
+					.IsEqualTo(0);
+				Check.That(service.ChangedSource.NumberOfSubscriptions)
+					.IsEqualTo(0);
+				Check.That(service.ChangedSource.IsDisposed)
+					.IsFalse();
+				Check.That(factoryCalled)
+					.IsEqualTo(1);
+				Check.That(fa)
+					.IsEqualTo(123);
+				Check.That(fb)
+					.IsEqualTo(1.2);
+				Check.That(fc)
+					.IsEqualTo('a');
+
+				factoryCalled = 0;
+				fa = 0;
+				fb = 0.0;
+				fc = ' ';
+				var flag2 = service.Do((a, b, c) => { fa = a; fb = b; fc = c; factoryCalled++; return "abc"; }, 123, 1.2, 'a');
+
+				Check.That(flag2)
+					.IsFalse();
+				Check.That(called)
+					.IsEqualTo(0);
+				Check.That(service.ChangedSource.NumberOfSubscriptions)
+					.IsEqualTo(0);
+				Check.That(factoryCalled)
+					.IsEqualTo(0);
+				Check.That(fa)
+					.IsEqualTo(0);
+				Check.That(fb)
+					.IsEqualTo(0.0);
+				Check.That(fc)
+					.IsEqualTo(' ');
+
+				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
+					.IsInstanceOf<ActionSubscription<String>>();
+				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
+					.IsNull();
 			}
 
 			[Test]
@@ -1513,15 +2095,17 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
 
 				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				subscription.Dispose();
 
@@ -1539,6 +2123,13 @@ namespace Amarok.Events
 					.IsEqualTo(0);
 				Check.That(service.ChangedSource.IsDisposed)
 					.IsFalse();
+
+				Check.That(service.ChangedSource.Event)
+					.IsEqualTo(service.Changed);
+				Check.That(service.Changed.Source)
+					.IsSameReferenceAs(service.ChangedSource);
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -1549,15 +2140,17 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
 
 				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				service.ChangedSource.Dispose();
 
@@ -1575,6 +2168,13 @@ namespace Amarok.Events
 					.IsEqualTo(0);
 				Check.That(service.ChangedSource.IsDisposed)
 					.IsTrue();
+
+				Check.That(service.ChangedSource.Event)
+					.IsEqualTo(service.Changed);
+				Check.That(service.Changed.Source)
+					.IsSameReferenceAs(service.ChangedSource);
+				Check.That(service.Changed.HasSource)
+					.IsTrue();
 			}
 
 			[Test]
@@ -1587,7 +2187,6 @@ namespace Amarok.Events
 					.WithProperty(x => x.ParamName, "valueFactory");
 			}
 		}
-
 
 		[TestFixture]
 		public class InvokeAsync
@@ -1616,7 +2215,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -1624,7 +2223,7 @@ namespace Amarok.Events
 				Check.That(subscription)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				var flag1 = await service.DoAsync("abc");
 
@@ -1659,7 +2258,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(x => {
+				var subscription1 = service.Changed.SubscribeWeak(x => {
 					arg1 = x;
 					called1++;
 				});
@@ -1667,7 +2266,7 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
@@ -1675,12 +2274,12 @@ namespace Amarok.Events
 				Check.That(subscription1)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Check.That(subscription2)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Check.That(subscription2)
 					.Not.IsSameReferenceAs(subscription1);
@@ -1727,7 +2326,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(new Action<String>(x => {
+				var subscription1 = service.Changed.SubscribeWeak(new Action<String>(x => {
 					arg1 = x;
 					called1++;
 					throw new ApplicationException("1");
@@ -1736,7 +2335,7 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
@@ -1744,12 +2343,12 @@ namespace Amarok.Events
 				Check.That(subscription1)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Check.That(subscription2)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Check.That(subscription2)
 					.Not.IsSameReferenceAs(subscription1);
@@ -1782,6 +2381,59 @@ namespace Amarok.Events
 			}
 
 			[Test]
+			public async Task InvokeAsync_After_SubscriptionGCed()
+			{
+				var service = new FooService();
+
+				Int32 called = 0;
+				String arg = null;
+
+				var subscription = service.Changed.SubscribeWeak(x => {
+					arg = x;
+					called++;
+				});
+
+				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
+					.IsInstanceOf<ActionSubscription<String>>();
+				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
+					.IsInstanceOf<WeakSubscription<String>>();
+
+				var strongSub = ((ActionSubscription<String>)subscription);
+				var weakSub = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
+				strongSub.TestingClearNextSubscription();
+				weakSub.TestingClearNextSubscription();
+
+				var flag1 = await service.DoAsync("abc");
+
+				Check.That(flag1)
+					.IsTrue();
+				Check.That(called)
+					.IsEqualTo(0);
+				Check.That(service.ChangedSource.NumberOfSubscriptions)
+					.IsEqualTo(0);
+				Check.That(service.ChangedSource.IsDisposed)
+					.IsFalse();
+
+				var flag2 = await service.DoAsync("abc");
+
+				Check.That(flag2)
+					.IsFalse();
+				Check.That(called)
+					.IsEqualTo(0);
+				Check.That(service.ChangedSource.NumberOfSubscriptions)
+					.IsEqualTo(0);
+
+				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
+					.IsInstanceOf<ActionSubscription<String>>();
+				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
+					.IsNull();
+			}
+
+			[Test]
 			public async Task InvokeAsync_After_SubscriptionDisposed()
 			{
 				var service = new FooService();
@@ -1789,7 +2441,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -1797,7 +2449,7 @@ namespace Amarok.Events
 				Check.That(subscription)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				subscription.Dispose();
 
@@ -1822,7 +2474,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -1830,7 +2482,7 @@ namespace Amarok.Events
 				Check.That(subscription)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				service.ChangedSource.Dispose();
 
@@ -1875,7 +2527,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -1883,7 +2535,7 @@ namespace Amarok.Events
 				Check.That(subscription)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Int32 factoryCalled = 0;
 				var flag1 = await service.DoAsync(() => { factoryCalled++; return "abc"; });
@@ -1924,7 +2576,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(x => {
+				var subscription1 = service.Changed.SubscribeWeak(x => {
 					arg1 = x;
 					called1++;
 				});
@@ -1932,7 +2584,7 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
@@ -1940,12 +2592,12 @@ namespace Amarok.Events
 				Check.That(subscription1)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Check.That(subscription2)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Check.That(subscription2)
 					.Not.IsSameReferenceAs(subscription1);
@@ -1998,7 +2650,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(new Action<String>(x => {
+				var subscription1 = service.Changed.SubscribeWeak(new Action<String>(x => {
 					arg1 = x;
 					called1++;
 					throw new ApplicationException("1");
@@ -2007,7 +2659,7 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
@@ -2015,12 +2667,12 @@ namespace Amarok.Events
 				Check.That(subscription1)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Check.That(subscription2)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Check.That(subscription2)
 					.Not.IsSameReferenceAs(subscription1);
@@ -2056,6 +2708,65 @@ namespace Amarok.Events
 			}
 
 			[Test]
+			public async Task InvokeAsync_After_SubscriptionGCed()
+			{
+				var service = new FooService();
+
+				Int32 called = 0;
+				String arg = null;
+
+				var subscription = service.Changed.SubscribeWeak(x => {
+					arg = x;
+					called++;
+				});
+
+				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
+					.IsInstanceOf<ActionSubscription<String>>();
+				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
+					.IsInstanceOf<WeakSubscription<String>>();
+
+				var strongSub = ((ActionSubscription<String>)subscription);
+				var weakSub = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
+				strongSub.TestingClearNextSubscription();
+				weakSub.TestingClearNextSubscription();
+
+				Int32 factoryCalled = 0;
+				var flag1 = await service.DoAsync(() => { factoryCalled++; return "abc"; });
+
+				Check.That(flag1)
+					.IsTrue();
+				Check.That(called)
+					.IsEqualTo(0);
+				Check.That(service.ChangedSource.NumberOfSubscriptions)
+					.IsEqualTo(0);
+				Check.That(service.ChangedSource.IsDisposed)
+					.IsFalse();
+				Check.That(factoryCalled)
+					.IsEqualTo(1);
+
+				factoryCalled = 0;
+				var flag2 = await service.DoAsync(() => { factoryCalled++; return "abc"; });
+
+				Check.That(flag2)
+					.IsFalse();
+				Check.That(called)
+					.IsEqualTo(0);
+				Check.That(service.ChangedSource.NumberOfSubscriptions)
+					.IsEqualTo(0);
+				Check.That(factoryCalled)
+					.IsEqualTo(0);
+
+				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
+					.IsInstanceOf<ActionSubscription<String>>();
+				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
+					.IsNull();
+			}
+
+			[Test]
 			public async Task InvokeAsync_After_SubscriptionDisposed()
 			{
 				var service = new FooService();
@@ -2063,7 +2774,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -2071,7 +2782,7 @@ namespace Amarok.Events
 				Check.That(subscription)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				subscription.Dispose();
 
@@ -2099,7 +2810,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -2107,7 +2818,7 @@ namespace Amarok.Events
 				Check.That(subscription)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				service.ChangedSource.Dispose();
 
@@ -2165,7 +2876,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -2173,7 +2884,7 @@ namespace Amarok.Events
 				Check.That(subscription)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Int32 factoryCalled = 0;
 				Int32 fa = 0;
@@ -2220,7 +2931,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(x => {
+				var subscription1 = service.Changed.SubscribeWeak(x => {
 					arg1 = x;
 					called1++;
 				});
@@ -2228,7 +2939,7 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
@@ -2236,12 +2947,12 @@ namespace Amarok.Events
 				Check.That(subscription1)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Check.That(subscription2)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Check.That(subscription2)
 					.Not.IsSameReferenceAs(subscription1);
@@ -2300,7 +3011,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(new Action<String>(x => {
+				var subscription1 = service.Changed.SubscribeWeak(new Action<String>(x => {
 					arg1 = x;
 					called1++;
 					throw new ApplicationException("1");
@@ -2309,7 +3020,7 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
@@ -2317,12 +3028,12 @@ namespace Amarok.Events
 				Check.That(subscription1)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Check.That(subscription2)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Check.That(subscription2)
 					.Not.IsSameReferenceAs(subscription1);
@@ -2361,6 +3072,71 @@ namespace Amarok.Events
 			}
 
 			[Test]
+			public async Task InvokeAsync_After_SubscriptionGCed()
+			{
+				var service = new FooService();
+
+				Int32 called = 0;
+				String arg = null;
+
+				var subscription = service.Changed.SubscribeWeak(x => {
+					arg = x;
+					called++;
+				});
+
+				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
+					.IsInstanceOf<ActionSubscription<String>>();
+				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
+					.IsInstanceOf<WeakSubscription<String>>();
+
+				var strongSub = ((ActionSubscription<String>)subscription);
+				var weakSub = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
+				strongSub.TestingClearNextSubscription();
+				weakSub.TestingClearNextSubscription();
+
+				Int32 factoryCalled = 0;
+				Int32 fa = 0;
+				var flag1 = await service.DoAsync(a => { fa = a; factoryCalled++; return "abc"; }, 123);
+
+				Check.That(flag1)
+					.IsTrue();
+				Check.That(called)
+					.IsEqualTo(0);
+				Check.That(service.ChangedSource.NumberOfSubscriptions)
+					.IsEqualTo(0);
+				Check.That(service.ChangedSource.IsDisposed)
+					.IsFalse();
+				Check.That(factoryCalled)
+					.IsEqualTo(1);
+				Check.That(fa)
+					.IsEqualTo(123);
+
+				factoryCalled = 0;
+				fa = 0;
+				var flag2 = await service.DoAsync(a => { fa = a; factoryCalled++; return "abc"; }, 123);
+
+				Check.That(flag2)
+					.IsFalse();
+				Check.That(called)
+					.IsEqualTo(0);
+				Check.That(service.ChangedSource.NumberOfSubscriptions)
+					.IsEqualTo(0);
+				Check.That(factoryCalled)
+					.IsEqualTo(0);
+				Check.That(fa)
+					.IsEqualTo(0);
+
+				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
+					.IsInstanceOf<ActionSubscription<String>>();
+				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
+					.IsNull();
+			}
+
+			[Test]
 			public async Task InvokeAsync_After_SubscriptionDisposed()
 			{
 				var service = new FooService();
@@ -2368,7 +3144,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -2376,7 +3152,7 @@ namespace Amarok.Events
 				Check.That(subscription)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				subscription.Dispose();
 
@@ -2404,7 +3180,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -2412,7 +3188,7 @@ namespace Amarok.Events
 				Check.That(subscription)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				service.ChangedSource.Dispose();
 
@@ -2470,7 +3246,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -2478,7 +3254,7 @@ namespace Amarok.Events
 				Check.That(subscription)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Int32 factoryCalled = 0;
 				Int32 fa = 0;
@@ -2531,7 +3307,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(x => {
+				var subscription1 = service.Changed.SubscribeWeak(x => {
 					arg1 = x;
 					called1++;
 				});
@@ -2539,7 +3315,7 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
@@ -2547,12 +3323,12 @@ namespace Amarok.Events
 				Check.That(subscription1)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Check.That(subscription2)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Check.That(subscription2)
 					.Not.IsSameReferenceAs(subscription1);
@@ -2617,7 +3393,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(new Action<String>(x => {
+				var subscription1 = service.Changed.SubscribeWeak(new Action<String>(x => {
 					arg1 = x;
 					called1++;
 					throw new ApplicationException("1");
@@ -2626,7 +3402,7 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
@@ -2634,12 +3410,12 @@ namespace Amarok.Events
 				Check.That(subscription1)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Check.That(subscription2)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Check.That(subscription2)
 					.Not.IsSameReferenceAs(subscription1);
@@ -2681,6 +3457,76 @@ namespace Amarok.Events
 			}
 
 			[Test]
+			public async Task InvokeAsync_After_SubscriptionGCed()
+			{
+				var service = new FooService();
+
+				Int32 called = 0;
+				String arg = null;
+
+				var subscription = service.Changed.SubscribeWeak(x => {
+					arg = x;
+					called++;
+				});
+
+				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
+					.IsInstanceOf<ActionSubscription<String>>();
+				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
+					.IsInstanceOf<WeakSubscription<String>>();
+
+				var strongSub = ((ActionSubscription<String>)subscription);
+				var weakSub = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
+				strongSub.TestingClearNextSubscription();
+				weakSub.TestingClearNextSubscription();
+
+				Int32 factoryCalled = 0;
+				Int32 fa = 0;
+				Double fb = 0.0;
+				var flag1 = await service.DoAsync((a, b) => { fa = a; fb = b; factoryCalled++; return "abc"; }, 123, 1.2);
+
+				Check.That(flag1)
+					.IsTrue();
+				Check.That(called)
+					.IsEqualTo(0);
+				Check.That(service.ChangedSource.NumberOfSubscriptions)
+					.IsEqualTo(0);
+				Check.That(service.ChangedSource.IsDisposed)
+					.IsFalse();
+				Check.That(factoryCalled)
+					.IsEqualTo(1);
+				Check.That(fa)
+					.IsEqualTo(123);
+				Check.That(fb)
+					.IsEqualTo(1.2);
+				factoryCalled = 0;
+				fa = 0;
+				fb = 0.0;
+				var flag2 = await service.DoAsync((a, b) => { fa = a; fb = b; factoryCalled++; return "abc"; }, 123, 1.2);
+
+				Check.That(flag2)
+					.IsFalse();
+				Check.That(called)
+					.IsEqualTo(0);
+				Check.That(service.ChangedSource.NumberOfSubscriptions)
+					.IsEqualTo(0);
+				Check.That(factoryCalled)
+					.IsEqualTo(0);
+				Check.That(fa)
+					.IsEqualTo(0);
+				Check.That(fb)
+					.IsEqualTo(0.0);
+
+				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
+					.IsInstanceOf<ActionSubscription<String>>();
+				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
+					.IsNull();
+			}
+
+			[Test]
 			public async Task InvokeAsync_After_SubscriptionDisposed()
 			{
 				var service = new FooService();
@@ -2688,7 +3534,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -2696,7 +3542,7 @@ namespace Amarok.Events
 				Check.That(subscription)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				subscription.Dispose();
 
@@ -2724,7 +3570,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -2732,7 +3578,7 @@ namespace Amarok.Events
 				Check.That(subscription)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				service.ChangedSource.Dispose();
 
@@ -2790,7 +3636,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -2798,7 +3644,7 @@ namespace Amarok.Events
 				Check.That(subscription)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Int32 factoryCalled = 0;
 				Int32 fa = 0;
@@ -2857,7 +3703,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(x => {
+				var subscription1 = service.Changed.SubscribeWeak(x => {
 					arg1 = x;
 					called1++;
 				});
@@ -2865,7 +3711,7 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
@@ -2873,12 +3719,12 @@ namespace Amarok.Events
 				Check.That(subscription1)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Check.That(subscription2)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Check.That(subscription2)
 					.Not.IsSameReferenceAs(subscription1);
@@ -2949,7 +3795,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(new Action<String>(x => {
+				var subscription1 = service.Changed.SubscribeWeak(new Action<String>(x => {
 					arg1 = x;
 					called1++;
 					throw new ApplicationException("1");
@@ -2958,7 +3804,7 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
@@ -2966,12 +3812,12 @@ namespace Amarok.Events
 				Check.That(subscription1)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Check.That(subscription2)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				Check.That(subscription2)
 					.Not.IsSameReferenceAs(subscription1);
@@ -3016,6 +3862,83 @@ namespace Amarok.Events
 			}
 
 			[Test]
+			public async Task InvokeAsync_After_SubscriptionGCed()
+			{
+				var service = new FooService();
+
+				Int32 called = 0;
+				String arg = null;
+
+				var subscription = service.Changed.SubscribeWeak(x => {
+					arg = x;
+					called++;
+				});
+
+				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
+					.IsInstanceOf<ActionSubscription<String>>();
+				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
+					.IsInstanceOf<WeakSubscription<String>>();
+
+				var strongSub = ((ActionSubscription<String>)subscription);
+				var weakSub = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
+				strongSub.TestingClearNextSubscription();
+				weakSub.TestingClearNextSubscription();
+
+				Int32 factoryCalled = 0;
+				Int32 fa = 0;
+				Double fb = 0.0;
+				Char fc = ' ';
+				var flag1 = await service.DoAsync((a, b, c) => { fa = a; fb = b; fc = c; factoryCalled++; return "abc"; }, 123, 1.2, 'a');
+
+				Check.That(flag1)
+					.IsTrue();
+				Check.That(called)
+					.IsEqualTo(0);
+				Check.That(service.ChangedSource.NumberOfSubscriptions)
+					.IsEqualTo(0);
+				Check.That(service.ChangedSource.IsDisposed)
+					.IsFalse();
+				Check.That(factoryCalled)
+					.IsEqualTo(1);
+				Check.That(fa)
+					.IsEqualTo(123);
+				Check.That(fb)
+					.IsEqualTo(1.2);
+				Check.That(fc)
+					.IsEqualTo('a');
+
+				factoryCalled = 0;
+				fa = 0;
+				fb = 0.0;
+				fc = ' ';
+				var flag2 = await service.DoAsync((a, b, c) => { fa = a; fb = b; fc = c; factoryCalled++; return "abc"; }, 123, 1.2, 'a');
+
+				Check.That(flag2)
+					.IsFalse();
+				Check.That(called)
+					.IsEqualTo(0);
+				Check.That(service.ChangedSource.NumberOfSubscriptions)
+					.IsEqualTo(0);
+				Check.That(factoryCalled)
+					.IsEqualTo(0);
+				Check.That(fa)
+					.IsEqualTo(0);
+				Check.That(fb)
+					.IsEqualTo(0.0);
+				Check.That(fc)
+					.IsEqualTo(' ');
+
+				Check.That(subscription)
+					.IsNotNull();
+				Check.That(subscription)
+					.IsInstanceOf<ActionSubscription<String>>();
+				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
+					.IsNull();
+			}
+
+			[Test]
 			public async Task InvokeAsync_After_SubscriptionDisposed()
 			{
 				var service = new FooService();
@@ -3023,7 +3946,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -3031,7 +3954,7 @@ namespace Amarok.Events
 				Check.That(subscription)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				subscription.Dispose();
 
@@ -3059,7 +3982,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -3067,7 +3990,7 @@ namespace Amarok.Events
 				Check.That(subscription)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-					.IsNull();
+					.IsInstanceOf<WeakSubscription<String>>();
 
 				service.ChangedSource.Dispose();
 
