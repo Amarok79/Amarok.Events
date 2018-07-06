@@ -3,9 +3,8 @@
  * https://github.com/Amarok79/Events
  */
 
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-#pragma warning disable S1764 // Identical expressions should not be used on both sides of a binary operator
 #pragma warning disable CS1718 // Comparison made to same variable
+#pragma warning disable S1764 // Identical expressions should not be used on both sides of a binary operator
 
 using System;
 using System.Threading.Tasks;
@@ -269,7 +268,7 @@ namespace Amarok.Events
 			public void Subscribe_On_NullEvent()
 			{
 				var evt = new Event<String>();
-				var sub = evt.Subscribe(async x => { });
+				var sub = evt.Subscribe(async x => { await Task.Yield(); });
 
 				Check.That(evt.Source)
 					.IsNull();
@@ -291,7 +290,7 @@ namespace Amarok.Events
 			{
 				var src = new EventSource<String>();
 				var evt = src.Event;
-				var sub = evt.Subscribe(async x => { });
+				var sub = evt.Subscribe(async x => { await Task.Yield(); });
 
 				Check.That(src.NumberOfSubscriptions)
 					.IsEqualTo(1);
@@ -329,7 +328,7 @@ namespace Amarok.Events
 				src.Dispose();
 
 				var evt = src.Event;
-				var sub = evt.Subscribe(async x => { });
+				var sub = evt.Subscribe(async x => { await Task.Yield(); });
 
 				Check.That(src.NumberOfSubscriptions)
 					.IsEqualTo(0);
@@ -378,7 +377,7 @@ namespace Amarok.Events
 			public void Subscribe_On_NullEvent()
 			{
 				var evt = new Event<String>();
-				var sub = evt.SubscribeWeak(async x => { });
+				var sub = evt.SubscribeWeak(async x => { await Task.Yield(); });
 
 				Check.That(evt.Source)
 					.IsNull();
@@ -400,7 +399,7 @@ namespace Amarok.Events
 			{
 				var src = new EventSource<String>();
 				var evt = src.Event;
-				var sub = evt.SubscribeWeak(async x => { });
+				var sub = evt.SubscribeWeak(async x => { await Task.Yield(); });
 
 				Check.That(src.NumberOfSubscriptions)
 					.IsEqualTo(1);
@@ -438,7 +437,7 @@ namespace Amarok.Events
 				src.Dispose();
 
 				var evt = src.Event;
-				var sub = evt.SubscribeWeak(async x => { });
+				var sub = evt.SubscribeWeak(async x => { await Task.Yield(); });
 
 				Check.That(src.NumberOfSubscriptions)
 					.IsEqualTo(0);
