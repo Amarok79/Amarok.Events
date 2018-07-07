@@ -23,7 +23,7 @@ Suppose you have an interface and want to expose an event. You do that as follow
 	
 The event is declared as *getter-only property* of type **Event\<T>**, where **T** represents the type of event argument. This can be any type.
 
-The implementation class  initializes a field of type **EventSource\<T>** and implemented the getter-only event property. In general, the event source should be kept private. The associated **Event<T>** should be exposed 
+The implementation class  initializes a field of type **EventSource\<T>** and implements the getter-only event property. In general, the *event source* should be kept private, while the associated **Event<T>** is exposed publicly.
 
     internal sealed class FooServiceImpl : IFooService
     {
@@ -77,5 +77,5 @@ If the class exposing the event wants to cancel all subscriptions, for example, 
 	}
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMjExMzQwMjY2NCwxODE3NTg3OTVdfQ==
+eyJoaXN0b3J5IjpbLTE1NjI0MDExNDUsMTgxNzU4Nzk1XX0=
 -->
