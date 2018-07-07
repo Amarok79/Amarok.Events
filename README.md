@@ -63,7 +63,7 @@ The object returned from **Subscribe(**..**)** can be used to cancel the subscri
 
 It is recommended that subscriber store these subscription objects somewhere, otherwise they won't be able to remove their registered event handlers.
 
-If instead the class exposing the event wants to cancel all subscriptions, for example, because it gets disposed, it can simply dispose the event source too, which automatically cancels all subscriptions and ignores further calls to **Invoke(**..**)**.
+If instead the class exposing the event wants to cancel all subscriptions, for example, because it gets disposed, it can simply dispose the *event source* too, which automatically cancels all subscriptions and ignores further calls to **Invoke(**..**)**.
 
     internal sealed class FooServiceImpl :
     	IFooService
@@ -80,5 +80,5 @@ If instead the class exposing the event wants to cancel all subscriptions, for e
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTU4ODQ5MjY4OSwxODE3NTg3OTVdfQ==
+eyJoaXN0b3J5IjpbLTc5NTc0MzI0OSwxODE3NTg3OTVdfQ==
 -->
