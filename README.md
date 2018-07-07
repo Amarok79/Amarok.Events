@@ -11,8 +11,10 @@ The package provides binaries for *.NET Standard 2.0* only. Tests are performed 
 For development, you need *Visual Studio 2017* (v15.7 or later).
 
 ## Documentation
+
 ### Event Source and Event
-Suppose you have an interface that exposes an event.
+
+Suppose you have an interface and want to expose an event.
 
     public interface IFooService
     {
@@ -76,5 +78,5 @@ If the class exposing the event wants to cancel all subscriptions, for example, 
 	}
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTgxNzU4Nzk1XX0=
+eyJoaXN0b3J5IjpbOTEzNDExMjU5LDE4MTc1ODc5NV19
 -->
