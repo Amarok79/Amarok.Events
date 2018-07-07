@@ -38,7 +38,7 @@ The implementation class  of that interface then initializes a field of type **E
     	}
     }
 
-In general, the *event source* should be kept private, while the associated **Event<T>** is made public.
+In general, the *event source* should be kept private, while the associated **Event\<T>** is made public.
 
 For raising the event, one simply calls **Invoke(**..**)** on the *event source*.
 
@@ -80,5 +80,5 @@ If instead the class exposing the event wants to cancel all subscriptions, for e
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNDQ3NzEwNjQ2LDE4MTc1ODc5NV19
+eyJoaXN0b3J5IjpbMTMyMjAzNTcwMiwxODE3NTg3OTVdfQ==
 -->
