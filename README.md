@@ -23,11 +23,11 @@ Suppose you have an interface and want to expose an event. You do that as follow
 	
 The event is declared as *getter-only property* of type **Event\<T>**, where **T** represents the type of event argument. This can be any type.
 
-The implementation class  initializes a field of type **EventSource\<T>**.
+The implementation class  initializes a field of type **EventSource\<T>**. It should keep the event source 
 
     internal sealed class FooServiceImpl : IFooService
-    	{
-    		private readonly EventSource<Int32> mProgressEventSource = new EventSource<Int32>();
+    {
+    	private readonly EventSource<Int32> mProgressEventSource = new EventSource<Int32>();
     
     	public Event<Int32> Progress => mProgressEventSource.Event;
     
@@ -77,5 +77,5 @@ If the class exposing the event wants to cancel all subscriptions, for example, 
 	}
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE1NTU0ODMxNDIsMTgxNzU4Nzk1XX0=
+eyJoaXN0b3J5IjpbMjE0Mzg3MDQ4MSwxODE3NTg3OTVdfQ==
 -->
