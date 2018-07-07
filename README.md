@@ -40,7 +40,7 @@ The implementation class  of that interface then initializes a field of type **E
 
 In general, the *event source* should be kept private, while the associated **Event\<T>** is made public.
 
-For raising the event, one simply calls **Invoke(**..**)** on the *event source*. Here you supply the event argument that is forwarded to all event handler.
+For raising the event, one simply calls **Invoke(**..**)** on the *event source*. Here you supply the event argument that is forwarded to all event handlers.
 
 Next, a consumer of the service can subscribe to the event. It just have to call **Subscribe(**..**)** on the *event* that is made public by the service.
 
@@ -79,7 +79,36 @@ If instead the class exposing the event wants to cancel all subscriptions, for e
 	}
 
 
+### Invoke with Synchronous Event Handler
+
+The following code snippet shows a single *event source* with two event handlers. Both event handler and also the code invoking the event print to the console. What`s the console output?
+
+	var source = new EventSource<String>();
+
+	source.Event.Subscribe(x => {		// sync event handler
+		Console.WriteLine(x + "1");
+	});
+
+	source.Event.Subscribe(x => {		// sync event handler
+		Console.WriteLine(x + "2");
+	});
+
+	Console.WriteLine("A");
+	source.Invoke("B");
+	Console.WriteLine("C");
+
+The output is:
+
+	A
+	B1
+	B2
+	C
+
+This shows that event handlers are invoked directly by the thread that calls **Invoke()**. There is no additional threading introduced by the library.  Also, **Invoke()** returns directly after all event handlers have completed.
+
+Please note, the order in which event handlers are invoked is not deterministic. You shouldn't rely on that.
+
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTQ1NjIwODAyNSwtNzk1NzQzMjQ5LDE4MT
-c1ODc5NV19
+eyJoaXN0b3J5IjpbMzYyNzE0MiwtNDU2MjA4MDI1LC03OTU3ND
+MyNDksMTgxNzU4Nzk1XX0=
 -->
