@@ -175,9 +175,11 @@ This time the output is:
 
 Feels sequential, although it runs fully asynchronous due to the magic of *async* and *await*.
 
+Please note that there is still no additional threading involved. The thread calling **InvokeAsync()** still starts to execute the event handlers. The only special thing here is that **InvokeAsync()** awaits the completion of all those event handlers.
 
+If for example, all registered event handlers are async methods but don't await anything, then the entire event invocation would be processed in synchronous fashion. In fact, the library implementation has special optimizations in place for this specific scenario of async handler that don't await or that complete immediately.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTU3Njc2ODIzOSwtNDQxNTI3MjcsLTQ1Nj
-IwODAyNSwtNzk1NzQzMjQ5LDE4MTc1ODc5NV19
+eyJoaXN0b3J5IjpbOTc5ODI1NzI0LC00NDE1MjcyNywtNDU2Mj
+A4MDI1LC03OTU3NDMyNDksMTgxNzU4Nzk1XX0=
 -->
