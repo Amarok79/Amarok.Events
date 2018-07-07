@@ -42,7 +42,7 @@ In general, the *event source* should be kept private, while the associated **Ev
 
 For raising the event, one simply calls **Invoke(**..**)** on the *event source*. Here you supply the event argument that is forwarded to all event handler.
 
-Next, a consumer of the service can subscribe to the event, as following:
+Next, a consumer of the service can subscribe to the event. It just have to call **Subscribe(..)** on the *event* that is made public by the 
 
 	FooServiceImpl serviceImpl = new FooServiceImpl();
 	IFooService service = serviceImpl;
@@ -80,5 +80,6 @@ If instead the class exposing the event wants to cancel all subscriptions, for e
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTc5NTc0MzI0OSwxODE3NTg3OTVdfQ==
+eyJoaXN0b3J5IjpbLTE3NTE2NzExMzYsLTc5NTc0MzI0OSwxOD
+E3NTg3OTVdfQ==
 -->
