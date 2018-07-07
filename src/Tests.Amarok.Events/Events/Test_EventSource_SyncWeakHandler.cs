@@ -276,39 +276,40 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				EventSystem.UnobservedException.SubscribeWeak(x => {
+				using (EventSystem.UnobservedException.SubscribeWeak(x => {
 					Volatile.Write(ref exception, x);
-				});
+				}))
+				{
+					var flag1 = service.Do("abc");
 
-				var flag1 = service.Do("abc");
+					Check.That(flag1)
+						.IsTrue();
+					Check.That(called1)
+						.IsEqualTo(1);
+					Check.That(arg1)
+						.IsEqualTo("abc");
+					Check.That(called2)
+						.IsEqualTo(1);
+					Check.That(arg2)
+						.IsEqualTo("abc");
 
-				Check.That(flag1)
-					.IsTrue();
-				Check.That(called1)
-					.IsEqualTo(1);
-				Check.That(arg1)
-					.IsEqualTo("abc");
-				Check.That(called2)
-					.IsEqualTo(1);
-				Check.That(arg2)
-					.IsEqualTo("abc");
+					Check.That(exception)
+						.IsInstanceOf<ApplicationException>();
+					Check.That(exception.Message)
+						.IsEqualTo("1");
 
-				Check.That(exception)
-					.IsInstanceOf<ApplicationException>();
-				Check.That(exception.Message)
-					.IsEqualTo("1");
+					Check.That(service.ChangedSource.NumberOfSubscriptions)
+						.IsEqualTo(2);
+					Check.That(service.ChangedSource.IsDisposed)
+						.IsFalse();
 
-				Check.That(service.ChangedSource.NumberOfSubscriptions)
-					.IsEqualTo(2);
-				Check.That(service.ChangedSource.IsDisposed)
-					.IsFalse();
-
-				Check.That(service.ChangedSource.Event)
-					.IsEqualTo(service.Changed);
-				Check.That(service.Changed.Source)
-					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.HasSource)
-					.IsTrue();
+					Check.That(service.ChangedSource.Event)
+						.IsEqualTo(service.Changed);
+					Check.That(service.Changed.Source)
+						.IsSameReferenceAs(service.ChangedSource);
+					Check.That(service.Changed.HasSource)
+						.IsTrue();
+				}
 			}
 
 			[Test]
@@ -657,42 +658,43 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				EventSystem.UnobservedException.SubscribeWeak(x => {
+				using (EventSystem.UnobservedException.SubscribeWeak(x => {
 					Volatile.Write(ref exception, x);
-				});
+				}))
+				{
+					Int32 factoryCalled = 0;
+					var flag1 = service.Do(() => { factoryCalled++; return "abc"; });
 
-				Int32 factoryCalled = 0;
-				var flag1 = service.Do(() => { factoryCalled++; return "abc"; });
+					Check.That(flag1)
+						.IsTrue();
+					Check.That(called1)
+						.IsEqualTo(1);
+					Check.That(arg1)
+						.IsEqualTo("abc");
+					Check.That(called2)
+						.IsEqualTo(1);
+					Check.That(arg2)
+						.IsEqualTo("abc");
+					Check.That(factoryCalled)
+						.IsEqualTo(1);
 
-				Check.That(flag1)
-					.IsTrue();
-				Check.That(called1)
-					.IsEqualTo(1);
-				Check.That(arg1)
-					.IsEqualTo("abc");
-				Check.That(called2)
-					.IsEqualTo(1);
-				Check.That(arg2)
-					.IsEqualTo("abc");
-				Check.That(factoryCalled)
-					.IsEqualTo(1);
+					Check.That(exception)
+						.IsInstanceOf<ApplicationException>();
+					Check.That(exception.Message)
+						.IsEqualTo("1");
 
-				Check.That(exception)
-					.IsInstanceOf<ApplicationException>();
-				Check.That(exception.Message)
-					.IsEqualTo("1");
+					Check.That(service.ChangedSource.NumberOfSubscriptions)
+						.IsEqualTo(2);
+					Check.That(service.ChangedSource.IsDisposed)
+						.IsFalse();
 
-				Check.That(service.ChangedSource.NumberOfSubscriptions)
-					.IsEqualTo(2);
-				Check.That(service.ChangedSource.IsDisposed)
-					.IsFalse();
-
-				Check.That(service.ChangedSource.Event)
-					.IsEqualTo(service.Changed);
-				Check.That(service.Changed.Source)
-					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.HasSource)
-					.IsTrue();
+					Check.That(service.ChangedSource.Event)
+						.IsEqualTo(service.Changed);
+					Check.That(service.Changed.Source)
+						.IsSameReferenceAs(service.ChangedSource);
+					Check.That(service.Changed.HasSource)
+						.IsTrue();
+				}
 			}
 
 			[Test]
@@ -1075,45 +1077,46 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				EventSystem.UnobservedException.SubscribeWeak(x => {
+				using (EventSystem.UnobservedException.SubscribeWeak(x => {
 					Volatile.Write(ref exception, x);
-				});
+				}))
+				{
+					Int32 factoryCalled = 0;
+					Int32 fa = 0;
+					var flag1 = service.Do((a) => { fa = a; factoryCalled++; return "abc"; }, 123);
 
-				Int32 factoryCalled = 0;
-				Int32 fa = 0;
-				var flag1 = service.Do((a) => { fa = a; factoryCalled++; return "abc"; }, 123);
+					Check.That(flag1)
+						.IsTrue();
+					Check.That(called1)
+						.IsEqualTo(1);
+					Check.That(arg1)
+						.IsEqualTo("abc");
+					Check.That(called2)
+						.IsEqualTo(1);
+					Check.That(arg2)
+						.IsEqualTo("abc");
+					Check.That(factoryCalled)
+						.IsEqualTo(1);
+					Check.That(fa)
+						.IsEqualTo(123);
 
-				Check.That(flag1)
-					.IsTrue();
-				Check.That(called1)
-					.IsEqualTo(1);
-				Check.That(arg1)
-					.IsEqualTo("abc");
-				Check.That(called2)
-					.IsEqualTo(1);
-				Check.That(arg2)
-					.IsEqualTo("abc");
-				Check.That(factoryCalled)
-					.IsEqualTo(1);
-				Check.That(fa)
-					.IsEqualTo(123);
+					Check.That(exception)
+						.IsInstanceOf<ApplicationException>();
+					Check.That(exception.Message)
+						.IsEqualTo("1");
 
-				Check.That(exception)
-					.IsInstanceOf<ApplicationException>();
-				Check.That(exception.Message)
-					.IsEqualTo("1");
+					Check.That(service.ChangedSource.NumberOfSubscriptions)
+						.IsEqualTo(2);
+					Check.That(service.ChangedSource.IsDisposed)
+						.IsFalse();
 
-				Check.That(service.ChangedSource.NumberOfSubscriptions)
-					.IsEqualTo(2);
-				Check.That(service.ChangedSource.IsDisposed)
-					.IsFalse();
-
-				Check.That(service.ChangedSource.Event)
-					.IsEqualTo(service.Changed);
-				Check.That(service.Changed.Source)
-					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.HasSource)
-					.IsTrue();
+					Check.That(service.ChangedSource.Event)
+						.IsEqualTo(service.Changed);
+					Check.That(service.Changed.Source)
+						.IsSameReferenceAs(service.ChangedSource);
+					Check.That(service.Changed.HasSource)
+						.IsTrue();
+				}
 			}
 
 			[Test]
@@ -1514,48 +1517,49 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				EventSystem.UnobservedException.SubscribeWeak(x => {
+				using (EventSystem.UnobservedException.SubscribeWeak(x => {
 					Volatile.Write(ref exception, x);
-				});
+				}))
+				{
+					Int32 factoryCalled = 0;
+					Int32 fa = 0;
+					Double fb = 0.0;
+					var flag1 = service.Do((a, b) => { fa = a; fb = b; factoryCalled++; return "abc"; }, 123, 1.2);
 
-				Int32 factoryCalled = 0;
-				Int32 fa = 0;
-				Double fb = 0.0;
-				var flag1 = service.Do((a, b) => { fa = a; fb = b; factoryCalled++; return "abc"; }, 123, 1.2);
+					Check.That(flag1)
+						.IsTrue();
+					Check.That(called1)
+						.IsEqualTo(1);
+					Check.That(arg1)
+						.IsEqualTo("abc");
+					Check.That(called2)
+						.IsEqualTo(1);
+					Check.That(arg2)
+						.IsEqualTo("abc");
+					Check.That(factoryCalled)
+						.IsEqualTo(1);
+					Check.That(fa)
+						.IsEqualTo(123);
+					Check.That(fb)
+						.IsEqualTo(1.2);
 
-				Check.That(flag1)
-					.IsTrue();
-				Check.That(called1)
-					.IsEqualTo(1);
-				Check.That(arg1)
-					.IsEqualTo("abc");
-				Check.That(called2)
-					.IsEqualTo(1);
-				Check.That(arg2)
-					.IsEqualTo("abc");
-				Check.That(factoryCalled)
-					.IsEqualTo(1);
-				Check.That(fa)
-					.IsEqualTo(123);
-				Check.That(fb)
-					.IsEqualTo(1.2);
+					Check.That(exception)
+						.IsInstanceOf<ApplicationException>();
+					Check.That(exception.Message)
+						.IsEqualTo("1");
 
-				Check.That(exception)
-					.IsInstanceOf<ApplicationException>();
-				Check.That(exception.Message)
-					.IsEqualTo("1");
+					Check.That(service.ChangedSource.NumberOfSubscriptions)
+						.IsEqualTo(2);
+					Check.That(service.ChangedSource.IsDisposed)
+						.IsFalse();
 
-				Check.That(service.ChangedSource.NumberOfSubscriptions)
-					.IsEqualTo(2);
-				Check.That(service.ChangedSource.IsDisposed)
-					.IsFalse();
-
-				Check.That(service.ChangedSource.Event)
-					.IsEqualTo(service.Changed);
-				Check.That(service.Changed.Source)
-					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.HasSource)
-					.IsTrue();
+					Check.That(service.ChangedSource.Event)
+						.IsEqualTo(service.Changed);
+					Check.That(service.Changed.Source)
+						.IsSameReferenceAs(service.ChangedSource);
+					Check.That(service.Changed.HasSource)
+						.IsTrue();
+				}
 			}
 
 			[Test]
@@ -1974,51 +1978,52 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				EventSystem.UnobservedException.SubscribeWeak(x => {
+				using (EventSystem.UnobservedException.SubscribeWeak(x => {
 					Volatile.Write(ref exception, x);
-				});
+				}))
+				{
+					Int32 factoryCalled = 0;
+					Int32 fa = 0;
+					Double fb = 0.0;
+					Char fc = ' ';
+					var flag1 = service.Do((a, b, c) => { fa = a; fb = b; fc = c; factoryCalled++; return "abc"; }, 123, 1.2, 'a');
 
-				Int32 factoryCalled = 0;
-				Int32 fa = 0;
-				Double fb = 0.0;
-				Char fc = ' ';
-				var flag1 = service.Do((a, b, c) => { fa = a; fb = b; fc = c; factoryCalled++; return "abc"; }, 123, 1.2, 'a');
+					Check.That(flag1)
+						.IsTrue();
+					Check.That(called1)
+						.IsEqualTo(1);
+					Check.That(arg1)
+						.IsEqualTo("abc");
+					Check.That(called2)
+						.IsEqualTo(1);
+					Check.That(arg2)
+						.IsEqualTo("abc");
+					Check.That(factoryCalled)
+						.IsEqualTo(1);
+					Check.That(fa)
+						.IsEqualTo(123);
+					Check.That(fb)
+						.IsEqualTo(1.2);
+					Check.That(fc)
+						.IsEqualTo('a');
 
-				Check.That(flag1)
-					.IsTrue();
-				Check.That(called1)
-					.IsEqualTo(1);
-				Check.That(arg1)
-					.IsEqualTo("abc");
-				Check.That(called2)
-					.IsEqualTo(1);
-				Check.That(arg2)
-					.IsEqualTo("abc");
-				Check.That(factoryCalled)
-					.IsEqualTo(1);
-				Check.That(fa)
-					.IsEqualTo(123);
-				Check.That(fb)
-					.IsEqualTo(1.2);
-				Check.That(fc)
-					.IsEqualTo('a');
+					Check.That(exception)
+						.IsInstanceOf<ApplicationException>();
+					Check.That(exception.Message)
+						.IsEqualTo("1");
 
-				Check.That(exception)
-					.IsInstanceOf<ApplicationException>();
-				Check.That(exception.Message)
-					.IsEqualTo("1");
+					Check.That(service.ChangedSource.NumberOfSubscriptions)
+						.IsEqualTo(2);
+					Check.That(service.ChangedSource.IsDisposed)
+						.IsFalse();
 
-				Check.That(service.ChangedSource.NumberOfSubscriptions)
-					.IsEqualTo(2);
-				Check.That(service.ChangedSource.IsDisposed)
-					.IsFalse();
-
-				Check.That(service.ChangedSource.Event)
-					.IsEqualTo(service.Changed);
-				Check.That(service.Changed.Source)
-					.IsSameReferenceAs(service.ChangedSource);
-				Check.That(service.Changed.HasSource)
-					.IsTrue();
+					Check.That(service.ChangedSource.Event)
+						.IsEqualTo(service.Changed);
+					Check.That(service.Changed.Source)
+						.IsSameReferenceAs(service.ChangedSource);
+					Check.That(service.Changed.HasSource)
+						.IsTrue();
+				}
 			}
 
 			[Test]
@@ -2365,32 +2370,33 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				EventSystem.UnobservedException.SubscribeWeak(x => {
+				using (EventSystem.UnobservedException.SubscribeWeak(x => {
 					Volatile.Write(ref exception, x);
-				});
+				}))
+				{
+					var flag1 = await service.DoAsync("abc");
 
-				var flag1 = await service.DoAsync("abc");
+					Check.That(flag1)
+						.IsTrue();
+					Check.That(called1)
+						.IsEqualTo(1);
+					Check.That(arg1)
+						.IsEqualTo("abc");
+					Check.That(called2)
+						.IsEqualTo(1);
+					Check.That(arg2)
+						.IsEqualTo("abc");
 
-				Check.That(flag1)
-					.IsTrue();
-				Check.That(called1)
-					.IsEqualTo(1);
-				Check.That(arg1)
-					.IsEqualTo("abc");
-				Check.That(called2)
-					.IsEqualTo(1);
-				Check.That(arg2)
-					.IsEqualTo("abc");
+					Check.That(exception)
+						.IsInstanceOf<ApplicationException>();
+					Check.That(exception.Message)
+						.IsEqualTo("1");
 
-				Check.That(exception)
-					.IsInstanceOf<ApplicationException>();
-				Check.That(exception.Message)
-					.IsEqualTo("1");
-
-				Check.That(service.ChangedSource.NumberOfSubscriptions)
-					.IsEqualTo(2);
-				Check.That(service.ChangedSource.IsDisposed)
-					.IsFalse();
+					Check.That(service.ChangedSource.NumberOfSubscriptions)
+						.IsEqualTo(2);
+					Check.That(service.ChangedSource.IsDisposed)
+						.IsFalse();
+				}
 			}
 
 			[Test]
@@ -2691,35 +2697,36 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				EventSystem.UnobservedException.SubscribeWeak(x => {
+				using (EventSystem.UnobservedException.SubscribeWeak(x => {
 					Volatile.Write(ref exception, x);
-				});
+				}))
+				{
+					Int32 factoryCalled = 0;
+					var flag1 = await service.DoAsync(() => { factoryCalled++; return "abc"; });
 
-				Int32 factoryCalled = 0;
-				var flag1 = await service.DoAsync(() => { factoryCalled++; return "abc"; });
+					Check.That(flag1)
+						.IsTrue();
+					Check.That(called1)
+						.IsEqualTo(1);
+					Check.That(arg1)
+						.IsEqualTo("abc");
+					Check.That(called2)
+						.IsEqualTo(1);
+					Check.That(arg2)
+						.IsEqualTo("abc");
+					Check.That(factoryCalled)
+						.IsEqualTo(1);
 
-				Check.That(flag1)
-					.IsTrue();
-				Check.That(called1)
-					.IsEqualTo(1);
-				Check.That(arg1)
-					.IsEqualTo("abc");
-				Check.That(called2)
-					.IsEqualTo(1);
-				Check.That(arg2)
-					.IsEqualTo("abc");
-				Check.That(factoryCalled)
-					.IsEqualTo(1);
+					Check.That(exception)
+						.IsInstanceOf<ApplicationException>();
+					Check.That(exception.Message)
+						.IsEqualTo("1");
 
-				Check.That(exception)
-					.IsInstanceOf<ApplicationException>();
-				Check.That(exception.Message)
-					.IsEqualTo("1");
-
-				Check.That(service.ChangedSource.NumberOfSubscriptions)
-					.IsEqualTo(2);
-				Check.That(service.ChangedSource.IsDisposed)
-					.IsFalse();
+					Check.That(service.ChangedSource.NumberOfSubscriptions)
+						.IsEqualTo(2);
+					Check.That(service.ChangedSource.IsDisposed)
+						.IsFalse();
+				}
 			}
 
 			[Test]
@@ -3054,38 +3061,39 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				EventSystem.UnobservedException.SubscribeWeak(x => {
+				using (EventSystem.UnobservedException.SubscribeWeak(x => {
 					Volatile.Write(ref exception, x);
-				});
+				}))
+				{
+					Int32 factoryCalled = 0;
+					Int32 fa = 0;
+					var flag1 = await service.DoAsync((a) => { fa = a; factoryCalled++; return "abc"; }, 123);
 
-				Int32 factoryCalled = 0;
-				Int32 fa = 0;
-				var flag1 = await service.DoAsync((a) => { fa = a; factoryCalled++; return "abc"; }, 123);
+					Check.That(flag1)
+						.IsTrue();
+					Check.That(called1)
+						.IsEqualTo(1);
+					Check.That(arg1)
+						.IsEqualTo("abc");
+					Check.That(called2)
+						.IsEqualTo(1);
+					Check.That(arg2)
+						.IsEqualTo("abc");
+					Check.That(factoryCalled)
+						.IsEqualTo(1);
+					Check.That(fa)
+						.IsEqualTo(123);
 
-				Check.That(flag1)
-					.IsTrue();
-				Check.That(called1)
-					.IsEqualTo(1);
-				Check.That(arg1)
-					.IsEqualTo("abc");
-				Check.That(called2)
-					.IsEqualTo(1);
-				Check.That(arg2)
-					.IsEqualTo("abc");
-				Check.That(factoryCalled)
-					.IsEqualTo(1);
-				Check.That(fa)
-					.IsEqualTo(123);
+					Check.That(exception)
+						.IsInstanceOf<ApplicationException>();
+					Check.That(exception.Message)
+						.IsEqualTo("1");
 
-				Check.That(exception)
-					.IsInstanceOf<ApplicationException>();
-				Check.That(exception.Message)
-					.IsEqualTo("1");
-
-				Check.That(service.ChangedSource.NumberOfSubscriptions)
-					.IsEqualTo(2);
-				Check.That(service.ChangedSource.IsDisposed)
-					.IsFalse();
+					Check.That(service.ChangedSource.NumberOfSubscriptions)
+						.IsEqualTo(2);
+					Check.That(service.ChangedSource.IsDisposed)
+						.IsFalse();
+				}
 			}
 
 			[Test]
@@ -3438,41 +3446,42 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				EventSystem.UnobservedException.SubscribeWeak(x => {
+				using (EventSystem.UnobservedException.SubscribeWeak(x => {
 					Volatile.Write(ref exception, x);
-				});
+				}))
+				{
+					Int32 factoryCalled = 0;
+					Int32 fa = 0;
+					Double fb = 0.0;
+					var flag1 = await service.DoAsync((a, b) => { fa = a; fb = b; factoryCalled++; return "abc"; }, 123, 1.2);
 
-				Int32 factoryCalled = 0;
-				Int32 fa = 0;
-				Double fb = 0.0;
-				var flag1 = await service.DoAsync((a, b) => { fa = a; fb = b; factoryCalled++; return "abc"; }, 123, 1.2);
+					Check.That(flag1)
+						.IsTrue();
+					Check.That(called1)
+						.IsEqualTo(1);
+					Check.That(arg1)
+						.IsEqualTo("abc");
+					Check.That(called2)
+						.IsEqualTo(1);
+					Check.That(arg2)
+						.IsEqualTo("abc");
+					Check.That(factoryCalled)
+						.IsEqualTo(1);
+					Check.That(fa)
+						.IsEqualTo(123);
+					Check.That(fb)
+						.IsEqualTo(1.2);
 
-				Check.That(flag1)
-					.IsTrue();
-				Check.That(called1)
-					.IsEqualTo(1);
-				Check.That(arg1)
-					.IsEqualTo("abc");
-				Check.That(called2)
-					.IsEqualTo(1);
-				Check.That(arg2)
-					.IsEqualTo("abc");
-				Check.That(factoryCalled)
-					.IsEqualTo(1);
-				Check.That(fa)
-					.IsEqualTo(123);
-				Check.That(fb)
-					.IsEqualTo(1.2);
+					Check.That(exception)
+						.IsInstanceOf<ApplicationException>();
+					Check.That(exception.Message)
+						.IsEqualTo("1");
 
-				Check.That(exception)
-					.IsInstanceOf<ApplicationException>();
-				Check.That(exception.Message)
-					.IsEqualTo("1");
-
-				Check.That(service.ChangedSource.NumberOfSubscriptions)
-					.IsEqualTo(2);
-				Check.That(service.ChangedSource.IsDisposed)
-					.IsFalse();
+					Check.That(service.ChangedSource.NumberOfSubscriptions)
+						.IsEqualTo(2);
+					Check.That(service.ChangedSource.IsDisposed)
+						.IsFalse();
+				}
 			}
 
 			[Test]
@@ -3842,44 +3851,45 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				EventSystem.UnobservedException.SubscribeWeak(x => {
+				using (EventSystem.UnobservedException.SubscribeWeak(x => {
 					Volatile.Write(ref exception, x);
-				});
+				}))
+				{
+					Int32 factoryCalled = 0;
+					Int32 fa = 0;
+					Double fb = 0.0;
+					Char fc = ' ';
+					var flag1 = await service.DoAsync((a, b, c) => { fa = a; fb = b; fc = c; factoryCalled++; return "abc"; }, 123, 1.2, 'a');
 
-				Int32 factoryCalled = 0;
-				Int32 fa = 0;
-				Double fb = 0.0;
-				Char fc = ' ';
-				var flag1 = await service.DoAsync((a, b, c) => { fa = a; fb = b; fc = c; factoryCalled++; return "abc"; }, 123, 1.2, 'a');
+					Check.That(flag1)
+						.IsTrue();
+					Check.That(called1)
+						.IsEqualTo(1);
+					Check.That(arg1)
+						.IsEqualTo("abc");
+					Check.That(called2)
+						.IsEqualTo(1);
+					Check.That(arg2)
+						.IsEqualTo("abc");
+					Check.That(factoryCalled)
+						.IsEqualTo(1);
+					Check.That(fa)
+						.IsEqualTo(123);
+					Check.That(fb)
+						.IsEqualTo(1.2);
+					Check.That(fc)
+						.IsEqualTo('a');
 
-				Check.That(flag1)
-					.IsTrue();
-				Check.That(called1)
-					.IsEqualTo(1);
-				Check.That(arg1)
-					.IsEqualTo("abc");
-				Check.That(called2)
-					.IsEqualTo(1);
-				Check.That(arg2)
-					.IsEqualTo("abc");
-				Check.That(factoryCalled)
-					.IsEqualTo(1);
-				Check.That(fa)
-					.IsEqualTo(123);
-				Check.That(fb)
-					.IsEqualTo(1.2);
-				Check.That(fc)
-					.IsEqualTo('a');
+					Check.That(exception)
+						.IsInstanceOf<ApplicationException>();
+					Check.That(exception.Message)
+						.IsEqualTo("1");
 
-				Check.That(exception)
-					.IsInstanceOf<ApplicationException>();
-				Check.That(exception.Message)
-					.IsEqualTo("1");
-
-				Check.That(service.ChangedSource.NumberOfSubscriptions)
-					.IsEqualTo(2);
-				Check.That(service.ChangedSource.IsDisposed)
-					.IsFalse();
+					Check.That(service.ChangedSource.NumberOfSubscriptions)
+						.IsEqualTo(2);
+					Check.That(service.ChangedSource.IsDisposed)
+						.IsFalse();
+				}
 			}
 
 			[Test]

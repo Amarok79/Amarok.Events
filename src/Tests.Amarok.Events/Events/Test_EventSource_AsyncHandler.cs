@@ -184,25 +184,26 @@ namespace Amarok.Events
 					.IsNull();
 
 				Exception exception = null;
-				EventSystem.UnobservedException.SubscribeWeak(x => {
+				using (EventSystem.UnobservedException.SubscribeWeak(x => {
 					Volatile.Write(ref exception, x);
-				});
+				}))
+				{
+					var flag1 = service.Do("abc");
 
-				var flag1 = service.Do("abc");
+					Check.That(flag1)
+						.IsTrue();
+					Check.That(called)
+						.IsEqualTo(1);
+					Check.That(arg)
+						.IsEqualTo("abc");
+					Check.That(Volatile.Read(ref exception))
+						.IsNull();
 
-				Check.That(flag1)
-					.IsTrue();
-				Check.That(called)
-					.IsEqualTo(1);
-				Check.That(arg)
-					.IsEqualTo("abc");
-				Check.That(Volatile.Read(ref exception))
-					.IsNull();
-
-				Check.That(service.ChangedSource.NumberOfSubscriptions)
-					.IsEqualTo(1);
-				Check.That(service.ChangedSource.IsDisposed)
-					.IsFalse();
+					Check.That(service.ChangedSource.NumberOfSubscriptions)
+						.IsEqualTo(1);
+					Check.That(service.ChangedSource.IsDisposed)
+						.IsFalse();
+				}
 			}
 
 			[Test]
@@ -227,25 +228,26 @@ namespace Amarok.Events
 					.IsNull();
 
 				Exception exception = null;
-				EventSystem.UnobservedException.SubscribeWeak(x => {
+				using (EventSystem.UnobservedException.SubscribeWeak(x => {
 					Volatile.Write(ref exception, x);
-				});
+				}))
+				{
+					var flag1 = service.Do("abc");
 
-				var flag1 = service.Do("abc");
+					Check.That(flag1)
+						.IsTrue();
+					Check.That(called)
+						.IsEqualTo(1);
+					Check.That(arg)
+						.IsEqualTo("abc");
+					Check.That(Volatile.Read(ref exception))
+						.IsInstanceOf<ApplicationException>();
 
-				Check.That(flag1)
-					.IsTrue();
-				Check.That(called)
-					.IsEqualTo(1);
-				Check.That(arg)
-					.IsEqualTo("abc");
-				Check.That(Volatile.Read(ref exception))
-					.IsInstanceOf<ApplicationException>();
-
-				Check.That(service.ChangedSource.NumberOfSubscriptions)
-					.IsEqualTo(1);
-				Check.That(service.ChangedSource.IsDisposed)
-					.IsFalse();
+					Check.That(service.ChangedSource.NumberOfSubscriptions)
+						.IsEqualTo(1);
+					Check.That(service.ChangedSource.IsDisposed)
+						.IsFalse();
+				}
 			}
 
 			[Test]
@@ -269,28 +271,29 @@ namespace Amarok.Events
 					.IsNull();
 
 				Exception exception = null;
-				EventSystem.UnobservedException.SubscribeWeak(x => {
+				using (EventSystem.UnobservedException.SubscribeWeak(x => {
 					Volatile.Write(ref exception, x);
-				});
+				}))
+				{
+					var flag1 = service.Do("abc");
 
-				var flag1 = service.Do("abc");
+					Check.That(flag1)
+						.IsTrue();
+					Check.That(called)
+						.IsEqualTo(1);
+					Check.That(arg)
+						.IsEqualTo("abc");
 
-				Check.That(flag1)
-					.IsTrue();
-				Check.That(called)
-					.IsEqualTo(1);
-				Check.That(arg)
-					.IsEqualTo("abc");
+					SpinWait.SpinUntil(() => Volatile.Read(ref exception) != null, 2000);
 
-				SpinWait.SpinUntil(() => Volatile.Read(ref exception) != null, 2000);
+					Check.That(Volatile.Read(ref exception))
+						.IsInstanceOf<ApplicationException>();
 
-				Check.That(Volatile.Read(ref exception))
-					.IsInstanceOf<ApplicationException>();
-
-				Check.That(service.ChangedSource.NumberOfSubscriptions)
-					.IsEqualTo(1);
-				Check.That(service.ChangedSource.IsDisposed)
-					.IsFalse();
+					Check.That(service.ChangedSource.NumberOfSubscriptions)
+						.IsEqualTo(1);
+					Check.That(service.ChangedSource.IsDisposed)
+						.IsFalse();
+				}
 			}
 		}
 
@@ -430,25 +433,26 @@ namespace Amarok.Events
 					.IsNull();
 
 				Exception exception = null;
-				EventSystem.UnobservedException.SubscribeWeak(x => {
+				using (EventSystem.UnobservedException.SubscribeWeak(x => {
 					Volatile.Write(ref exception, x);
-				});
+				}))
+				{
+					var flag1 = await service.DoAsync("abc");
 
-				var flag1 = await service.DoAsync("abc");
+					Check.That(flag1)
+						.IsTrue();
+					Check.That(called)
+						.IsEqualTo(1);
+					Check.That(arg)
+						.IsEqualTo("abc");
+					Check.That(Volatile.Read(ref exception))
+						.IsNull();
 
-				Check.That(flag1)
-					.IsTrue();
-				Check.That(called)
-					.IsEqualTo(1);
-				Check.That(arg)
-					.IsEqualTo("abc");
-				Check.That(Volatile.Read(ref exception))
-					.IsNull();
-
-				Check.That(service.ChangedSource.NumberOfSubscriptions)
-					.IsEqualTo(1);
-				Check.That(service.ChangedSource.IsDisposed)
-					.IsFalse();
+					Check.That(service.ChangedSource.NumberOfSubscriptions)
+						.IsEqualTo(1);
+					Check.That(service.ChangedSource.IsDisposed)
+						.IsFalse();
+				}
 			}
 
 			[Test]
@@ -473,25 +477,26 @@ namespace Amarok.Events
 					.IsNull();
 
 				Exception exception = null;
-				EventSystem.UnobservedException.SubscribeWeak(x => {
+				using (EventSystem.UnobservedException.SubscribeWeak(x => {
 					Volatile.Write(ref exception, x);
-				});
+				}))
+				{
+					var flag1 = await service.DoAsync("abc");
 
-				var flag1 = await service.DoAsync("abc");
+					Check.That(flag1)
+						.IsTrue();
+					Check.That(called)
+						.IsEqualTo(1);
+					Check.That(arg)
+						.IsEqualTo("abc");
+					Check.That(Volatile.Read(ref exception))
+						.IsInstanceOf<ApplicationException>();
 
-				Check.That(flag1)
-					.IsTrue();
-				Check.That(called)
-					.IsEqualTo(1);
-				Check.That(arg)
-					.IsEqualTo("abc");
-				Check.That(Volatile.Read(ref exception))
-					.IsInstanceOf<ApplicationException>();
-
-				Check.That(service.ChangedSource.NumberOfSubscriptions)
-					.IsEqualTo(1);
-				Check.That(service.ChangedSource.IsDisposed)
-					.IsFalse();
+					Check.That(service.ChangedSource.NumberOfSubscriptions)
+						.IsEqualTo(1);
+					Check.That(service.ChangedSource.IsDisposed)
+						.IsFalse();
+				}
 			}
 
 			[Test]
@@ -515,28 +520,29 @@ namespace Amarok.Events
 					.IsNull();
 
 				Exception exception = null;
-				EventSystem.UnobservedException.SubscribeWeak(x => {
+				using (EventSystem.UnobservedException.SubscribeWeak(x => {
 					Volatile.Write(ref exception, x);
-				});
+				}))
+				{
+					var flag1 = await service.DoAsync("abc");
 
-				var flag1 = await service.DoAsync("abc");
+					Check.That(flag1)
+						.IsTrue();
+					Check.That(called)
+						.IsEqualTo(1);
+					Check.That(arg)
+						.IsEqualTo("abc");
 
-				Check.That(flag1)
-					.IsTrue();
-				Check.That(called)
-					.IsEqualTo(1);
-				Check.That(arg)
-					.IsEqualTo("abc");
+					SpinWait.SpinUntil(() => Volatile.Read(ref exception) != null, 2000);
 
-				SpinWait.SpinUntil(() => Volatile.Read(ref exception) != null, 2000);
+					Check.That(Volatile.Read(ref exception))
+						.IsInstanceOf<ApplicationException>();
 
-				Check.That(Volatile.Read(ref exception))
-					.IsInstanceOf<ApplicationException>();
-
-				Check.That(service.ChangedSource.NumberOfSubscriptions)
-					.IsEqualTo(1);
-				Check.That(service.ChangedSource.IsDisposed)
-					.IsFalse();
+					Check.That(service.ChangedSource.NumberOfSubscriptions)
+						.IsEqualTo(1);
+					Check.That(service.ChangedSource.IsDisposed)
+						.IsFalse();
+				}
 			}
 		}
 	}
