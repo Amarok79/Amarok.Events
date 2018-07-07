@@ -6,7 +6,7 @@
 		<Version>1.0.0-beta.1</Version>
 		<Authors>Olaf Kober</Authors>
 		<Company>&lt;none&gt;</Company>
-		<Description>A slim and light-weight implementation of the observer pattern that supports synchronous and asynchronous invocation and/or subscribers. A replacement for .NET events.</Description>
+		<Description>A fast and light-weight implementation of the observer pattern that supports synchronous and asynchronous invocation and/or subscribers. A replacement for .NET events.</Description>
 		<Copyright>Copyright (c) 2018, Olaf Kober</Copyright>
 		<PackageLicenseUrl>https://raw.githubusercontent.com/Amarok79/Events/master/LICENSE</PackageLicenseUrl>
 		<PackageProjectUrl>https://github.com/Amarok79/Events</PackageProjectUrl>
@@ -15,6 +15,7 @@
 		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<PackageTags>Event Observer Publisher Subscriber</PackageTags>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
