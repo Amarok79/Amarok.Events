@@ -112,7 +112,7 @@ Please note, the order in which event handlers are invoked is not deterministic.
 
 ### Invoke with Asynchronous Event Handler
 
-Now, let's take the same example but slightly modified with *async* event handlers. What's the output of this example?
+Now, let's take the same example but slightly modified with *async* event handlers. What's the output of this?
 
 	var source = new EventSource<String>();
 
@@ -140,9 +140,11 @@ The output is:
 
 Again, the thread calling **Invoke()** is also calling the event handlers. But this time, it returns after encountering the first *await* statement, causing **Invoke()** to return earlier as the event handler's continuations.
 
-That means a consumer can decide for itself whether it wants to register an synchronous or asynchronous event handler. In the latter case, the behavior is kind of fire-and-forget. The event raiser can't be sure that all event handler have completed. If you need that guarantee than use **InvokeAsync()** instead.
+That means a consumer can decide whether it wants to register a synchronous or asynchronous event handler. In the latter case, from perspective of the event raiser the behavior is kind of fire-and-forget, because the event raiser can't be sure that all event handlers have completed when **Invoke()** returned.
+
+If you need that guarantee that then use **InvokeAsync()** instead.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTM3MDIxMzI1OSwtNDU2MjA4MDI1LC03OT
-U3NDMyNDksMTgxNzU4Nzk1XX0=
+eyJoaXN0b3J5IjpbLTQ0MTUyNzI3LC00NTYyMDgwMjUsLTc5NT
+c0MzI0OSwxODE3NTg3OTVdfQ==
 -->
