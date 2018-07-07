@@ -179,7 +179,34 @@ Please note that there is still no additional threading involved. The thread cal
 
 If for example, all registered event handlers are async methods but don't await anything, then the entire event invocation would be processed in synchronous fashion. In fact, the library implementation has special optimizations in place for this specific scenario of async handler that don't await or that complete immediately.
 
+
+### InvokeAsync with Synchronous Event Handler
+
+Of course, it is also possible to use **InvokeAsync()** for raising events, but with subscribers that register only synchronous event handlers. This is valid and the library implementation optimizes this scenario so that there is little overhead even though *async/await* is involved.
+
+	var source = new EventSource<String>();
+
+	source.Event.Subscribe(x => {		// sync event handler
+		Console.WriteLine(x + "1");
+	});
+
+	source.Event.Subscribe(x => {		// sync event handler
+		Console.WriteLine(x + "2");
+	});
+
+	Console.WriteLine("A");
+	await source.InvokeAsync("B");		// await !!
+	Console.WriteLine("C");
+
+Of course, the output is:
+
+	A
+	B1
+	B2
+	C
+
+
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbOTc5ODI1NzI0LC00NDE1MjcyNywtNDU2Mj
-A4MDI1LC03OTU3NDMyNDksMTgxNzU4Nzk1XX0=
+eyJoaXN0b3J5IjpbLTEwMjk0Njk0NzAsLTQ0MTUyNzI3LC00NT
+YyMDgwMjUsLTc5NTc0MzI0OSwxODE3NTg3OTVdfQ==
 -->
