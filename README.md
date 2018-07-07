@@ -51,17 +51,18 @@ A consumer of the service can subscribe to the event.
 		Console.WriteLine(x + "%");
 	});
 
-	serviceImpl.DoSomething();
+	serviceImpl.DoSomething();		// internally raises the event
 	// console output:	50%
 
-The object returned from **Subscribe(..)** can be used to cancel the subscription at any time.
+The object returned from **Subscribe(**..**)** can be used to cancel the subscription at any time.
 
     subscription.Dispose();
     
     serviceImpl.DoSomething();
     // does nothing, since no subscribers are registered anymore
 
-This allows the subscriber to cancel her subscription.
+It is recommended that subscriber 
+
 
 If the class exposing the event wants to cancel all subscriptions, for example, when it gets disposed, it can simply dispose the event source too, which automatically cancels all subscriptions and ignores further calls to **Invoke(..)**.
 
@@ -79,5 +80,5 @@ If the class exposing the event wants to cancel all subscriptions, for example, 
 	}
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbODkwNzAwNDEzLDE4MTc1ODc5NV19
+eyJoaXN0b3J5IjpbLTE0NTM1NTMwMCwxODE3NTg3OTVdfQ==
 -->
