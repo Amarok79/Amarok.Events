@@ -61,7 +61,9 @@ The object returned from **Subscribe(**..**)** can be used to cancel the subscri
     serviceImpl.DoSomething();
     // does nothing, since no subscribers are registered anymore
 
-It is recommended that subscriber 
+It is recommended that subscriber store these subscription objects somewhere, otherwise they won't be able to remove their registered event handlers.
+
+For registering 
 
 
 If the class exposing the event wants to cancel all subscriptions, for example, when it gets disposed, it can simply dispose the event source too, which automatically cancels all subscriptions and ignores further calls to **Invoke(..)**.
@@ -80,5 +82,5 @@ If the class exposing the event wants to cancel all subscriptions, for example, 
 	}
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE0NTM1NTMwMCwxODE3NTg3OTVdfQ==
+eyJoaXN0b3J5IjpbMTkwNTg4MjUwMCwxODE3NTg3OTVdfQ==
 -->
