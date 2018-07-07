@@ -144,7 +144,40 @@ That means a consumer can decide whether it wants to register a synchronous or a
 
 If you need that guarantee that then use **InvokeAsync()** instead.
 
+
+### InvokeAsync with Asynchronous Event Handler
+
+As mentioned previously, **InvokeAsync()** can be used if awaiting the completion of all event handlers is necessary. 
+
+	var source = new EventSource<String>();
+
+	source.Event.Subscribe(async x => {		// async event handler
+		await Task.Delay(100);
+		Console.WriteLine(x + "1");
+	});
+
+	source.Event.Subscribe(async x => {		// async event handler
+		await Task.Delay(200);
+		Console.WriteLine(x + "2");
+	});
+
+	Console.WriteLine("A");
+	await source.InvokeAsync("B");			// await !!
+	Console.WriteLine("C");
+
+This time the output is:
+
+    A
+    ...
+	B1	(100 ms delayed)
+	B2	(200 ms delayed)
+	C
+
+Feels sequential, although it runs fully asynchronous due to the magic of *async* and *await*.
+
+
+
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTQ0MTUyNzI3LC00NTYyMDgwMjUsLTc5NT
-c0MzI0OSwxODE3NTg3OTVdfQ==
+eyJoaXN0b3J5IjpbLTU3Njc2ODIzOSwtNDQxNTI3MjcsLTQ1Nj
+IwODAyNSwtNzk1NzQzMjQ5LDE4MTc1ODc5NV19
 -->
