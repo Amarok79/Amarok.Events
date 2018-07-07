@@ -9,3 +9,72 @@ The library is redistributed as NuGet package: [Amarok.Events](https://www.nuget
 The package provides binaries for *.NET Standard 2.0* only. Tests are performed with *.NET Framework 4.7.1* and *.NET Core 2.1*.
 
 For development, you need *Visual Studio 2017* (v15.7 or later).
+
+## Documentation
+### Event Source and Event
+Suppose you have an interface that exposes an event.
+
+    public interface IFooService
+    {
+	    Event<Int32> Progress { get; }
+    }
+	
+The event is declared as *getter-only property* of type **Event\<T>**, where **T** represents the type of event argument value.
+
+The implementation class keeps and initializes a field of type **EventSource\<T>**.
+
+    internal sealed class FooServiceImpl :
+    	IFooService
+    	{
+    		private readonly EventSource<Int32> mProgressEventSource = new EventSource<Int32>();
+    
+    	public Event<Int32> Progress => mProgressEventSource.Event;
+    
+    	public void DoSomething()
+    	{
+    		// raises the event
+    		mProgressEventSource.Invoke(50);
+    	}
+    }
+
+For raising the event, you simply call **Invoke(..)** on the event source.
+
+A consumer of the service can subscribe to the event.
+
+	FooServiceImpl serviceImpl = new FooServiceImpl();
+	IFooService service = serviceImpl;
+
+	IDisposable subscription = service.Progress.Subscribe(x => {
+		Console.WriteLine(x + "%");
+	});
+
+	serviceImpl.DoSomething();
+	// console output:	50%
+
+The object returned from **Subscribe(..)** can be used to cancel the subscription at any time.
+
+    subscription.Dispose();
+    
+    serviceImpl.DoSomething();
+    // does nothing, since no subscribers are registered anymore
+
+This allows the subscriber to cancel her subscription.
+
+If the class exposing the event wants to cancel all subscriptions, for example, when it gets disposed, it can simply dispose the event source too, which automatically cancels all subscriptions and ignores further calls to **Invoke(..)**.
+
+    internal sealed class FooServiceImpl :
+    	IFooService
+    {
+	    ...
+	
+		public void Dispose()
+		{
+			mProgressEventSource.Dispose();
+			// cancels all subscriptions, prevents new subscriptions and
+			// ignores all calls to Invoke()
+		}
+	}
+
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbMTgxNzU4Nzk1XX0=
+-->
