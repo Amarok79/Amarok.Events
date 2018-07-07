@@ -14,7 +14,7 @@ For development, you need *Visual Studio 2017* (v15.7 or later).
 
 ### Event Source and Event
 
-Suppose you have an interface and want to expose an event. You do that as following:
+Suppose you have an interface and you want to expose an event on that interface. You do that as following:
 
     public interface IFooService
     {
@@ -78,6 +78,7 @@ If instead the class exposing the event wants to cancel all subscriptions, for e
 		}
 	}
 
+
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMjUxMjczNzQyLDE4MTc1ODc5NV19
+eyJoaXN0b3J5IjpbMjAzNTQ3MjYwLDE4MTc1ODc5NV19
 -->
