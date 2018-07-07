@@ -40,9 +40,9 @@ The implementation class  of that interface then initializes a field of type **E
 
 In general, the *event source* should be kept private, while the associated **Event\<T>** is made public.
 
-For raising the event, one simply calls **Invoke(**..**)** on the *event source*.
+For raising the event, one simply calls **Invoke(**..**)** on the *event source*. Here you supply the event argument that is forwarded to all event handler.
 
-A consumer of the service can subscribe to the event.
+Next, a consumer of the service can subscribe to the event, as following:
 
 	FooServiceImpl serviceImpl = new FooServiceImpl();
 	IFooService service = serviceImpl;
@@ -80,5 +80,5 @@ If instead the class exposing the event wants to cancel all subscriptions, for e
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTMyMjAzNTcwMiwxODE3NTg3OTVdfQ==
+eyJoaXN0b3J5IjpbMTU4ODQ5MjY4OSwxODE3NTg3OTVdfQ==
 -->
