@@ -10,6 +10,7 @@ The package provides binaries for *.NET Standard 2.0* only. Tests are performed 
 
 For development, you need *Visual Studio 2017* (v15.7 or later).
 
+
 ## Documentation
 
 ### Event Source and Event
@@ -108,7 +109,40 @@ This shows that event handlers are invoked directly by the thread that calls **I
 
 Please note, the order in which event handlers are invoked is not deterministic. You shouldn't rely on that.
 
+
+### Invoke with Asynchronous Event Handler
+
+Now, let's take the same example but slightly modified with *async* event handlers. What's the output of this example?
+
+	var source = new EventSource<String>();
+
+	source.Event.Subscribe(async x => {		// async event handler
+		await Task.Delay(100);
+		Console.WriteLine(x + "1");
+	});
+
+	source.Event.Subscribe(async x => {		// async event handler
+		await Task.Delay(200);
+		Console.WriteLine(x + "2");
+	});
+
+	Console.WriteLine("A");
+	source.Invoke("B");
+	Console.WriteLine("C");
+
+The output is:
+
+	A
+	C
+	...
+	B1	(100 ms delayed)
+	B2	(200 ms delayed)
+
+Again, the thread calling **Invoke()** is also calling the event handlers. But this time, it returns after encountering the first *await* statement, causing **Invoke()** to return earlier as the event handler's continuations.
+
+That means a consumer can decide for itself whether it wants to register an synchronous or asynchronous event handler. In the latter case, the behavior is kind of fire-and-forget. The event raiser can't be sure that all event handler have completed. If you need that guarantee than use **InvokeAsync()** instead.
+
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMzYyNzE0MiwtNDU2MjA4MDI1LC03OTU3ND
-MyNDksMTgxNzU4Nzk1XX0=
+eyJoaXN0b3J5IjpbMTM3MDIxMzI1OSwtNDU2MjA4MDI1LC03OT
+U3NDMyNDksMTgxNzU4Nzk1XX0=
 -->
