@@ -18,10 +18,10 @@ For development, you need *Visual Studio 2017* (v15.7 or later).
 Suppose you have an interface and you want to expose an event on that interface. You do that as following:
 
 ````cs
-    public interface IFooService
-    {
-	    Event<Int32> Progress { get; }
-    }
+	public interface IFooService
+	{
+		Event<Int32> Progress { get; }
+	}
 ````    
 	
 The event is declared as *getter-only property* of type **Event\<T>**, where **T** represents the type of event argument. This can be any type.
@@ -29,18 +29,18 @@ The event is declared as *getter-only property* of type **Event\<T>**, where **T
 The implementation class  of that interface then initializes a field of type **EventSource\<T>** and implements the getter-only event property.
 
 ````cs
-    internal sealed class FooServiceImpl : IFooService
-    {
-    	private readonly EventSource<Int32> mProgressEventSource = new EventSource<Int32>();
+	internal sealed class FooServiceImpl : IFooService
+	{
+		private readonly EventSource<Int32> mProgressEventSource = new EventSource<Int32>();
     
-    	public Event<Int32> Progress => mProgressEventSource.Event;
+		public Event<Int32> Progress => mProgressEventSource.Event;
     
-    	public void DoSomething()
-    	{
-    		// raises the event
-    		mProgressEventSource.Invoke(50);
-    	}
-    }
+		public void DoSomething()
+		{
+			// raises the event
+			mProgressEventSource.Invoke(50);
+		}
+	}
 ````
 
 In general, the *event source* should be kept private, while the associated **Event\<T>** is made public.
@@ -64,10 +64,10 @@ Next, a consumer of the service can subscribe to the event. It just have to call
 The object returned from **Subscribe(**..**)** can be used to cancel the subscription at any time.
 
 ````cs
-    subscription.Dispose();
+	subscription.Dispose();
     
-    serviceImpl.DoSomething();
-    // does nothing, since no subscribers are registered anymore
+	serviceImpl.DoSomething();
+	// does nothing, since no subscribers are registered anymore
 ````
 
 It is recommended that subscriber store these subscription objects somewhere, otherwise they won't be able to remove their registered event handlers.
@@ -75,10 +75,9 @@ It is recommended that subscriber store these subscription objects somewhere, ot
 If instead the class exposing the event wants to cancel all subscriptions, for example, because it gets disposed, it can simply dispose the *event source* too, which automatically cancels all subscriptions and ignores further calls to **Invoke(**..**)**.
 
 ````cs
-    internal sealed class FooServiceImpl :
-    	IFooService
-    {
-	    ...
+	internal sealed class FooServiceImpl : IFooService
+	{
+		...
 	
 		public void Dispose()
 		{
