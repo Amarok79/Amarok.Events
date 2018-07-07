@@ -23,7 +23,7 @@ Suppose you have an interface and you want to expose an event on that interface.
 	
 The event is declared as *getter-only property* of type **Event\<T>**, where **T** represents the type of event argument. This can be any type.
 
-The implementation class  initializes a field of type **EventSource\<T>** and implements the getter-only event property.
+The implementation class  of that interface then initializes a field of type **EventSource\<T>** and implements the getter-only event property.
 
     internal sealed class FooServiceImpl : IFooService
     {
@@ -80,5 +80,5 @@ If instead the class exposing the event wants to cancel all subscriptions, for e
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMjAzNTQ3MjYwLDE4MTc1ODc5NV19
+eyJoaXN0b3J5IjpbNDQ3NzEwNjQ2LDE4MTc1ODc5NV19
 -->
