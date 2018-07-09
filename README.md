@@ -269,20 +269,21 @@ Weak subscriptions support a very specific but common use case. Using weak subsc
 
 Let's imagine an application where you have a set of services. These services are mostly persistent and live for the entire application lifetime. Such services are commonly registered as singletons in a dependency injection container.
 
-Suppose **IFooService** represents such a service. As in all the previous examples, the service exposes an event.
+Suppose **IUserManagement** represents such a service. As in all the previous examples, the service exposes an event.
 
 ```cs
-public interface IFooService
+public interface IUserManagement
 {
-	Event<Int32> Progress { get; }
+	Event<User> UserAdded { get; }
 }
 ```
 
 Next, imagine we have consumers of that service that register on that event.
 
-For example, other persistent services are not a big deal, because they get constructed at some time, register on our progress event and the event subscription exists for the entire application lifetime, same as the lifetime of the services.
+For example, we will have other persistent services, but they are not a big deal, because they get constructed at some time, register on our **UserAdded** event and the event subscription exists for the remaining application lifetime, same as the lifetime of the involved services.
 
-Quite different are user interface related views or the like. Those don't live for the entire application lifetime, but get constructed, register on events, get closed, disposed, ... and when you now forget to remove an subscription you have a memory. The amount of leaked memory increases as the view gets opened and closed multiple times.
+Quite different are user interface related objects like views. Those don't live for the entire application lifetime, but get constructed, register on events, get closed, disposed. When you forgot to remove an subscription taken by the view you have a memory leak. The amount of leaked memory increases as the view gets opened and closed multiple times.
+This happens because as in any other observer pattern implementation the observer (in our case the event source) holds a strong reference to the observable (event hand
 
 Here come weak subscriptions into play as they can help prevent such memory leaks. They free the developer from the burden to manually remove event subscriptions held by the view.
 
@@ -322,5 +323,5 @@ Since the view is kept in memory from other root objects the subscription is kep
 \<TODO>
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTg4OTA2NDU2NiwzNDQwOTA2MjNdfQ==
+eyJoaXN0b3J5IjpbLTE0MDcyMjI5NTAsMzQ0MDkwNjIzXX0=
 -->
