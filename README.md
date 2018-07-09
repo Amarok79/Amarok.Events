@@ -13,6 +13,9 @@ For development, you need *Visual Studio 2017* (v15.7 or later).
 
 ## Documentation
 
+- [Event Source And Event](https://github.com/Amarok79/Events#event-source-and-event)
+
+
 ### Event Source and Event
 
 Suppose you have an interface and you want to expose an event on that interface. You do that as following:
@@ -330,5 +333,5 @@ Weak subscriptions are no silver bullet. They are just one more tool for appropr
 \<TODO>
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbODMwNjc0NTg0LDM0NDA5MDYyM119
+eyJoaXN0b3J5IjpbMTcwMTE2MTM1MSwzNDQwOTA2MjNdfQ==
 -->
