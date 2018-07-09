@@ -224,7 +224,42 @@ Of course, the output is:
 
 ### Raising Events
 
-\<TODO>
+We have already learned that events are raised by calling **Invoke()** or **InvokeAsync()** providing the event argument. In most cases, the event argument won't be a simple string or integer value but some class that must be constructed and filled with information.
+
+```cs
+var source = new EventSource<FooEventArg>();
+	
+var arg = new FooEventArg() { ... };
+source.Invoke(arg);
+```
+
+Now, what happens if you raise an event and not at least a single event handler has been registered? In that case, the construction of a new event argument will be wasted CPU instructions and memory allocation, because **Invoke()** will immediately return.
+
+What if you want to prevent such wasteful instructions?
+
+Here you can use one of the provided overloads that accept a *value factory* for constructing the event argument.
+
+```cs
+source.Invoke(() => {
+	return new FooEventArg() { ... }
+	// value factory is only called, if at least a single
+	// event handler is registered
+});
+```
+
+If you need to pass some values to the value factory, you can do that too.
+
+```cs
+source.Invoke((arg1) => {
+	return new FooEventArg() { ... }
+	// value factory is only called, if at least a single
+	// event handler is registered
+},
+123);	// supplied as arg1
+```
+
+The same overloads are available for **InvokeAsync()** too.
+
 
 ### Weak Subscriptions
 
@@ -235,5 +270,5 @@ Of course, the output is:
 \<TODO>
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTg5NTE0Nzc0N119
+eyJoaXN0b3J5IjpbLTE4NTAwNjUwMTJdfQ==
 -->
