@@ -338,9 +338,44 @@ Weak subscriptions are no silver bullet. As always choose the right tool for the
 
 ### Exception Behavior
 
-\<TODO>
+Consider following example. What if one of the event handlers throws an exception.
 
+```cs
+var source = new EventSource<String>();
+
+source.Event.Subscribe(x => {		// sync event handler
+	Console.WriteLine(x + "1");
+	throw new Exception();
+});
+
+source.Event.Subscribe(x => {		// sync event handler
+	Console.WriteLine(x + "2");
+});
+
+Console.WriteLine("A");
+source.Invoke("B");
+Console.WriteLine("C");
+```
+
+What would you expect to happen? Is the second event handler called regardless of the exception? Is the exception propagated back to the caller?
+
+Well, in regard to exception handling, this library takes a different, maybe controversial approach. I consider it a design flaw of ordinary .NET events that invocation of the remaining event handlers is aborted, if one of the previously invoked event handler threw an exception. This makes the event publisher dependent on its subscribers, but the entire observer design pattern exists to decouple publisher from subscribers.
+
+In my opinion, the pattern only makes sense, if a publisher doesn’t need to care of whether there are subscribers, or whether those subscribers fail with exceptions. The publisher’s only responsibility is to invoke all registered event handlers in all cases.
+
+So, our example generates following output:
+
+	A  
+	B1  
+	B2  
+	C
+
+B2 is reliably invoked, even though B1 threw an exception.
+
+But, what happened with the exception?
+
+Most notably, the event raiser is NOT bothered with exception handling. Events are there to notify other parts of the application. This is kind of one-way communication. Exceptions are not propagated back. 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEzMzI0NTcwNjAsLTExNDgwNDU0NzAsMz
-Q0MDkwNjIzXX0=
+eyJoaXN0b3J5IjpbLTUyNDk4ODM3NCwtMTMzMjQ1NzA2MCwtMT
+E0ODA0NTQ3MCwzNDQwOTA2MjNdfQ==
 -->
