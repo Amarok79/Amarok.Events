@@ -300,7 +300,7 @@ public sealed class BarView
 		// when using SubscribeWeak() the returned object must be
 		// stored into a field, otherwise the subscription will get
 		// out of scope and get garbage collected too early
-		mUserAddedSubscription= service.UserAdded.SubscribeWeak(
+		mUserAddedSubscription = service.UserAdded.SubscribeWeak(
 			x => HandleUserAdded(x)
 		);
 	}
@@ -328,5 +328,5 @@ Since the view is kept in memory from other root objects (the UI framework) the 
 \<TODO>
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTgwMDcwNDEsMzQ0MDkwNjIzXX0=
+eyJoaXN0b3J5IjpbLTEwNTY3MzQ3MDksMzQ0MDkwNjIzXX0=
 -->
