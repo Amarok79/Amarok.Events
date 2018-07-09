@@ -235,7 +235,7 @@ source.Invoke(arg);
 
 Now, what happens if you raise an event and not a single event handler has been registered? In that case, the construction of a new event argument will be wasted CPU instructions and memory allocation, because **Invoke()** will return immediately without doing anything with the supplied event argument.
 
-What if you want to prevent such wasteful instructions?
+What if you want to avoid such wasteful instructions?
 
 Well, you can use one of the provided overloads that accept a *value factory* for constructing the event argument.
 
@@ -270,5 +270,5 @@ The same overloads are available for **InvokeAsync()** too.
 \<TODO>
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTExOTYxMTExNzJdfQ==
+eyJoaXN0b3J5IjpbMzQ0MDkwNjIzXX0=
 -->
