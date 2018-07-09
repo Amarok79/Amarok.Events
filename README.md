@@ -263,12 +263,67 @@ The same overloads are available for **InvokeAsync()** too.
 
 ### Weak Subscriptions
 
-\<TODO>
+It is possible to register event handlers (synchronous and/or asynchronous) via weak subscriptions. That are one that are automatically removed if the event handler is garbage collected.
+
+Weak subscriptions support a very specific but common use case. Using weak subscriptions wrong can be dangerous as it can cause hard-to-reproduce bugs. Consider this as a warning. Instead, correctly used they can help in preventing memory leaks, for example, just because you forgot to remove an event handler.
+
+Let's imagine an application where you have a set of services. These services are mostly persistent and live for the entire application lifetime. Such services are commonly registered as singletons in a dependency injection container.
+
+Suppose **IFooService** represents such a service. As in all the previous examples, the service exposes an event.
+
+```cs
+public interface IFooService
+{
+	Event<Int32> Progress { get; }
+}
+```
+
+Next, imagine we have consumers of that service that register on that event.
+
+For example, other persistent services are not a big deal, because they get constructed at some time, register on our progress event and the event subscription exists for the entire application lifetime, same as the lifetime of the services.
+
+Quite different are user interface related views or the like. Those don't live for the entire application lifetime, but get constructed, register on events, get closed, disposed, ... and when you now forget to remove an subscription you have a memory. The amount of leaked memory increases as the view gets opened and closed multiple times.
+
+Here come weak subscriptions into play as they can help prevent such memory leaks. They free the developer from the burden to manually remove event subscriptions held by the view.
+
+Such a UI view can use weak subscriptions as following.
+
+```cs
+public sealed class BarView
+    {
+	    // this field is necessary to hold the event subscription
+		 private IDisposable mProgressEventSubscription;
+
+		public BarView(IFooService service)
+		{
+			// when using SubscribeWeak() the returned object must be
+			// stored into a field, otherwise the subscription will get
+			// out of scope and get garbage collected too early
+			mProgressEventSubscription = service.Progress.SubscribeWeak(
+				x => HandleProgress(x)
+			);
+		}
+		
+		private void HandleProgress(Int32 progress)
+		{
+			...
+		}
+    }
+```
+
+That's it. In fact there is just one important point here. Store the object returned by **SubscribeWeak()** into a member field of the same object as your event handler. You can use that returned object also to cancel the subscription at any time, for example, when the view gets closed.
+
+If you don't cancel the subscription manually, it will be automagically removed from the service event after the view gets closed and garbage collected. This happens because only the view holds a strong reference to the subscription. The event source of our service doesn't maintain a strong reference to the subscription and the event handler when using **SubscribeWeak()**. Since the view is kept in memory from other root objects the subscription is kept alive and the event handler in the view is invoked as expected. After the view gets closed, all strong references to the view are removed, meaning the view and also it's (the only) strong reference to the subscription are being garbage collected. That can take some time, so this is not deterministic. Thus it is generally recommended to remove subscriptions manually in a determinstic way. 
+
+See weak subscriptions as a kind of safety mechanism.
+
+
+
 
 ### Exception Behavior
 
 \<TODO>
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMzQ0MDkwNjIzXX0=
+eyJoaXN0b3J5IjpbMTE1ODQ3MTMyMywzNDQwOTA2MjNdfQ==
 -->
