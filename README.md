@@ -13,7 +13,15 @@ For development, you need *Visual Studio 2017* (v15.7 or later).
 
 ## Documentation
 
+Table of Content:
 - [Event Source And Event](https://github.com/Amarok79/Events#event-source-and-event)
+- [Invoke with Synchronous Event Handler](https://github.com/Amarok79/Events#invoke-with-synchronous-event-handler)
+- [Invoke with Asynchronous Event Handler](https://github.com/Amarok79/Events#invoke-with-asynchronous-event-handler)
+- [InvokeAsync with Asynchronous Event Handler](https://github.com/Amarok79/Events#invokeasync-with-asynchronous-event-handler)
+- [InvokeAsync with Synchronous Event Handler](https://github.com/Amarok79/Events#invokeasync-with-synchronous-event-handler)
+- [Raising Events](https://github.com/Amarok79/Events#raising-events)
+- [Weak Subscriptions](https://github.com/Amarok79/Events#weak-subscriptions)
+- [Exception Behavior](https://github.com/Amarok79/Events#exception-behavior)
 
 
 ### Event Source and Event
@@ -333,5 +341,5 @@ Weak subscriptions are no silver bullet. They are just one more tool for appropr
 \<TODO>
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTcwMTE2MTM1MSwzNDQwOTA2MjNdfQ==
+eyJoaXN0b3J5IjpbLTExNDgwNDU0NzAsMzQ0MDkwNjIzXX0=
 -->
