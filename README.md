@@ -359,7 +359,7 @@ Console.WriteLine("C");
 
 What would you expect to happen? Is the second event handler called regardless of the exception? Is the exception propagated back to the caller?
 
-Well, in regard to exception handling, this library takes a different, maybe controversial approach. I consider it a design flaw of ordinary .NET events that invocation of the remaining event handlers is aborted, if one of the previously invoked event handler threw an exception. This makes the event publisher dependent on its subscribers, but the entire observer design pattern exists to decouple publisher from subscribers.
+Well, in regard to exception handling, this library takes a different, maybe controversial approach. I consider it a design flaw of ordinary .NET events that invocation of the remaining event handlers is aborted, if one of the previously invoked event handler threw an exception. Since the thrown exception is reported back to the event publisher, this makes the event publisher dependent on its subscribers, but the entire observer design pattern exists to decouple both, publisher and subscribers.
 
 In my opinion, the pattern only makes sense, if a publisher doesn’t need to care of whether there are subscribers, or whether those subscribers fail with exceptions. The publisher’s only responsibility is to invoke all registered event handlers in all cases.
 
@@ -374,8 +374,19 @@ B2 is reliably invoked, even though B1 threw an exception.
 
 But, what happened with the exception?
 
-Most notably, the event raiser is NOT bothered with exception handling. Events are there to notify other parts of the application. This is kind of one-way communication. Exceptions are not propagated back. 
+Well, the event publisher is NOT bothered with exception handling. Events are there to notify other parts of the application. This is kind of one-way communication. Exceptions are therefore not propagated back to the caller.
+
+Instead, the library catches all exceptions thrown in event handlers and forwards them to the global event **UnobservedException** on **EventSystem**. That way an application can observe all otherwise unobserved exceptions thrown in event handlers and at least log them.
+
+```cs
+EventSystem.UnobservedException.Subscribe(ex => {
+	Console.WriteLine(ex);
+});
+```
+
+If an application wants to handle those exception - and that is generally recommended – then the exception handling should happen in the event handlers itself. If exceptions can occur in an event handler, then the event handler is responsible for careful handling.
+
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTUyNDk4ODM3NCwtMTMzMjQ1NzA2MCwtMT
+eyJoaXN0b3J5IjpbMTM1NTkzNjI0OSwtMTMzMjQ1NzA2MCwtMT
 E0ODA0NTQ3MCwzNDQwOTA2MjNdfQ==
 -->
