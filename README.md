@@ -49,64 +49,64 @@ For raising the event, one simply calls **Invoke(**..**)** on the *event source*
 
 Next, a consumer of the service can subscribe to the event. It just have to call **Subscribe(**..**)** on the *event* that is made public by the service.
 
-````cs
-	FooServiceImpl serviceImpl = new FooServiceImpl();
-	IFooService service = serviceImpl;
+```cs
+FooServiceImpl serviceImpl = new FooServiceImpl();
+IFooService service = serviceImpl;
 
-	IDisposable subscription = service.Progress.Subscribe(x => {
-		Console.WriteLine(x + "%");
-	});
+IDisposable subscription = service.Progress.Subscribe(x => {
+	Console.WriteLine(x + "%");
+});
 
-	serviceImpl.DoSomething();		// internally raises the event
-	// console output:	50%
-````
+serviceImpl.DoSomething();		// internally raises the event
+// console output:	50%
+```
 
 The object returned from **Subscribe(**..**)** can be used to cancel the subscription at any time.
 
-````cs
-	subscription.Dispose();
+```cs
+subscription.Dispose();
     
-	serviceImpl.DoSomething();
-	// does nothing, since no subscribers are registered anymore
-````
+serviceImpl.DoSomething();
+// does nothing, since no subscribers are registered anymore
+```
 
-It is recommended that subscriber store these subscription objects somewhere, otherwise they won't be able to remove their registered event handlers.
+It is recommended that subscribers store these subscription objects somewhere, otherwise they won't be able to remove their registered event handlers.
 
 If instead the class exposing the event wants to cancel all subscriptions, for example, because it gets disposed, it can simply dispose the *event source* too, which automatically cancels all subscriptions and ignores further calls to **Invoke(**..**)**.
 
-````cs
-	internal sealed class FooServiceImpl : IFooService
-	{
-		...
+```cs
+internal sealed class FooServiceImpl : IFooService
+{
+	...
 	
-		public void Dispose()
-		{
-			mProgressEventSource.Dispose();
-			// cancels all subscriptions, discards new subscriptions and
-			// ignores any call to Invoke()
-		}
+	public void Dispose()
+	{
+		mProgressEventSource.Dispose();
+		// cancels all subscriptions, discards new subscriptions and
+		// ignores any call to Invoke()
 	}
-````
+}
+```
 
 ### Invoke with Synchronous Event Handler
 
 The following code snippet shows a single *event source* with two event handlers. Both event handler and also the code invoking the event print to the console. What`s the console output?
 
-````cs
-	var source = new EventSource<String>();
+```cs
+var source = new EventSource<String>();
 
-	source.Event.Subscribe(x => {		// sync event handler
-		Console.WriteLine(x + "1");
-	});
+source.Event.Subscribe(x => {		// sync event handler
+	Console.WriteLine(x + "1");
+});
 
-	source.Event.Subscribe(x => {		// sync event handler
-		Console.WriteLine(x + "2");
-	});
+source.Event.Subscribe(x => {		// sync event handler
+	Console.WriteLine(x + "2");
+});
 
-	Console.WriteLine("A");
-	source.Invoke("B");
-	Console.WriteLine("C");
-````
+Console.WriteLine("A");
+source.Invoke("B");
+Console.WriteLine("C");
+```
 
 The output is:
 
@@ -124,23 +124,23 @@ Please note, the order in which event handlers are invoked is not deterministic.
 
 Now, let's take the same example but slightly modified with *async* event handlers. What's the output of this?
 
-````cs
-	var source = new EventSource<String>();
+```cs
+var source = new EventSource<String>();
 
-	source.Event.Subscribe(async x => {		// async event handler
-		await Task.Delay(100);
-		Console.WriteLine(x + "1");
-	});
+source.Event.Subscribe(async x => {		// async event handler
+	await Task.Delay(100);
+	Console.WriteLine(x + "1");
+});
 
-	source.Event.Subscribe(async x => {		// async event handler
-		await Task.Delay(200);
-		Console.WriteLine(x + "2");
-	});
+source.Event.Subscribe(async x => {		// async event handler
+	await Task.Delay(200);
+	Console.WriteLine(x + "2");
+});
 
-	Console.WriteLine("A");
-	source.Invoke("B");
-	Console.WriteLine("C");
-````
+Console.WriteLine("A");
+source.Invoke("B");
+Console.WriteLine("C");
+```
 
 The output is:
 
@@ -161,23 +161,23 @@ If you need that guarantee that then use **InvokeAsync()** instead.
 
 As mentioned previously, **InvokeAsync()** can be used if awaiting the completion of all event handlers is necessary. 
 
-````cs
-	var source = new EventSource<String>();
+```cs
+var source = new EventSource<String>();
 
-	source.Event.Subscribe(async x => {		// async event handler
-		await Task.Delay(100);
-		Console.WriteLine(x + "1");
-	});
+source.Event.Subscribe(async x => {		// async event handler
+	await Task.Delay(100);
+	Console.WriteLine(x + "1");
+});
 
-	source.Event.Subscribe(async x => {		// async event handler
-		await Task.Delay(200);
-		Console.WriteLine(x + "2");
-	});
+source.Event.Subscribe(async x => {		// async event handler
+	await Task.Delay(200);
+	Console.WriteLine(x + "2");
+});
 
-	Console.WriteLine("A");
-	await source.InvokeAsync("B");			// await !!
-	Console.WriteLine("C");
-````
+Console.WriteLine("A");
+await source.InvokeAsync("B");			// await !!
+Console.WriteLine("C");
+```
 
 This time the output is:
 
@@ -198,21 +198,21 @@ If for example, all registered event handlers are async methods but don't await 
 
 Of course, it is also possible to use **InvokeAsync()** for raising events, but with subscribers that register only synchronous event handlers. This is valid and the library implementation optimizes this scenario so that there is little overhead even though *async/await* is involved.
 
-````cs
-	var source = new EventSource<String>();
+```cs
+var source = new EventSource<String>();
 
-	source.Event.Subscribe(x => {		// sync event handler
-		Console.WriteLine(x + "1");
-	});
+source.Event.Subscribe(x => {		// sync event handler
+	Console.WriteLine(x + "1");
+});
 
-	source.Event.Subscribe(x => {		// sync event handler
-		Console.WriteLine(x + "2");
-	});
+source.Event.Subscribe(x => {		// sync event handler
+	Console.WriteLine(x + "2");
+});
 
-	Console.WriteLine("A");
-	await source.InvokeAsync("B");		// await !!
-	Console.WriteLine("C");
-````
+Console.WriteLine("A");
+await source.InvokeAsync("B");		// await !!
+Console.WriteLine("C");
+```
 
 Of course, the output is:
 
@@ -234,10 +234,6 @@ Of course, the output is:
 
 \<TODO>
 
-
-set
-eaXN0b3J5IjpbLTY4MzE2NTAxOF19
--->
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMjEyNTUzNTA1MF19
+eyJoaXN0b3J5IjpbLTg5NTE0Nzc0N119
 -->
