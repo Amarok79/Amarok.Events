@@ -280,39 +280,44 @@ public interface IUserManagement
 
 Next, imagine we have consumers of that service that register on that event.
 
-For example, we will have other persistent services, but they are not a big deal, because they get constructed at some time, register on our **UserAdded** event and the event subscription exists for the remaining application lifetime, same as the lifetime of the involved services.
+For example, we will have other persistent services, but they are not a big deal, because they get constructed at some time, register on our **UserAdded** event and the event subscription exists for the remaining application lifetime, same as the involved services.
 
-Quite different are user interface related objects like views. Those don't live for the entire application lifetime, but get constructed, register on events, get closed, disposed. When you forgot to remove an subscription taken by the view you have a memory leak. The amount of leaked memory increases as the view gets opened and closed multiple times.
-This happens because as in any other observer pattern implementation the observer (in our case the event source) holds a strong reference to the observable (event hand
+Quite different are user interface related objects like views. Those don't live for the entire application lifetime, but get constructed, register on events, get closed, disposed. When you forget to remove an subscription taken by such a view you have a memory leak. The amount of leaked memory increases as the view gets opened and closed multiple times.
+This happens because as in any other observer pattern implementation the observer (in our case the event source) maintains a strong reference to the observable (event handler in our case). This causes quite often memory leaks.
 
-Here come weak subscriptions into play as they can help prevent such memory leaks. They free the developer from the burden to manually remove event subscriptions held by the view.
+Here come weak subscriptions into play as they can help prevent such memory leaks. They free the developer from the burden to manually remove event subscriptions.
 
-Such a UI view can use weak subscriptions as following.
+Such a UI view can use weak subscriptions on our **UserAdded** event as following.
 
 ```cs
 public sealed class BarView
 {
 	// this field is necessary to hold the event subscription
-	private IDisposable mProgressEventSubscription;
+	private IDisposable mUserAddedSubscription;
 
 	public BarView(IFooService service)
 	{
 		// when using SubscribeWeak() the returned object must be
 		// stored into a field, otherwise the subscription will get
 		// out of scope and get garbage collected too early
-		mProgressEventSubscription = service.Progress.SubscribeWeak(
-			x => HandleProgress(x)
+		mUserAddedSubscription= service.UserAdded.SubscribeWeak(
+			x => HandleUserAdded(x)
 		);
 	}
 		
-	private void HandleProgress(Int32 progress)
+	private void HandleUserAdded(User user)
 	{
 		...
 	}
 }
 ```
 
-That's it. In fact there is just one important point here. Store the object returned by **SubscribeWeak()** into a member field of the same object as your event handler. You can use that returned object also to cancel the subscription at any time, for example, when the view gets closed. That makes subscription cancellation more deterministic.
+That's it.
+
+In fact there is just one important point here:
+- Store the subscription object returned by **SubscribeWeak()** into a member field of the same object as your event handler.
+
+You can use that returned object also to cancel the subscription at any time, for example, when the view gets closed. That makes subscription cancellation more deterministic.
 
 If you don't cancel the subscription manually, it will be automatically removed from the service event after the view gets closed and garbage collected. This happens because only the view holds a strong reference to the subscription. The event source of our service doesn't maintain a strong reference to the subscription and the event handler when using **SubscribeWeak()**.
 Since the view is kept in memory from other root objects the subscription is kept alive and the event handler in the view is invoked as expected. After the view gets closed, all strong references to the view are removed, meaning the view and also it's (the only) strong reference to the subscription are being garbage collected. A garbage collection to occur can take some time, so this is not deterministic.
@@ -323,5 +328,5 @@ Since the view is kept in memory from other root objects the subscription is kep
 \<TODO>
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE0MDcyMjI5NTAsMzQ0MDkwNjIzXX0=
+eyJoaXN0b3J5IjpbLTE4NDM2NDE0NDksMzQ0MDkwNjIzXX0=
 -->
