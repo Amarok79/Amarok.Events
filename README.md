@@ -314,12 +314,12 @@ public sealed class BarView
 
 That's it.
 
-In fact there is just one important point here:
-- Store the subscription object returned by **SubscribeWeak()** into a member field of the same object as your event handler.
+In fact there is just one important point here: Store the subscription object returned by **SubscribeWeak()** into a member field of the same object as your event handler.
 
 You can use that returned object also to cancel the subscription at any time, for example, when the view gets closed. That makes subscription cancellation more deterministic.
 
-If you don't cancel the subscription manually, it will be automatically removed from the service event after the view gets closed and garbage collected. This happens because only the view holds a strong reference to the subscription. The event source of our service doesn't maintain a strong reference to the subscription and the event handler when using **SubscribeWeak()**.
+If you don't cancel the subscription manually, it will be automatically removed from the service event after the view gets closed and garbage collected. This works when only the view holds a strong reference to the subscription as shown in the previous example. With weak subscriptions, the *event source* of our service doesn't maintain a strong reference to the subscription and the event handler.
+
 Since the view is kept in memory from other root objects the subscription is kept alive and the event handler in the view is invoked as expected. After the view gets closed, all strong references to the view are removed, meaning the view and also it's (the only) strong reference to the subscription are being garbage collected. A garbage collection to occur can take some time, so this is not deterministic.
 
 
@@ -328,5 +328,5 @@ Since the view is kept in memory from other root objects the subscription is kep
 \<TODO>
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE4NDM2NDE0NDksMzQ0MDkwNjIzXX0=
+eyJoaXN0b3J5IjpbODQ1NDk2NTUyLDM0NDA5MDYyM119
 -->
