@@ -233,11 +233,11 @@ var arg = new FooEventArg() { ... };
 source.Invoke(arg);
 ```
 
-Now, what happens if you raise an event and not at least a single event handler has been registered? In that case, the construction of a new event argument will be wasted CPU instructions and memory allocation, because **Invoke()** will immediately return.
+Now, what happens if you raise an event and not a single event handler has been registered? In that case, the construction of a new event argument will be wasted CPU instructions and memory allocation, because **Invoke()** will return immediately without doing anything with the supplied event argument.
 
 What if you want to prevent such wasteful instructions?
 
-Here you can use one of the provided overloads that accept a *value factory* for constructing the event argument.
+Well, you can use one of the provided overloads that accept a *value factory* for constructing the event argument.
 
 ```cs
 source.Invoke(() => {
@@ -247,7 +247,7 @@ source.Invoke(() => {
 });
 ```
 
-If you need to pass some values to the value factory, you can do that too.
+If you need to pass some value to the *value factory*, you can do that too. Use it to avoid closure allocations.
 
 ```cs
 source.Invoke((arg1) => {
@@ -270,5 +270,5 @@ The same overloads are available for **InvokeAsync()** too.
 \<TODO>
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE4NTAwNjUwMTJdfQ==
+eyJoaXN0b3J5IjpbLTExOTYxMTExNzJdfQ==
 -->
