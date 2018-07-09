@@ -17,33 +17,33 @@ For development, you need *Visual Studio 2017* (v15.7 or later).
 
 Suppose you have an interface and you want to expose an event on that interface. You do that as following:
 
-````cs
-	public interface IFooService
-	{
-		Event<Int32> Progress { get; }
-	}
-````    
-	
+```cs
+public interface IFooService
+{
+	Event<Int32> Progress { get; }
+}
+```
+
 The event is declared as *getter-only property* of type **Event\<T>**, where **T** represents the type of event argument. This can be any type.
 
 The implementation class  of that interface then initializes a field of type **EventSource\<T>** and implements the getter-only event property.
 
-````cs
-	internal sealed class FooServiceImpl : IFooService
+```cs
+internal sealed class FooServiceImpl : IFooService
+{
+	private readonly EventSource<Int32> mProgressEventSource = new EventSource<Int32>();
+    
+	public Event<Int32> Progress => mProgressEventSource.Event;
+    
+	public void DoSomething()
 	{
-		private readonly EventSource<Int32> mProgressEventSource = new EventSource<Int32>();
-    
-		public Event<Int32> Progress => mProgressEventSource.Event;
-    
-		public void DoSomething()
-		{
-			// raises the event
-			mProgressEventSource.Invoke(50);
-		}
+		// raises the event
+		mProgressEventSource.Invoke(50);
 	}
-````
+}
+```
 
-In general, the *event source* should be kept private, while the associated **Event\<T>** is made public.
+In general, the *event source* should be kept private, while the associated **Event\<T>** is made public. This is similar to the pattern used for *CancellationToken* and *CancellationTokenSource*, or *Task\<T>* and *TaskCompletionSource\<T>*.
 
 For raising the event, one simply calls **Invoke(**..**)** on the *event source*. Here you supply the event argument that is forwarded to all event handlers.
 
@@ -239,5 +239,5 @@ set
 eaXN0b3J5IjpbLTY4MzE2NTAxOF19
 -->
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEyMjE3MTYxMjhdfQ==
+eyJoaXN0b3J5IjpbMjEyNTUzNTA1MF19
 -->
