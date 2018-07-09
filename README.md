@@ -322,11 +322,13 @@ If you don't cancel the subscription manually, it will be automatically removed 
 
 Since the view is kept in memory from other root objects (the UI framework) the subscription is kept alive and the event handler in the view is invoked as expected. After the view gets closed, all strong references to the view are removed, meaning the view and also it's (the only) strong reference to the subscription are being garbage collected.
 
+Weak subscriptions are no silver bullet. They are just one more tool for appropriate scenarios.
+
 
 ### Exception Behavior
 
 \<TODO>
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTM1NjY0MDc0LDM0NDA5MDYyM119
+eyJoaXN0b3J5IjpbODMwNjc0NTg0LDM0NDA5MDYyM119
 -->
