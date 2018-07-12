@@ -22,6 +22,7 @@ Table of Content:
 - [Raising Events](https://github.com/Amarok79/Events#raising-events)
 - [Weak Subscriptions](https://github.com/Amarok79/Events#weak-subscriptions)
 - [Exception Behavior](https://github.com/Amarok79/Events#exception-behavior)
+- [IProgress\<T> Integration](https://github.com/Amarok79/Events#iprogresst-integration)
 
 
 ### Event Source and Event
@@ -468,6 +469,6 @@ source.Invoke(123);
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTE1NjUyMzg1NCwxMzU1OTM2MjQ5LC0xMz
-MyNDU3MDYwLC0xMTQ4MDQ1NDcwLDM0NDA5MDYyM119
+eyJoaXN0b3J5IjpbLTE5NDM2MzM2MjMsMTM1NTkzNjI0OSwtMT
+MzMjQ1NzA2MCwtMTE0ODA0NTQ3MCwzNDQwOTA2MjNdfQ==
 -->
