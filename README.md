@@ -386,22 +386,23 @@ EventSystem.UnobservedException.Subscribe(ex => {
 
 If an application wants to handle those exception - and that is generally recommended – then the exception handling should happen in the event handlers itself. If exceptions can occur in an event handler, then the event handler is responsible for careful handling.
 
+
 ### IProgress\<T> Integration
 
-The interface IProgress\<T> defined by .NET BCL is a commonly-used way to represent progress.
+The interface **IProgress\<T>** defined by .NET BCL is a commonly-used way to transfer progress.
 
-For example, long-running methods often accept an IProgress\<T> as argument to report back progress.
+For example, long-running methods often accept an **IProgress\<T>** as argument to report back progress.
 
 ```cs
 public void SomeLongRunningMethod(IProgress<Int32> progress)
 {
-	// reports progress as part of it's operation
+	// reports progress back to caller
 	for(Int32 i = 0; i < 100; i++)
 		progress.Report(i);
 }
 ```
 
-The caller then supplies an implementation to receive the progress. This is often done using the ready-made Progress\<T> class.
+The caller then supplies an implementation to receive the progress. This is often done using the ready-made **Progress\<T>** class.
 
 ```cs
 var progress = new Progress<T>(x =>
@@ -409,20 +410,58 @@ var progress = new Progress<T>(x =>
 );
 
 SomeLongRunningMethod(progress);
+
+// output might be out-of-order 
+0
+1
+2
+6
+3
+4
+...
+99
+98
 ```
 
-Depending from which thread you call this long-running method you will be surprised that the console output are not always sequentially increasing numbers from 0 to 99. That's because Progress\<T> schedules its callback on a synchronization context.
+Depending on from which thread you call this long-running method you will be surprised that the console output are not always sequentially increasing numbers from 0 to 99. That's because **Progress\<T>** invokes its callback via a synchronization context.
 
-That can be the UI thread, then number 0 to 99 will be the result, because everything is synchronized via the UI thread.
+That can be the UI thread, then sequential numbers 0 to 99 will be the result, because everything is synchronized via the UI thread.
 
 If it's not the UI thread, then the callback will be invoked via the thread-pool thread, which means callbacks can come out-of-order!
 
-As alternative, you can supply an EventSource\<T> as progress object. It will forward progress to its subscribers in correct order.
+As alternative, you can supply an **EventSource\<T>** as progress object. It will forward progress to its subscribers in correct order.
 
 ```cs
+var progress = new EventSource<T>();
+
+progress.Event.Subscribe(x =>
+	Console.WriteLine(x)
+);
+
+SomeLongRunningMethod(progress);
+
+// will always generate:
+0
+1
+2
+...
+97
+98
+99
+```
+
+Of course, it is also possible to subscribe a **IProgress\<T>** onto an event, so that raised events are forwarded to the progress object.
+
+```cs
+IProgress<Int32> progress = new Progress<Int32>(x =>
+	Console.WriteLine(x)
+);
+
+
 
 ```
+
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTkyMDI0MjM2NiwxMzU1OTM2MjQ5LC0xMz
+eyJoaXN0b3J5IjpbMTkzODgzMjkzNywxMzU1OTM2MjQ5LC0xMz
 MyNDU3MDYwLC0xMTQ4MDQ1NDcwLDM0NDA5MDYyM119
 -->
