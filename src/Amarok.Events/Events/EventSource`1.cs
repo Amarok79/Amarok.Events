@@ -20,6 +20,7 @@ namespace Amarok.Events
 	/// </summary>
 	[DebuggerStepThrough]
 	public sealed class EventSource<T> :
+		IProgress<T>,
 		IDisposable
 	{
 		// the associated public-facing event
@@ -42,6 +43,21 @@ namespace Amarok.Events
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private Int32 mNumberOfThreadsExecuting;
 
+
+		#region ++ IProgress<T> Interface ++
+
+		/// <summary>
+		/// Reports a progress update.
+		/// </summary>
+		/// 
+		/// <param name="value">
+		/// The value of the updated progress.</param>
+		void IProgress<T>.Report(T value)
+		{
+			this.Invoke(value);
+		}
+
+		#endregion
 
 		#region ++ IDisposable Interface ++
 
