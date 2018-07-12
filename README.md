@@ -386,7 +386,43 @@ EventSystem.UnobservedException.Subscribe(ex => {
 
 If an application wants to handle those exception - and that is generally recommended – then the exception handling should happen in the event handlers itself. If exceptions can occur in an event handler, then the event handler is responsible for careful handling.
 
+### IProgress\<T> Integration
+
+The interface IProgress\<T> defined by .NET BCL is a commonly-used way to represent progress.
+
+For example, long-running methods often accept an IProgress\<T> as argument to report back progress.
+
+```cs
+public void SomeLongRunningMethod(IProgress<Int32> progress)
+{
+	// reports progress as part of it's operation
+	for(Int32 i = 0; i < 100; i++)
+		progress.Report(i);
+}
+```
+
+The caller then supplies an implementation to receive the progress. This is often done using the ready-made Progress\<T> class.
+
+```cs
+var progress = new Progress<T>(x =>
+	Console.WriteLine(x)
+);
+
+SomeLongRunningMethod(progress);
+```
+
+Depending from which thread you call this long-running method you will be surprised that the console output are not always sequentially increasing numbers from 0 to 99. That's because Progress\<T> schedules its callback on a synchronization context.
+
+That can be the UI thread, then number 0 to 99 will be the result, because everything is synchronized via the UI thread.
+
+If it's not the UI thread, then the callback will be invoked via the thread-pool thread, which means callbacks can come out-of-order!
+
+As alternative, you can supply an EventSource\<T> as progress object. It will forward progress to its subscribers in correct order.
+
+```cs
+
+```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTM1NTkzNjI0OSwtMTMzMjQ1NzA2MCwtMT
-E0ODA0NTQ3MCwzNDQwOTA2MjNdfQ==
+eyJoaXN0b3J5IjpbMTkyMDI0MjM2NiwxMzU1OTM2MjQ5LC0xMz
+MyNDU3MDYwLC0xMTQ4MDQ1NDcwLDM0NDA5MDYyM119
 -->
