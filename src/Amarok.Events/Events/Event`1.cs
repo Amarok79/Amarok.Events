@@ -12,6 +12,8 @@ namespace Amarok.Events
 {
 	/// <summary>
 	/// This type represents an Event that allows consumers to subscribe on.
+	/// 
+	/// This type is thread-safe.
 	/// </summary>
 	[DebuggerStepThrough]
 	public readonly struct Event<T> :
@@ -198,9 +200,14 @@ namespace Amarok.Events
 		/// Subscribes the given progress object on the event. The progress object will be invoked every time the 
 		/// event is raised.
 		/// 
-		/// This method establishes a strong reference between the event source and the progress object. That means 
-		/// as long as the event source is kept in memory, it will also keep the progress object in memory. To break 
-		/// this strong reference, you can dispose the returned subscription.
+		/// This method establishes a weak reference between the event source and the progress object. That means 
+		/// that the subscription is kept alive only as long as both event source and progress object are kept in 
+		/// memory via strong references from other objects. The event source alone doesn't keep the progress object 
+		/// in memory. You have to keep a strong reference to the returned subscription object to achieve this.
+		/// 
+		/// The subscription can be canceled at any time by disposing the returned subscription object. Otherwise, 
+		/// the subscription is automatically canceled if the progress object is being garbage collected. For this 
+		/// to happen no other strong reference to the returned subscription must exist.
 		/// </summary>
 		/// 
 		/// <param name="progress">

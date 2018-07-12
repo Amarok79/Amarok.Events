@@ -9,7 +9,7 @@ using System;
 namespace Amarok.Events
 {
 	/// <summary>
-	/// This type provides static members that affect the entire event system.
+	/// This type provides static members that affect the entire app domain-wide event system.
 	/// 
 	/// This type is thread-safe.
 	/// </summary>

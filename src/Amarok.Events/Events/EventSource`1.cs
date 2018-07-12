@@ -17,6 +17,8 @@ namespace Amarok.Events
 {
 	/// <summary>
 	/// This type represents an Event that allows publishers to raise it.
+	/// 
+	/// This type is thread-safe.
 	/// </summary>
 	[DebuggerStepThrough]
 	public sealed class EventSource<T> :
