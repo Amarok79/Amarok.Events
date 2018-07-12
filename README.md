@@ -23,6 +23,7 @@ Table of Content:
 - [Weak Subscriptions](https://github.com/Amarok79/Events#weak-subscriptions)
 - [Exception Behavior](https://github.com/Amarok79/Events#exception-behavior)
 - [IProgress\<T> Integration](https://github.com/Amarok79/Events#iprogresst-integration)
+- [Event Recorder](https://github.com/Amarok79/Events#event-recorder)
 
 
 ### Event Source and Event
@@ -468,7 +469,72 @@ source.Invoke(123);
 ```
 
 
+### Event Recorder
+
+If you are writing unit tests, then there will come the time where you want to ensure that an event on your subject-under-test is correctly raised with the expected event arguments.
+
+To ease unit testing, this library provides a ready-made event recorder that can be used to record events and then later on analyze them.
+
+As an example, suppose we have following implementation class.
+
+```cs
+public sealed class UserManagementService
+{
+	private readonly EventSource<String> mUserAddedEvent = new EventSource<String>();
+
+	public void AddUser(String name)
+	{
+		mUserAddedEvent.Invoke(name);
+	}
+}
+```
+
+In a unit test we want to assert that the event is raised and that the supplied name is supplied to the event.
+
+```cs
+[Test]
+public void AddUserRaisesEventWithUserName
+{
+	// arrange
+	var sut = new UserManagementService();
+	var recorder = EventRecorder.From(sut.UserAdded);
+
+	// act
+	sut.AddUser("Foo");
+	Thread.Sleep(50);
+	sut.AddUser("Bar");
+	
+	// assert (using NFluent assertions)
+	Check.That(recorder.Events)
+		.HasSize(2);		// we expect two events
+
+	Check.That(recorder.Events[0])
+		.IsEqualTo("Foo");	// first "Foo" was recorded
+	Check.That(recorder.Events[1])
+		.IsEqualTo("Bar");	// then "Bar" as expected
+}
+```
+
+The event recorder can be used to gain even more information. Instead of accessing property **Events**, one can use **EventInfos**, which returns timing and thread information about the recorded events.
+
+```cs
+	recorder.EventInfos[0].Value		// "Foo"
+	recorder.EventInfos[0].Index		// 0
+	recorder.EventInfos[0].Timestamp	// DateTimeOffset
+	recorder.EventInfos[0].TimeOffset	// 0 ms
+	recorder.EventInfos[0].Thread		// the calling thread
+	
+	recorder.EventInfos[1].Value		// "Bar"
+	recorder.EventInfos[1].Index		// 1
+	recorder.EventInfos[1].Timestamp	// DateTimeOffset
+	recorder.EventInfos[1].TimeOffset	// 50 ms
+	recorder.EventInfos[1].Thread		// the calling thread
+```
+
+If you don't want to record events temporarily, you can **Pause()** and finally **Resume()** the event recorder. If you want to turn off recording completely, call **Dispose()**. To clear the list of recorded events you can use **Reset()**.
+
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE5NDM2MzM2MjMsMTM1NTkzNjI0OSwtMT
-MzMjQ1NzA2MCwtMTE0ODA0NTQ3MCwzNDQwOTA2MjNdfQ==
+eyJoaXN0b3J5IjpbLTE3MzI5NTg3MDYsLTE5NDM2MzM2MjMsMT
+M1NTkzNjI0OSwtMTMzMjQ1NzA2MCwtMTE0ODA0NTQ3MCwzNDQw
+OTA2MjNdfQ==
 -->
