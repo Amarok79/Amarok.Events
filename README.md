@@ -505,7 +505,7 @@ public void AddUserRaisesEventWithUserName
 	
 	// assert (using NFluent assertions)
 	Check.That(recorder.Events)
-		.HasSize(2);	// we recorded two events
+		.HasSize(2);		// we expect two events
 
 	Check.That(recorder.Events[0])
 		.IsEqualTo("Foo");	// first "Foo" was recorded
@@ -530,11 +530,10 @@ The event recorder can be used to gain even more information. Instead of accessi
 	recorder.EventInfos[1].Thread		// the calling thread
 ```
 
-If you don't want to record events temporarily, you can **Pause()** and finally **Resume()** the event recorder. If you want to turn off recording persistently, call **Dispose()**. To clear the list of recorded events you can use **Reset()**.
-
+If you don't want to record events temporarily, you can **Pause()** and finally **Resume()** the event recorder. If you want to turn off recording completely, call **Dispose()**. To clear the list of recorded events you can use **Reset()**.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEwMzY0MzYzNTAsLTE5NDM2MzM2MjMsMT
-M1NTkzNjI0OSwtMTMzMjQ1NzA2MCwtMTE0ODA0NTQ3MCwzNDQw
-OTA2MjNdfQ==
+eyJoaXN0b3J5IjpbMTUzODQyMDU2NSwtMTk0MzYzMzYyMywxMz
+U1OTM2MjQ5LC0xMzMyNDU3MDYwLC0xMTQ4MDQ1NDcwLDM0NDA5
+MDYyM119
 -->
