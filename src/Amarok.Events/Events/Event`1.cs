@@ -170,6 +170,54 @@ namespace Amarok.Events
 			return mSource.AddWeak(func);
 		}
 
+		/// <summary>
+		/// Subscribes the given progress object on the event. The progress object will be invoked every time the 
+		/// event is raised.
+		/// 
+		/// This method establishes a strong reference between the event source and the progress object. That means 
+		/// as long as the event source is kept in memory, it will also keep the progress object in memory. To break 
+		/// this strong reference, you can dispose the returned subscription.
+		/// </summary>
+		/// 
+		/// <param name="progress">
+		/// The progress object to subscribe on the event.</param>
+		/// 
+		/// <returns>
+		/// An object that represents the newly created subscription. Disposing this object will cancel the 
+		/// subscription and remove the progress object from the event source's subscription list.
+		/// </returns>
+		/// 
+		/// <exception cref="ArgumentNullException">
+		/// A null reference was passed to a method that did not accept it as a valid argument.</exception>
+		public IDisposable Subscribe(IProgress<T> progress)
+		{
+			return this.Subscribe(x => progress.Report(x));
+		}
+
+		/// <summary>
+		/// Subscribes the given progress object on the event. The progress object will be invoked every time the 
+		/// event is raised.
+		/// 
+		/// This method establishes a strong reference between the event source and the progress object. That means 
+		/// as long as the event source is kept in memory, it will also keep the progress object in memory. To break 
+		/// this strong reference, you can dispose the returned subscription.
+		/// </summary>
+		/// 
+		/// <param name="progress">
+		/// The progress object to subscribe on the event.</param>
+		/// 
+		/// <returns>
+		/// An object that represents the newly created subscription. Disposing this object will cancel the 
+		/// subscription and remove the progress object from the event source's subscription list.
+		/// </returns>
+		/// 
+		/// <exception cref="ArgumentNullException">
+		/// A null reference was passed to a method that did not accept it as a valid argument.</exception>
+		public IDisposable SubscribeWeak(IProgress<T> progress)
+		{
+			return this.SubscribeWeak(x => progress.Report(x));
+		}
+
 
 		/// <summary>
 		/// Returns a string that represents the current instance.
