@@ -450,18 +450,24 @@ SomeLongRunningMethod(progress);
 99
 ```
 
-Of course, it is also possible to subscribe a **IProgress\<T>** onto an event, so that raised events are forwarded to the progress object.
+Of course, it is also possible to subscribe an **IProgress\<T>** onto an event, so that raised event arguments are forwarded to the progress object.
 
 ```cs
 IProgress<Int32> progress = new Progress<Int32>(x =>
 	Console.WriteLine(x)
 );
 
+var source = new EventSource<Int32>();
+source.Event.Subscribe(progress);
 
+source.Invoke(123);
 
+// output:
+123
 ```
 
+
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTkzODgzMjkzNywxMzU1OTM2MjQ5LC0xMz
+eyJoaXN0b3J5IjpbMTE1NjUyMzg1NCwxMzU1OTM2MjQ5LC0xMz
 MyNDU3MDYwLC0xMTQ4MDQ1NDcwLDM0NDA5MDYyM119
 -->
