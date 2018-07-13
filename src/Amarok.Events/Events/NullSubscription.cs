@@ -4,6 +4,7 @@
  */
 
 using System;
+using System.Diagnostics;
 
 
 namespace Amarok.Events
@@ -11,6 +12,7 @@ namespace Amarok.Events
 	/// <summary>
 	/// Implementation class that represents a null subscription.
 	/// </summary>
+	[DebuggerStepThrough]
 	internal sealed class NullSubscription :
 		IDisposable
 	{
@@ -19,7 +21,7 @@ namespace Amarok.Events
 
 		private NullSubscription()
 		{
-			// shouldn't be construct-able; use Instance instead
+			// shouldn't be construct-able; use static Instance instead
 		}
 
 
@@ -30,7 +32,7 @@ namespace Amarok.Events
 
 		public override String ToString()
 		{
-			return "=> <null>";
+			return "⇒ <null>";
 		}
 	}
 }

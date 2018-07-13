@@ -143,7 +143,7 @@ namespace Amarok.Events
 			Check.That(info2.Timestamp - DateTimeOffset.Now)
 				.IsLessThan(TimeSpan.FromMilliseconds(500));
 			Check.That(info2.TimeOffset)
-				.IsLessThan(TimeSpan.FromMilliseconds(75))
+				.IsLessThan(TimeSpan.FromMilliseconds(100))
 				.And
 				.IsGreaterThan(TimeSpan.FromMilliseconds(40));
 			Check.That(info2.Thread)

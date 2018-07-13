@@ -48,6 +48,8 @@ namespace Amarok.Events
 
 			serviceImpl.DoSomething();
 			// console output:	50%
+
+			GC.KeepAlive(subscription);
 		}
 
 		[Test]

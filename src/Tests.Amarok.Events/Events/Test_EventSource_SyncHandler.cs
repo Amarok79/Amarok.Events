@@ -96,6 +96,8 @@ namespace Amarok.Events
 					.IsEqualTo(0);
 				Check.That(service.ChangedSource.IsDisposed)
 					.IsFalse();
+				Check.That(service.ChangedSource.Subscriptions)
+					.IsEmpty();
 			}
 
 			[Test]
@@ -115,6 +117,11 @@ namespace Amarok.Events
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
 					.IsNull();
+
+				Check.That(((ActionSubscription<String>)subscription).Target)
+					.IsNotNull();
+				Check.That(((ActionSubscription<String>)subscription).Method)
+					.IsNotNull();
 
 				var flag1 = service.Do("abc");
 
@@ -139,6 +146,8 @@ namespace Amarok.Events
 					.IsEqualTo(1);
 				Check.That(service.ChangedSource.IsDisposed)
 					.IsFalse();
+				Check.That(service.ChangedSource.Subscriptions)
+					.HasSize(1);
 			}
 
 			[Test]
@@ -207,6 +216,8 @@ namespace Amarok.Events
 					.IsEqualTo(2);
 				Check.That(service.ChangedSource.IsDisposed)
 					.IsFalse();
+				Check.That(service.ChangedSource.Subscriptions)
+					.HasSize(2);
 			}
 
 			[Test]

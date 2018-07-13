@@ -64,6 +64,11 @@ namespace Amarok.Events
 				Check.That(((FuncSubscription<String>)subscription).TestingGetPreviousSubscription())
 					.IsNull();
 
+				Check.That(((FuncSubscription<String>)subscription).Target)
+					.IsNotNull();
+				Check.That(((FuncSubscription<String>)subscription).Method)
+					.IsNotNull();
+
 				var flag1 = service.Do("abc");
 
 				Check.That(flag1)

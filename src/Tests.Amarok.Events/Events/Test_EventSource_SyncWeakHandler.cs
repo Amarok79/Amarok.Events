@@ -124,6 +124,8 @@ namespace Amarok.Events
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
 					.IsInstanceOf<WeakSubscription<String>>();
+				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription().ToString())
+					.StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
 				var flag1 = service.Do("abc");
 
@@ -184,6 +186,8 @@ namespace Amarok.Events
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
 					.IsInstanceOf<WeakSubscription<String>>();
+				Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription().ToString())
+					.StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
 				Check.That(subscription2)
 					.IsNotNull();
@@ -191,6 +195,8 @@ namespace Amarok.Events
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
 					.IsInstanceOf<WeakSubscription<String>>();
+				Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription().ToString())
+					.StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
 				Check.That(subscription2)
 					.Not.IsSameReferenceAs(subscription1);
@@ -264,6 +270,8 @@ namespace Amarok.Events
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
 					.IsInstanceOf<WeakSubscription<String>>();
+				Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription().ToString())
+					.StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
 				Check.That(subscription2)
 					.IsNotNull();
@@ -271,6 +279,8 @@ namespace Amarok.Events
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
 					.IsInstanceOf<WeakSubscription<String>>();
+				Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription().ToString())
+					.StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
 				Check.That(subscription2)
 					.Not.IsSameReferenceAs(subscription1);
@@ -331,6 +341,8 @@ namespace Amarok.Events
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
 					.IsInstanceOf<WeakSubscription<String>>();
+				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription().ToString())
+					.StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
 				var strongSub = ((ActionSubscription<String>)subscription);
 				var weakSub = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
@@ -363,6 +375,10 @@ namespace Amarok.Events
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
 					.IsNull();
+				Check.That(weakSub.ToString())
+					.StartsWith("⇒ weak ⇒ <null>");
+				Check.That(weakSub.Subscription)
+					.IsNotNull();
 			}
 
 			[Test]
@@ -384,6 +400,8 @@ namespace Amarok.Events
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
 					.IsInstanceOf<WeakSubscription<String>>();
+				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription().ToString())
+					.StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
 				subscription.Dispose();
 
@@ -426,6 +444,8 @@ namespace Amarok.Events
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
 					.IsInstanceOf<WeakSubscription<String>>();
+				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription().ToString())
+					.StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
 				service.ChangedSource.Dispose();
 

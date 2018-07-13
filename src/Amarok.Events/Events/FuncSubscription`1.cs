@@ -4,6 +4,8 @@
  */
 
 using System;
+using System.Diagnostics;
+using System.Reflection;
 using System.Threading.Tasks;
 
 
@@ -12,17 +14,32 @@ namespace Amarok.Events
 	/// <summary>
 	/// Implementation class that represents a subscription to an async handler method.
 	/// </summary>
+	[DebuggerStepThrough]
 	internal sealed class FuncSubscription<T> : Subscription<T>
 	{
 		// a reference to the event source; necessary for disposal
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private readonly EventSource<T> mSource;
 
 		// a delegate to the handler method
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private readonly Func<T, Task> mFunc;
 
 		// an optional weak reference back to another subscription holding this subscription
 		// also via weak reference; necessary for automatic removal magic of weak subscriptions
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private WeakReference<Subscription<T>> mPreviousSubscription;
+
+
+		/// <summary>
+		/// For better debugging experience.
+		/// </summary>
+		public Object Target => mFunc.Target;
+
+		/// <summary>
+		/// For better debugging experience.
+		/// </summary>
+		public MethodInfo Method => mFunc.Method;
 
 
 		/// <summary>
@@ -93,7 +110,7 @@ namespace Amarok.Events
 		/// </summary>
 		public override String ToString()
 		{
-			return $"=> {mFunc.Method.DeclaringType.FullName}.{mFunc.Method.Name}()";
+			return $"⇒ async {mFunc.Method.DeclaringType.FullName}.{mFunc.Method.Name}()";
 		}
 
 

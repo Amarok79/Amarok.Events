@@ -57,12 +57,12 @@ namespace Amarok.Events
 				Check.That(evt.HasSource)
 					.IsFalse();
 				Check.That(evt.ToString())
-					.IsEqualTo("Event<String> :=: <null>");
+					.IsEqualTo("Event<String> ⇔ <null>");
 
 				Check.That(sub)
 					.IsInstanceOf<NullSubscription>();
 				Check.That(sub.ToString())
-					.IsEqualTo("=> <null>");
+					.IsEqualTo("⇒ <null>");
 				Check.ThatCode(() => sub.Dispose())
 					.DoesNotThrow();
 			}
@@ -86,12 +86,12 @@ namespace Amarok.Events
 				Check.That(evt.HasSource)
 					.IsTrue();
 				Check.That(evt.ToString())
-					.IsEqualTo("Event<String> :=: EventSource<String>(Subscriptions: 1)");
+					.IsEqualTo("Event<String> ⇔ EventSource<String>(Subscriptions: 1)");
 
 				Check.That(sub)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(sub.ToString())
-					.StartsWith("=> Amarok.Events.Test_Event");
+					.StartsWith("⇒ Amarok.Events.Test_Event");
 
 				sub.Dispose();
 
@@ -124,12 +124,12 @@ namespace Amarok.Events
 				Check.That(evt.HasSource)
 					.IsTrue();
 				Check.That(evt.ToString())
-					.IsEqualTo("Event<String> :=: EventSource<String>(Subscriptions: 0)");
+					.IsEqualTo("Event<String> ⇔ EventSource<String>(Subscriptions: 0)");
 
 				Check.That(sub)
 					.IsInstanceOf<NullSubscription>();
 				Check.That(sub.ToString())
-					.StartsWith("=> <null>");
+					.StartsWith("⇒ <null>");
 
 				sub.Dispose();
 
@@ -166,12 +166,12 @@ namespace Amarok.Events
 				Check.That(evt.HasSource)
 					.IsFalse();
 				Check.That(evt.ToString())
-					.IsEqualTo("Event<String> :=: <null>");
+					.IsEqualTo("Event<String> ⇔ <null>");
 
 				Check.That(sub)
 					.IsInstanceOf<NullSubscription>();
 				Check.That(sub.ToString())
-					.IsEqualTo("=> <null>");
+					.IsEqualTo("⇒ <null>");
 				Check.ThatCode(() => sub.Dispose())
 					.DoesNotThrow();
 			}
@@ -195,12 +195,12 @@ namespace Amarok.Events
 				Check.That(evt.HasSource)
 					.IsTrue();
 				Check.That(evt.ToString())
-					.IsEqualTo("Event<String> :=: EventSource<String>(Subscriptions: 1)");
+					.IsEqualTo("Event<String> ⇔ EventSource<String>(Subscriptions: 1)");
 
 				Check.That(sub)
 					.IsInstanceOf<ActionSubscription<String>>();
 				Check.That(sub.ToString())
-					.StartsWith("=> Amarok.Events.Test_Event");
+					.StartsWith("⇒ Amarok.Events.Test_Event");
 
 				sub.Dispose();
 
@@ -233,12 +233,12 @@ namespace Amarok.Events
 				Check.That(evt.HasSource)
 					.IsTrue();
 				Check.That(evt.ToString())
-					.IsEqualTo("Event<String> :=: EventSource<String>(Subscriptions: 0)");
+					.IsEqualTo("Event<String> ⇔ EventSource<String>(Subscriptions: 0)");
 
 				Check.That(sub)
 					.IsInstanceOf<NullSubscription>();
 				Check.That(sub.ToString())
-					.StartsWith("=> <null>");
+					.StartsWith("⇒ <null>");
 
 				sub.Dispose();
 
@@ -275,12 +275,12 @@ namespace Amarok.Events
 				Check.That(evt.HasSource)
 					.IsFalse();
 				Check.That(evt.ToString())
-					.IsEqualTo("Event<String> :=: <null>");
+					.IsEqualTo("Event<String> ⇔ <null>");
 
 				Check.That(sub)
 					.IsInstanceOf<NullSubscription>();
 				Check.That(sub.ToString())
-					.IsEqualTo("=> <null>");
+					.IsEqualTo("⇒ <null>");
 				Check.ThatCode(() => sub.Dispose())
 					.DoesNotThrow();
 			}
@@ -304,12 +304,12 @@ namespace Amarok.Events
 				Check.That(evt.HasSource)
 					.IsTrue();
 				Check.That(evt.ToString())
-					.IsEqualTo("Event<String> :=: EventSource<String>(Subscriptions: 1)");
+					.IsEqualTo("Event<String> ⇔ EventSource<String>(Subscriptions: 1)");
 
 				Check.That(sub)
 					.IsInstanceOf<FuncSubscription<String>>();
 				Check.That(sub.ToString())
-					.StartsWith("=> Amarok.Events.Test_Event");
+					.StartsWith("⇒ async Amarok.Events.Test_Event");
 
 				sub.Dispose();
 
@@ -342,12 +342,12 @@ namespace Amarok.Events
 				Check.That(evt.HasSource)
 					.IsTrue();
 				Check.That(evt.ToString())
-					.IsEqualTo("Event<String> :=: EventSource<String>(Subscriptions: 0)");
+					.IsEqualTo("Event<String> ⇔ EventSource<String>(Subscriptions: 0)");
 
 				Check.That(sub)
 					.IsInstanceOf<NullSubscription>();
 				Check.That(sub.ToString())
-					.StartsWith("=> <null>");
+					.StartsWith("⇒ <null>");
 
 				sub.Dispose();
 
@@ -384,12 +384,12 @@ namespace Amarok.Events
 				Check.That(evt.HasSource)
 					.IsFalse();
 				Check.That(evt.ToString())
-					.IsEqualTo("Event<String> :=: <null>");
+					.IsEqualTo("Event<String> ⇔ <null>");
 
 				Check.That(sub)
 					.IsInstanceOf<NullSubscription>();
 				Check.That(sub.ToString())
-					.IsEqualTo("=> <null>");
+					.IsEqualTo("⇒ <null>");
 				Check.ThatCode(() => sub.Dispose())
 					.DoesNotThrow();
 			}
@@ -413,12 +413,12 @@ namespace Amarok.Events
 				Check.That(evt.HasSource)
 					.IsTrue();
 				Check.That(evt.ToString())
-					.IsEqualTo("Event<String> :=: EventSource<String>(Subscriptions: 1)");
+					.IsEqualTo("Event<String> ⇔ EventSource<String>(Subscriptions: 1)");
 
 				Check.That(sub)
 					.IsInstanceOf<FuncSubscription<String>>();
 				Check.That(sub.ToString())
-					.StartsWith("=> Amarok.Events.Test_Event");
+					.StartsWith("⇒ async Amarok.Events.Test_Event");
 
 				sub.Dispose();
 
@@ -451,12 +451,12 @@ namespace Amarok.Events
 				Check.That(evt.HasSource)
 					.IsTrue();
 				Check.That(evt.ToString())
-					.IsEqualTo("Event<String> :=: EventSource<String>(Subscriptions: 0)");
+					.IsEqualTo("Event<String> ⇔ EventSource<String>(Subscriptions: 0)");
 
 				Check.That(sub)
 					.IsInstanceOf<NullSubscription>();
 				Check.That(sub.ToString())
-					.StartsWith("=> <null>");
+					.StartsWith("⇒ <null>");
 
 				sub.Dispose();
 

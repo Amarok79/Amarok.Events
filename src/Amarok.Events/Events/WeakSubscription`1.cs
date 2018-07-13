@@ -4,6 +4,7 @@
  */
 
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 
@@ -14,17 +15,26 @@ namespace Amarok.Events
 	/// via weak reference to another subscription, which again refers back to this subscription again 
 	/// via weak reference.
 	/// </summary>
+	[DebuggerStepThrough]
 	internal sealed class WeakSubscription<T> : Subscription<T>
 	{
 		/// <summary>
 		/// a reference to the event source; necessary for disposal
 		/// </summary>
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private readonly EventSource<T> mSource;
 
 		/// <summary>
 		/// a weak reference to another subscription referring to the handler
 		/// </summary>
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private readonly WeakReference<Subscription<T>> mNextSubscription;
+
+
+		/// <summary>
+		/// For better debugging experience.
+		/// </summary>
+		public WeakReference<Subscription<T>> Subscription => mNextSubscription;
 
 
 		/// <summary>
@@ -79,6 +89,17 @@ namespace Amarok.Events
 		{
 			// simply, remove ourself from event source
 			mSource.Remove(this);
+		}
+
+		/// <summary>
+		/// Returns a string that represents the current instance.
+		/// </summary>
+		public override String ToString()
+		{
+			if (mNextSubscription.TryGetTarget(out var subscription))
+				return $"⇒ weak {subscription}";
+			else
+				return $"⇒ weak ⇒ <null>";
 		}
 
 
