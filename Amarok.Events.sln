@@ -15,6 +15,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		doc\Events.xmind = doc\Events.xmind
 		src\Global.ruleset = src\Global.ruleset
 		src\Minimal.ruleset = src\Minimal.ruleset
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{08E20F5F-9C3F-48D4-9607-C67CFE855A00}"
+	ProjectSection(SolutionItems) = preProject
+		doc\Documentation.md = doc\Documentation.md
 	EndProjectSection
 EndProject
 Global
@@ -38,6 +44,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{08E20F5F-9C3F-48D4-9607-C67CFE855A00} = {34C76F3A-BE4D-4DB9-B854-CC4EC86BFF16}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {962AF89D-565D-4CF7-B021-EFCF696AFCF9}
