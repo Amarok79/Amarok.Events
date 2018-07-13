@@ -232,9 +232,9 @@ namespace Amarok.Events
 		public override String ToString()
 		{
 			if (this.HasSource)
-				return $"Event<{typeof(T).Name}> :=: {mSource}";
+				return $"Event<{typeof(T).Name}> ⇔ {mSource}";
 			else
-				return $"Event<{typeof(T).Name}> :=: <null>";
+				return $"Event<{typeof(T).Name}> ⇔ <null>";
 		}
 
 		#endregion

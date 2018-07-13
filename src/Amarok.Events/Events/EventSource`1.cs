@@ -85,7 +85,7 @@ namespace Amarok.Events
 				mIsDisposed = true;
 			}
 
-			// wait for other threads to complete execution of local code
+			// wait for other threads to complete execution of member code
 			SpinWait.SpinUntil(() => {
 				Int32 result = -1;
 				Interlocked.Exchange(ref result, mNumberOfThreadsExecuting);
@@ -137,6 +137,11 @@ namespace Amarok.Events
 		/// Gets a boolean value indicating whether this object has been disposed.
 		/// </summary>
 		public Boolean IsDisposed => mIsDisposed;
+
+		/// <summary>
+		/// Exposed as internal property to improve debugging experience.
+		/// </summary>
+		internal IReadOnlyList<Subscription<T>> Subscriptions => mSubscriptions;
 
 
 		/// <summary>
