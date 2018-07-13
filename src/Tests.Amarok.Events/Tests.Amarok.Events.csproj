@@ -4,6 +4,8 @@
 		<TargetFrameworks>netcoreapp2.1;net471</TargetFrameworks>
 		<RootNamespace>Amarok</RootNamespace>
 		<CodeAnalysisRuleSet>..\Global.ruleset</CodeAnalysisRuleSet>
+		<SignAssembly>true</SignAssembly>
+		<AssemblyOriginatorKeyFile>D:\GitHub\Events\src\amarok.snk</AssemblyOriginatorKeyFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -22,6 +24,7 @@
 
 	<ItemGroup>
 		<None Include="..\Amarok.Events.licenseheader" Link="Amarok.Events.licenseheader" />
+		<None Include="..\amarok.snk" Link="amarok.snk" />
 	</ItemGroup>
 
 	<ItemGroup>
