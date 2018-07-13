@@ -16,4 +16,5 @@ The package provides strong-named binaries for *.NET Standard 2.0* only. Tests a
 
 For a comprehensive documentation about how to use this library, refer to [Documentation](doc/Documentation.md).
 
+Also visit the [FAQ](doc/FAQ.md) which hopefully answers your questions.
 
