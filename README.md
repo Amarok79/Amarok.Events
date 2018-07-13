@@ -2,9 +2,9 @@
 
 This library provides a fast and light-weight implementation of the observer pattern, which can be used as replacement for ordinary .NET events. The implementation supports raising events in a *synchronous, blocking* or *asynchronous, await-able* fashion. In addition, both *synchronous* and *asynchronous* event handler can be registered.
 
-The implementation is a bit slower than ordinary .NET events in regard to call performance, but optimized to avoid allocations and therefore suitable for high-performance scenarios or resource-constraint embedded systems.
+The implementation is a bit slower than ordinary .NET events in regard to raw call performance, but optimized to avoid allocations and therefore suitable for high-performance scenarios or resource-constraint embedded systems.
 
-The library is redistributed as NuGet package: [Amarok.Events](https://www.nuget.org/packages/Amarok.Events/) (currently in beta)
+The library is redistributed as NuGet package: [Amarok.Events](https://www.nuget.org/packages/Amarok.Events/)
 
 The package provides binaries for *.NET Standard 2.0* only. Tests are performed with *.NET Framework 4.7.1* and *.NET Core 2.1*.
 
@@ -534,7 +534,7 @@ The event recorder can be used to gain even more information. Instead of accessi
 If you don't want to record events temporarily, you can **Pause()** and finally **Resume()** the event recorder. If you want to turn off recording completely, call **Dispose()**. To clear the list of recorded events you can use **Reset()**.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE3MzI5NTg3MDYsLTE5NDM2MzM2MjMsMT
-M1NTkzNjI0OSwtMTMzMjQ1NzA2MCwtMTE0ODA0NTQ3MCwzNDQw
-OTA2MjNdfQ==
+eyJoaXN0b3J5IjpbLTIxMTA2NzQ1MDYsLTE3MzI5NTg3MDYsLT
+E5NDM2MzM2MjMsMTM1NTkzNjI0OSwtMTMzMjQ1NzA2MCwtMTE0
+ODA0NTQ3MCwzNDQwOTA2MjNdfQ==
 -->
