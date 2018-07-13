@@ -4,6 +4,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Attributes.Jobs;
@@ -11,7 +12,7 @@ using BenchmarkDotNet.Attributes.Jobs;
 
 namespace Amarok.Events
 {
-	[ClrJob, /*CoreJob, */MemoryDiagnoser]
+	[ClrJob, CoreJob, MemoryDiagnoser]
 	public class Benchmarks
 	{
 		public class DotNet
@@ -50,6 +51,7 @@ namespace Amarok.Events
 			public FooServiceImpl ServiceHandlerCount1;
 			public FooServiceImpl ServiceHandlerCount3;
 			public FooServiceImpl ServiceHandlerCount9;
+
 
 			public DotNet()
 			{
@@ -110,10 +112,10 @@ namespace Amarok.Events
 			}
 
 
-			public FooServiceImpl ServiceHandlerCount0;
-			public FooServiceImpl ServiceHandlerCount1;
-			public FooServiceImpl ServiceHandlerCount3;
-			public FooServiceImpl ServiceHandlerCount9;
+			public FooServiceImpl ServiceSyncHandlerCount0;
+			public FooServiceImpl ServiceSyncHandlerCount1;
+			public FooServiceImpl ServiceSyncHandlerCount3;
+			public FooServiceImpl ServiceSyncHandlerCount9;
 
 			public FooServiceImpl ServiceAsyncHandlerCount0;
 			public FooServiceImpl ServiceAsyncHandlerCount1;
@@ -125,30 +127,32 @@ namespace Amarok.Events
 			public FooServiceImpl ServiceWeakHandlerCount3;
 			public FooServiceImpl ServiceWeakHandlerCount9;
 
+			public List<IDisposable> mSubscriptions = new List<IDisposable>();
+
 
 			public Amarok()
 			{
 				// sync handler
-				ServiceHandlerCount0 = new FooServiceImpl();
+				ServiceSyncHandlerCount0 = new FooServiceImpl();
 
-				ServiceHandlerCount1 = new FooServiceImpl();
-				ServiceHandlerCount1.FooChanged.Subscribe(HandleFooChanged);
+				ServiceSyncHandlerCount1 = new FooServiceImpl();
+				ServiceSyncHandlerCount1.FooChanged.Subscribe(HandleFooChanged);
 
-				ServiceHandlerCount3 = new FooServiceImpl();
-				ServiceHandlerCount3.FooChanged.Subscribe(HandleFooChanged);
-				ServiceHandlerCount3.FooChanged.Subscribe(HandleFooChanged);
-				ServiceHandlerCount3.FooChanged.Subscribe(HandleFooChanged);
+				ServiceSyncHandlerCount3 = new FooServiceImpl();
+				ServiceSyncHandlerCount3.FooChanged.Subscribe(HandleFooChanged);
+				ServiceSyncHandlerCount3.FooChanged.Subscribe(HandleFooChanged);
+				ServiceSyncHandlerCount3.FooChanged.Subscribe(HandleFooChanged);
 
-				ServiceHandlerCount9 = new FooServiceImpl();
-				ServiceHandlerCount9.FooChanged.Subscribe(HandleFooChanged);
-				ServiceHandlerCount9.FooChanged.Subscribe(HandleFooChanged);
-				ServiceHandlerCount9.FooChanged.Subscribe(HandleFooChanged);
-				ServiceHandlerCount9.FooChanged.Subscribe(HandleFooChanged);
-				ServiceHandlerCount9.FooChanged.Subscribe(HandleFooChanged);
-				ServiceHandlerCount9.FooChanged.Subscribe(HandleFooChanged);
-				ServiceHandlerCount9.FooChanged.Subscribe(HandleFooChanged);
-				ServiceHandlerCount9.FooChanged.Subscribe(HandleFooChanged);
-				ServiceHandlerCount9.FooChanged.Subscribe(HandleFooChanged);
+				ServiceSyncHandlerCount9 = new FooServiceImpl();
+				ServiceSyncHandlerCount9.FooChanged.Subscribe(HandleFooChanged);
+				ServiceSyncHandlerCount9.FooChanged.Subscribe(HandleFooChanged);
+				ServiceSyncHandlerCount9.FooChanged.Subscribe(HandleFooChanged);
+				ServiceSyncHandlerCount9.FooChanged.Subscribe(HandleFooChanged);
+				ServiceSyncHandlerCount9.FooChanged.Subscribe(HandleFooChanged);
+				ServiceSyncHandlerCount9.FooChanged.Subscribe(HandleFooChanged);
+				ServiceSyncHandlerCount9.FooChanged.Subscribe(HandleFooChanged);
+				ServiceSyncHandlerCount9.FooChanged.Subscribe(HandleFooChanged);
+				ServiceSyncHandlerCount9.FooChanged.Subscribe(HandleFooChanged);
 
 				// async handler
 				ServiceAsyncHandlerCount0 = new FooServiceImpl();
@@ -176,23 +180,23 @@ namespace Amarok.Events
 				ServiceWeakHandlerCount0 = new FooServiceImpl();
 
 				ServiceWeakHandlerCount1 = new FooServiceImpl();
-				ServiceWeakHandlerCount1.FooChanged.SubscribeWeak(HandleFooChanged);
+				mSubscriptions.Add(ServiceWeakHandlerCount1.FooChanged.SubscribeWeak(HandleFooChanged));
 
 				ServiceWeakHandlerCount3 = new FooServiceImpl();
-				ServiceWeakHandlerCount3.FooChanged.SubscribeWeak(HandleFooChanged);
-				ServiceWeakHandlerCount3.FooChanged.SubscribeWeak(HandleFooChanged);
-				ServiceWeakHandlerCount3.FooChanged.SubscribeWeak(HandleFooChanged);
+				mSubscriptions.Add(ServiceWeakHandlerCount3.FooChanged.SubscribeWeak(HandleFooChanged));
+				mSubscriptions.Add(ServiceWeakHandlerCount3.FooChanged.SubscribeWeak(HandleFooChanged));
+				mSubscriptions.Add(ServiceWeakHandlerCount3.FooChanged.SubscribeWeak(HandleFooChanged));
 
 				ServiceWeakHandlerCount9 = new FooServiceImpl();
-				ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged);
-				ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged);
-				ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged);
-				ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged);
-				ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged);
-				ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged);
-				ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged);
-				ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged);
-				ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged);
+				mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged));
+				mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged));
+				mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged));
+				mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged));
+				mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged));
+				mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged));
+				mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged));
+				mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged));
+				mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged));
 			}
 		}
 
@@ -223,6 +227,18 @@ namespace Amarok.Events
 			mDotNet.ServiceHandlerCount1.Do();
 		}
 
+		[Benchmark]
+		public void DotNet_RaiseSync_SyncHandler_3()
+		{
+			mDotNet.ServiceHandlerCount3.Do();
+		}
+
+		[Benchmark]
+		public void DotNet_RaiseSync_SyncHandler_9()
+		{
+			mDotNet.ServiceHandlerCount9.Do();
+		}
+
 
 		// ----- sync handler -----
 
@@ -230,26 +246,53 @@ namespace Amarok.Events
 		[Benchmark]
 		public void Amarok_InvokeSync_SyncHandler_0()
 		{
-			mAmarok.ServiceHandlerCount0.Do();
+			mAmarok.ServiceSyncHandlerCount0.Do();
 		}
 
 		[Benchmark]
 		public void Amarok_InvokeSync_SyncHandler_1()
 		{
-			mAmarok.ServiceHandlerCount1.Do();
+			mAmarok.ServiceSyncHandlerCount1.Do();
 		}
+
+		[Benchmark]
+		public void Amarok_InvokeSync_SyncHandler_3()
+		{
+			mAmarok.ServiceSyncHandlerCount3.Do();
+		}
+
+		[Benchmark]
+		public void Amarok_InvokeSync_SyncHandler_9()
+		{
+			mAmarok.ServiceSyncHandlerCount9.Do();
+		}
+
 
 		[Benchmark]
 		public void Amarok_InvokeAsync_SyncHandler_0()
 		{
-			mAmarok.ServiceHandlerCount0.DoAsync()
+			mAmarok.ServiceSyncHandlerCount0.DoAsync()
 				.GetAwaiter().GetResult();
 		}
 
 		[Benchmark]
 		public void Amarok_InvokeAsync_SyncHandler_1()
 		{
-			mAmarok.ServiceHandlerCount1.DoAsync()
+			mAmarok.ServiceSyncHandlerCount1.DoAsync()
+				.GetAwaiter().GetResult();
+		}
+
+		[Benchmark]
+		public void Amarok_InvokeAsync_SyncHandler_3()
+		{
+			mAmarok.ServiceSyncHandlerCount3.DoAsync()
+				.GetAwaiter().GetResult();
+		}
+
+		[Benchmark]
+		public void Amarok_InvokeAsync_SyncHandler_9()
+		{
+			mAmarok.ServiceSyncHandlerCount9.DoAsync()
 				.GetAwaiter().GetResult();
 		}
 
@@ -269,18 +312,55 @@ namespace Amarok.Events
 			mAmarok.ServiceWeakHandlerCount1.Do();
 		}
 
+		[Benchmark]
+		public void Amarok_InvokeSync_WeakSyncHandler_3()
+		{
+			mAmarok.ServiceWeakHandlerCount3.Do();
+		}
+
+		[Benchmark]
+		public void Amarok_InvokeSync_WeakSyncHandler_9()
+		{
+			mAmarok.ServiceWeakHandlerCount9.Do();
+		}
 
 
-		//                              Method |       Mean |     Error |    StdDev | Scaled | ScaledSD |  Gen 0 | Allocated |
-		//------------------------------------ |-----------:|----------:|----------:|-------:|---------:|-------:|----------:|
-		//      DotNet_RaiseSync_SyncHandler_0 |  0.9514 ns | 0.0581 ns | 0.0485 ns |   0.14 |     0.01 |      - |       0 B |
-		//      DotNet_RaiseSync_SyncHandler_1 |  6.8132 ns | 0.1753 ns | 0.2781 ns |   1.00 |     0.00 | 0.0076 |      24 B |
-		//     Amarok_InvokeSync_SyncHandler_0 | 26.6617 ns | 0.5722 ns | 0.9717 ns |   3.92 |     0.21 |      - |       0 B |
-		//     Amarok_InvokeSync_SyncHandler_1 | 34.9019 ns | 0.7049 ns | 0.7542 ns |   5.13 |     0.22 |      - |       0 B |
-		//    Amarok_InvokeAsync_SyncHandler_0 | 49.3149 ns | 1.0117 ns | 1.5751 ns |   7.25 |     0.36 |      - |       0 B |
-		//    Amarok_InvokeAsync_SyncHandler_1 | 66.4390 ns | 1.7724 ns | 2.0411 ns |   9.77 |     0.47 |      - |       0 B |
-		// Amarok_InvokeSync_WeakSyncHandler_0 | 26.5616 ns | 0.8449 ns | 0.9730 ns |   3.90 |     0.20 |      - |       0 B |
-		// Amarok_InvokeSync_WeakSyncHandler_1 | 27.9351 ns | 0.5958 ns | 0.9450 ns |   4.11 |     0.21 |      - |       0 B |
+
+//                              Method |  Job | Runtime |       Mean |     Error |     StdDev |     Median | Scaled | ScaledSD |  Gen 0 | Allocated |
+//------------------------------------ |----- |-------- |-----------:|----------:|-----------:|-----------:|-------:|---------:|-------:|----------:|
+//      DotNet_RaiseSync_SyncHandler_0 |  Clr |     Clr |   1.267 ns | 0.0625 ns |  0.1305 ns |   1.202 ns |   0.19 |     0.02 |      - |       0 B |
+//      DotNet_RaiseSync_SyncHandler_1 |  Clr |     Clr |   6.768 ns | 0.0935 ns |  0.0730 ns |   6.754 ns |   1.00 |     0.00 | 0.0076 |      24 B |
+//      DotNet_RaiseSync_SyncHandler_3 |  Clr |     Clr |  15.693 ns | 0.3604 ns |  1.0224 ns |  15.214 ns |   2.32 |     0.15 | 0.0076 |      24 B |
+//      DotNet_RaiseSync_SyncHandler_9 |  Clr |     Clr |  28.419 ns | 0.3977 ns |  0.3720 ns |  28.453 ns |   4.20 |     0.07 | 0.0076 |      24 B |
+//     Amarok_InvokeSync_SyncHandler_0 |  Clr |     Clr |  26.191 ns | 0.8128 ns |  1.0851 ns |  25.720 ns |   3.87 |     0.16 |      - |       0 B |
+//     Amarok_InvokeSync_SyncHandler_1 |  Clr |     Clr |  38.007 ns | 1.1104 ns |  3.2565 ns |  38.274 ns |   5.62 |     0.48 |      - |       0 B |
+//     Amarok_InvokeSync_SyncHandler_3 |  Clr |     Clr |  44.542 ns | 0.9195 ns |  1.5861 ns |  44.172 ns |   6.58 |     0.24 |      - |       0 B |
+//     Amarok_InvokeSync_SyncHandler_9 |  Clr |     Clr |  67.300 ns | 1.3681 ns |  2.0477 ns |  66.427 ns |   9.95 |     0.31 |      - |       0 B |
+//    Amarok_InvokeAsync_SyncHandler_0 |  Clr |     Clr |  49.116 ns | 0.9556 ns |  0.8471 ns |  49.301 ns |   7.26 |     0.14 |      - |       0 B |
+//    Amarok_InvokeAsync_SyncHandler_1 |  Clr |     Clr |  71.772 ns | 1.4588 ns |  2.6305 ns |  71.664 ns |  10.61 |     0.40 |      - |       0 B |
+//    Amarok_InvokeAsync_SyncHandler_3 |  Clr |     Clr | 109.438 ns | 1.9861 ns |  1.8578 ns | 108.476 ns |  16.17 |     0.31 |      - |       0 B |
+//    Amarok_InvokeAsync_SyncHandler_9 |  Clr |     Clr | 234.884 ns | 6.6757 ns | 13.1772 ns | 231.006 ns |  34.71 |     1.96 |      - |       0 B |
+// Amarok_InvokeSync_WeakSyncHandler_0 |  Clr |     Clr |  28.870 ns | 0.6146 ns |  1.0098 ns |  28.891 ns |   4.27 |     0.15 |      - |       0 B |
+// Amarok_InvokeSync_WeakSyncHandler_1 |  Clr |     Clr |  43.219 ns | 0.5658 ns |  0.4091 ns |  43.130 ns |   6.39 |     0.09 |      - |       0 B |
+// Amarok_InvokeSync_WeakSyncHandler_3 |  Clr |     Clr |  60.113 ns | 1.1852 ns |  1.4989 ns |  59.814 ns |   8.88 |     0.24 |      - |       0 B |
+// Amarok_InvokeSync_WeakSyncHandler_9 |  Clr |     Clr | 124.998 ns | 2.4008 ns |  2.8579 ns | 125.333 ns |  18.47 |     0.45 |      - |       0 B |
+//                                     |      |         |            |           |            |            |        |          |        |           |
+//      DotNet_RaiseSync_SyncHandler_0 | Core |    Core |   1.192 ns | 0.0663 ns |  0.1954 ns |   1.156 ns |   0.16 |     0.03 |      - |       0 B |
+//      DotNet_RaiseSync_SyncHandler_1 | Core |    Core |   7.607 ns | 0.4404 ns |  0.4325 ns |   7.445 ns |   1.00 |     0.00 | 0.0076 |      24 B |
+//      DotNet_RaiseSync_SyncHandler_3 | Core |    Core |  17.818 ns | 0.5724 ns |  0.5354 ns |  17.701 ns |   2.35 |     0.14 | 0.0076 |      24 B |
+//      DotNet_RaiseSync_SyncHandler_9 | Core |    Core |  40.972 ns | 0.8560 ns |  2.0673 ns |  40.427 ns |   5.40 |     0.39 | 0.0076 |      24 B |
+//     Amarok_InvokeSync_SyncHandler_0 | Core |    Core |  20.088 ns | 0.4307 ns |  0.8298 ns |  19.847 ns |   2.65 |     0.17 |      - |       0 B |
+//     Amarok_InvokeSync_SyncHandler_1 | Core |    Core |  30.858 ns | 0.6576 ns |  0.9843 ns |  31.036 ns |   4.07 |     0.24 |      - |       0 B |
+//     Amarok_InvokeSync_SyncHandler_3 | Core |    Core |  40.385 ns | 1.0559 ns |  1.0843 ns |  40.113 ns |   5.32 |     0.31 |      - |       0 B |
+//     Amarok_InvokeSync_SyncHandler_9 | Core |    Core |  64.362 ns | 1.3204 ns |  1.2351 ns |  64.688 ns |   8.48 |     0.46 |      - |       0 B |
+//    Amarok_InvokeAsync_SyncHandler_0 | Core |    Core |  46.022 ns | 0.8198 ns |  1.2519 ns |  46.214 ns |   6.07 |     0.35 |      - |       0 B |
+//    Amarok_InvokeAsync_SyncHandler_1 | Core |    Core |  62.260 ns | 1.2659 ns |  1.9709 ns |  61.935 ns |   8.21 |     0.49 |      - |       0 B |
+//    Amarok_InvokeAsync_SyncHandler_3 | Core |    Core |  85.385 ns | 2.3386 ns |  2.5994 ns |  84.594 ns |  11.26 |     0.66 |      - |       0 B |
+//    Amarok_InvokeAsync_SyncHandler_9 | Core |    Core | 180.270 ns | 3.5585 ns |  6.3253 ns | 179.774 ns |  23.76 |     1.47 |      - |       0 B |
+// Amarok_InvokeSync_WeakSyncHandler_0 | Core |    Core |  21.953 ns | 0.4531 ns |  0.4653 ns |  21.984 ns |   2.89 |     0.16 |      - |       0 B |
+// Amarok_InvokeSync_WeakSyncHandler_1 | Core |    Core |  36.503 ns | 0.7521 ns |  1.3172 ns |  36.455 ns |   4.81 |     0.30 |      - |       0 B |
+// Amarok_InvokeSync_WeakSyncHandler_3 | Core |    Core |  56.001 ns | 1.2472 ns |  1.5773 ns |  55.486 ns |   7.38 |     0.43 |      - |       0 B |
+// Amarok_InvokeSync_WeakSyncHandler_9 | Core |    Core | 102.407 ns | 2.0547 ns |  2.8124 ns | 101.716 ns |  13.50 |     0.78 |      - |       0 B |
 
 	}
 }
