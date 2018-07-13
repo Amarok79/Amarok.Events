@@ -6,7 +6,7 @@ The implementation is a bit slower than ordinary .NET events in regard to raw ca
 
 The library is redistributed as NuGet package: [Amarok.Events](https://www.nuget.org/packages/Amarok.Events/)
 
-The package provides binaries for *.NET Standard 2.0* only. Tests are performed with *.NET Framework 4.7.1* and *.NET Core 2.1*.
+The package provides strong-named binaries for *.NET Standard 2.0* only. Tests are performed with *.NET Framework 4.7.1* and *.NET Core 2.1*.
 
 For development, you need *Visual Studio 2017* (v15.7 or later).
 
@@ -534,7 +534,7 @@ The event recorder can be used to gain even more information. Instead of accessi
 If you don't want to record events temporarily, you can **Pause()** and finally **Resume()** the event recorder. If you want to turn off recording completely, call **Dispose()**. To clear the list of recorded events you can use **Reset()**.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTIxMTA2NzQ1MDYsLTE3MzI5NTg3MDYsLT
-E5NDM2MzM2MjMsMTM1NTkzNjI0OSwtMTMzMjQ1NzA2MCwtMTE0
-ODA0NTQ3MCwzNDQwOTA2MjNdfQ==
+eyJoaXN0b3J5IjpbLTEwMzU4MjIzNzksLTIxMTA2NzQ1MDYsLT
+E3MzI5NTg3MDYsLTE5NDM2MzM2MjMsMTM1NTkzNjI0OSwtMTMz
+MjQ1NzA2MCwtMTE0ODA0NTQ3MCwzNDQwOTA2MjNdfQ==
 -->
