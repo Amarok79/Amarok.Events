@@ -1,4 +1,5 @@
-﻿# Frequently Asked Questions
+# Frequently Asked Questions
+
 
 ### Is this library thread-safe?
 
@@ -31,4 +32,3 @@ From that time on, our closed-source event library was a cornerstone of our new 
 A few years later, I started to rewrote the entire library once again from scratch with the goal to make it open source. I wanted to share it with the community and also use it for my own personal projects.
 
 That said, *Amarok.Events* isn't that widely used, but the concepts already have proven to work well.
-
