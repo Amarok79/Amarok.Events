@@ -5,7 +5,7 @@
 		<RootNamespace>Amarok</RootNamespace>
 		<CodeAnalysisRuleSet>..\Global.ruleset</CodeAnalysisRuleSet>
 		<SignAssembly>true</SignAssembly>
-		<AssemblyOriginatorKeyFile>D:\GitHub\Events\src\amarok.snk</AssemblyOriginatorKeyFile>
+		<AssemblyOriginatorKeyFile>..\amarok.snk</AssemblyOriginatorKeyFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

@@ -17,7 +17,7 @@
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 		<PackageTags>Event Observer Publisher Subscriber Progress Recorder Handler</PackageTags>
 		<SignAssembly>true</SignAssembly>
-		<AssemblyOriginatorKeyFile>D:\GitHub\Events\src\amarok.snk</AssemblyOriginatorKeyFile>
+		<AssemblyOriginatorKeyFile>..\amarok.snk</AssemblyOriginatorKeyFile>
 		<DelaySign>false</DelaySign>
 	</PropertyGroup>
 
