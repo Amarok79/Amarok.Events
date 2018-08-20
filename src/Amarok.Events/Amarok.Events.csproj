@@ -11,6 +11,9 @@
 		<PackageLicenseUrl>https://raw.githubusercontent.com/Amarok79/Events/master/LICENSE</PackageLicenseUrl>
 		<PackageProjectUrl>https://github.com/Amarok79/Events</PackageProjectUrl>
 		<PackageIconUrl>https://amarok.blob.core.windows.net/public/amarok.ico</PackageIconUrl>
+		<RepositoryUrl>https://github.com/Amarok79/Events</RepositoryUrl>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 		<CodeAnalysisRuleSet>..\Global.ruleset</CodeAnalysisRuleSet>
 		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
@@ -48,6 +51,9 @@
 		<PackageReference Include="System.Collections.Immutable" Version="1.5.0" />
 		<PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.5.1" />
 		<PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.1" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-63127-02" PrivateAssets="All" />
 	</ItemGroup>
 
 </Project>
