@@ -8,7 +8,7 @@ Yes, this library is fully thread-safe.
 
 ### What are the advantages compared to .NET events?
 
-.NET events are nice. It's great to have a runtime that natively supports events. But there are also some real-world "problems" that his library tries to solve.
+.NET events are nice. It's great to have a runtime that natively supports events. However, there are also some real-world "problems" that this library tries to solve.
 
  - .NET events don't support *async* event handler. You can have *async void* handlers that are invoked with fire-and-forget semantic, but you can't natively await the completion of an async event handler.
  - .NET events don't invoke all remaining event handlers when a previously invoked event handler threw an exception.
@@ -23,12 +23,12 @@ Yes, this library is fully thread-safe.
 
 ### Who uses this library?
 
-A few years ago, at my day job, we started development of a new software platform for a next-generation product family. We considered using Rx.NET as a replacement for all .NET events because we weren't happy with some limitations of .NET events. But, Rx.NET also doesn't fit well with our requirements.
+A few years ago, at my day job, we started development of a new software platform for a next-generation product family. We considered using Rx.NET as a replacement for all .NET events because we weren't happy with some limitations of .NET events. However, Rx.NET also doesn't fit well with our requirements.
 
 So, I started to experiment with a simple observer-pattern implementation on my own that would fulfill our requirements. I did that in my free time, but soon the library development was also partly done at my day job, which finally resulted in a closed-source solution.
 
 From that time on, our closed-source event library was a cornerstone of our new software platform.
 
-A few years later, I started to rewrite the entire library once again from scratch with the goal to make it open source. I wanted to share it with the community and also use it for my own personal projects.
+A few years later, I started to rewrite the entire library once again from scratch with the goal to make it open source. I wanted to share it with the community and also use it for my projects.
 
 That said, *Amarok.Events* isn't that widely used, but the concepts already have proven to work well.

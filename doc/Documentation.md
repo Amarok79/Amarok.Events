@@ -1,6 +1,6 @@
 ## Introduction
 
-This library provides a fast and light-weight implementation of the observer pattern, which can be used as a replacement for ordinary .NET events. The implementation supports raising events in a *synchronous, blocking* or *asynchronous, await-able* fashion. In addition, both *synchronous* and *asynchronous* event handler can be registered.
+This library provides a fast and light-weight implementation of the observer pattern, which can be used as a replacement for regular .NET events. The implementation supports raising events in a *synchronous, blocking* or *asynchronous, await-able* fashion. Besides, both *synchronous* and *asynchronous* event handler can be registered.
 
 The implementation is a bit slower than ordinary .NET events in regard to raw call performance, but optimized to avoid allocations and therefore suitable for high-performance scenarios or resource-constraint embedded systems.
 
@@ -37,7 +37,7 @@ public interface IFooService
 }
 ```
 
-The event is declared as *getter-only property* of type **Event\<T>**, where **T** represents the type of event argument. This can be any type.
+The event is declared as *getter-only property* of type **Event\<T>**, where **T** represents the type of event argument. This **T** can be of any type.
 
 The implementation class of that interface then initializes a field of type **EventSource\<T>** and implements the getter-only event property.
 
@@ -58,7 +58,7 @@ internal sealed class FooServiceImpl : IFooService
 
 In general, the *event source* should be kept private, while the associated **Event\<T>** is made public. This is similar to the pattern used for *CancellationToken* and *CancellationTokenSource*, or *Task\<T>* and *TaskCompletionSource\<T>*.
 
-For raising the event, one simply calls **Invoke(**..**)** on the *event source*. Here you supply the event argument that is forwarded to all event handlers.
+For raising the event, one calls **Invoke(**..**)** on the *event source*. Here you supply the event argument that is forwarded to all event handlers.
 
 Next, a consumer of the service can subscribe to the event. It just has to call **Subscribe(**..**)** on the *event* that is made public by the service.
 
@@ -83,9 +83,9 @@ serviceImpl.DoSomething();
 // does nothing, since no subscribers are registered anymore
 ```
 
-It is recommended that subscribers store these subscription objects somewhere, otherwise they won't be able to remove their registered event handlers.
+It is recommended that subscribers store these subscription objects somewhere. Otherwise, they won't be able to remove their registered event handlers.
 
-If instead the class exposing the event wants to cancel all subscriptions, for example, because it gets disposed, it can simply dispose the *event source* too, which automatically cancels all subscriptions and ignores further calls to **Invoke(**..**)**.
+If instead the class exposing the event wants to cancel all subscriptions, for example, because it gets disposed, it can dispose the *event source* too, which automatically cancels all subscriptions and ignores further calls to **Invoke(**..**)**.
 
 ```cs
 internal sealed class FooServiceImpl : IFooService
@@ -163,7 +163,7 @@ The output is:
     B1    (100 ms delayed)
     B2    (200 ms delayed)
 
-Again, the thread calling **Invoke()** is also calling the event handlers. But this time, it returns after encountering the first *await* statement, causing **Invoke()** to return earlier as the event handler's continuations.
+Again, the thread calling **Invoke()** is also calling the event handlers. However, this time, it returns after encountering the first *await* statement, causing **Invoke()** to return earlier as the event handler's continuations.
 
 That means a consumer can decide whether it wants to register a synchronous or asynchronous event handler. In the latter case, from a perspective of the event raiser, the behavior is kind of fire-and-forget, because the event raiser can't be sure that all event handlers have completed when **Invoke()** returned.
 
@@ -204,12 +204,12 @@ Feels sequential, although it runs fully asynchronous due to the magic of *async
 
 Please note that there is still no additional threading involved. The thread calling **InvokeAsync()** still starts to execute the event handlers. The only special thing here is that **InvokeAsync()** awaits the completion of all those event handlers.
 
-If for example, all registered event handlers are async methods but don't await anything, then the entire event invocation would be processed in a synchronous fashion. In fact, the library implementation has special optimizations in place for this specific scenario of async handlers that don't await or that complete immediately.
+If for example, all registered event handlers are async methods but don't await anything, then the entire event invocation would be processed in a synchronous fashion. In fact, the library implementation has special optimizations in place for this specific scenario of async handlers that don't await and complete immediately.
 
 
 ### InvokeAsync with Synchronous Event Handler
 
-Of course, it is also possible to use **InvokeAsync()** for raising events, but with subscribers that register only synchronous event handlers. This is valid and the library implementation optimizes this scenario so that there is little overhead even though *async/await* is involved.
+Of course, it is also possible to use **InvokeAsync()** for raising events, but with subscribers that register only synchronous event handlers. This is valid, and the library implementation optimizes this scenario so that there is little overhead even though *async/await* is involved.
 
 ```cs
 var source = new EventSource<String>();
@@ -246,7 +246,7 @@ var arg = new FooEventArg() { ... };
 source.Invoke(arg);
 ```
 
-Now, what happens if you raise an event and not a single event handler has been registered? In that case, the construction of a new event argument will be wasted CPU instructions and memory allocation, because **Invoke()** will return immediately without doing anything with the supplied event argument.
+Now, what happens if you raise an event and not a single event handler has been registered? In that case, the construction of a new event argument is wasted CPU instructions and memory allocation, because **Invoke()** returns immediately without doing anything with the supplied event argument.
 
 What if you want to avoid such wasteful instructions?
 
@@ -276,9 +276,9 @@ The same overloads are available for **InvokeAsync()** too.
 
 ### Weak Subscriptions
 
-It is possible to register an event handler (synchronous and/or asynchronous) via weak subscription. That is one that is automatically removed after the event handler has been garbage collected.
+It is possible to register an event handler (synchronous or asynchronous) via weak subscription. That is one that is automatically removed after the event handler has been garbage collected.
 
-Weak subscriptions support a very specific but common use case. Using weak subscriptions in a wrong way can be dangerous as it can cause hard-to-reproduce bugs. Consider this as a warning. But, correctly used they can help in preventing memory leaks, for example, just because you forgot to manually remove an event handler.
+Weak subscriptions support a particular but common use case. Using weak subscriptions in a wrong way can be dangerous as it can cause hard-to-reproduce bugs. Consider this as a warning. However, correctly used they can help in preventing memory leaks, for example, just because you forgot to manually remove an event handler.
 
 Let's imagine an application where you have a set of services. These services are mainly persistent and live for the entire application lifetime. Such services are commonly registered as singletons in a dependency injection container.
 
@@ -293,7 +293,7 @@ public interface IUserManagement
 
 Next, imagine we have consumers of that service that register on that event.
 
-For example, we will have other persistent services, but they are not a big deal, because they get constructed at some time, register on our **UserAdded** event and the event subscription exists for the remaining application lifetime, same as the involved services.
+For example, we might have other persistent services, but they are not a big deal, because they get constructed at some time, register on our **UserAdded** event and the event subscription exists for the remaining application lifetime, same as the involved services.
 
 Quite different are user interface related objects like views. Those don't live for the entire application lifetime, but get constructed, register on events, get closed, disposed. When you forget to remove a subscription taken by such a view you have a memory leak. The size of leaked memory increases as the view gets opened and closed multiple times.
 This happens because as in any other observer pattern implementation the observer (in our case the event source) maintains a strong reference to the observable (event handler in our case). This causes quite often memory leaks.
@@ -331,9 +331,9 @@ In fact, there is just one important point here: Store the subscription object r
 
 You can use that returned object also to cancel the subscription at any time, for example, when the view gets closed. That makes subscription cancellation more deterministic.
 
-If you don't cancel the subscription manually, it will be automatically removed from the service event after the view gets closed and garbage collected. This works since only the view hold a strong reference to the subscription (as shown in the previous example). With weak subscriptions, the *event source* of our service doesn't maintain a strong reference to the subscription and the event handler anymore.
+If you don't cancel the subscription manually, it is automatically removed from the service event after the view gets closed and garbage collected. This works since only the view hold a strong reference to the subscription (as shown in the previous example). With weak subscriptions, the *event source* of our service doesn't maintain a strong reference to the subscription and the event handler anymore.
 
-Since the view is kept in memory from other root objects (the UI framework) the subscription is kept alive and the event handler in the view is invoked as expected. After the view gets closed, all strong references to the view are removed, meaning the view and also it's (the only) strong reference to the subscription are being garbage collected.
+Since the view is kept in memory from other root objects (the UI framework) the subscription is kept alive, and the event handler in the view is invoked as expected. After the view gets closed, all strong references to the view are removed, meaning the view and also it's (the only) strong reference to the subscription are garbage collected.
 
 Weak subscriptions are no silver bullet. As always choose the right tool for the job.
 
@@ -361,7 +361,7 @@ Console.WriteLine("C");
 
 What would you expect to happen? Is the second event handler called regardless of the exception? Is the exception propagated back to the caller?
 
-Well, in regard to exception handling, this library takes a different, maybe controversial approach. I consider it a design flaw of ordinary .NET events that invocation of the remaining event handlers is aborted if one of the previously invoked event handlers threw an exception. Since the thrown exception is reported back to the event publisher, this makes the event publisher dependent on its subscribers, but the entire observer design pattern exists to decouple both, publisher and subscribers.
+Well, regarding exception handling, this library takes a different, maybe controversial approach. I consider it a design flaw of regular .NET events that invocation of the remaining event handlers is aborted if one of the previously invoked event handlers threw an exception. Since the thrown exception is reported back to the event publisher, this makes the event publisher dependent on its subscribers, but the entire observer design pattern exists to decouple both, publisher and subscribers.
 
 In my opinion, the pattern only makes sense, if a publisher doesn’t need to care about whether there are subscribers, or whether those subscribers fail with exceptions. The publisher’s only responsibility is to invoke all registered event handlers in all cases.
 
@@ -425,13 +425,13 @@ SomeLongRunningMethod(progress);
 98
 ```
 
-Depending on from which thread you call this long-running method you will be surprised that the console output is not always sequentially increasing numbers from 0 to 99. That's because **Progress\<T>** invokes its callback via a synchronization context.
+Depending on from which thread you call this long-running method you might be surprised that the console output is not always sequentially increasing numbers from 0 to 99. That's because **Progress\<T>** invokes its callback via a synchronization context.
 
 That can be the UI thread, then sequential numbers 0 to 99 will be the result because everything is synchronized via the UI thread.
 
 If it's not the UI thread, then the callback will be invoked via the thread-pool thread, which means callbacks can come out-of-order!
 
-As an alternative, you can supply an **EventSource\<T>** as progress object. It will forward progress to its subscribers in the correct order.
+As an alternative, you can supply an **EventSource\<T>** as progress object. It forwards progress to its subscribers in the correct order.
 
 ```cs
 var progress = new EventSource<T>();
@@ -442,7 +442,7 @@ progress.Event.Subscribe(x =>
 
 SomeLongRunningMethod(progress);
 
-// will always generate:
+// always generates:
 0
 1
 2
@@ -531,4 +531,4 @@ The event recorder can be used to gain even more information. Instead of accessi
     recorder.EventInfos[1].Thread        // the calling thread
 ```
 
-If you don't want to record events temporarily, you can **Pause()** and finally **Resume()** the event recorder. If you want to turn off recording completely, call **Dispose()**. To clear the list of recorded events you can use **Reset()**.
+If you don't want to record events temporarily, you can **Pause()** and finally **Resume()** the event recorder. If you want to turn off recording completely, call **Dispose()**. To clear the list of recorded events, you can use **Reset()**.
