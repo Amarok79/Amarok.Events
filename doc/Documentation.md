@@ -1,6 +1,6 @@
 ## Introduction
 
-This library provides a fast and light-weight implementation of the observer pattern, which can be used as replacement for ordinary .NET events. The implementation supports raising events in a *synchronous, blocking* or *asynchronous, await-able* fashion. In addition, both *synchronous* and *asynchronous* event handler can be registered.
+This library provides a fast and light-weight implementation of the observer pattern, which can be used as a replacement for ordinary .NET events. The implementation supports raising events in a *synchronous, blocking* or *asynchronous, await-able* fashion. In addition, both *synchronous* and *asynchronous* event handler can be registered.
 
 The implementation is a bit slower than ordinary .NET events in regard to raw call performance, but optimized to avoid allocations and therefore suitable for high-performance scenarios or resource-constraint embedded systems.
 
@@ -28,31 +28,31 @@ Table of Content:
 
 ### Event Source and Event
 
-Suppose you have an interface and you want to expose an event on that interface. You do that as following:
+Suppose you have an interface and you want to expose an event on that interface. You do that as follows:
 
 ```cs
 public interface IFooService
 {
-	Event<Int32> Progress { get; }
+    Event<Int32> Progress { get; }
 }
 ```
 
 The event is declared as *getter-only property* of type **Event\<T>**, where **T** represents the type of event argument. This can be any type.
 
-The implementation class  of that interface then initializes a field of type **EventSource\<T>** and implements the getter-only event property.
+The implementation class of that interface then initializes a field of type **EventSource\<T>** and implements the getter-only event property.
 
 ```cs
 internal sealed class FooServiceImpl : IFooService
 {
-	private readonly EventSource<Int32> mProgressEventSource = new EventSource<Int32>();
+    private readonly EventSource<Int32> mProgressEventSource = new EventSource<Int32>();
     
-	public Event<Int32> Progress => mProgressEventSource.Event;
+    public Event<Int32> Progress => mProgressEventSource.Event;
     
-	public void DoSomething()
-	{
-		// raises the event
-		mProgressEventSource.Invoke(50);
-	}
+    public void DoSomething()
+    {
+        // raises the event
+        mProgressEventSource.Invoke(50);
+    }
 }
 ```
 
@@ -60,18 +60,18 @@ In general, the *event source* should be kept private, while the associated **Ev
 
 For raising the event, one simply calls **Invoke(**..**)** on the *event source*. Here you supply the event argument that is forwarded to all event handlers.
 
-Next, a consumer of the service can subscribe to the event. It just have to call **Subscribe(**..**)** on the *event* that is made public by the service.
+Next, a consumer of the service can subscribe to the event. It just has to call **Subscribe(**..**)** on the *event* that is made public by the service.
 
 ```cs
 FooServiceImpl serviceImpl = new FooServiceImpl();
 IFooService service = serviceImpl;
 
 IDisposable subscription = service.Progress.Subscribe(x => {
-	Console.WriteLine(x + "%");
+    Console.WriteLine(x + "%");
 });
 
-serviceImpl.DoSomething();		// internally raises the event
-// console output:	50%
+serviceImpl.DoSomething();        // internally raises the event
+// console output:    50%
 ```
 
 The object returned from **Subscribe(**..**)** can be used to cancel the subscription at any time.
@@ -90,14 +90,14 @@ If instead the class exposing the event wants to cancel all subscriptions, for e
 ```cs
 internal sealed class FooServiceImpl : IFooService
 {
-	...
-	
-	public void Dispose()
-	{
-		mProgressEventSource.Dispose();
-		// cancels all subscriptions, discards new subscriptions and
-		// ignores any call to Invoke()
-	}
+    ...
+    
+    public void Dispose()
+    {
+        mProgressEventSource.Dispose();
+        // cancels all subscriptions, discards new subscriptions and
+        // ignores any call to Invoke()
+    }
 }
 ```
 
@@ -108,12 +108,12 @@ The following code snippet shows a single *event source* with two event handlers
 ```cs
 var source = new EventSource<String>();
 
-source.Event.Subscribe(x => {		// sync event handler
-	Console.WriteLine(x + "1");
+source.Event.Subscribe(x => {        // sync event handler
+    Console.WriteLine(x + "1");
 });
 
-source.Event.Subscribe(x => {		// sync event handler
-	Console.WriteLine(x + "2");
+source.Event.Subscribe(x => {        // sync event handler
+    Console.WriteLine(x + "2");
 });
 
 Console.WriteLine("A");
@@ -123,10 +123,10 @@ Console.WriteLine("C");
 
 The output is:
 
-	A
-	B1
-	B2
-	C
+    A
+    B1
+    B2
+    C
 
 This shows that event handlers are invoked directly by the thread that calls **Invoke()**. There is no additional threading introduced by the library.  Also, **Invoke()** returns directly after all event handlers have completed.
 
@@ -140,14 +140,14 @@ Now, let's take the same example but slightly modified with *async* event handle
 ```cs
 var source = new EventSource<String>();
 
-source.Event.Subscribe(async x => {		// async event handler
-	await Task.Delay(100);
-	Console.WriteLine(x + "1");
+source.Event.Subscribe(async x => {        // async event handler
+    await Task.Delay(100);
+    Console.WriteLine(x + "1");
 });
 
-source.Event.Subscribe(async x => {		// async event handler
-	await Task.Delay(200);
-	Console.WriteLine(x + "2");
+source.Event.Subscribe(async x => {        // async event handler
+    await Task.Delay(200);
+    Console.WriteLine(x + "2");
 });
 
 Console.WriteLine("A");
@@ -157,15 +157,15 @@ Console.WriteLine("C");
 
 The output is:
 
-	A
-	C
-	...
-	B1	(100 ms delayed)
-	B2	(200 ms delayed)
+    A
+    C
+    ...
+    B1    (100 ms delayed)
+    B2    (200 ms delayed)
 
 Again, the thread calling **Invoke()** is also calling the event handlers. But this time, it returns after encountering the first *await* statement, causing **Invoke()** to return earlier as the event handler's continuations.
 
-That means a consumer can decide whether it wants to register a synchronous or asynchronous event handler. In the latter case, from perspective of the event raiser the behavior is kind of fire-and-forget, because the event raiser can't be sure that all event handlers have completed when **Invoke()** returned.
+That means a consumer can decide whether it wants to register a synchronous or asynchronous event handler. In the latter case, from a perspective of the event raiser, the behavior is kind of fire-and-forget, because the event raiser can't be sure that all event handlers have completed when **Invoke()** returned.
 
 If you need that guarantee that then use **InvokeAsync()** instead.
 
@@ -177,18 +177,18 @@ As mentioned previously, **InvokeAsync()** can be used if awaiting the completio
 ```cs
 var source = new EventSource<String>();
 
-source.Event.Subscribe(async x => {		// async event handler
-	await Task.Delay(100);
-	Console.WriteLine(x + "1");
+source.Event.Subscribe(async x => {        // async event handler
+    await Task.Delay(100);
+    Console.WriteLine(x + "1");
 });
 
-source.Event.Subscribe(async x => {		// async event handler
-	await Task.Delay(200);
-	Console.WriteLine(x + "2");
+source.Event.Subscribe(async x => {        // async event handler
+    await Task.Delay(200);
+    Console.WriteLine(x + "2");
 });
 
 Console.WriteLine("A");
-await source.InvokeAsync("B");			// await !!
+await source.InvokeAsync("B");            // await !!
 Console.WriteLine("C");
 ```
 
@@ -196,15 +196,15 @@ This time the output is:
 
     A
     ...
-    B1	(100 ms delayed)
-    B2	(200 ms delayed)
+    B1    (100 ms delayed)
+    B2    (200 ms delayed)
     C
 
 Feels sequential, although it runs fully asynchronous due to the magic of *async* and *await*.
 
 Please note that there is still no additional threading involved. The thread calling **InvokeAsync()** still starts to execute the event handlers. The only special thing here is that **InvokeAsync()** awaits the completion of all those event handlers.
 
-If for example, all registered event handlers are async methods but don't await anything, then the entire event invocation would be processed in synchronous fashion. In fact, the library implementation has special optimizations in place for this specific scenario of async handler that don't await or that complete immediately.
+If for example, all registered event handlers are async methods but don't await anything, then the entire event invocation would be processed in a synchronous fashion. In fact, the library implementation has special optimizations in place for this specific scenario of async handlers that don't await or that complete immediately.
 
 
 ### InvokeAsync with Synchronous Event Handler
@@ -214,25 +214,25 @@ Of course, it is also possible to use **InvokeAsync()** for raising events, but 
 ```cs
 var source = new EventSource<String>();
 
-source.Event.Subscribe(x => {		// sync event handler
-	Console.WriteLine(x + "1");
+source.Event.Subscribe(x => {        // sync event handler
+    Console.WriteLine(x + "1");
 });
 
-source.Event.Subscribe(x => {		// sync event handler
-	Console.WriteLine(x + "2");
+source.Event.Subscribe(x => {        // sync event handler
+    Console.WriteLine(x + "2");
 });
 
 Console.WriteLine("A");
-await source.InvokeAsync("B");		// await !!
+await source.InvokeAsync("B");        // await !!
 Console.WriteLine("C");
 ```
 
 Of course, the output is:
 
-	A
-	B1
-	B2
-	C
+    A
+    B1
+    B2
+    C
 
 
 ### Raising Events
@@ -241,7 +241,7 @@ We have already learned that events are raised by calling **Invoke()** or **Invo
 
 ```cs
 var source = new EventSource<FooEventArg>();
-	
+    
 var arg = new FooEventArg() { ... };
 source.Invoke(arg);
 ```
@@ -254,9 +254,9 @@ Well, you can use one of the provided overloads that accept a *value factory* fo
 
 ```cs
 source.Invoke(() => {
-	return new FooEventArg() { ... }
-	// value factory is only called, if at least a single
-	// event handler is registered
+    return new FooEventArg() { ... }
+    // value factory is only called, if at least a single
+    // event handler is registered
 });
 ```
 
@@ -264,11 +264,11 @@ If you need to pass some value to the *value factory*, you can do that too. Use 
 
 ```cs
 source.Invoke((arg1) => {
-	return new FooEventArg() { ... }
-	// value factory is only called, if at least a single
-	// event handler is registered
+    return new FooEventArg() { ... }
+    // value factory is only called, if at least a single
+    // event handler is registered
 },
-123);	// supplied as arg1
+123);    // supplied as arg1
 ```
 
 The same overloads are available for **InvokeAsync()** too.
@@ -276,18 +276,18 @@ The same overloads are available for **InvokeAsync()** too.
 
 ### Weak Subscriptions
 
-It is possible to register event handlers (synchronous and/or asynchronous) via weak subscriptions. That are one that are automatically removed after the event handler has been garbage collected.
+It is possible to register an event handler (synchronous and/or asynchronous) via weak subscription. That is one that is automatically removed after the event handler has been garbage collected.
 
 Weak subscriptions support a very specific but common use case. Using weak subscriptions in a wrong way can be dangerous as it can cause hard-to-reproduce bugs. Consider this as a warning. But, correctly used they can help in preventing memory leaks, for example, just because you forgot to manually remove an event handler.
 
-Let's imagine an application where you have a set of services. These services are mostly persistent and live for the entire application lifetime. Such services are commonly registered as singletons in a dependency injection container.
+Let's imagine an application where you have a set of services. These services are mainly persistent and live for the entire application lifetime. Such services are commonly registered as singletons in a dependency injection container.
 
 Suppose **IUserManagement** represents such a service. As in all the previous examples, the service exposes an event.
 
 ```cs
 public interface IUserManagement
 {
-	Event<User> UserAdded { get; }
+    Event<User> UserAdded { get; }
 }
 ```
 
@@ -295,43 +295,43 @@ Next, imagine we have consumers of that service that register on that event.
 
 For example, we will have other persistent services, but they are not a big deal, because they get constructed at some time, register on our **UserAdded** event and the event subscription exists for the remaining application lifetime, same as the involved services.
 
-Quite different are user interface related objects like views. Those don't live for the entire application lifetime, but get constructed, register on events, get closed, disposed. When you forget to remove an subscription taken by such a view you have a memory leak. The amount of leaked memory increases as the view gets opened and closed multiple times.
+Quite different are user interface related objects like views. Those don't live for the entire application lifetime, but get constructed, register on events, get closed, disposed. When you forget to remove a subscription taken by such a view you have a memory leak. The size of leaked memory increases as the view gets opened and closed multiple times.
 This happens because as in any other observer pattern implementation the observer (in our case the event source) maintains a strong reference to the observable (event handler in our case). This causes quite often memory leaks.
 
 Here come weak subscriptions into play as they can help prevent such memory leaks. They free the developer from the burden to manually remove event subscriptions.
 
-Such a UI view can use weak subscriptions on our **UserAdded** event as following.
+Such a UI view can use weak subscriptions on our **UserAdded** event as follows.
 
 ```cs
 public sealed class BarView
 {
-	// this field is necessary to hold the event subscription
-	private IDisposable mUserAddedSubscription;
+    // this field is necessary to hold the event subscription
+    private IDisposable mUserAddedSubscription;
 
-	public BarView(IFooService service)
-	{
-		// when using SubscribeWeak() the returned object must be
-		// stored into a field, otherwise the subscription will get
-		// out of scope and get garbage collected too early
-		mUserAddedSubscription = service.UserAdded.SubscribeWeak(
-			x => HandleUserAdded(x)
-		);
-	}
-		
-	private void HandleUserAdded(User user)
-	{
-		...
-	}
+    public BarView(IFooService service)
+    {
+        // when using SubscribeWeak() the returned object must be
+        // stored into a field, otherwise the subscription will get
+        // out of scope and get garbage collected too early
+        mUserAddedSubscription = service.UserAdded.SubscribeWeak(
+            x => HandleUserAdded(x)
+        );
+    }
+        
+    private void HandleUserAdded(User user)
+    {
+        ...
+    }
 }
 ```
 
 That's it.
 
-In fact there is just one important point here: Store the subscription object returned by **SubscribeWeak()** into a member field of the same object as your event handler.
+In fact, there is just one important point here: Store the subscription object returned by **SubscribeWeak()** into a member field of the same object as your event handler.
 
 You can use that returned object also to cancel the subscription at any time, for example, when the view gets closed. That makes subscription cancellation more deterministic.
 
-If you don't cancel the subscription manually, it will be automatically removed from the service event after the view gets closed and garbage collected. This works since only the view holds a strong reference to the subscription (as shown in the previous example). With weak subscriptions, the *event source* of our service doesn't maintain a strong reference to the subscription and the event handler anymore.
+If you don't cancel the subscription manually, it will be automatically removed from the service event after the view gets closed and garbage collected. This works since only the view hold a strong reference to the subscription (as shown in the previous example). With weak subscriptions, the *event source* of our service doesn't maintain a strong reference to the subscription and the event handler anymore.
 
 Since the view is kept in memory from other root objects (the UI framework) the subscription is kept alive and the event handler in the view is invoked as expected. After the view gets closed, all strong references to the view are removed, meaning the view and also it's (the only) strong reference to the subscription are being garbage collected.
 
@@ -340,18 +340,18 @@ Weak subscriptions are no silver bullet. As always choose the right tool for the
 
 ### Exception Behavior
 
-Consider following example. What if one of the event handlers throws an exception.
+Consider the following example. What if one of the event handlers throws an exception.
 
 ```cs
 var source = new EventSource<String>();
 
-source.Event.Subscribe(x => {		// sync event handler
-	Console.WriteLine(x + "1");
-	throw new Exception();
+source.Event.Subscribe(x => {        // sync event handler
+    Console.WriteLine(x + "1");
+    throw new Exception();
 });
 
-source.Event.Subscribe(x => {		// sync event handler
-	Console.WriteLine(x + "2");
+source.Event.Subscribe(x => {        // sync event handler
+    Console.WriteLine(x + "2");
 });
 
 Console.WriteLine("A");
@@ -361,16 +361,16 @@ Console.WriteLine("C");
 
 What would you expect to happen? Is the second event handler called regardless of the exception? Is the exception propagated back to the caller?
 
-Well, in regard to exception handling, this library takes a different, maybe controversial approach. I consider it a design flaw of ordinary .NET events that invocation of the remaining event handlers is aborted, if one of the previously invoked event handler threw an exception. Since the thrown exception is reported back to the event publisher, this makes the event publisher dependent on its subscribers, but the entire observer design pattern exists to decouple both, publisher and subscribers.
+Well, in regard to exception handling, this library takes a different, maybe controversial approach. I consider it a design flaw of ordinary .NET events that invocation of the remaining event handlers is aborted if one of the previously invoked event handlers threw an exception. Since the thrown exception is reported back to the event publisher, this makes the event publisher dependent on its subscribers, but the entire observer design pattern exists to decouple both, publisher and subscribers.
 
-In my opinion, the pattern only makes sense, if a publisher doesn’t need to care of whether there are subscribers, or whether those subscribers fail with exceptions. The publisher’s only responsibility is to invoke all registered event handlers in all cases.
+In my opinion, the pattern only makes sense, if a publisher doesn’t need to care about whether there are subscribers, or whether those subscribers fail with exceptions. The publisher’s only responsibility is to invoke all registered event handlers in all cases.
 
 So, our example generates following output:
 
-	A  
-	B1  
-	B2  
-	C
+    A  
+    B1  
+    B2  
+    C
 
 B2 is reliably invoked, even though B1 threw an exception.
 
@@ -382,25 +382,25 @@ Instead, the library catches all exceptions thrown in event handlers and forward
 
 ```cs
 EventSystem.UnobservedException.Subscribe(ex => {
-	Console.WriteLine(ex);
+    Console.WriteLine(ex);
 });
 ```
 
-If an application wants to handle those exception - and that is generally recommended – then the exception handling should happen in the event handlers itself. If exceptions can occur in an event handler, then the event handler is responsible for careful handling.
+If an application wants to handle those exceptions - and that is generally recommended – then the exception handling should happen in the event handlers itself. If exceptions can occur in an event handler, then the event handler is responsible for careful handling.
 
 
 ### IProgress\<T> Integration
 
 The interface **IProgress\<T>** defined by .NET BCL is a commonly-used way to transfer progress.
 
-For example, long-running methods often accept an **IProgress\<T>** as argument to report back progress.
+For example, long-running methods often accept an **IProgress\<T>** as an argument to report back progress.
 
 ```cs
 public void SomeLongRunningMethod(IProgress<Int32> progress)
 {
-	// reports progress back to caller
-	for(Int32 i = 0; i < 100; i++)
-		progress.Report(i);
+    // reports progress back to caller
+    for(Int32 i = 0; i < 100; i++)
+        progress.Report(i);
 }
 ```
 
@@ -408,7 +408,7 @@ The caller then supplies an implementation to receive the progress. This is ofte
 
 ```cs
 var progress = new Progress<T>(x =>
-	Console.WriteLine(x)
+    Console.WriteLine(x)
 );
 
 SomeLongRunningMethod(progress);
@@ -425,19 +425,19 @@ SomeLongRunningMethod(progress);
 98
 ```
 
-Depending on from which thread you call this long-running method you will be surprised that the console output are not always sequentially increasing numbers from 0 to 99. That's because **Progress\<T>** invokes its callback via a synchronization context.
+Depending on from which thread you call this long-running method you will be surprised that the console output is not always sequentially increasing numbers from 0 to 99. That's because **Progress\<T>** invokes its callback via a synchronization context.
 
-That can be the UI thread, then sequential numbers 0 to 99 will be the result, because everything is synchronized via the UI thread.
+That can be the UI thread, then sequential numbers 0 to 99 will be the result because everything is synchronized via the UI thread.
 
 If it's not the UI thread, then the callback will be invoked via the thread-pool thread, which means callbacks can come out-of-order!
 
-As alternative, you can supply an **EventSource\<T>** as progress object. It will forward progress to its subscribers in correct order.
+As an alternative, you can supply an **EventSource\<T>** as progress object. It will forward progress to its subscribers in the correct order.
 
 ```cs
 var progress = new EventSource<T>();
 
 progress.Event.Subscribe(x =>
-	Console.WriteLine(x)
+    Console.WriteLine(x)
 );
 
 SomeLongRunningMethod(progress);
@@ -456,7 +456,7 @@ Of course, it is also possible to subscribe an **IProgress\<T>** onto an event, 
 
 ```cs
 IProgress<Int32> progress = new Progress<Int32>(x =>
-	Console.WriteLine(x)
+    Console.WriteLine(x)
 );
 
 var source = new EventSource<Int32>();
@@ -473,68 +473,62 @@ source.Invoke(123);
 
 If you are writing unit tests, then there will come the time where you want to ensure that an event on your subject-under-test is correctly raised with the expected event arguments.
 
-To ease unit testing, this library provides a ready-made event recorder that can be used to record events and then later on analyze them.
+To ease unit testing, this library provides a ready-made event recorder that can be used to record events and then, later on, analyze them.
 
-As an example, suppose we have following implementation class.
+As an example, suppose we have the following implementation class.
 
 ```cs
 public sealed class UserManagementService
 {
-	private readonly EventSource<String> mUserAddedEvent = new EventSource<String>();
+    private readonly EventSource<String> mUserAddedEvent = new EventSource<String>();
 
-	public void AddUser(String name)
-	{
-		mUserAddedEvent.Invoke(name);
-	}
+    public void AddUser(String name)
+    {
+        mUserAddedEvent.Invoke(name);
+    }
 }
 ```
 
-In a unit test we want to assert that the event is raised and that the supplied name is supplied to the event.
+In a unit test, we want to assert that the event is raised and that the supplied name is supplied to the event.
 
 ```cs
 [Test]
 public void AddUserRaisesEventWithUserName
 {
-	// arrange
-	var sut = new UserManagementService();
-	var recorder = EventRecorder.From(sut.UserAdded);
+    // arrange
+    var sut = new UserManagementService();
+    var recorder = EventRecorder.From(sut.UserAdded);
 
-	// act
-	sut.AddUser("Foo");
-	Thread.Sleep(50);
-	sut.AddUser("Bar");
-	
-	// assert (using NFluent assertions)
-	Check.That(recorder.Events)
-		.HasSize(2);		// we expect two events
+    // act
+    sut.AddUser("Foo");
+    Thread.Sleep(50);
+    sut.AddUser("Bar");
+    
+    // assert (using NFluent assertions)
+    Check.That(recorder.Events)
+        .HasSize(2);        // we expect two events
 
-	Check.That(recorder.Events[0])
-		.IsEqualTo("Foo");	// first "Foo" was recorded
-	Check.That(recorder.Events[1])
-		.IsEqualTo("Bar");	// then "Bar" as expected
+    Check.That(recorder.Events[0])
+        .IsEqualTo("Foo");    // first "Foo" was recorded
+    Check.That(recorder.Events[1])
+        .IsEqualTo("Bar");    // then "Bar" as expected
 }
 ```
 
 The event recorder can be used to gain even more information. Instead of accessing property **Events**, one can use **EventInfos**, which returns timing and thread information about the recorded events.
 
 ```cs
-	recorder.EventInfos[0].Value		// "Foo"
-	recorder.EventInfos[0].Index		// 0
-	recorder.EventInfos[0].Timestamp	// DateTimeOffset
-	recorder.EventInfos[0].TimeOffset	// 0 ms
-	recorder.EventInfos[0].Thread		// the calling thread
-	
-	recorder.EventInfos[1].Value		// "Bar"
-	recorder.EventInfos[1].Index		// 1
-	recorder.EventInfos[1].Timestamp	// DateTimeOffset
-	recorder.EventInfos[1].TimeOffset	// 50 ms
-	recorder.EventInfos[1].Thread		// the calling thread
+    recorder.EventInfos[0].Value        // "Foo"
+    recorder.EventInfos[0].Index        // 0
+    recorder.EventInfos[0].Timestamp    // DateTimeOffset
+    recorder.EventInfos[0].TimeOffset    // 0 ms
+    recorder.EventInfos[0].Thread        // the calling thread
+    
+    recorder.EventInfos[1].Value        // "Bar"
+    recorder.EventInfos[1].Index        // 1
+    recorder.EventInfos[1].Timestamp    // DateTimeOffset
+    recorder.EventInfos[1].TimeOffset    // 50 ms
+    recorder.EventInfos[1].Thread        // the calling thread
 ```
 
 If you don't want to record events temporarily, you can **Pause()** and finally **Resume()** the event recorder. If you want to turn off recording completely, call **Dispose()**. To clear the list of recorded events you can use **Reset()**.
-
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEwMzU4MjIzNzksLTIxMTA2NzQ1MDYsLT
-E3MzI5NTg3MDYsLTE5NDM2MzM2MjMsMTM1NTkzNjI0OSwtMTMz
-MjQ1NzA2MCwtMTE0ODA0NTQ3MCwzNDQwOTA2MjNdfQ==
--->
