@@ -344,7 +344,7 @@ namespace Amarok.Events
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription().ToString())
 					.StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
-				var strongSub = ((ActionSubscription<String>)subscription);
+				var strongSub = (ActionSubscription<String>)subscription;
 				var weakSub = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
 				strongSub.TestingClearNextSubscription();
 				weakSub.TestingClearNextSubscription();
@@ -737,7 +737,7 @@ namespace Amarok.Events
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
 					.IsInstanceOf<WeakSubscription<String>>();
 
-				var strongSub = ((ActionSubscription<String>)subscription);
+				var strongSub = (ActionSubscription<String>)subscription;
 				var weakSub = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
 				strongSub.TestingClearNextSubscription();
 				weakSub.TestingClearNextSubscription();
@@ -1159,7 +1159,7 @@ namespace Amarok.Events
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
 					.IsInstanceOf<WeakSubscription<String>>();
 
-				var strongSub = ((ActionSubscription<String>)subscription);
+				var strongSub = (ActionSubscription<String>)subscription;
 				var weakSub = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
 				strongSub.TestingClearNextSubscription();
 				weakSub.TestingClearNextSubscription();
@@ -1602,7 +1602,7 @@ namespace Amarok.Events
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
 					.IsInstanceOf<WeakSubscription<String>>();
 
-				var strongSub = ((ActionSubscription<String>)subscription);
+				var strongSub = (ActionSubscription<String>)subscription;
 				var weakSub = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
 				strongSub.TestingClearNextSubscription();
 				weakSub.TestingClearNextSubscription();
@@ -2066,7 +2066,7 @@ namespace Amarok.Events
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
 					.IsInstanceOf<WeakSubscription<String>>();
 
-				var strongSub = ((ActionSubscription<String>)subscription);
+				var strongSub = (ActionSubscription<String>)subscription;
 				var weakSub = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
 				strongSub.TestingClearNextSubscription();
 				weakSub.TestingClearNextSubscription();
@@ -2439,7 +2439,7 @@ namespace Amarok.Events
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
 					.IsInstanceOf<WeakSubscription<String>>();
 
-				var strongSub = ((ActionSubscription<String>)subscription);
+				var strongSub = (ActionSubscription<String>)subscription;
 				var weakSub = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
 				strongSub.TestingClearNextSubscription();
 				weakSub.TestingClearNextSubscription();
@@ -2769,7 +2769,7 @@ namespace Amarok.Events
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
 					.IsInstanceOf<WeakSubscription<String>>();
 
-				var strongSub = ((ActionSubscription<String>)subscription);
+				var strongSub = (ActionSubscription<String>)subscription;
 				var weakSub = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
 				strongSub.TestingClearNextSubscription();
 				weakSub.TestingClearNextSubscription();
@@ -3136,7 +3136,7 @@ namespace Amarok.Events
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
 					.IsInstanceOf<WeakSubscription<String>>();
 
-				var strongSub = ((ActionSubscription<String>)subscription);
+				var strongSub = (ActionSubscription<String>)subscription;
 				var weakSub = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
 				strongSub.TestingClearNextSubscription();
 				weakSub.TestingClearNextSubscription();
@@ -3524,7 +3524,7 @@ namespace Amarok.Events
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
 					.IsInstanceOf<WeakSubscription<String>>();
 
-				var strongSub = ((ActionSubscription<String>)subscription);
+				var strongSub = (ActionSubscription<String>)subscription;
 				var weakSub = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
 				strongSub.TestingClearNextSubscription();
 				weakSub.TestingClearNextSubscription();
@@ -3932,7 +3932,7 @@ namespace Amarok.Events
 				Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
 					.IsInstanceOf<WeakSubscription<String>>();
 
-				var strongSub = ((ActionSubscription<String>)subscription);
+				var strongSub = (ActionSubscription<String>)subscription;
 				var weakSub = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
 				strongSub.TestingClearNextSubscription();
 				weakSub.TestingClearNextSubscription();

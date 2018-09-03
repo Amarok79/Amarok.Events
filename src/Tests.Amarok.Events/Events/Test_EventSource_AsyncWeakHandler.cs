@@ -317,7 +317,7 @@ namespace Amarok.Events
 				Check.That(((FuncSubscription<String>)subscription).TestingGetPreviousSubscription())
 					.IsInstanceOf<WeakSubscription<String>>();
 
-				var strongSub = ((FuncSubscription<String>)subscription);
+				var strongSub = (FuncSubscription<String>)subscription;
 				var weakSub = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
 				strongSub.TestingClearNextSubscription();
 				weakSub.TestingClearNextSubscription();
@@ -620,7 +620,7 @@ namespace Amarok.Events
 				Check.That(((FuncSubscription<String>)subscription).TestingGetPreviousSubscription())
 					.IsInstanceOf<WeakSubscription<String>>();
 
-				var strongSub = ((FuncSubscription<String>)subscription);
+				var strongSub = (FuncSubscription<String>)subscription;
 				var weakSub = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
 				strongSub.TestingClearNextSubscription();
 				weakSub.TestingClearNextSubscription();
