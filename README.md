@@ -1,4 +1,6 @@
-﻿## Introduction
+[![Build Status](https://dev.azure.com/amarok79/Amarok.Events/_apis/build/status/Amarok79.Events)](https://dev.azure.com/amarok79/Amarok.Events/_build/latest?definitionId=1)
+
+## Introduction
 
 This library provides a fast and light-weight implementation of the observer pattern, which can be used as a replacement for regular .NET events. The implementation supports raising events in a *synchronous, blocking* or *asynchronous, await-able* fashion. Besides, both *synchronous* and *asynchronous* event handler can be registered.
 
