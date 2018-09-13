@@ -29,3 +29,18 @@ jobs:
     inputs:
       pathtoPublish: 'bin'
       artifactName: 'bin'
+      
+- job: Test-NET471
+  dependsOn: Build
+  condition: ucceeded()
+  pool:
+    vmImage: 'vs2017-win2017'
+  steps:
+  - task: DownloadBuildArtifacts@0
+    inputs:
+      artifactName: 'bin'
+      downloadPath: 'bin'
+  - task: VSTest@2
+    inputs:
+      searchFolder: 'bin/tests/net471'
+      codeCoverageEnabled: True
