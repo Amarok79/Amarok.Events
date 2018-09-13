@@ -30,7 +30,7 @@ jobs:
       pathtoPublish: 'bin'
       artifactName: 'bin'
       
-- job: Test-NET471
+- job: Test_NET471
   dependsOn: Build
   condition: succeeded()
   pool:
