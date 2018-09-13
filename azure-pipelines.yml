@@ -32,7 +32,7 @@ jobs:
       
 - job: Test-NET471
   dependsOn: Build
-  condition: ucceeded()
+  condition: succeeded()
   pool:
     vmImage: 'vs2017-win2017'
   steps:
