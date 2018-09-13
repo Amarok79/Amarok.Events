@@ -1,5 +1,5 @@
 [![Build Status](https://dev.azure.com/amarok79/Amarok.Events/_apis/build/status/Amarok79.Events)](https://dev.azure.com/amarok79/Amarok.Events/_build/latest?definitionId=1)
-![NuGet](https://img.shields.io/nuget/v/Amarok.Events.svg?logo=)
+![NuGet](https://img.shields.io/nuget/v/Amarok.Events.svg?logo=)(https://www.nuget.org/packages/Amarok.Events/)
 
 ## Introduction
 
