@@ -27,7 +27,7 @@ steps:
     clean: true
     maximumCpuCount: true
 
-- task: VSTest@2
+- task: PublishBuildArtifacts@1
   inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    pathtoPublish: 'bin/**/*.*'
+    artifactName: 'bin'
