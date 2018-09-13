@@ -39,7 +39,7 @@ jobs:
   - task: DownloadBuildArtifacts@0
     inputs:
       artifactName: 'bin'
-      downloadPath: 'bin'
+      downloadPath: '$(Build.SourcesDirectory)'
   - task: VSTest@2
     inputs:
       searchFolder: 'bin/tests/net471'
