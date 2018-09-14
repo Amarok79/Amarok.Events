@@ -14,10 +14,19 @@ jobs:
     buildConfiguration: 'Release'
   steps:
   - task: NuGetToolInstaller@0
+  - task: JavaToolInstaller@0
+  - task: DownloadSecureFile@1
+    inputs:
+      secureFile: sonar-scanner-msbuild-4.3.1.1372-net46.zip
+  - task: ExtractFiles@1
+    inputs:
+      archiveFilePatterns: '$(Agent.TempDirectory)/sonar-scanner-msbuild-4.3.1.1372-net46.zip' 
+      destinationFolder: '$(Build.SourcesDirectory)/tools'
   - task: NuGetCommand@2
     inputs:
       command: 'restore'
       restoreSolution: '$(solution)'
+  - script: '$(Build.SourcesDirectory)/tools/SonarScanner.MSBuild.exe begin /k:"Amarok79_Events" /d:sonar.organization="amarok79-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="097c5c3f1902b6f56cd9313525cf1da395f5be3b"'
   - task: VSBuild@1
     inputs:
       solution: '$(solution)'
@@ -25,6 +34,7 @@ jobs:
       configuration: '$(buildConfiguration)'
       clean: true
       maximumCpuCount: true
+  - script: '$(Build.SourcesDirectory)/tools/SonarScanner.MSBuild.exe end /d:sonar.login="097c5c3f1902b6f56cd9313525cf1da395f5be3b"'
   - task: PublishBuildArtifacts@1
     inputs:
       pathtoPublish: 'bin'
