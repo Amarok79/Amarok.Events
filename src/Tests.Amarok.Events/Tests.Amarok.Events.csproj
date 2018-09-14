@@ -6,6 +6,7 @@
 		<CodeAnalysisRuleSet>..\Global.ruleset</CodeAnalysisRuleSet>
 		<SignAssembly>true</SignAssembly>
 		<AssemblyOriginatorKeyFile>..\amarok.snk</AssemblyOriginatorKeyFile>
+		<AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -38,5 +39,17 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Amarok.Events\Amarok.Events.csproj" />
 	</ItemGroup>
+
+	<Choose>
+		<When Condition=" '$(Configuration)' != 'Debug' ">
+			<ItemGroup>
+				<PackageReference Include="SonarAnalyzer.CSharp">
+					<Version>7.5.0.6605</Version>
+					<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+					<PrivateAssets>all</PrivateAssets>
+				</PackageReference>
+			</ItemGroup>
+		</When>
+	</Choose>
 
 </Project>
