@@ -3,31 +3,54 @@
 # Add steps that publish symbols, save build artifacts, and more:
 # https://docs.microsoft.com/vsts/pipelines/apps/windows/dot-net
 
-pool:
-  vmImage: 'vs2017-win2017'
+jobs:
 
-variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
-
-steps:
-- task: NuGetToolInstaller@0
-
-- task: NuGetCommand@2
-  inputs:
-    command: 'restore'
-    restoreSolution: '$(solution)'
-
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-    clean: true
-    maximumCpuCount: true
-
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+- job: Build
+  pool:
+    vmImage: 'vs2017-win2017'
+  variables:
+    solution: '**/*.sln'
+    buildPlatform: 'Any CPU'
+    buildConfiguration: 'Release'
+  steps:
+  - task: NuGetToolInstaller@0
+  - task: JavaToolInstaller@0
+  - task: DownloadSecureFile@1
+    inputs:
+      secureFile: 'sonar-scanner-msbuild-4.3.1.1372-net46.zip'
+  - task: ExtractFiles@1
+    inputs:
+      archiveFilePatterns: '$(Agent.TempDirectory)/sonar-scanner-msbuild-4.3.1.1372-net46.zip' 
+      destinationFolder: '$(Build.SourcesDirectory)/tools'
+  - task: NuGetCommand@2
+    inputs:
+      command: 'restore'
+      restoreSolution: '$(solution)'
+  - script: '$(Build.SourcesDirectory)/tools/SonarScanner.MSBuild.exe begin /k:"Amarok79_Events" /d:sonar.organization="amarok79-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="097c5c3f1902b6f56cd9313525cf1da395f5be3b"'
+  - task: VSBuild@1
+    inputs:
+      solution: '$(solution)'
+      platform: '$(buildPlatform)'
+      configuration: '$(buildConfiguration)'
+      clean: true
+      maximumCpuCount: true
+  - script: '$(Build.SourcesDirectory)/tools/SonarScanner.MSBuild.exe end /d:sonar.login="097c5c3f1902b6f56cd9313525cf1da395f5be3b"'
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: 'bin'
+      artifactName: 'bin'
+      
+- job: Test_NET471
+  dependsOn: Build
+  condition: succeeded()
+  pool:
+    vmImage: 'vs2017-win2017'
+  steps:
+  - task: DownloadBuildArtifacts@0
+    inputs:
+      artifactName: 'bin'
+      downloadPath: '$(Build.SourcesDirectory)'
+  - task: VSTest@2
+    inputs:
+      searchFolder: 'bin/tests/net471'
+      codeCoverageEnabled: True
