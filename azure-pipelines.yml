@@ -4,7 +4,6 @@
 # https://docs.microsoft.com/vsts/pipelines/apps/windows/dot-net
 
 jobs:
-
 - job: Build
   pool:
     vmImage: 'vs2017-win2017'
@@ -22,7 +21,7 @@ jobs:
     inputs:
       command: 'restore'
       restoreSolution: '$(solution)'
-  - script: '$(Build.SourcesDirectory)/output/tools/sonar-scanner-msbuild/SonarScanner.MSBuild.exe begin /k:"Amarok79_Events" /d:sonar.organization="amarok79-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="097c5c3f1902b6f56cd9313525cf1da395f5be3b"'
+  - script: '$(Build.SourcesDirectory)/output/tools/sonar-scanner-msbuild/SonarScanner.MSBuild.exe begin /k:"Amarok79_Events" /d:sonar.organization="amarok79-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="097c5c3f1902b6f56cd9313525cf1da395f5be3b" /d:sonar.msbuild.testProjectPattern="^(Test|Tests)\.*?\.(cs|vb)proj$"'
   - task: VSBuild@1
     inputs:
       solution: '$(solution)'
@@ -30,23 +29,12 @@ jobs:
       configuration: '$(buildConfiguration)'
       clean: true
       maximumCpuCount: true
+  - task: VSTest@2
+    inputs:
+      searchFolder: 'bin/tests/net471'
+      codeCoverageEnabled: True
   - script: '$(Build.SourcesDirectory)/output/tools/sonar-scanner-msbuild/SonarScanner.MSBuild.exe end /d:sonar.login="097c5c3f1902b6f56cd9313525cf1da395f5be3b"'
   - task: PublishBuildArtifacts@1
     inputs:
       pathtoPublish: 'bin'
       artifactName: 'bin'
-      
-- job: Test_NET471
-  dependsOn: Build
-  condition: succeeded()
-  pool:
-    vmImage: 'vs2017-win2017'
-  steps:
-  - task: DownloadBuildArtifacts@0
-    inputs:
-      artifactName: 'bin'
-      downloadPath: '$(Build.SourcesDirectory)'
-  - task: VSTest@2
-    inputs:
-      searchFolder: 'bin/tests/net471'
-      codeCoverageEnabled: True
