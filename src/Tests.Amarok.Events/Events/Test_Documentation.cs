@@ -3,6 +3,8 @@
  * https://github.com/Amarok79/Amarok.Events
  */
 
+#pragma warning disable S2931 // Classes with "IDisposable" members should implement "IDisposable"
+
 using System;
 using System.Threading;
 using System.Threading.Tasks;
