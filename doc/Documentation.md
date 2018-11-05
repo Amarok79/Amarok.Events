@@ -14,16 +14,16 @@ For development, you need *Visual Studio 2017* (v15.7 or later).
 ## Documentation
 
 Table of Content:
-- [Event Source And Event](https://github.com/Amarok79/Amarok.Events#event-source-and-event)
-- [Invoke with Synchronous Event Handler](https://github.com/Amarok79/Amarok.Events#invoke-with-synchronous-event-handler)
-- [Invoke with Asynchronous Event Handler](https://github.com/Amarok79/Amarok.Events#invoke-with-asynchronous-event-handler)
-- [InvokeAsync with Asynchronous Event Handler](https://github.com/Amarok79/Amarok.Events#invokeasync-with-asynchronous-event-handler)
-- [InvokeAsync with Synchronous Event Handler](https://github.com/Amarok79/Amarok.Events#invokeasync-with-synchronous-event-handler)
-- [Raising Events](https://github.com/Amarok79/Amarok.Events#raising-events)
-- [Weak Subscriptions](https://github.com/Amarok79/Amarok.Events#weak-subscriptions)
+- [Event Source And Event](#event-source-and-event)
+- [Invoke with Synchronous Event Handler](#invoke-with-synchronous-event-handler)
+- [Invoke with Asynchronous Event Handler](#invoke-with-asynchronous-event-handler)
+- [InvokeAsync with Asynchronous Event Handler](#invokeasync-with-asynchronous-event-handler)
+- [InvokeAsync with Synchronous Event Handler](#invokeasync-with-synchronous-event-handler)
+- [Raising Events](#raising-events)
+- [Weak Subscriptions](#weak-subscriptions)
 - [Exception Behavior](#exception-behavior)
-- [IProgress\<T> Integration](https://github.com/Amarok79/Amarok.Events#iprogresst-integration)
-- [Event Recorder](https://github.com/Amarok79/Amarok.Events#event-recorder)
+- [IProgress\<T> Integration](#iprogresst-integration)
+- [Event Recorder](#event-recorder)
 
 
 ### Event Source and Event
