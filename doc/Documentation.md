@@ -14,16 +14,16 @@ For development, you need *Visual Studio 2017* (v15.7 or later).
 ## Documentation
 
 Table of Content:
-- [Event Source And Event](https://github.com/Amarok79/Events#event-source-and-event)
-- [Invoke with Synchronous Event Handler](https://github.com/Amarok79/Events#invoke-with-synchronous-event-handler)
-- [Invoke with Asynchronous Event Handler](https://github.com/Amarok79/Events#invoke-with-asynchronous-event-handler)
-- [InvokeAsync with Asynchronous Event Handler](https://github.com/Amarok79/Events#invokeasync-with-asynchronous-event-handler)
-- [InvokeAsync with Synchronous Event Handler](https://github.com/Amarok79/Events#invokeasync-with-synchronous-event-handler)
-- [Raising Events](https://github.com/Amarok79/Events#raising-events)
-- [Weak Subscriptions](https://github.com/Amarok79/Events#weak-subscriptions)
-- [Exception Behavior](https://github.com/Amarok79/Events#exception-behavior)
-- [IProgress\<T> Integration](https://github.com/Amarok79/Events#iprogresst-integration)
-- [Event Recorder](https://github.com/Amarok79/Events#event-recorder)
+- [Event Source And Event](https://github.com/Amarok79/Amarok.Events#event-source-and-event)
+- [Invoke with Synchronous Event Handler](https://github.com/Amarok79/Amarok.Events#invoke-with-synchronous-event-handler)
+- [Invoke with Asynchronous Event Handler](https://github.com/Amarok79/Amarok.Events#invoke-with-asynchronous-event-handler)
+- [InvokeAsync with Asynchronous Event Handler](https://github.com/Amarok79/Amarok.Events#invokeasync-with-asynchronous-event-handler)
+- [InvokeAsync with Synchronous Event Handler](https://github.com/Amarok79/Amarok.Events#invokeasync-with-synchronous-event-handler)
+- [Raising Events](https://github.com/Amarok79/Amarok.Events#raising-events)
+- [Weak Subscriptions](https://github.com/Amarok79/Amarok.Events#weak-subscriptions)
+- [Exception Behavior](https://github.com/Amarok79/Amarok.Events#exception-behavior)
+- [IProgress\<T> Integration](https://github.com/Amarok79/Amarok.Events#iprogresst-integration)
+- [Event Recorder](https://github.com/Amarok79/Amarok.Events#event-recorder)
 
 
 ### Event Source and Event
