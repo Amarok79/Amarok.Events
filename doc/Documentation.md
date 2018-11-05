@@ -21,7 +21,7 @@ Table of Content:
 - [InvokeAsync with Synchronous Event Handler](https://github.com/Amarok79/Amarok.Events#invokeasync-with-synchronous-event-handler)
 - [Raising Events](https://github.com/Amarok79/Amarok.Events#raising-events)
 - [Weak Subscriptions](https://github.com/Amarok79/Amarok.Events#weak-subscriptions)
-- [Exception Behavior](https://github.com/Amarok79/Amarok.Events#exception-behavior)
+- [Exception Behavior](#exception-behavior)
 - [IProgress\<T> Integration](https://github.com/Amarok79/Amarok.Events#iprogresst-integration)
 - [Event Recorder](https://github.com/Amarok79/Amarok.Events#event-recorder)
 
