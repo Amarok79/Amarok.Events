@@ -3,15 +3,15 @@
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<RootNamespace>Amarok</RootNamespace>
-		<Version>1.1.0</Version>
+		<Version>1.1.1</Version>
 		<Authors>Olaf Kober</Authors>
 		<Company>&lt;none&gt;</Company>
 		<Description>A fast and light-weight implementation of the observer pattern that supports synchronous and asynchronous invocation and/or subscribers. A replacement for ordinary .NET events.</Description>
 		<Copyright>Copyright (c) 2018, Olaf Kober</Copyright>
-		<PackageLicenseUrl>https://raw.githubusercontent.com/Amarok79/Events/master/LICENSE</PackageLicenseUrl>
-		<PackageProjectUrl>https://github.com/Amarok79/Events</PackageProjectUrl>
+		<PackageLicenseUrl>https://raw.githubusercontent.com/Amarok79/Amarok.Events/master/LICENSE</PackageLicenseUrl>
+		<PackageProjectUrl>https://github.com/Amarok79/Amarok.Events</PackageProjectUrl>
 		<PackageIconUrl>https://amarok.blob.core.windows.net/public/amarok.ico</PackageIconUrl>
-		<RepositoryUrl>https://github.com/Amarok79/Events</RepositoryUrl>
+		<RepositoryUrl>https://github.com/Amarok79/Amarok.Events</RepositoryUrl>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 		<CodeAnalysisRuleSet>..\Global.ruleset</CodeAnalysisRuleSet>
