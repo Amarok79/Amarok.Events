@@ -1,12 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>netcoreapp2.1;net471</TargetFrameworks>
 		<RootNamespace>Amarok</RootNamespace>
-		<CodeAnalysisRuleSet>..\Global.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRuleSet>..\Minimal.ruleset</CodeAnalysisRuleSet>
 		<SignAssembly>true</SignAssembly>
 		<AssemblyOriginatorKeyFile>..\amarok.snk</AssemblyOriginatorKeyFile>
 		<AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -44,7 +45,7 @@
 		<When Condition=" '$(Configuration)' != 'Debug' ">
 			<ItemGroup>
 				<PackageReference Include="SonarAnalyzer.CSharp">
-					<Version>7.8.0.7320</Version>
+					<Version>7.11.0.8083</Version>
 					<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 					<PrivateAssets>all</PrivateAssets>
 				</PackageReference>
