@@ -6,3 +6,4 @@
 /.cr
 /bin
 obj
+*.user
