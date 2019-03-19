@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
@@ -6,6 +6,7 @@
 		<RootNamespace>Amarok</RootNamespace>
 		<CodeAnalysisRuleSet>..\Minimal.ruleset</CodeAnalysisRuleSet>
 		<AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
+		<AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -38,7 +39,7 @@
 		<When Condition=" '$(Configuration)' != 'Debug' ">
 			<ItemGroup>
 				<PackageReference Include="SonarAnalyzer.CSharp">
-					<Version>7.8.0.7320</Version>
+					<Version>7.11.0.8083</Version>
 					<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 					<PrivateAssets>all</PrivateAssets>
 				</PackageReference>
