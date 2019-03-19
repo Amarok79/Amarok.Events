@@ -86,7 +86,8 @@ namespace Amarok.Events
 			}
 
 			// wait for other threads to complete execution of member code
-			SpinWait.SpinUntil(() => {
+			SpinWait.SpinUntil(() =>
+			{
 				Int32 result = -1;
 				Interlocked.Exchange(ref result, mNumberOfThreadsExecuting);
 				return result == 0;
@@ -691,7 +692,8 @@ namespace Amarok.Events
 			var taskCompletionSource = new TaskCompletionSource<Boolean>();
 
 			Task.WhenAll(tasks)
-				.ContinueWith(_tasks => {
+				.ContinueWith(_tasks =>
+				{
 					if (_tasks.IsFaulted)
 						EventSystem.NotifyUnobservedException(_tasks.Exception.InnerException);
 
