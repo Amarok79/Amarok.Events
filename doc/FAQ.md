@@ -29,6 +29,6 @@ So, I started to experiment with a simple observer-pattern implementation on my 
 
 From that time on, our closed-source event library was a cornerstone of our new software platform.
 
-A few years later, I started to rewrite the entire library once again from scratch with the goal to make it open source. I wanted to share it with the community and also use it for my projects.
+Now, a few years later, I started to rewrite the entire library once again from scratch with the goal to make it open source. I wanted to share it with the community and I also wanted to be able to use it for my own side projects.
 
-That said, *Amarok.Events* isn't that widely used, but the concepts already have proven to work well.
+That said, *Amarok.Events* isn't that widely used, but the concepts already have proven to work well. The implementation provided here is already used is several projects.
