@@ -3,6 +3,8 @@
  * https://github.com/Amarok79/Amarok.Events
  */
 
+#nullable enable
+
 using System;
 
 

@@ -3,6 +3,8 @@
  * https://github.com/Amarok79/Amarok.Events
  */
 
+#nullable enable
+
 #pragma warning disable S2221 // "Exception" should not be caught when not required by called methods
 
 using System;
@@ -655,7 +657,7 @@ namespace Amarok.Events
 
 		private static ValueTask<Boolean> _InvokeAsyncCore(ImmutableArray<Subscription<T>> subscriptions, T value)
 		{
-			List<Task> tasks = null;
+			List<Task> tasks = null!;
 
 			for (Int32 i = 0; i < subscriptions.Length; i++)
 			{

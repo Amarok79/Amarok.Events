@@ -3,6 +3,8 @@
  * https://github.com/Amarok79/Amarok.Events
  */
 
+#nullable enable
+
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -105,7 +107,7 @@ namespace Amarok.Events
 
 		internal void TestingClearNextSubscription()
 		{
-			mNextSubscription.SetTarget(null);
+			mNextSubscription.SetTarget(null!);
 		}
 	}
 }

@@ -3,6 +3,8 @@
  * https://github.com/Amarok79/Amarok.Events
  */
 
+#nullable enable
+
 #pragma warning disable S2365 // Properties should not make collection or array copies
 
 using System;
@@ -35,8 +37,8 @@ namespace Amarok.Events
 		private Boolean mIsPaused;
 
 		// caches
-		private EventInfo[] mCachedEventInfos;
-		private T[] mCachedEvents;
+		private EventInfo[]? mCachedEventInfos;
+		private T[]? mCachedEvents;
 
 
 		/// <summary>
