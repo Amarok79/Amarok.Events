@@ -3,6 +3,8 @@
  * https://github.com/Amarok79/Amarok.Events
  */
 
+#nullable enable
+
 using System;
 using System.Diagnostics;
 using System.Reflection;
@@ -28,7 +30,7 @@ namespace Amarok.Events
 		// an optional weak reference back to another subscription holding this subscription
 		// also via weak reference; necessary for automatic removal magic of weak subscriptions
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private WeakReference<Subscription<T>> mPreviousSubscription;
+		private WeakReference<Subscription<T>>? mPreviousSubscription;
 
 
 		/// <summary>
@@ -106,7 +108,7 @@ namespace Amarok.Events
 		}
 
 
-		internal Subscription<T> TestingGetPreviousSubscription()
+		internal Subscription<T>? TestingGetPreviousSubscription()
 		{
 			if (mPreviousSubscription == null)
 			{
@@ -123,7 +125,7 @@ namespace Amarok.Events
 
 		internal void TestingClearNextSubscription()
 		{
-			mPreviousSubscription.SetTarget(null);
+			mPreviousSubscription?.SetTarget(null!);
 		}
 	}
 }
