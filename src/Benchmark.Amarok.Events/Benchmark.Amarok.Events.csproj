@@ -39,7 +39,7 @@
 		<When Condition=" '$(Configuration)' != 'Debug' ">
 			<ItemGroup>
 				<PackageReference Include="SonarAnalyzer.CSharp">
-					<Version>7.13.0.8313</Version>
+					<Version>7.16.0.8981</Version>
 					<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 					<PrivateAssets>all</PrivateAssets>
 				</PackageReference>

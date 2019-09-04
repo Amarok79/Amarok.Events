@@ -3,8 +3,6 @@
  * https://github.com/Amarok79/Amarok.Events
  */
 
-#nullable enable
-
 #pragma warning disable S2221 // "Exception" should not be caught when not required by called methods
 
 using System;
