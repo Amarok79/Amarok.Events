@@ -28,24 +28,24 @@ namespace Amarok.Events
 			Int32 called = 0;
 			Exception exception = null;
 
-			Action<Exception> handler = x => {
+			Action<Exception> handler = x =>
+			{
 				exception = x;
 				called++;
 			};
 
-			using (var subscription = EventSystem.UnobservedException.Subscribe(handler))
-			{
-				Check.That(called)
-					.IsEqualTo(0);
+			using var subscription = EventSystem.UnobservedException.Subscribe(handler);
 
-				var ex = new ApplicationException();
-				EventSystem.NotifyUnobservedException(ex);
+			Check.That(called)
+				.IsEqualTo(0);
 
-				Check.That(called)
-					.IsEqualTo(1);
-				Check.That(exception)
-					.IsSameReferenceAs(ex);
-			}
+			var ex = new ApplicationException();
+			EventSystem.NotifyUnobservedException(ex);
+
+			Check.That(called)
+				.IsEqualTo(1);
+			Check.That(exception)
+				.IsSameReferenceAs(ex);
 		}
 	}
 }

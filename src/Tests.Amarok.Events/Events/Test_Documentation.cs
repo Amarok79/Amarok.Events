@@ -44,7 +44,8 @@ namespace Amarok.Events
 			FooServiceImpl serviceImpl = new FooServiceImpl();
 			IFooService service = serviceImpl;
 
-			IDisposable subscription = service.Progress.Subscribe(x => {
+			IDisposable subscription = service.Progress.Subscribe(x =>
+			{
 				Console.WriteLine(x + "%");
 			});
 
@@ -60,7 +61,8 @@ namespace Amarok.Events
 			FooServiceImpl serviceImpl = new FooServiceImpl();
 			IFooService service = serviceImpl;
 
-			IDisposable subscription = service.Progress.Subscribe(x => {
+			IDisposable subscription = service.Progress.Subscribe(x =>
+			{
 				Console.WriteLine(x + "%");
 			});
 
@@ -75,13 +77,15 @@ namespace Amarok.Events
 		[Test]
 		public void Example3()
 		{
-			var source = new EventSource<String>();
+			using var source = new EventSource<String>();
 
-			source.Event.Subscribe(x => {
+			source.Event.Subscribe(x =>
+			{
 				Console.WriteLine(x + "1");
 			});
 
-			source.Event.Subscribe(x => {
+			source.Event.Subscribe(x =>
+			{
 				Console.WriteLine(x + "2");
 			});
 
@@ -99,14 +103,16 @@ namespace Amarok.Events
 		[Test]
 		public void Example4()
 		{
-			var source = new EventSource<String>();
+			using var source = new EventSource<String>();
 
-			source.Event.Subscribe(async x => {     // async event handler
+			source.Event.Subscribe(async x =>
+			{     // async event handler
 				await Task.Delay(10);
 				Console.WriteLine(x + "1");
 			});
 
-			source.Event.Subscribe(async x => {     // async event handler
+			source.Event.Subscribe(async x =>
+			{     // async event handler
 				await Task.Delay(50);
 				Console.WriteLine(x + "2");
 			});
@@ -127,14 +133,16 @@ namespace Amarok.Events
 		[Test]
 		public async Task Example5()
 		{
-			var source = new EventSource<String>();
+			using var source = new EventSource<String>();
 
-			source.Event.Subscribe(async x => {     // async event handler
+			source.Event.Subscribe(async x =>
+			{     // async event handler
 				await Task.Delay(10);
 				Console.WriteLine(x + "1");
 			});
 
-			source.Event.Subscribe(async x => {     // async event handler
+			source.Event.Subscribe(async x =>
+			{     // async event handler
 				await Task.Delay(50);
 				Console.WriteLine(x + "2");
 			});
@@ -153,13 +161,15 @@ namespace Amarok.Events
 		[Test]
 		public async Task Example6()
 		{
-			var source = new EventSource<String>();
+			using var source = new EventSource<String>();
 
-			source.Event.Subscribe(x => {
+			source.Event.Subscribe(x =>
+			{
 				Console.WriteLine(x + "1");
 			});
 
-			source.Event.Subscribe(x => {
+			source.Event.Subscribe(x =>
+			{
 				Console.WriteLine(x + "2");
 			});
 
@@ -177,9 +187,10 @@ namespace Amarok.Events
 		[Test]
 		public void Example7()
 		{
-			var source = new EventSource<String>();
+			using var source = new EventSource<String>();
 
-			source.Event.Subscribe(x => {
+			source.Event.Subscribe(x =>
+			{
 				Console.WriteLine(x + "1");
 			});
 

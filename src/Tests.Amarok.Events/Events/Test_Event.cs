@@ -144,7 +144,7 @@ namespace Amarok.Events
 			[Test]
 			public void Exception_For_NullCallback()
 			{
-				var src = new EventSource<String>();
+				using var src = new EventSource<String>();
 
 				Check.ThatCode(() => src.Event.Subscribe((Action<String>)null))
 					.Throws<ArgumentNullException>()
@@ -253,7 +253,7 @@ namespace Amarok.Events
 			[Test]
 			public void Exception_For_NullCallback()
 			{
-				var src = new EventSource<String>();
+				using var src = new EventSource<String>();
 
 				Check.ThatCode(() => src.Event.SubscribeWeak((Action<String>)null))
 					.Throws<ArgumentNullException>()
@@ -362,7 +362,7 @@ namespace Amarok.Events
 			[Test]
 			public void Exception_For_NullCallback()
 			{
-				var src = new EventSource<String>();
+				using var src = new EventSource<String>();
 
 				Check.ThatCode(() => src.Event.Subscribe((Func<String, Task>)null))
 					.Throws<ArgumentNullException>()
@@ -471,7 +471,7 @@ namespace Amarok.Events
 			[Test]
 			public void Exception_For_NullCallback()
 			{
-				var src = new EventSource<String>();
+				using var src = new EventSource<String>();
 
 				Check.ThatCode(() => src.Event.SubscribeWeak((Func<String, Task>)null))
 					.Throws<ArgumentNullException>()
@@ -494,8 +494,8 @@ namespace Amarok.Events
 			[Test]
 			public void GetHashCode_On_Event()
 			{
-				var src1 = new EventSource<String>();
-				var src2 = new EventSource<String>();
+				using var src1 = new EventSource<String>();
+				using var src2 = new EventSource<String>();
 
 				Check.That(src1.Event.GetHashCode())
 					.Not.IsEqualTo(0);

@@ -23,7 +23,7 @@ namespace Amarok.Events
 		[Test]
 		public void EventSource_CanBeUsedAs_IProgress()
 		{
-			var src = new EventSource<Int32>();
+			using var src = new EventSource<Int32>();
 
 			var events = new List<Int32>();
 			src.Event.Subscribe(x => events.Add(x));
@@ -37,7 +37,7 @@ namespace Amarok.Events
 		[Test]
 		public void Events_CanBeForwardedTo_IProgress_Subscribe()
 		{
-			var src = new EventSource<Int32>();
+			using var src = new EventSource<Int32>();
 			var evt = src.Event;
 
 			var progress = new EventSource<Int32>();
@@ -56,7 +56,7 @@ namespace Amarok.Events
 		[Test]
 		public void Events_CanBeForwardedTo_IProgress_SubscribeWeak()
 		{
-			var src = new EventSource<Int32>();
+			using var src = new EventSource<Int32>();
 			var evt = src.Event;
 
 			var progress = new EventSource<Int32>();

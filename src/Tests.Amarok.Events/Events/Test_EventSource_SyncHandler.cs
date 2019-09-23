@@ -108,7 +108,8 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.Subscribe(x =>
+				{
 					arg = x;
 					called++;
 				});
@@ -158,7 +159,8 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(x => {
+				var subscription1 = service.Changed.Subscribe(x =>
+				{
 					arg1 = x;
 					called1++;
 				});
@@ -166,7 +168,8 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.Subscribe(x =>
+				{
 					arg2 = x;
 					called2++;
 				});
@@ -228,7 +231,8 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(new Action<String>(x => {
+				var subscription1 = service.Changed.Subscribe(new Action<String>(x =>
+				{
 					arg1 = x;
 					called1++;
 					throw new ApplicationException("1");
@@ -237,7 +241,8 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.Subscribe(x =>
+				{
 					arg2 = x;
 					called2++;
 				});
@@ -291,7 +296,8 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.Subscribe(x =>
+				{
 					arg = x;
 					called++;
 				});
@@ -324,7 +330,8 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.Subscribe(x =>
+				{
 					arg = x;
 					called++;
 				});
@@ -377,7 +384,8 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.Subscribe(x =>
+				{
 					arg = x;
 					called++;
 				});
@@ -426,7 +434,8 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(x => {
+				var subscription1 = service.Changed.Subscribe(x =>
+				{
 					arg1 = x;
 					called1++;
 				});
@@ -434,7 +443,8 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.Subscribe(x =>
+				{
 					arg2 = x;
 					called2++;
 				});
@@ -500,7 +510,8 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(new Action<String>(x => {
+				var subscription1 = service.Changed.Subscribe(new Action<String>(x =>
+				{
 					arg1 = x;
 					called1++;
 					throw new ApplicationException("1");
@@ -509,7 +520,8 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.Subscribe(x =>
+				{
 					arg2 = x;
 					called2++;
 				});
@@ -566,7 +578,8 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.Subscribe(x =>
+				{
 					arg = x;
 					called++;
 				});
@@ -602,7 +615,8 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.Subscribe(x =>
+				{
 					arg = x;
 					called++;
 				});
@@ -668,7 +682,8 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.Subscribe(x =>
+				{
 					arg = x;
 					called++;
 				});
@@ -723,7 +738,8 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(x => {
+				var subscription1 = service.Changed.Subscribe(x =>
+				{
 					arg1 = x;
 					called1++;
 				});
@@ -731,7 +747,8 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.Subscribe(x =>
+				{
 					arg2 = x;
 					called2++;
 				});
@@ -803,7 +820,8 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(new Action<String>(x => {
+				var subscription1 = service.Changed.Subscribe(new Action<String>(x =>
+				{
 					arg1 = x;
 					called1++;
 					throw new ApplicationException("1");
@@ -812,7 +830,8 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.Subscribe(x =>
+				{
 					arg2 = x;
 					called2++;
 				});
@@ -872,7 +891,8 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.Subscribe(x =>
+				{
 					arg = x;
 					called++;
 				});
@@ -908,7 +928,8 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.Subscribe(x =>
+				{
 					arg = x;
 					called++;
 				});
@@ -974,7 +995,8 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.Subscribe(x =>
+				{
 					arg = x;
 					called++;
 				});
@@ -1035,7 +1057,8 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(x => {
+				var subscription1 = service.Changed.Subscribe(x =>
+				{
 					arg1 = x;
 					called1++;
 				});
@@ -1043,7 +1066,8 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.Subscribe(x =>
+				{
 					arg2 = x;
 					called2++;
 				});
@@ -1121,7 +1145,8 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(new Action<String>(x => {
+				var subscription1 = service.Changed.Subscribe(new Action<String>(x =>
+				{
 					arg1 = x;
 					called1++;
 					throw new ApplicationException("1");
@@ -1130,7 +1155,8 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.Subscribe(x =>
+				{
 					arg2 = x;
 					called2++;
 				});
@@ -1193,7 +1219,8 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.Subscribe(x =>
+				{
 					arg = x;
 					called++;
 				});
@@ -1229,7 +1256,8 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.Subscribe(x =>
+				{
 					arg = x;
 					called++;
 				});
@@ -1295,7 +1323,8 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.Subscribe(x =>
+				{
 					arg = x;
 					called++;
 				});
@@ -1362,7 +1391,8 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(x => {
+				var subscription1 = service.Changed.Subscribe(x =>
+				{
 					arg1 = x;
 					called1++;
 				});
@@ -1370,7 +1400,8 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.Subscribe(x =>
+				{
 					arg2 = x;
 					called2++;
 				});
@@ -1454,7 +1485,8 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(new Action<String>(x => {
+				var subscription1 = service.Changed.Subscribe(new Action<String>(x =>
+				{
 					arg1 = x;
 					called1++;
 					throw new ApplicationException("1");
@@ -1463,7 +1495,8 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.Subscribe(x =>
+				{
 					arg2 = x;
 					called2++;
 				});
@@ -1529,7 +1562,8 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.Subscribe(x =>
+				{
 					arg = x;
 					called++;
 				});
@@ -1565,7 +1599,8 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.Subscribe(x =>
+				{
 					arg = x;
 					called++;
 				});
@@ -1632,7 +1667,8 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.Subscribe(x =>
+				{
 					arg = x;
 					called++;
 				});
@@ -1675,7 +1711,8 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(x => {
+				var subscription1 = service.Changed.Subscribe(x =>
+				{
 					arg1 = x;
 					called1++;
 				});
@@ -1683,7 +1720,8 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.Subscribe(x =>
+				{
 					arg2 = x;
 					called2++;
 				});
@@ -1743,7 +1781,8 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(new Action<String>(x => {
+				var subscription1 = service.Changed.Subscribe(new Action<String>(x =>
+				{
 					arg1 = x;
 					called1++;
 					throw new ApplicationException("1");
@@ -1752,7 +1791,8 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.Subscribe(x =>
+				{
 					arg2 = x;
 					called2++;
 				});
@@ -1806,7 +1846,8 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.Subscribe(x =>
+				{
 					arg = x;
 					called++;
 				});
@@ -1839,7 +1880,8 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.Subscribe(x =>
+				{
 					arg = x;
 					called++;
 				});
@@ -1892,7 +1934,8 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.Subscribe(x =>
+				{
 					arg = x;
 					called++;
 				});
@@ -1941,7 +1984,8 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(x => {
+				var subscription1 = service.Changed.Subscribe(x =>
+				{
 					arg1 = x;
 					called1++;
 				});
@@ -1949,7 +1993,8 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.Subscribe(x =>
+				{
 					arg2 = x;
 					called2++;
 				});
@@ -2015,7 +2060,8 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(new Action<String>(x => {
+				var subscription1 = service.Changed.Subscribe(new Action<String>(x =>
+				{
 					arg1 = x;
 					called1++;
 					throw new ApplicationException("1");
@@ -2024,7 +2070,8 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.Subscribe(x =>
+				{
 					arg2 = x;
 					called2++;
 				});
@@ -2081,7 +2128,8 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.Subscribe(x =>
+				{
 					arg = x;
 					called++;
 				});
@@ -2117,7 +2165,8 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.Subscribe(x =>
+				{
 					arg = x;
 					called++;
 				});
@@ -2183,7 +2232,8 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.Subscribe(x =>
+				{
 					arg = x;
 					called++;
 				});
@@ -2238,7 +2288,8 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(x => {
+				var subscription1 = service.Changed.Subscribe(x =>
+				{
 					arg1 = x;
 					called1++;
 				});
@@ -2246,7 +2297,8 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.Subscribe(x =>
+				{
 					arg2 = x;
 					called2++;
 				});
@@ -2318,7 +2370,8 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(new Action<String>(x => {
+				var subscription1 = service.Changed.Subscribe(new Action<String>(x =>
+				{
 					arg1 = x;
 					called1++;
 					throw new ApplicationException("1");
@@ -2327,7 +2380,8 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.Subscribe(x =>
+				{
 					arg2 = x;
 					called2++;
 				});
@@ -2387,7 +2441,8 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.Subscribe(x =>
+				{
 					arg = x;
 					called++;
 				});
@@ -2423,7 +2478,8 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.Subscribe(x =>
+				{
 					arg = x;
 					called++;
 				});
@@ -2489,7 +2545,8 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.Subscribe(x =>
+				{
 					arg = x;
 					called++;
 				});
@@ -2550,7 +2607,8 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(x => {
+				var subscription1 = service.Changed.Subscribe(x =>
+				{
 					arg1 = x;
 					called1++;
 				});
@@ -2558,7 +2616,8 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.Subscribe(x =>
+				{
 					arg2 = x;
 					called2++;
 				});
@@ -2636,7 +2695,8 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(new Action<String>(x => {
+				var subscription1 = service.Changed.Subscribe(new Action<String>(x =>
+				{
 					arg1 = x;
 					called1++;
 					throw new ApplicationException("1");
@@ -2645,7 +2705,8 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.Subscribe(x =>
+				{
 					arg2 = x;
 					called2++;
 				});
@@ -2708,7 +2769,8 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.Subscribe(x =>
+				{
 					arg = x;
 					called++;
 				});
@@ -2744,7 +2806,8 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.Subscribe(x =>
+				{
 					arg = x;
 					called++;
 				});
@@ -2810,7 +2873,8 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.Subscribe(x =>
+				{
 					arg = x;
 					called++;
 				});
@@ -2877,7 +2941,8 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(x => {
+				var subscription1 = service.Changed.Subscribe(x =>
+				{
 					arg1 = x;
 					called1++;
 				});
@@ -2885,7 +2950,8 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.Subscribe(x =>
+				{
 					arg2 = x;
 					called2++;
 				});
@@ -2969,7 +3035,8 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.Subscribe(new Action<String>(x => {
+				var subscription1 = service.Changed.Subscribe(new Action<String>(x =>
+				{
 					arg1 = x;
 					called1++;
 					throw new ApplicationException("1");
@@ -2978,7 +3045,8 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.Subscribe(x => {
+				var subscription2 = service.Changed.Subscribe(x =>
+				{
 					arg2 = x;
 					called2++;
 				});
@@ -3044,7 +3112,8 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.Subscribe(x =>
+				{
 					arg = x;
 					called++;
 				});
@@ -3080,7 +3149,8 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x => {
+				var subscription = service.Changed.Subscribe(x =>
+				{
 					arg = x;
 					called++;
 				});

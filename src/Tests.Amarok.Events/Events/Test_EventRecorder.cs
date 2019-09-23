@@ -16,7 +16,7 @@ namespace Amarok.Events
 		[Test]
 		public void From_Event()
 		{
-			var src = new EventSource<String>();
+			using var src = new EventSource<String>();
 			var rec = EventRecorder.From(src.Event);
 
 			Check.That(rec.IsPaused)
@@ -71,7 +71,7 @@ namespace Amarok.Events
 		[Test]
 		public void Record_SingleEvent()
 		{
-			var src = new EventSource<String>();
+			using var src = new EventSource<String>();
 			var rec = EventRecorder.From(src.Event);
 
 			src.Invoke("aaa");
@@ -102,7 +102,7 @@ namespace Amarok.Events
 		[Test]
 		public void Record_MultipleEvents()
 		{
-			var src = new EventSource<String>();
+			using var src = new EventSource<String>();
 			var rec = EventRecorder.From(src.Event);
 
 			src.Invoke("aaa");
@@ -171,7 +171,7 @@ namespace Amarok.Events
 		[Test]
 		public void Events_Returns_CachedResults()
 		{
-			var src = new EventSource<String>();
+			using var src = new EventSource<String>();
 			var rec = EventRecorder.From(src.Event);
 
 			src.Invoke("aaa");
@@ -195,7 +195,7 @@ namespace Amarok.Events
 		[Test]
 		public void EventInfos_Returns_CachedResults()
 		{
-			var src = new EventSource<String>();
+			using var src = new EventSource<String>();
 			var rec = EventRecorder.From(src.Event);
 
 			src.Invoke("aaa");
@@ -219,7 +219,7 @@ namespace Amarok.Events
 		[Test]
 		public void Pause()
 		{
-			var src = new EventSource<String>();
+			using var src = new EventSource<String>();
 			var rec = EventRecorder.From(src.Event);
 
 			rec.Pause();
@@ -241,7 +241,7 @@ namespace Amarok.Events
 		[Test]
 		public void Resume()
 		{
-			var src = new EventSource<String>();
+			using var src = new EventSource<String>();
 			var rec = EventRecorder.From(src.Event);
 
 			rec.Pause();
@@ -266,7 +266,7 @@ namespace Amarok.Events
 		[Test]
 		public void Reset_ClearsEvents()
 		{
-			var src = new EventSource<String>();
+			using var src = new EventSource<String>();
 			var rec = EventRecorder.From(src.Event);
 
 			src.Invoke("aaa");
@@ -287,7 +287,7 @@ namespace Amarok.Events
 		[Test]
 		public void Reset_Resumes()
 		{
-			var src = new EventSource<String>();
+			using var src = new EventSource<String>();
 			var rec = EventRecorder.From(src.Event);
 
 			src.Invoke("aaa");
@@ -309,7 +309,7 @@ namespace Amarok.Events
 		[Test]
 		public void Dispose()
 		{
-			var src = new EventSource<String>();
+			using var src = new EventSource<String>();
 			var rec = EventRecorder.From(src.Event);
 
 			src.Invoke("aaa");
