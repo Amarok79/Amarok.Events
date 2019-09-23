@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<RootNamespace>Amarok</RootNamespace>
-		<Version>1.1.2</Version>
+		<Version>1.2.0</Version>
 		<Authors>Olaf Kober</Authors>
 		<Company>&lt;none&gt;</Company>
 		<Description>A fast and light-weight implementation of the observer pattern that supports synchronous and asynchronous invocation and/or subscribers. A potential replacement for regular .NET events.</Description>
@@ -12,6 +12,7 @@
 		<PackageProjectUrl>https://github.com/Amarok79/Amarok.Events</PackageProjectUrl>
 		<PackageIconUrl>https://amarok.blob.core.windows.net/public/amarok.ico</PackageIconUrl>
 		<RepositoryUrl>https://github.com/Amarok79/Amarok.Events</RepositoryUrl>
+		<PackageIcon>amarok.png</PackageIcon>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 		<CodeAnalysisRuleSet>..\Global.ruleset</CodeAnalysisRuleSet>
@@ -27,6 +28,17 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<OutputPath>..\..\bin\lib\</OutputPath>
+		<DocumentationFile>..\..\bin\lib\Amarok.Events.xml</DocumentationFile>
+		<GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+		<LangVersion>latest</LangVersion>
+		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+		<NoWarn>1701;1702</NoWarn>
+		<RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
+		<RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
+	</PropertyGroup>
+
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<OutputPath>..\..\bin\lib\</OutputPath>
 		<DocumentationFile>..\..\bin\lib\Amarok.Events.xml</DocumentationFile>
@@ -35,24 +47,19 @@
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<WarningsAsErrors />
 		<NoWarn>1701;1702</NoWarn>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<OutputPath>..\..\bin\lib\</OutputPath>
-		<DocumentationFile>..\..\bin\lib\Amarok.Events.xml</DocumentationFile>
-		<GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-		<LangVersion>latest</LangVersion>
-		<NoWarn>1701;1702</NoWarn>
+		<RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+		<RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<None Include="..\Amarok.Events.licenseheader" Link="Amarok.Events.licenseheader" />
 		<None Include="..\amarok.snk" Link="amarok.snk" />
+		<None Include="..\amarok.png" Pack="true" PackagePath="\"/>
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="System.Collections.Immutable" Version="1.5.0" />
-		<PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.5.2" />
+		<PackageReference Include="System.Collections.Immutable" Version="1.6.0" />
+		<PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.6.0" />
 		<PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.3" />
 	</ItemGroup>
 	<ItemGroup>
