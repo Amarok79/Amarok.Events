@@ -54,7 +54,7 @@
 	<ItemGroup>
 		<None Include="..\Amarok.Events.licenseheader" Link="Amarok.Events.licenseheader" />
 		<None Include="..\amarok.snk" Link="amarok.snk" />
-		<None Include="..\amarok.png" Pack="true" PackagePath="\"/>
+		<None Include="..\amarok.png" Pack="true" PackagePath="\" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -70,7 +70,7 @@
 		<When Condition=" '$(Configuration)' != 'Debug' ">
 			<ItemGroup>
 				<PackageReference Include="SonarAnalyzer.CSharp">
-					<Version>7.16.0.8981</Version>
+					<Version>7.17.0.9346</Version>
 					<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 					<PrivateAssets>all</PrivateAssets>
 				</PackageReference>
