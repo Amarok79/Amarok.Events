@@ -10,7 +10,6 @@
 		<Copyright>Copyright (c) 2018, Olaf Kober</Copyright>
 		<PackageLicenseExpression>LGPL-3.0-only</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/Amarok79/Amarok.Events</PackageProjectUrl>
-		<PackageIconUrl>https://amarok.blob.core.windows.net/public/amarok.ico</PackageIconUrl>
 		<RepositoryUrl>https://github.com/Amarok79/Amarok.Events</RepositoryUrl>
 		<PackageIcon>amarok.png</PackageIcon>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>

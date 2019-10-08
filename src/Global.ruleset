@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<RuleSet Name="Global Rules" ToolsVersion="15.0">
+<RuleSet Name="Global Rules" ToolsVersion="16.0">
   <IncludeAll Action="Warning" />
   <Rules AnalyzerId="ClrHeapAllocationAnalyzer" RuleNamespace="ClrHeapAllocationAnalyzer">
     <Rule Id="HAA0101" Action="None" />
@@ -853,6 +853,7 @@
     <Rule Id="S4061" Action="Warning" />
     <Rule Id="S4069" Action="Warning" />
     <Rule Id="S4070" Action="Warning" />
+    <Rule Id="S4136" Action="None" />
     <Rule Id="S4212" Action="Warning" />
     <Rule Id="S4225" Action="Warning" />
     <Rule Id="S4226" Action="Warning" />
