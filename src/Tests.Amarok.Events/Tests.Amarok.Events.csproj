@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
+		<ProjectGuid>{22B0507E-5916-435D-8D47-2E5E06C00FB5}</ProjectGuid>
 		<TargetFrameworks>netcoreapp2.1;netcoreapp3.0;net471;net48</TargetFrameworks>
 		<RootNamespace>Amarok</RootNamespace>
 		<CodeAnalysisRuleSet>..\Minimal.ruleset</CodeAnalysisRuleSet>

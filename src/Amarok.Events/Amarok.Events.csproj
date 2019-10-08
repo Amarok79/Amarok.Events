@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
+		<ProjectGuid>{1FCE1A28-F159-49EA-8F47-92A5FDFFAFDE}</ProjectGuid>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<RootNamespace>Amarok</RootNamespace>
 		<Version>1.2.0</Version>

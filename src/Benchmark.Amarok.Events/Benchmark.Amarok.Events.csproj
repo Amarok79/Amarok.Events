@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
+		<ProjectGuid>{69D06772-DC49-4E90-BFC5-397E8B2CA52C}</ProjectGuid>
 		<OutputType>Exe</OutputType>
 		<TargetFrameworks>netcoreapp2.1;netcoreapp3.0;net471;net48</TargetFrameworks>
 		<RootNamespace>Amarok</RootNamespace>
