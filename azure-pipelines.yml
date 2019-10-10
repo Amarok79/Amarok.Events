@@ -16,6 +16,13 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
+- task: SonarSource.sonarcloud.14d9cde6-c1da-4d55-aa01-2965cd301255.SonarCloudPrepare@1
+  inputs:
+    SonarCloud: Sonar
+    organization: 'amarok79-github'
+    projectKey: 'Amarok79_Events'
+    projectName: Amarok.Events
+
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
@@ -27,3 +34,7 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+
+- task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
+
+- task: SonarSource.sonarcloud.38b27399-a642-40af-bb7d-9971f69712e8.SonarCloudPublish@1
