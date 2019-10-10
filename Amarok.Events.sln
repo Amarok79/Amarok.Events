@@ -12,6 +12,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{34C76F3A-BE4D-4DB9-B854-CC4EC86BFF16}"
 	ProjectSection(SolutionItems) = preProject
 		src\Amarok.Events.licenseheader = src\Amarok.Events.licenseheader
+		azure-pipelines.yml = azure-pipelines.yml
 		doc\Events.xmind = doc\Events.xmind
 		src\Global.ruleset = src\Global.ruleset
 		src\Minimal.ruleset = src\Minimal.ruleset
