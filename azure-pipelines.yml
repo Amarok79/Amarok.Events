@@ -15,7 +15,9 @@ steps:
 
 - task: NuGetCommand@2
   inputs:
+    command: 'restore'
     restoreSolution: '$(solution)'
+    feedsToUse: 'select'
 
 - task: SonarSource.sonarcloud.14d9cde6-c1da-4d55-aa01-2965cd301255.SonarCloudPrepare@1
   inputs:
@@ -36,34 +38,36 @@ steps:
     testSelector: 'testAssemblies'
     testAssemblyVer2: 'bin\tests\net471\Tests*.dll'
     searchFolder: '$(System.DefaultWorkingDirectory)'
-    testRunTitle: 'Test on .NET 4.7.1'
+    codeCoverageEnabled: true
+    otherConsoleOptions: '/Framework:framework471'
+    testRunTitle: '.NET Framework 4.7.1'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
-    codeCoverageEnabled: true
 
 - task: VSTest@2
   inputs:
     testSelector: 'testAssemblies'
     testAssemblyVer2: 'bin\tests\net48\Tests*.dll'
     searchFolder: '$(System.DefaultWorkingDirectory)'
-    testRunTitle: 'Test on .NET 4.8'
+    codeCoverageEnabled: true
+    otherConsoleOptions: '/Framework:framework48'
+    testRunTitle: '.NET Framework 4.8'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
-    codeCoverageEnabled: true
 
 - task: DotNetCoreCLI@2
   inputs:
-    command: test
+    command: 'test'
     projects: '**/Tests.Amarok.Events.csproj'
-    testRunTitle: 'Test on .NET Core 2.1'
     arguments: '--no-restore --no-build --collect:"Code Coverage" --framework:"netcoreapp2.1"'
+    testRunTitle: '.NET Core 2.1'
 
 - task: DotNetCoreCLI@2
   inputs:
-    command: test
+    command: 'test'
     projects: '**/Tests.Amarok.Events.csproj'
-    testRunTitle: 'Test on .NET Core 3.0'
     arguments: '--no-restore --no-build --collect:"Code Coverage" --framework:"netcoreapp3.0"'
+    testRunTitle: '.NET Core 3.0'
 
 - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
 
