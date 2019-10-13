@@ -34,22 +34,14 @@
 
 	<ItemGroup>
 		<PackageReference Include="BenchmarkDotNet" Version="0.11.5" />
+		<PackageReference Include="SonarAnalyzer.CSharp" Version="7.17.0.9346">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Amarok.Events\Amarok.Events.csproj" />
 	</ItemGroup>
-
-	<Choose>
-		<When Condition=" '$(Configuration)' != 'Debug' ">
-			<ItemGroup>
-				<PackageReference Include="SonarAnalyzer.CSharp">
-					<Version>7.17.0.9346</Version>
-					<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-					<PrivateAssets>all</PrivateAssets>
-				</PackageReference>
-			</ItemGroup>
-		</When>
-	</Choose>
 
 </Project>
