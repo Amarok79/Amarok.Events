@@ -5,11 +5,12 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: '**/*.sln'
+  solution: '*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
 steps:
+
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
@@ -35,6 +36,16 @@ steps:
     testSelector: 'testAssemblies'
     testAssemblyVer2: 'bin\tests\net471\Tests*.dll'
     searchFolder: '$(System.DefaultWorkingDirectory)'
+    testRunTitle: 'Test on .NET 4.7.1'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+- task: VSTest@2
+  inputs:
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: 'bin\tests\net48\Tests*.dll'
+    searchFolder: '$(System.DefaultWorkingDirectory)'
+    testRunTitle: 'Test on .NET 4.8'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
