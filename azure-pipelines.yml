@@ -1,5 +1,5 @@
 trigger:
-- task_csharp8
+- master
 
 pool:
   vmImage: 'windows-latest'
