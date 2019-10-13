@@ -30,13 +30,13 @@ namespace Amarok.Events
 		/// Gets a reference to the owning <see cref="EventSource{T}"/>, or null if this <see cref="Event{T}"/>
 		/// isn't associated with an <see cref="EventSource{T}"/>. See also <see cref="HasSource"/>.
 		/// </summary>
-		public EventSource<T> Source => mSource;
+		public readonly EventSource<T> Source => mSource;
 
 		/// <summary>
 		/// Gets a boolean value indicating whether this <see cref="Event{T}"/> is associated with an 
 		/// <see cref="EventSource{T}"/>. See also <see cref="Source"/>.
 		/// </summary>
-		public Boolean HasSource => mSource != null;
+		public readonly Boolean HasSource => mSource != null;
 
 
 		/// <summary>
@@ -66,7 +66,7 @@ namespace Amarok.Events
 		/// 
 		/// <exception cref="ArgumentNullException">
 		/// A null reference was passed to a method that did not accept it as a valid argument.</exception>
-		public IDisposable Subscribe(Action<T> action)
+		public readonly IDisposable Subscribe(Action<T> action)
 		{
 			if (action == null)
 				throw new ArgumentNullException(nameof(action));
@@ -94,7 +94,7 @@ namespace Amarok.Events
 		/// 
 		/// <exception cref="ArgumentNullException">
 		/// A null reference was passed to a method that did not accept it as a valid argument.</exception>
-		public IDisposable Subscribe(Func<T, Task> func)
+		public readonly IDisposable Subscribe(Func<T, Task> func)
 		{
 			if (func == null)
 				throw new ArgumentNullException(nameof(func));
@@ -123,7 +123,7 @@ namespace Amarok.Events
 		/// 
 		/// <exception cref="ArgumentNullException">
 		/// A null reference was passed to a method that did not accept it as a valid argument.</exception>
-		public IDisposable Subscribe(IProgress<T> progress)
+		public readonly IDisposable Subscribe(IProgress<T> progress)
 		{
 			return this.Subscribe(x => progress.Report(x));
 		}
@@ -152,7 +152,7 @@ namespace Amarok.Events
 		/// 
 		/// <exception cref="ArgumentNullException">
 		/// A null reference was passed to a method that did not accept it as a valid argument.</exception>
-		public IDisposable SubscribeWeak(Action<T> action)
+		public readonly IDisposable SubscribeWeak(Action<T> action)
 		{
 			if (action == null)
 				throw new ArgumentNullException(nameof(action));
@@ -186,7 +186,7 @@ namespace Amarok.Events
 		/// 
 		/// <exception cref="ArgumentNullException">
 		/// A null reference was passed to a method that did not accept it as a valid argument.</exception>
-		public IDisposable SubscribeWeak(Func<T, Task> func)
+		public readonly IDisposable SubscribeWeak(Func<T, Task> func)
 		{
 			if (func == null)
 				throw new ArgumentNullException(nameof(func));
@@ -220,7 +220,7 @@ namespace Amarok.Events
 		/// 
 		/// <exception cref="ArgumentNullException">
 		/// A null reference was passed to a method that did not accept it as a valid argument.</exception>
-		public IDisposable SubscribeWeak(IProgress<T> progress)
+		public readonly IDisposable SubscribeWeak(IProgress<T> progress)
 		{
 			return this.SubscribeWeak(x => progress.Report(x));
 		}
@@ -229,7 +229,7 @@ namespace Amarok.Events
 		/// <summary>
 		/// Returns a string that represents the current instance.
 		/// </summary>
-		public override String ToString()
+		public override readonly String ToString()
 		{
 			if (this.HasSource)
 				return $"Event<{typeof(T).Name}> ⇔ {mSource}";
@@ -247,7 +247,7 @@ namespace Amarok.Events
 		/// 
 		/// <returns>
 		/// A 32-bit signed integer hash code.</returns>
-		public override Int32 GetHashCode()
+		public override readonly Int32 GetHashCode()
 		{
 			return mSource?.GetHashCode() ?? 0;
 		}
@@ -262,7 +262,7 @@ namespace Amarok.Events
 		/// 
 		/// <returns>
 		/// True, if the specified instance is equal to the current instance; otherwise, False.</returns>
-		public override Boolean Equals(Object obj)
+		public override readonly Boolean Equals(Object obj)
 		{
 			return obj is Event<T> && Equals((Event<T>)obj);
 		}
@@ -276,7 +276,7 @@ namespace Amarok.Events
 		/// 
 		/// <returns>
 		/// True, if the specified instance is equal to the current instance; otherwise, False.</returns>
-		public Boolean Equals(Event<T> other)
+		public readonly Boolean Equals(Event<T> other)
 		{
 			return Object.ReferenceEquals(mSource, other.mSource);
 		}
