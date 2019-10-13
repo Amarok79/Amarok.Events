@@ -39,7 +39,6 @@ steps:
     testAssemblyVer2: 'bin\tests\net471\Tests*.dll'
     searchFolder: '$(System.DefaultWorkingDirectory)'
     codeCoverageEnabled: true
-    otherConsoleOptions: '/Framework:framework471'
     testRunTitle: '.NET Framework 4.7.1'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
@@ -50,7 +49,6 @@ steps:
     testAssemblyVer2: 'bin\tests\net48\Tests*.dll'
     searchFolder: '$(System.DefaultWorkingDirectory)'
     codeCoverageEnabled: true
-    otherConsoleOptions: '/Framework:framework48'
     testRunTitle: '.NET Framework 4.8'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
