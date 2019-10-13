@@ -77,3 +77,8 @@ steps:
     Contents: '*.nupkg'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
     OverWrite: true
+
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
