@@ -733,6 +733,18 @@ namespace Amarok.Events
 			return subscription;
 		}
 
+		internal IDisposable Add(Func<T, Task> func)
+		{
+			if (mIsDisposed)
+				return NullSubscription.Instance;
+
+			var subscription = new FuncSubscription<T>(this, func);
+
+			_AddCore(subscription);
+
+			return subscription;
+		}
+
 		internal IDisposable AddWeak(Action<T> action)
 		{
 			if (mIsDisposed)
@@ -745,18 +757,6 @@ namespace Amarok.Events
 			_AddCore(weakSubscription);
 
 			return strongSubscription;
-		}
-
-		internal IDisposable Add(Func<T, Task> func)
-		{
-			if (mIsDisposed)
-				return NullSubscription.Instance;
-
-			var subscription = new FuncSubscription<T>(this, func);
-
-			_AddCore(subscription);
-
-			return subscription;
 		}
 
 		internal IDisposable AddWeak(Func<T, Task> func)
