@@ -662,17 +662,18 @@ namespace Amarok.Events
 				try
 				{
 					var valueTask = subscriptions[i].InvokeAsync(value);
+					var task = valueTask.AsTask();
 
 					if (valueTask.IsCompleted)
 					{
 						if (valueTask.IsFaulted)
-							EventSystem.NotifyUnobservedException(valueTask.AsTask().Exception.InnerException);
+							EventSystem.NotifyUnobservedException(task.Exception.InnerException);
 					}
 					else
 					{
 						if (tasks == null)
 							tasks = new List<Task>(subscriptions.Length);
-						tasks.Add(valueTask.AsTask());
+						tasks.Add(task);
 					}
 				}
 				catch (Exception exception)
