@@ -39,6 +39,7 @@ steps:
     testRunTitle: 'Test on .NET 4.7.1'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+    codeCoverageEnabled: true
 
 - task: VSTest@2
   inputs:
@@ -48,6 +49,7 @@ steps:
     testRunTitle: 'Test on .NET 4.8'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+    codeCoverageEnabled: true
 
 - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
 
