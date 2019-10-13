@@ -51,6 +51,20 @@ steps:
     configuration: '$(buildConfiguration)'
     codeCoverageEnabled: true
 
+- task: DotNetCoreCLI@2
+  inputs:
+    command: test
+    projects: '**/Tests.Amarok.Events.csproj'
+    testRunTitle: 'Test on .NET Core 2.1'
+    arguments: '--no-restore --no-build --collect:"Code Coverage" --framework:"netcoreapp2.1"'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: test
+    projects: '**/Tests.Amarok.Events.csproj'
+    testRunTitle: 'Test on .NET Core 3.0'
+    arguments: '--no-restore --no-build --collect:"Code Coverage" --framework:"netcoreapp3.0"'
+
 - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
 
 - task: SonarSource.sonarcloud.38b27399-a642-40af-bb7d-9971f69712e8.SonarCloudPublish@1
