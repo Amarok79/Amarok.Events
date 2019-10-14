@@ -814,6 +814,7 @@
   </Rules>
   <Rules AnalyzerId="Microsoft.CodeAnalysis.CSharp.Features" RuleNamespace="Microsoft.CodeAnalysis.CSharp.Features">
     <Rule Id="IDE0015" Action="None" />
+    <Rule Id="IDE0058" Action="None" />
     <Rule Id="IDE1006" Action="None" />
     <Rule Id="IDE1006WithoutSuggestion" Action="None" />
   </Rules>
