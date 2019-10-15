@@ -1,6 +1,6 @@
-[![Build Status](https://dev.azure.com/amarok79/Amarok/_apis/build/status/Amarok.Events)](https://dev.azure.com/amarok79/Amarok/_build/latest?definitionId=8)
-[![Build Status](https://sonarcloud.io/api/project_badges/measure?project=Amarok79_Events&metric=alert_status)](https://sonarcloud.io/dashboard?id=Amarok79_Events)
-[![Build Status](https://sonarcloud.io/api/project_badges/measure?project=Amarok79_Events&metric=coverage)](https://sonarcloud.io/api/project_badges/measure?project=Amarok79_Events&metric=coverage)
+[![Build Status](https://dev.azure.com/amarok79/Amarok/_apis/build/status/Amarok.Events?branchName=master)](https://dev.azure.com/amarok79/Amarok/_build/latest?definitionId=17&branchName=master)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Amarok79_Events&metric=alert_status)](https://sonarcloud.io/dashboard?id=Amarok79_Events)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Amarok79_Events&metric=coverage)](https://sonarcloud.io/dashboard?id=Amarok79_Events)
 [![NuGet](https://img.shields.io/nuget/v/Amarok.Events.svg?logo=)](https://www.nuget.org/packages/Amarok.Events/)
 
 ## Introduction
