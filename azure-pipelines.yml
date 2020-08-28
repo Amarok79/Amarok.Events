@@ -1,5 +1,6 @@
 trigger:
 - master
+- develop/*
 
 pool:
   vmImage: 'windows-latest'
@@ -64,8 +65,8 @@ steps:
   inputs:
     command: 'test'
     projects: '**/Tests.Amarok.Events.csproj'
-    arguments: '--no-restore --no-build --collect:"Code Coverage" --framework:"netcoreapp3.0"'
-    testRunTitle: '.NET Core 3.0'
+    arguments: '--no-restore --no-build --collect:"Code Coverage" --framework:"netcoreapp3.1"'
+    testRunTitle: '.NET Core 3.1'
 
 - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
 

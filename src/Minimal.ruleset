@@ -83,21 +83,32 @@
     <Rule Id="CRR0023" Action="None" />
     <Rule Id="CRR0024" Action="None" />
     <Rule Id="CRR0025" Action="None" />
-    <Rule Id="CRR0026" Action="None" />
     <Rule Id="CRR0028" Action="None" />
     <Rule Id="CRR0029" Action="None" />
     <Rule Id="CRR0030" Action="None" />
     <Rule Id="CRR0031" Action="None" />
-    <Rule Id="CRR0033" Action="None" />
     <Rule Id="CRR0036" Action="None" />
     <Rule Id="CRR0037" Action="None" />
     <Rule Id="CRR0038" Action="None" />
-    <Rule Id="CRR0039" Action="None" />
     <Rule Id="CRR0040" Action="None" />
     <Rule Id="CRR0041" Action="None" />
+    <Rule Id="CRR0044" Action="None" />
+    <Rule Id="CRR0046" Action="None" />
+    <Rule Id="CRR0050" Action="None" />
+    <Rule Id="CRR0051" Action="None" />
     <Rule Id="CRRSP01" Action="None" />
     <Rule Id="CRRSP02" Action="None" />
     <Rule Id="CRRSP03" Action="None" />
+    <Rule Id="CRRSP04" Action="None" />
+    <Rule Id="CRRSP05" Action="None" />
+    <Rule Id="CRRSP06" Action="None" />
+    <Rule Id="CRRSP07" Action="None" />
+    <Rule Id="CRRSP08" Action="None" />
+    <Rule Id="CRRSP09" Action="None" />
+    <Rule Id="CRRSP10" Action="None" />
+    <Rule Id="CRRSP11" Action="None" />
+    <Rule Id="CRRSP12" Action="None" />
+    <Rule Id="CRRSP13" Action="None" />
   </Rules>
   <Rules AnalyzerId="DevExpress.CodeAnalysis.CSharp.Features" RuleNamespace="DevExpress.CodeAnalysis.CSharp.Features">
     <Rule Id="CR0001" Action="None" />
@@ -857,6 +868,7 @@
     <Rule Id="S1121" Action="None" />
     <Rule Id="S1123" Action="None" />
     <Rule Id="S1125" Action="None" />
+    <Rule Id="S1128" Action="None" />
     <Rule Id="S1134" Action="None" />
     <Rule Id="S1135" Action="None" />
     <Rule Id="S1144" Action="None" />
@@ -866,6 +878,7 @@
     <Rule Id="S1172" Action="None" />
     <Rule Id="S1185" Action="None" />
     <Rule Id="S1186" Action="None" />
+    <Rule Id="S1199" Action="None" />
     <Rule Id="S1206" Action="None" />
     <Rule Id="S1210" Action="None" />
     <Rule Id="S1215" Action="None" />
@@ -899,9 +912,10 @@
     <Rule Id="S2223" Action="None" />
     <Rule Id="S2225" Action="None" />
     <Rule Id="S2234" Action="None" />
+    <Rule Id="S2251" Action="None" />
+    <Rule Id="S2252" Action="None" />
     <Rule Id="S2259" Action="None" />
     <Rule Id="S2275" Action="None" />
-    <Rule Id="S2278" Action="None" />
     <Rule Id="S2290" Action="None" />
     <Rule Id="S2291" Action="None" />
     <Rule Id="S2292" Action="None" />
@@ -918,6 +932,7 @@
     <Rule Id="S2376" Action="None" />
     <Rule Id="S2386" Action="None" />
     <Rule Id="S2437" Action="None" />
+    <Rule Id="S2479" Action="None" />
     <Rule Id="S2486" Action="None" />
     <Rule Id="S2551" Action="None" />
     <Rule Id="S2583" Action="None" />
@@ -929,9 +944,11 @@
     <Rule Id="S2699" Action="None" />
     <Rule Id="S2737" Action="None" />
     <Rule Id="S2743" Action="None" />
+    <Rule Id="S2755" Action="None" />
     <Rule Id="S2757" Action="None" />
     <Rule Id="S2758" Action="None" />
     <Rule Id="S2761" Action="None" />
+    <Rule Id="S2857" Action="None" />
     <Rule Id="S2930" Action="None" />
     <Rule Id="S2933" Action="None" />
     <Rule Id="S2934" Action="None" />
@@ -998,7 +1015,6 @@
     <Rule Id="S3626" Action="None" />
     <Rule Id="S3649" Action="None" />
     <Rule Id="S3655" Action="None" />
-    <Rule Id="S3693" Action="None" />
     <Rule Id="S3869" Action="None" />
     <Rule Id="S3871" Action="None" />
     <Rule Id="S3875" Action="None" />
@@ -1016,6 +1032,7 @@
     <Rule Id="S3926" Action="None" />
     <Rule Id="S3927" Action="None" />
     <Rule Id="S3928" Action="None" />
+    <Rule Id="S3949" Action="None" />
     <Rule Id="S3963" Action="None" />
     <Rule Id="S3966" Action="None" />
     <Rule Id="S3971" Action="None" />
@@ -1036,6 +1053,7 @@
     <Rule Id="S4158" Action="None" />
     <Rule Id="S4159" Action="None" />
     <Rule Id="S4200" Action="None" />
+    <Rule Id="S4201" Action="None" />
     <Rule Id="S4210" Action="None" />
     <Rule Id="S4211" Action="None" />
     <Rule Id="S4214" Action="None" />
@@ -1048,9 +1066,17 @@
     <Rule Id="S4433" Action="None" />
     <Rule Id="S4456" Action="None" />
     <Rule Id="S4457" Action="None" />
+    <Rule Id="S4487" Action="None" />
     <Rule Id="S4524" Action="None" />
     <Rule Id="S4581" Action="None" />
+    <Rule Id="S4583" Action="None" />
     <Rule Id="S4586" Action="None" />
+    <Rule Id="S4635" Action="None" />
+    <Rule Id="S4830" Action="None" />
+    <Rule Id="S5034" Action="None" />
+    <Rule Id="S5542" Action="None" />
+    <Rule Id="S5547" Action="None" />
+    <Rule Id="S5773" Action="None" />
     <Rule Id="S818" Action="None" />
     <Rule Id="S907" Action="None" />
     <Rule Id="S927" Action="None" />

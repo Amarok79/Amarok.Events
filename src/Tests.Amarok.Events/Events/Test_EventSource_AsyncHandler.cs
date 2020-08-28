@@ -1,7 +1,26 @@
-﻿/* Copyright(c) 2018, Olaf Kober
- * Licensed under GNU Lesser General Public License v3.0 (LPGL-3.0).
+﻿/* MIT License
+ * 
+ * Copyright (c) 2020, Olaf Kober
  * https://github.com/Amarok79/Amarok.Events
- */
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+*/
 
 #pragma warning disable S3257 // Declarations and initializations should be as concise as possible
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
@@ -54,8 +73,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(async x =>
-				{
+				var subscription = service.Changed.Subscribe(async x => {
 					arg = x;
 					called++;
 				});
@@ -103,8 +121,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(async x =>
-				{
+				var subscription = service.Changed.Subscribe(async x => {
 					await Task.Delay(100);
 					arg = x;
 					called++;
@@ -143,8 +160,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x =>
-				{
+				var subscription = service.Changed.Subscribe(x => {
 					arg = x;
 					called++;
 					return Task.CompletedTask;
@@ -178,8 +194,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x =>
-				{
+				var subscription = service.Changed.Subscribe(x => {
 					arg = x;
 					called++;
 					var cts = new CancellationTokenSource();
@@ -193,10 +208,7 @@ namespace Amarok.Events
 					.IsNull();
 
 				Exception exception = null;
-				using (EventSystem.UnobservedException.SubscribeWeak(x =>
-				{
-					Volatile.Write(ref exception, x);
-				}))
+				using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
 				{
 					var flag1 = service.Do("abc");
 
@@ -224,8 +236,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(async x =>
-				{
+				var subscription = service.Changed.Subscribe(async x => {
 					arg = x;
 					called++;
 					if (called == 1)
@@ -239,10 +250,7 @@ namespace Amarok.Events
 					.IsNull();
 
 				Exception exception = null;
-				using (EventSystem.UnobservedException.SubscribeWeak(x =>
-				{
-					Volatile.Write(ref exception, x);
-				}))
+				using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
 				{
 					var flag1 = service.Do("abc");
 
@@ -270,8 +278,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(async x =>
-				{
+				var subscription = service.Changed.Subscribe(async x => {
 					arg = x;
 					called++;
 					await Task.Delay(10);
@@ -284,10 +291,7 @@ namespace Amarok.Events
 					.IsNull();
 
 				Exception exception = null;
-				using (EventSystem.UnobservedException.SubscribeWeak(x =>
-				{
-					Volatile.Write(ref exception, x);
-				}))
+				using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
 				{
 					var flag1 = service.Do("abc");
 
@@ -322,8 +326,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(async x =>
-				{
+				var subscription = service.Changed.Subscribe(async x => {
 					arg = x;
 					called++;
 				});
@@ -366,8 +369,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(async x =>
-				{
+				var subscription = service.Changed.Subscribe(async x => {
 					await Task.Delay(100);
 					arg = x;
 					called++;
@@ -401,8 +403,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x =>
-				{
+				var subscription = service.Changed.Subscribe(x => {
 					arg = x;
 					called++;
 					return Task.CompletedTask;
@@ -436,8 +437,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(x =>
-				{
+				var subscription = service.Changed.Subscribe(x => {
 					arg = x;
 					called++;
 					var cts = new CancellationTokenSource();
@@ -451,10 +451,7 @@ namespace Amarok.Events
 					.IsNull();
 
 				Exception exception = null;
-				using (EventSystem.UnobservedException.SubscribeWeak(x =>
-				{
-					Volatile.Write(ref exception, x);
-				}))
+				using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
 				{
 					var flag1 = await service.DoAsync("abc");
 
@@ -482,8 +479,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(async x =>
-				{
+				var subscription = service.Changed.Subscribe(async x => {
 					arg = x;
 					called++;
 					if (called == 1)
@@ -497,10 +493,7 @@ namespace Amarok.Events
 					.IsNull();
 
 				Exception exception = null;
-				using (EventSystem.UnobservedException.SubscribeWeak(x =>
-				{
-					Volatile.Write(ref exception, x);
-				}))
+				using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
 				{
 					var flag1 = await service.DoAsync("abc");
 
@@ -528,8 +521,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.Subscribe(async x =>
-				{
+				var subscription = service.Changed.Subscribe(async x => {
 					arg = x;
 					called++;
 					await Task.Delay(10);
@@ -542,10 +534,7 @@ namespace Amarok.Events
 					.IsNull();
 
 				Exception exception = null;
-				using (EventSystem.UnobservedException.SubscribeWeak(x =>
-				{
-					Volatile.Write(ref exception, x);
-				}))
+				using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
 				{
 					var flag1 = await service.DoAsync("abc");
 

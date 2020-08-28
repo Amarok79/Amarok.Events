@@ -853,7 +853,6 @@
     <Rule Id="S4061" Action="Warning" />
     <Rule Id="S4069" Action="Warning" />
     <Rule Id="S4070" Action="Warning" />
-    <Rule Id="S4136" Action="None" />
     <Rule Id="S4212" Action="Warning" />
     <Rule Id="S4225" Action="Warning" />
     <Rule Id="S4226" Action="Warning" />
