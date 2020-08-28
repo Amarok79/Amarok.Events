@@ -1,15 +1,15 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<ProjectGuid>{1FCE1A28-F159-49EA-8F47-92A5FDFFAFDE}</ProjectGuid>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<RootNamespace>Amarok</RootNamespace>
-		<Version>1.2.1</Version>
+		<Version>1.3.0</Version>
 		<Authors>Olaf Kober</Authors>
 		<Company>&lt;none&gt;</Company>
 		<Description>A fast and light-weight implementation of the observer pattern that supports synchronous and asynchronous invocation and/or subscribers. A potential replacement for regular .NET events.</Description>
 		<Copyright>Copyright (c) 2018, Olaf Kober</Copyright>
-		<PackageLicenseExpression>LGPL-3.0-only</PackageLicenseExpression>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/Amarok79/Amarok.Events</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/Amarok79/Amarok.Events</RepositoryUrl>
 		<PackageIcon>amarok.png</PackageIcon>
@@ -58,14 +58,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-19367-01" PrivateAssets="All" />
-		<PackageReference Include="SonarAnalyzer.CSharp" Version="7.17.0.9346">
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.12.0.21095">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="System.Collections.Immutable" Version="1.6.0" />
-		<PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.6.0" />
-		<PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.3" />
+		<PackageReference Include="System.Collections.Immutable" Version="1.7.1" />
+		<PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.1" />
+		<PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
 	</ItemGroup>
 
 </Project>

@@ -1,8 +1,8 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<ProjectGuid>{22B0507E-5916-435D-8D47-2E5E06C00FB5}</ProjectGuid>
-		<TargetFrameworks>netcoreapp2.1;netcoreapp3.0;net471;net48</TargetFrameworks>
+		<TargetFrameworks>netcoreapp2.1;netcoreapp3.1;net471;net48</TargetFrameworks>
 		<RootNamespace>Amarok</RootNamespace>
 		<CodeAnalysisRuleSet>..\Minimal.ruleset</CodeAnalysisRuleSet>
 		<SignAssembly>true</SignAssembly>
@@ -36,13 +36,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.3.0" />
-		<PackageReference Include="Moq" Version="4.13.0" />
-		<PackageReference Include="NCrunch.Framework" Version="3.17.0" />
-		<PackageReference Include="NFluent" Version="2.6.0" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
+		<PackageReference Include="Moq" Version="4.14.5" />
+		<PackageReference Include="NCrunch.Framework" Version="4.5.0" />
+		<PackageReference Include="NFluent" Version="2.7.0" />
 		<PackageReference Include="NUnit" Version="3.12.0" />
-		<PackageReference Include="NUnit3TestAdapter" Version="3.15.1" />
-		<PackageReference Include="SonarAnalyzer.CSharp" Version="7.17.0.9346">
+		<PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
+		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.12.0.21095">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>

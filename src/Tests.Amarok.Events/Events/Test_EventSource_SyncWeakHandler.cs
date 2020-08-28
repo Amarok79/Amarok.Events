@@ -1,7 +1,26 @@
-﻿/* Copyright(c) 2018, Olaf Kober
- * Licensed under GNU Lesser General Public License v3.0 (LPGL-3.0).
+﻿/* MIT License
+ * 
+ * Copyright (c) 2020, Olaf Kober
  * https://github.com/Amarok79/Amarok.Events
- */
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+*/
 
 using System;
 using System.Threading;
@@ -113,8 +132,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -168,8 +186,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription1 = service.Changed.SubscribeWeak(x => {
 					arg1 = x;
 					called1++;
 				});
@@ -177,8 +194,7 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
@@ -253,8 +269,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.SubscribeWeak(new Action<String>(x =>
-				{
+				var subscription1 = service.Changed.SubscribeWeak(new Action<String>(x => {
 					arg1 = x;
 					called1++;
 					throw new ApplicationException("1");
@@ -263,8 +278,7 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
@@ -291,10 +305,7 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				using (EventSystem.UnobservedException.SubscribeWeak(x =>
-				{
-					Volatile.Write(ref exception, x);
-				}))
+				using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
 				{
 					var flag1 = service.Do("abc");
 
@@ -336,8 +347,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -396,8 +406,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -441,8 +450,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -512,8 +520,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -571,8 +578,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription1 = service.Changed.SubscribeWeak(x => {
 					arg1 = x;
 					called1++;
 				});
@@ -580,8 +586,7 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
@@ -658,8 +663,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.SubscribeWeak(new Action<String>(x =>
-				{
+				var subscription1 = service.Changed.SubscribeWeak(new Action<String>(x => {
 					arg1 = x;
 					called1++;
 					throw new ApplicationException("1");
@@ -668,8 +672,7 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
@@ -692,10 +695,7 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				using (EventSystem.UnobservedException.SubscribeWeak(x =>
-				{
-					Volatile.Write(ref exception, x);
-				}))
+				using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
 				{
 					Int32 factoryCalled = 0;
 					var flag1 = service.Do(() => { factoryCalled++; return "abc"; });
@@ -740,8 +740,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -800,8 +799,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -846,8 +844,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -928,8 +925,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -993,8 +989,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription1 = service.Changed.SubscribeWeak(x => {
 					arg1 = x;
 					called1++;
 				});
@@ -1002,8 +997,7 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
@@ -1086,8 +1080,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.SubscribeWeak(new Action<String>(x =>
-				{
+				var subscription1 = service.Changed.SubscribeWeak(new Action<String>(x => {
 					arg1 = x;
 					called1++;
 					throw new ApplicationException("1");
@@ -1096,8 +1089,7 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
@@ -1120,10 +1112,7 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				using (EventSystem.UnobservedException.SubscribeWeak(x =>
-				{
-					Volatile.Write(ref exception, x);
-				}))
+				using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
 				{
 					Int32 factoryCalled = 0;
 					Int32 fa = 0;
@@ -1171,8 +1160,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -1237,8 +1225,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -1283,8 +1270,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -1365,8 +1351,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -1436,8 +1421,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription1 = service.Changed.SubscribeWeak(x => {
 					arg1 = x;
 					called1++;
 				});
@@ -1445,8 +1429,7 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
@@ -1535,8 +1518,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.SubscribeWeak(new Action<String>(x =>
-				{
+				var subscription1 = service.Changed.SubscribeWeak(new Action<String>(x => {
 					arg1 = x;
 					called1++;
 					throw new ApplicationException("1");
@@ -1545,8 +1527,7 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
@@ -1569,10 +1550,7 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				using (EventSystem.UnobservedException.SubscribeWeak(x =>
-				{
-					Volatile.Write(ref exception, x);
-				}))
+				using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
 				{
 					Int32 factoryCalled = 0;
 					Int32 fa = 0;
@@ -1623,8 +1601,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -1695,8 +1672,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -1741,8 +1717,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -1823,8 +1798,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -1900,8 +1874,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription1 = service.Changed.SubscribeWeak(x => {
 					arg1 = x;
 					called1++;
 				});
@@ -1909,8 +1882,7 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
@@ -2005,8 +1977,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.SubscribeWeak(new Action<String>(x =>
-				{
+				var subscription1 = service.Changed.SubscribeWeak(new Action<String>(x => {
 					arg1 = x;
 					called1++;
 					throw new ApplicationException("1");
@@ -2015,8 +1986,7 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
@@ -2039,10 +2009,7 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				using (EventSystem.UnobservedException.SubscribeWeak(x =>
-				{
-					Volatile.Write(ref exception, x);
-				}))
+				using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
 				{
 					Int32 factoryCalled = 0;
 					Int32 fa = 0;
@@ -2096,8 +2063,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -2174,8 +2140,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -2220,8 +2185,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -2296,8 +2260,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -2340,8 +2303,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription1 = service.Changed.SubscribeWeak(x => {
 					arg1 = x;
 					called1++;
 				});
@@ -2349,8 +2311,7 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
@@ -2410,8 +2371,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.SubscribeWeak(new Action<String>(x =>
-				{
+				var subscription1 = service.Changed.SubscribeWeak(new Action<String>(x => {
 					arg1 = x;
 					called1++;
 					throw new ApplicationException("1");
@@ -2420,8 +2380,7 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
@@ -2440,10 +2399,7 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				using (EventSystem.UnobservedException.SubscribeWeak(x =>
-				{
-					Volatile.Write(ref exception, x);
-				}))
+				using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
 				{
 					var flag1 = await service.DoAsync("abc");
 
@@ -2478,8 +2434,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -2532,8 +2487,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -2566,8 +2520,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -2620,8 +2573,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -2670,8 +2622,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription1 = service.Changed.SubscribeWeak(x => {
 					arg1 = x;
 					called1++;
 				});
@@ -2679,8 +2630,7 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
@@ -2746,8 +2696,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.SubscribeWeak(new Action<String>(x =>
-				{
+				var subscription1 = service.Changed.SubscribeWeak(new Action<String>(x => {
 					arg1 = x;
 					called1++;
 					throw new ApplicationException("1");
@@ -2756,8 +2705,7 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
@@ -2776,10 +2724,7 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				using (EventSystem.UnobservedException.SubscribeWeak(x =>
-				{
-					Volatile.Write(ref exception, x);
-				}))
+				using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
 				{
 					Int32 factoryCalled = 0;
 					var flag1 = await service.DoAsync(() => { factoryCalled++; return "abc"; });
@@ -2817,8 +2762,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -2877,8 +2821,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -2914,8 +2857,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -2981,8 +2923,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -3037,8 +2978,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription1 = service.Changed.SubscribeWeak(x => {
 					arg1 = x;
 					called1++;
 				});
@@ -3046,8 +2986,7 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
@@ -3119,8 +3058,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.SubscribeWeak(new Action<String>(x =>
-				{
+				var subscription1 = service.Changed.SubscribeWeak(new Action<String>(x => {
 					arg1 = x;
 					called1++;
 					throw new ApplicationException("1");
@@ -3129,8 +3067,7 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
@@ -3149,10 +3086,7 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				using (EventSystem.UnobservedException.SubscribeWeak(x =>
-				{
-					Volatile.Write(ref exception, x);
-				}))
+				using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
 				{
 					Int32 factoryCalled = 0;
 					Int32 fa = 0;
@@ -3193,8 +3127,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -3259,8 +3192,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -3296,8 +3228,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -3363,8 +3294,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -3425,8 +3355,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription1 = service.Changed.SubscribeWeak(x => {
 					arg1 = x;
 					called1++;
 				});
@@ -3434,8 +3363,7 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
@@ -3513,8 +3441,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.SubscribeWeak(new Action<String>(x =>
-				{
+				var subscription1 = service.Changed.SubscribeWeak(new Action<String>(x => {
 					arg1 = x;
 					called1++;
 					throw new ApplicationException("1");
@@ -3523,8 +3450,7 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
@@ -3543,10 +3469,7 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				using (EventSystem.UnobservedException.SubscribeWeak(x =>
-				{
-					Volatile.Write(ref exception, x);
-				}))
+				using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
 				{
 					Int32 factoryCalled = 0;
 					Int32 fa = 0;
@@ -3590,8 +3513,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -3661,8 +3583,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -3698,8 +3619,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -3765,8 +3685,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -3833,8 +3752,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription1 = service.Changed.SubscribeWeak(x => {
 					arg1 = x;
 					called1++;
 				});
@@ -3842,8 +3760,7 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
@@ -3927,8 +3844,7 @@ namespace Amarok.Events
 				Int32 called1 = 0;
 				String arg1 = null;
 
-				var subscription1 = service.Changed.SubscribeWeak(new Action<String>(x =>
-				{
+				var subscription1 = service.Changed.SubscribeWeak(new Action<String>(x => {
 					arg1 = x;
 					called1++;
 					throw new ApplicationException("1");
@@ -3937,8 +3853,7 @@ namespace Amarok.Events
 				Int32 called2 = 0;
 				String arg2 = null;
 
-				var subscription2 = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription2 = service.Changed.SubscribeWeak(x => {
 					arg2 = x;
 					called2++;
 				});
@@ -3957,10 +3872,7 @@ namespace Amarok.Events
 					.Not.IsSameReferenceAs(subscription1);
 
 				Exception exception = null;
-				using (EventSystem.UnobservedException.SubscribeWeak(x =>
-				{
-					Volatile.Write(ref exception, x);
-				}))
+				using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
 				{
 					Int32 factoryCalled = 0;
 					Int32 fa = 0;
@@ -4007,8 +3919,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -4085,8 +3996,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
@@ -4122,8 +4032,7 @@ namespace Amarok.Events
 				Int32 called = 0;
 				String arg = null;
 
-				var subscription = service.Changed.SubscribeWeak(x =>
-				{
+				var subscription = service.Changed.SubscribeWeak(x => {
 					arg = x;
 					called++;
 				});
