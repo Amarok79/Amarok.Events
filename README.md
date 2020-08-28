@@ -369,7 +369,7 @@ What would you expect to happen? Is the second event handler called regardless o
 
 Well, regarding exception handling, this library takes a different, maybe controversial approach. I consider it a design flaw of regular .NET events that invocation of the remaining event handlers is aborted if one of the previously invoked event handlers threw an exception. Since the thrown exception is reported back to the event publisher, this makes the event publisher dependent on its subscribers, but the entire observer design pattern exists to decouple both, publisher and subscribers.
 
-In my opinion, the pattern only makes sense, if a publisher doesn’t need to care about whether there are subscribers, or whether those subscribers fail with exceptions. The publisher’s only responsibility is to invoke all registered event handlers in all cases.
+In my opinion, the pattern only makes sense, if a publisher doesn't need to care about whether there are subscribers, or whether those subscribers fail with exceptions. The publisher's only responsibility is to invoke all registered event handlers in all cases.
 
 So, our example generates following output:
 
@@ -392,7 +392,7 @@ EventSystem.UnobservedException.Subscribe(ex => {
 });
 ```
 
-If an application wants to handle those exceptions - and that is generally recommended – then the exception handling should happen in the event handlers itself. If exceptions can occur in an event handler, then the event handler is responsible for careful handling.
+If an application wants to handle those exceptions - and that is generally recommended - then the exception handling should happen in the event handlers itself. If exceptions can occur in an event handler, then the event handler is responsible for careful handling.
 
 
 ### IProgress\<T> Integration
