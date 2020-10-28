@@ -1,0 +1,14 @@
+{
+    "stryker-config": {
+        "solution-path": "Amarok.Events.sln",
+        "project-file": "Amarok.Events.csproj",
+        "test-projects": [
+            "src/Tests.Amarok.Events/Tests.Amarok.Events.csproj"
+        ],
+        "mutate-level": "Standard",
+        "coverage-analysis": "perTest",
+        "log-level": "info",
+        "log-file": true,
+        "ignore-methods": []
+    }
+}
