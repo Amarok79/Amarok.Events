@@ -283,7 +283,7 @@ namespace Amarok.Events
 		/// True, if the specified instance is equal to the current instance; otherwise, False.</returns>
 		public override readonly Boolean Equals(Object obj)
 		{
-			return obj is Event<T> && Equals((Event<T>)obj);
+			return obj is Event<T> other && Equals(other);
 		}
 
 		/// <summary>
