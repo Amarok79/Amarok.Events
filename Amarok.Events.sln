@@ -11,11 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmark.Amarok.Events", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{34C76F3A-BE4D-4DB9-B854-CC4EC86BFF16}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		src\Amarok.Events.licenseheader = src\Amarok.Events.licenseheader
 		azure-pipelines.yml = azure-pipelines.yml
-		src\Global.ruleset = src\Global.ruleset
-		src\Minimal.ruleset = src\Minimal.ruleset
 		README.md = README.md
+		stryker-config.json = stryker-config.json
 	EndProjectSection
 EndProject
 Global
