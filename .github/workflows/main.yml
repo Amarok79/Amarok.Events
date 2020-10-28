@@ -8,7 +8,7 @@ on:
 
 jobs:
 
-  windows:
+  build:
     runs-on: windows-latest
 
     steps:
@@ -40,3 +40,10 @@ jobs:
 
       - name: Building Release...
         run: dotnet build --configuration Debug --no-incremental
+
+      - name: Uploading NuGet package...
+        uses: actions/upload-artifact@v2
+        with:
+          name: nuget
+          path: bin/lib/*.nupkg
+          if-no-files-found: error
