@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+    runs-on: windows-latest
+
+    steps:
+      
+      - name: Installing DotNet...
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.x        
+      
+      - name: Checking out sources...
+        uses: actions/checkout@v2
+
+      - name: Building Debug...
+        run: dotnet build --configuration Debug
+        shell: cmd
+
+      - name: Running tests...
+        run: dotnet test --configuration Debug --framework net48 --no-restore --no-build
+        shell: cmd
+
+      - name: Cleaning up...
+        run: git clean -d -x -f
+        shell: cmd
+
+      - name: Building Release...
+        run: dotnet build --configuration Release
+        shell: cmd
