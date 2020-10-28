@@ -87,7 +87,7 @@ namespace Amarok.Events
 		{
 			var task = mFunc(value);
 
-			if (task.IsCompleted && !task.IsFaulted && !task.IsCanceled)
+			if (task.IsCompleted && !task.IsFaulted)
 				return;
 
 			task.ContinueWith(
