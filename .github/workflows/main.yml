@@ -8,31 +8,35 @@ on:
 
 jobs:
 
-  build:
+  windows:
     runs-on: windows-latest
 
     steps:
       
-      - name: Installing DotNet...
+      - name: Installing .NET Core 2.1...
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 2.1.x        
+
+      - name: Installing .NET Core 3.1...
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 3.1.x        
       
-      - name: Checking out sources...
+      - name: Getting sources...
         uses: actions/checkout@v2
 
+      - name: Restoring packages...
+        run: dotnet restore
+
       - name: Building Debug...
-        run: dotnet build --configuration Debug
-        shell: cmd
+        run: dotnet build --configuration Debug --no-incremental
 
       - name: Running tests...
-        run: dotnet test --configuration Debug --framework net48 --no-restore --no-build
-        shell: cmd
+        run: dotnet test --no-build
 
       - name: Cleaning up...
         run: git clean -d -x -f
-        shell: cmd
 
       - name: Building Release...
-        run: dotnet build --configuration Release
-        shell: cmd
+        run: dotnet build --configuration Debug --no-incremental
