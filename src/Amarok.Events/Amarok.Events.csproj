@@ -15,7 +15,6 @@
 		<PackageIcon>amarok.png</PackageIcon>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
-		<CodeAnalysisRuleSet>..\Global.ruleset</CodeAnalysisRuleSet>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 		<PackageTags>Event Observer Publisher Subscriber Progress Recorder Handler</PackageTags>

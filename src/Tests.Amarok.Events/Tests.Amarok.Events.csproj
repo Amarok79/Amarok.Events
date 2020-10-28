@@ -4,7 +4,6 @@
 		<ProjectGuid>{22B0507E-5916-435D-8D47-2E5E06C00FB5}</ProjectGuid>
 		<TargetFrameworks>netcoreapp2.1;netcoreapp3.1;net48</TargetFrameworks>
 		<RootNamespace>Amarok</RootNamespace>
-		<CodeAnalysisRuleSet>..\Minimal.ruleset</CodeAnalysisRuleSet>
 		<SignAssembly>true</SignAssembly>
 		<AssemblyOriginatorKeyFile>..\amarok.snk</AssemblyOriginatorKeyFile>
 		<AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>

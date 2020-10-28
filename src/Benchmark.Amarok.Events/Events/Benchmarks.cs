@@ -65,8 +65,9 @@ namespace Amarok.Events
 				}
 			}
 
-			private void HandleFooChanged(Object sender, FooEventArgs e)
+			private void _HandleFooChanged(Object sender, FooEventArgs e)
 			{
+				// Method intentionally left empty.
 			}
 
 
@@ -81,23 +82,23 @@ namespace Amarok.Events
 				ServiceHandlerCount0 = new FooServiceImpl();
 
 				ServiceHandlerCount1 = new FooServiceImpl();
-				ServiceHandlerCount1.FooChanged += HandleFooChanged;
+				ServiceHandlerCount1.FooChanged += _HandleFooChanged;
 
 				ServiceHandlerCount3 = new FooServiceImpl();
-				ServiceHandlerCount3.FooChanged += HandleFooChanged;
-				ServiceHandlerCount3.FooChanged += HandleFooChanged;
-				ServiceHandlerCount3.FooChanged += HandleFooChanged;
+				ServiceHandlerCount3.FooChanged += _HandleFooChanged;
+				ServiceHandlerCount3.FooChanged += _HandleFooChanged;
+				ServiceHandlerCount3.FooChanged += _HandleFooChanged;
 
 				ServiceHandlerCount9 = new FooServiceImpl();
-				ServiceHandlerCount9.FooChanged += HandleFooChanged;
-				ServiceHandlerCount9.FooChanged += HandleFooChanged;
-				ServiceHandlerCount9.FooChanged += HandleFooChanged;
-				ServiceHandlerCount9.FooChanged += HandleFooChanged;
-				ServiceHandlerCount9.FooChanged += HandleFooChanged;
-				ServiceHandlerCount9.FooChanged += HandleFooChanged;
-				ServiceHandlerCount9.FooChanged += HandleFooChanged;
-				ServiceHandlerCount9.FooChanged += HandleFooChanged;
-				ServiceHandlerCount9.FooChanged += HandleFooChanged;
+				ServiceHandlerCount9.FooChanged += _HandleFooChanged;
+				ServiceHandlerCount9.FooChanged += _HandleFooChanged;
+				ServiceHandlerCount9.FooChanged += _HandleFooChanged;
+				ServiceHandlerCount9.FooChanged += _HandleFooChanged;
+				ServiceHandlerCount9.FooChanged += _HandleFooChanged;
+				ServiceHandlerCount9.FooChanged += _HandleFooChanged;
+				ServiceHandlerCount9.FooChanged += _HandleFooChanged;
+				ServiceHandlerCount9.FooChanged += _HandleFooChanged;
+				ServiceHandlerCount9.FooChanged += _HandleFooChanged;
 			}
 		}
 
@@ -125,11 +126,12 @@ namespace Amarok.Events
 				}
 			}
 
-			private void HandleFooChanged(String args)
+			private void _HandleFooChanged(String args)
 			{
+				// Method intentionally left empty.
 			}
 
-			private Task HandleFooChangedAsync(String args)
+			private Task _HandleFooChangedAsync(String args)
 			{
 				return Task.CompletedTask;
 			}
@@ -150,7 +152,7 @@ namespace Amarok.Events
 			public FooServiceImpl ServiceWeakHandlerCount3;
 			public FooServiceImpl ServiceWeakHandlerCount9;
 
-			public List<IDisposable> mSubscriptions = new List<IDisposable>();
+			private readonly List<IDisposable> mSubscriptions = new List<IDisposable>();
 
 
 			public Amarok()
@@ -159,67 +161,67 @@ namespace Amarok.Events
 				ServiceSyncHandlerCount0 = new FooServiceImpl();
 
 				ServiceSyncHandlerCount1 = new FooServiceImpl();
-				ServiceSyncHandlerCount1.FooChanged.Subscribe(HandleFooChanged);
+				ServiceSyncHandlerCount1.FooChanged.Subscribe(_HandleFooChanged);
 
 				ServiceSyncHandlerCount3 = new FooServiceImpl();
-				ServiceSyncHandlerCount3.FooChanged.Subscribe(HandleFooChanged);
-				ServiceSyncHandlerCount3.FooChanged.Subscribe(HandleFooChanged);
-				ServiceSyncHandlerCount3.FooChanged.Subscribe(HandleFooChanged);
+				ServiceSyncHandlerCount3.FooChanged.Subscribe(_HandleFooChanged);
+				ServiceSyncHandlerCount3.FooChanged.Subscribe(_HandleFooChanged);
+				ServiceSyncHandlerCount3.FooChanged.Subscribe(_HandleFooChanged);
 
 				ServiceSyncHandlerCount9 = new FooServiceImpl();
-				ServiceSyncHandlerCount9.FooChanged.Subscribe(HandleFooChanged);
-				ServiceSyncHandlerCount9.FooChanged.Subscribe(HandleFooChanged);
-				ServiceSyncHandlerCount9.FooChanged.Subscribe(HandleFooChanged);
-				ServiceSyncHandlerCount9.FooChanged.Subscribe(HandleFooChanged);
-				ServiceSyncHandlerCount9.FooChanged.Subscribe(HandleFooChanged);
-				ServiceSyncHandlerCount9.FooChanged.Subscribe(HandleFooChanged);
-				ServiceSyncHandlerCount9.FooChanged.Subscribe(HandleFooChanged);
-				ServiceSyncHandlerCount9.FooChanged.Subscribe(HandleFooChanged);
-				ServiceSyncHandlerCount9.FooChanged.Subscribe(HandleFooChanged);
+				ServiceSyncHandlerCount9.FooChanged.Subscribe(_HandleFooChanged);
+				ServiceSyncHandlerCount9.FooChanged.Subscribe(_HandleFooChanged);
+				ServiceSyncHandlerCount9.FooChanged.Subscribe(_HandleFooChanged);
+				ServiceSyncHandlerCount9.FooChanged.Subscribe(_HandleFooChanged);
+				ServiceSyncHandlerCount9.FooChanged.Subscribe(_HandleFooChanged);
+				ServiceSyncHandlerCount9.FooChanged.Subscribe(_HandleFooChanged);
+				ServiceSyncHandlerCount9.FooChanged.Subscribe(_HandleFooChanged);
+				ServiceSyncHandlerCount9.FooChanged.Subscribe(_HandleFooChanged);
+				ServiceSyncHandlerCount9.FooChanged.Subscribe(_HandleFooChanged);
 
 				// async handler
 				ServiceAsyncHandlerCount0 = new FooServiceImpl();
 
 				ServiceAsyncHandlerCount1 = new FooServiceImpl();
-				ServiceAsyncHandlerCount1.FooChanged.Subscribe(HandleFooChangedAsync);
+				ServiceAsyncHandlerCount1.FooChanged.Subscribe(_HandleFooChangedAsync);
 
 				ServiceAsyncHandlerCount3 = new FooServiceImpl();
-				ServiceAsyncHandlerCount3.FooChanged.Subscribe(HandleFooChangedAsync);
-				ServiceAsyncHandlerCount3.FooChanged.Subscribe(HandleFooChangedAsync);
-				ServiceAsyncHandlerCount3.FooChanged.Subscribe(HandleFooChangedAsync);
+				ServiceAsyncHandlerCount3.FooChanged.Subscribe(_HandleFooChangedAsync);
+				ServiceAsyncHandlerCount3.FooChanged.Subscribe(_HandleFooChangedAsync);
+				ServiceAsyncHandlerCount3.FooChanged.Subscribe(_HandleFooChangedAsync);
 
 				ServiceAsyncHandlerCount9 = new FooServiceImpl();
-				ServiceAsyncHandlerCount9.FooChanged.Subscribe(HandleFooChangedAsync);
-				ServiceAsyncHandlerCount9.FooChanged.Subscribe(HandleFooChangedAsync);
-				ServiceAsyncHandlerCount9.FooChanged.Subscribe(HandleFooChangedAsync);
-				ServiceAsyncHandlerCount9.FooChanged.Subscribe(HandleFooChangedAsync);
-				ServiceAsyncHandlerCount9.FooChanged.Subscribe(HandleFooChangedAsync);
-				ServiceAsyncHandlerCount9.FooChanged.Subscribe(HandleFooChangedAsync);
-				ServiceAsyncHandlerCount9.FooChanged.Subscribe(HandleFooChangedAsync);
-				ServiceAsyncHandlerCount9.FooChanged.Subscribe(HandleFooChangedAsync);
-				ServiceAsyncHandlerCount9.FooChanged.Subscribe(HandleFooChangedAsync);
+				ServiceAsyncHandlerCount9.FooChanged.Subscribe(_HandleFooChangedAsync);
+				ServiceAsyncHandlerCount9.FooChanged.Subscribe(_HandleFooChangedAsync);
+				ServiceAsyncHandlerCount9.FooChanged.Subscribe(_HandleFooChangedAsync);
+				ServiceAsyncHandlerCount9.FooChanged.Subscribe(_HandleFooChangedAsync);
+				ServiceAsyncHandlerCount9.FooChanged.Subscribe(_HandleFooChangedAsync);
+				ServiceAsyncHandlerCount9.FooChanged.Subscribe(_HandleFooChangedAsync);
+				ServiceAsyncHandlerCount9.FooChanged.Subscribe(_HandleFooChangedAsync);
+				ServiceAsyncHandlerCount9.FooChanged.Subscribe(_HandleFooChangedAsync);
+				ServiceAsyncHandlerCount9.FooChanged.Subscribe(_HandleFooChangedAsync);
 
 				// weak sync handler
 				ServiceWeakHandlerCount0 = new FooServiceImpl();
 
 				ServiceWeakHandlerCount1 = new FooServiceImpl();
-				mSubscriptions.Add(ServiceWeakHandlerCount1.FooChanged.SubscribeWeak(HandleFooChanged));
+				mSubscriptions.Add(ServiceWeakHandlerCount1.FooChanged.SubscribeWeak(_HandleFooChanged));
 
 				ServiceWeakHandlerCount3 = new FooServiceImpl();
-				mSubscriptions.Add(ServiceWeakHandlerCount3.FooChanged.SubscribeWeak(HandleFooChanged));
-				mSubscriptions.Add(ServiceWeakHandlerCount3.FooChanged.SubscribeWeak(HandleFooChanged));
-				mSubscriptions.Add(ServiceWeakHandlerCount3.FooChanged.SubscribeWeak(HandleFooChanged));
+				mSubscriptions.Add(ServiceWeakHandlerCount3.FooChanged.SubscribeWeak(_HandleFooChanged));
+				mSubscriptions.Add(ServiceWeakHandlerCount3.FooChanged.SubscribeWeak(_HandleFooChanged));
+				mSubscriptions.Add(ServiceWeakHandlerCount3.FooChanged.SubscribeWeak(_HandleFooChanged));
 
 				ServiceWeakHandlerCount9 = new FooServiceImpl();
-				mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged));
-				mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged));
-				mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged));
-				mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged));
-				mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged));
-				mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged));
-				mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged));
-				mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged));
-				mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(HandleFooChanged));
+				mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(_HandleFooChanged));
+				mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(_HandleFooChanged));
+				mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(_HandleFooChanged));
+				mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(_HandleFooChanged));
+				mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(_HandleFooChanged));
+				mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(_HandleFooChanged));
+				mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(_HandleFooChanged));
+				mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(_HandleFooChanged));
+				mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(_HandleFooChanged));
 			}
 		}
 
