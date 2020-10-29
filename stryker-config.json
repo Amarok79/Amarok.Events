@@ -16,6 +16,7 @@
             "dashboard"
         ],
         "dashboard-api-key": "254159ff-0b77-4e02-a356-54b7d98ecb31",
-        "dashboard-project": "Amarok.Events"
+        "dashboard-project": "github.com/Amarok79/Amarok.Events",
+        "dashboard-version": "1.0"
     }
 }
