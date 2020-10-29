@@ -1,3 +1,4 @@
+![CI](https://github.com/Amarok79/Amarok.Events/workflows/CI/badge.svg)
 [![Build Status](https://dev.azure.com/amarok79/Amarok/_apis/build/status/Amarok.Events?branchName=master)](https://dev.azure.com/amarok79/Amarok/_build/latest?definitionId=17&branchName=master)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Amarok79_Events&metric=alert_status)](https://sonarcloud.io/dashboard?id=Amarok79_Events)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Amarok79_Events&metric=coverage)](https://sonarcloud.io/dashboard?id=Amarok79_Events)
