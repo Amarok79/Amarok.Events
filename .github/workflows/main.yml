@@ -39,7 +39,7 @@ jobs:
         run: git clean -d -x -f
 
       - name: Building Release...
-        run: dotnet build --configuration Debug --no-incremental
+        run: dotnet build --configuration Release --no-incremental
 
       - name: Uploading NuGet package...
         uses: actions/upload-artifact@v2
