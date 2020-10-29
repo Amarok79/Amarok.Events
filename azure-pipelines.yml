@@ -1,23 +1,16 @@
 trigger:
 - master
-- develop/*
 
 pool:
   vmImage: 'windows-latest'
-
-variables:
-  solution: '*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
 
 steps:
 
 - task: NuGetToolInstaller@1
 
-- task: NuGetCommand@2
+- task: DotNetCoreCLI@2
   inputs:
     command: 'restore'
-    restoreSolution: '$(solution)'
     feedsToUse: 'select'
 
 - task: SonarSource.sonarcloud.14d9cde6-c1da-4d55-aa01-2965cd301255.SonarCloudPrepare@1
@@ -27,50 +20,26 @@ steps:
     projectKey: 'Amarok79_Events'
     projectName: Amarok.Events
 
-- task: VSBuild@1
+- task: DotNetCoreCLI@2
   inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-
-- task: VSTest@2
-  inputs:
-    testSelector: 'testAssemblies'
-    testAssemblyVer2: 'bin\tests\net471\Tests*.dll'
-    searchFolder: '$(System.DefaultWorkingDirectory)'
-    codeCoverageEnabled: true
-    testRunTitle: '.NET Framework 4.7.1'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-
-- task: VSTest@2
-  inputs:
-    testSelector: 'testAssemblies'
-    testAssemblyVer2: 'bin\tests\net48\Tests*.dll'
-    searchFolder: '$(System.DefaultWorkingDirectory)'
-    codeCoverageEnabled: true
-    testRunTitle: '.NET Framework 4.8'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    command: 'build'
+    arguments: '--configuration Debug --no-incremental'
 
 - task: DotNetCoreCLI@2
   inputs:
     command: 'test'
-    projects: '**/Tests.Amarok.Events.csproj'
-    arguments: '--no-restore --no-build --collect:"Code Coverage" --framework:"netcoreapp2.1"'
-    testRunTitle: '.NET Core 2.1'
+    arguments: '--no-build'
 
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'test'
-    projects: '**/Tests.Amarok.Events.csproj'
-    arguments: '--no-restore --no-build --collect:"Code Coverage" --framework:"netcoreapp3.1"'
-    testRunTitle: '.NET Core 3.1'
-
-- task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
+- task: SonarCloudAnalyze@1
 
 - task: SonarSource.sonarcloud.38b27399-a642-40af-bb7d-9971f69712e8.SonarCloudPublish@1
+
+- script: 'git clean -d -x -f'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    arguments: '--configuration Release --no-incremental'
 
 - task: CopyFiles@2
   inputs:
