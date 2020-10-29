@@ -12,6 +12,8 @@ jobs:
     runs-on: windows-latest
 
     steps:
+
+    # Prepare
       
       - name: Installing .NET Core 2.1...
         uses: actions/setup-dotnet@v1
@@ -29,11 +31,17 @@ jobs:
       - name: Restoring packages...
         run: dotnet restore
 
+
+    # Build and Test (Debug)
+
       - name: Building Debug...
         run: dotnet build --configuration Debug --no-incremental
 
       - name: Running tests...
         run: dotnet test --no-build
+
+
+    # Build and Publish (Release)
 
       - name: Cleaning up...
         run: git clean -d -x -f

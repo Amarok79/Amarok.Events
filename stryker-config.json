@@ -9,6 +9,13 @@
         "coverage-analysis": "perTest",
         "log-level": "info",
         "log-file": true,
-        "ignore-methods": []
+        "ignore-methods": [],
+        "reporters": [
+            "html",
+            "progress",
+            "dashboard"
+        ],
+        "dashboard-api-key": "254159ff-0b77-4e02-a356-54b7d98ecb31",
+        "dashboard-project": "Amarok.Events"
     }
 }
