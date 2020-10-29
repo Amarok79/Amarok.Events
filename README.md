@@ -2,6 +2,7 @@
 [![Build Status](https://dev.azure.com/amarok79/Amarok/_apis/build/status/Amarok.Events?branchName=master)](https://dev.azure.com/amarok79/Amarok/_build/latest?definitionId=17&branchName=master)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Amarok79_Events&metric=alert_status)](https://sonarcloud.io/dashboard?id=Amarok79_Events)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Amarok79_Events&metric=coverage)](https://sonarcloud.io/dashboard?id=Amarok79_Events)
+[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2FAmarok79%2FAmarok.Events%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/Amarok79/Amarok.Events/master)
 [![NuGet](https://img.shields.io/nuget/v/Amarok.Events.svg?logo=)](https://www.nuget.org/packages/Amarok.Events/)
 
 # Introduction
