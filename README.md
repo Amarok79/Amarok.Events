@@ -16,7 +16,7 @@ The implementation is a bit slower than ordinary .NET events regarding raw call 
 
 The library is redistributed as NuGet package: [Amarok.Events](https://www.nuget.org/packages/Amarok.Events/)
 
-The package provides strong-named binaries for *.NET Standard 2.0* only. Tests are generally performed with *.NET Framework 4.7.1*, *.NET Framework 4.8*, *.NET Core 2.1* and *.NET Core 3.1*.
+The package provides strong-named binaries for *.NET Standard 2.0* only. Tests are generally performed with *.NET Framework 4.8*, *.NET Core 2.1* and *.NET Core 3.1*.
 
 
 # Documentation
