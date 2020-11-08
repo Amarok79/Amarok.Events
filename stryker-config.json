@@ -1,22 +1,22 @@
 {
-    "stryker-config": {
-        "solution-path": "Amarok.Events.sln",
-        "project-file": "Amarok.Events.csproj",
-        "test-projects": [
-            "src/Tests.Amarok.Events/Tests.Amarok.Events.csproj"
-        ],
-        "mutate-level": "Standard",
-        "coverage-analysis": "perTest",
-        "log-level": "info",
-        "log-file": true,
-        "ignore-methods": [],
-        "reporters": [
-            "html",
-            "progress",
-            "dashboard"
-        ],
-        "dashboard-api-key": "254159ff-0b77-4e02-a356-54b7d98ecb31",
-        "dashboard-project": "github.com/Amarok79/Amarok.Events",
-        "dashboard-version": "master"
-    }
+  "stryker-config": {
+    "solution-path": "Amarok.Events.sln",
+    "project-file": "Amarok.Events.csproj",
+    "test-projects": [
+      "src/Tests.Amarok.Events/Tests.Amarok.Events.csproj"
+    ],
+    "mutate-level": "Standard",
+    "coverage-analysis": "perTest",
+    "log-level": "info",
+    "log-file": true,
+    "ignore-methods": [],
+    "reporters": [
+      "html",
+      "progress",
+      "dashboard"
+    ],
+    "dashboard-api-key": "254159ff-0b77-4e02-a356-54b7d98ecb31",
+    "dashboard-project": "github.com/Amarok79/Amarok.Events",
+    "dashboard-version": "master"
+  }
 }

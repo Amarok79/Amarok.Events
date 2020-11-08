@@ -23,6 +23,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using NFluent;
 using NUnit.Framework;
@@ -30,330 +31,258 @@ using NUnit.Framework;
 
 namespace Amarok.Events
 {
-	public class Test_EventRecorder
-	{
-		[Test]
-		public void From_Event()
-		{
-			using var src = new EventSource<String>();
-			var rec = EventRecorder.From(src.Event);
+    public class Test_EventRecorder
+    {
+        [Test]
+        public void From_Event()
+        {
+            using var             src = new EventSource<String>();
+            EventRecorder<String> rec = EventRecorder.From(src.Event);
 
-			Check.That(rec.IsPaused)
-				.IsFalse();
-			Check.That(rec.Count)
-				.IsEqualTo(0);
-			Check.That(rec.Events)
-				.IsEmpty();
-			Check.That(rec.EventInfos)
-				.IsEmpty();
-		}
+            Check.That(rec.IsPaused).IsFalse();
+            Check.That(rec.Count).IsEqualTo(0);
+            Check.That(rec.Events).IsEmpty();
+            Check.That(rec.EventInfos).IsEmpty();
+        }
 
-		[Test]
-		public void From_EventSource()
-		{
-			var src = new EventSource<String>();
-			var rec = EventRecorder.From(src);
+        [Test]
+        public void From_EventSource()
+        {
+            var                   src = new EventSource<String>();
+            EventRecorder<String> rec = EventRecorder.From(src);
 
-			Check.That(rec.IsPaused)
-				.IsFalse();
-			Check.That(rec.Count)
-				.IsEqualTo(0);
-			Check.That(rec.Events)
-				.IsEmpty();
-			Check.That(rec.EventInfos)
-				.IsEmpty();
-		}
+            Check.That(rec.IsPaused).IsFalse();
+            Check.That(rec.Count).IsEqualTo(0);
+            Check.That(rec.Events).IsEmpty();
+            Check.That(rec.EventInfos).IsEmpty();
+        }
 
-		[Test]
-		public void From_NullEventSource()
-		{
-			Check.ThatCode(() => EventRecorder.From<Int32>(null))
-				.Throws<ArgumentNullException>();
-		}
+        [Test]
+        public void From_NullEventSource()
+        {
+            Check.ThatCode(() => EventRecorder.From<Int32>(null)).Throws<ArgumentNullException>();
+        }
 
 
-		[Test]
-		public void Construction()
-		{
-			var rec = EventRecorder.From(new Event<String>());
+        [Test]
+        public void Construction()
+        {
+            EventRecorder<String> rec = EventRecorder.From(new Event<String>());
 
-			Check.That(rec.IsPaused)
-				.IsFalse();
-			Check.That(rec.Count)
-				.IsEqualTo(0);
-			Check.That(rec.Events)
-				.IsEmpty();
-			Check.That(rec.EventInfos)
-				.IsEmpty();
-		}
+            Check.That(rec.IsPaused).IsFalse();
+            Check.That(rec.Count).IsEqualTo(0);
+            Check.That(rec.Events).IsEmpty();
+            Check.That(rec.EventInfos).IsEmpty();
+        }
 
-		[Test]
-		public void Record_SingleEvent()
-		{
-			using var src = new EventSource<String>();
-			var rec = EventRecorder.From(src.Event);
+        [Test]
+        public void Record_SingleEvent()
+        {
+            using var             src = new EventSource<String>();
+            EventRecorder<String> rec = EventRecorder.From(src.Event);
 
-			src.Invoke("aaa");
+            src.Invoke("aaa");
 
-			Check.That(rec.IsPaused)
-				.IsFalse();
-			Check.That(rec.Count)
-				.IsEqualTo(1);
-			Check.That(rec.Events)
-				.ContainsExactly("aaa");
-			Check.That(rec.EventInfos)
-				.HasSize(1);
+            Check.That(rec.IsPaused).IsFalse();
+            Check.That(rec.Count).IsEqualTo(1);
+            Check.That(rec.Events).ContainsExactly("aaa");
+            Check.That(rec.EventInfos).HasSize(1);
 
-			var info1 = rec.EventInfos[0];
+            var info1 = rec.EventInfos[0];
 
-			Check.That(info1.Value)
-				.IsEqualTo("aaa");
-			Check.That(info1.Index)
-				.IsEqualTo(0);
-			Check.That(info1.Timestamp - DateTimeOffset.Now)
-				.IsLessThan(TimeSpan.FromMilliseconds(500));
-			Check.That(info1.TimeOffset)
-				.IsEqualTo(TimeSpan.Zero);
-			Check.That(info1.Thread)
-				.IsEqualTo(Thread.CurrentThread);
-		}
+            Check.That(info1.Value).IsEqualTo("aaa");
+            Check.That(info1.Index).IsEqualTo(0);
+            Check.That(info1.Timestamp - DateTimeOffset.Now).IsLessThan(TimeSpan.FromMilliseconds(500));
+            Check.That(info1.TimeOffset).IsEqualTo(TimeSpan.Zero);
+            Check.That(info1.Thread).IsEqualTo(Thread.CurrentThread);
+        }
 
-		[Test]
-		public void Record_MultipleEvents()
-		{
-			using var src = new EventSource<String>();
-			var rec = EventRecorder.From(src.Event);
+        [Test]
+        public void Record_MultipleEvents()
+        {
+            using var             src = new EventSource<String>();
+            EventRecorder<String> rec = EventRecorder.From(src.Event);
 
-			src.Invoke("aaa");
-			Thread.Sleep(50);
-			src.Invoke("bbb");
-			Thread.Sleep(50);
-			src.Invoke("ccc");
+            src.Invoke("aaa");
+            Thread.Sleep(50);
+            src.Invoke("bbb");
+            Thread.Sleep(50);
+            src.Invoke("ccc");
 
-			Check.That(rec.IsPaused)
-				.IsFalse();
-			Check.That(rec.Count)
-				.IsEqualTo(3);
+            Check.That(rec.IsPaused).IsFalse();
+            Check.That(rec.Count).IsEqualTo(3);
 
-			Check.That(rec.Events)
-				.ContainsExactly("aaa", "bbb", "ccc");
-			Check.That(rec.EventInfos)
-				.HasSize(3);
+            Check.That(rec.Events).ContainsExactly("aaa", "bbb", "ccc");
+            Check.That(rec.EventInfos).HasSize(3);
 
-			var info1 = rec.EventInfos[0];
-			var info2 = rec.EventInfos[1];
-			var info3 = rec.EventInfos[2];
+            var info1 = rec.EventInfos[0];
+            var info2 = rec.EventInfos[1];
+            var info3 = rec.EventInfos[2];
 
-			Check.That(info1.Value)
-				.IsEqualTo("aaa");
-			Check.That(info1.Index)
-				.IsEqualTo(0);
-			Check.That(info1.Timestamp - DateTimeOffset.Now)
-				.IsLessThan(TimeSpan.FromMilliseconds(500));
-			Check.That(info1.TimeOffset)
-				.IsEqualTo(TimeSpan.Zero);
-			Check.That(info1.Thread)
-				.IsEqualTo(Thread.CurrentThread);
+            Check.That(info1.Value).IsEqualTo("aaa");
+            Check.That(info1.Index).IsEqualTo(0);
+            Check.That(info1.Timestamp - DateTimeOffset.Now).IsLessThan(TimeSpan.FromMilliseconds(500));
+            Check.That(info1.TimeOffset).IsEqualTo(TimeSpan.Zero);
+            Check.That(info1.Thread).IsEqualTo(Thread.CurrentThread);
 
-			Check.That(info2.Value)
-				.IsEqualTo("bbb");
-			Check.That(info2.Index)
-				.IsEqualTo(1);
-			Check.That(info2.Timestamp - DateTimeOffset.Now)
-				.IsLessThan(TimeSpan.FromMilliseconds(500));
-			Check.That(info2.TimeOffset)
-				.IsLessThan(TimeSpan.FromMilliseconds(100))
-				.And
-				.IsGreaterThan(TimeSpan.FromMilliseconds(40));
-			Check.That(info2.Thread)
-				.IsEqualTo(Thread.CurrentThread);
+            Check.That(info2.Value).IsEqualTo("bbb");
+            Check.That(info2.Index).IsEqualTo(1);
+            Check.That(info2.Timestamp - DateTimeOffset.Now).IsLessThan(TimeSpan.FromMilliseconds(500));
 
-			Check.That(info3.Value)
-				.IsEqualTo("ccc");
-			Check.That(info3.Index)
-				.IsEqualTo(2);
-			Check.That(info3.Timestamp - DateTimeOffset.Now)
-				.IsLessThan(TimeSpan.FromMilliseconds(500));
-			Check.That(info3.TimeOffset)
-				.IsLessThan(TimeSpan.FromMilliseconds(75))
-				.And
-				.IsGreaterThan(TimeSpan.FromMilliseconds(40));
-			Check.That(info3.Thread)
-				.IsEqualTo(Thread.CurrentThread);
+            Check.That(info2.TimeOffset)
+                 .IsLessThan(TimeSpan.FromMilliseconds(100))
+                 .And.IsGreaterThan(TimeSpan.FromMilliseconds(40));
 
-			Check.That(info1.Timestamp < info2.Timestamp)
-				.IsTrue();
-			Check.That(info2.Timestamp < info3.Timestamp)
-				.IsTrue();
-		}
+            Check.That(info2.Thread).IsEqualTo(Thread.CurrentThread);
 
-		[Test]
-		public void Events_Returns_CachedResults()
-		{
-			using var src = new EventSource<String>();
-			var rec = EventRecorder.From(src.Event);
+            Check.That(info3.Value).IsEqualTo("ccc");
+            Check.That(info3.Index).IsEqualTo(2);
+            Check.That(info3.Timestamp - DateTimeOffset.Now).IsLessThan(TimeSpan.FromMilliseconds(500));
 
-			src.Invoke("aaa");
+            Check.That(info3.TimeOffset)
+                 .IsLessThan(TimeSpan.FromMilliseconds(75))
+                 .And.IsGreaterThan(TimeSpan.FromMilliseconds(40));
 
-			var events1 = rec.Events;
-			var events2 = rec.Events;
+            Check.That(info3.Thread).IsEqualTo(Thread.CurrentThread);
 
-			Check.That(events1)
-				.HasSize(1);
-			Check.That(events1)
-				.IsSameReferenceAs(events2);
+            Check.That(info1.Timestamp < info2.Timestamp).IsTrue();
+            Check.That(info2.Timestamp < info3.Timestamp).IsTrue();
+        }
 
-			src.Invoke("bbb");
+        [Test]
+        public void Events_Returns_CachedResults()
+        {
+            using var             src = new EventSource<String>();
+            EventRecorder<String> rec = EventRecorder.From(src.Event);
 
-			Check.That(rec.Events)
-				.HasSize(2);
-			Check.That(rec.Events)
-				.Not.IsSameReferenceAs(events1);
-		}
+            src.Invoke("aaa");
 
-		[Test]
-		public void EventInfos_Returns_CachedResults()
-		{
-			using var src = new EventSource<String>();
-			var rec = EventRecorder.From(src.Event);
+            IReadOnlyList<String> events1 = rec.Events;
+            IReadOnlyList<String> events2 = rec.Events;
 
-			src.Invoke("aaa");
+            Check.That(events1).HasSize(1);
+            Check.That(events1).IsSameReferenceAs(events2);
 
-			var infos1 = rec.EventInfos;
-			var infos2 = rec.EventInfos;
+            src.Invoke("bbb");
 
-			Check.That(infos1)
-				.HasSize(1);
-			Check.That(infos1)
-				.IsSameReferenceAs(infos2);
+            Check.That(rec.Events).HasSize(2);
+            Check.That(rec.Events).Not.IsSameReferenceAs(events1);
+        }
 
-			src.Invoke("bbb");
+        [Test]
+        public void EventInfos_Returns_CachedResults()
+        {
+            using var             src = new EventSource<String>();
+            EventRecorder<String> rec = EventRecorder.From(src.Event);
 
-			Check.That(rec.EventInfos)
-				.HasSize(2);
-			Check.That(rec.EventInfos)
-				.Not.IsSameReferenceAs(infos1);
-		}
+            src.Invoke("aaa");
 
-		[Test]
-		public void Pause()
-		{
-			using var src = new EventSource<String>();
-			var rec = EventRecorder.From(src.Event);
+            IReadOnlyList<EventRecorder<String>.EventInfo> infos1 = rec.EventInfos;
+            IReadOnlyList<EventRecorder<String>.EventInfo> infos2 = rec.EventInfos;
 
-			rec.Pause();
-			src.Invoke("aaa");
+            Check.That(infos1).HasSize(1);
+            Check.That(infos1).IsSameReferenceAs(infos2);
 
-			Check.That(rec.IsPaused)
-				.IsTrue();
-			Check.That(rec.Count)
-				.IsEqualTo(0);
+            src.Invoke("bbb");
 
-			rec.Resume();
+            Check.That(rec.EventInfos).HasSize(2);
+            Check.That(rec.EventInfos).Not.IsSameReferenceAs(infos1);
+        }
 
-			Check.That(rec.IsPaused)
-				.IsFalse();
-			Check.That(rec.Count)
-				.IsEqualTo(0);
-		}
+        [Test]
+        public void Pause()
+        {
+            using var             src = new EventSource<String>();
+            EventRecorder<String> rec = EventRecorder.From(src.Event);
 
-		[Test]
-		public void Resume()
-		{
-			using var src = new EventSource<String>();
-			var rec = EventRecorder.From(src.Event);
+            rec.Pause();
+            src.Invoke("aaa");
 
-			rec.Pause();
-			src.Invoke("aaa");
+            Check.That(rec.IsPaused).IsTrue();
+            Check.That(rec.Count).IsEqualTo(0);
 
-			Check.That(rec.IsPaused)
-				.IsTrue();
-			Check.That(rec.Count)
-				.IsEqualTo(0);
+            rec.Resume();
 
-			rec.Resume();
-			src.Invoke("bbb");
+            Check.That(rec.IsPaused).IsFalse();
+            Check.That(rec.Count).IsEqualTo(0);
+        }
 
-			Check.That(rec.IsPaused)
-				.IsFalse();
-			Check.That(rec.Count)
-				.IsEqualTo(1);
-			Check.That(rec.Events)
-				.ContainsExactly("bbb");
-		}
+        [Test]
+        public void Resume()
+        {
+            using var             src = new EventSource<String>();
+            EventRecorder<String> rec = EventRecorder.From(src.Event);
 
-		[Test]
-		public void Reset_ClearsEvents()
-		{
-			using var src = new EventSource<String>();
-			var rec = EventRecorder.From(src.Event);
+            rec.Pause();
+            src.Invoke("aaa");
 
-			src.Invoke("aaa");
+            Check.That(rec.IsPaused).IsTrue();
+            Check.That(rec.Count).IsEqualTo(0);
 
-			Check.That(rec.IsPaused)
-				.IsFalse();
-			Check.That(rec.Count)
-				.IsEqualTo(1);
+            rec.Resume();
+            src.Invoke("bbb");
 
-			rec.Reset();
+            Check.That(rec.IsPaused).IsFalse();
+            Check.That(rec.Count).IsEqualTo(1);
+            Check.That(rec.Events).ContainsExactly("bbb");
+        }
 
-			Check.That(rec.IsPaused)
-				.IsFalse();
-			Check.That(rec.Count)
-				.IsEqualTo(0);
-		}
+        [Test]
+        public void Reset_ClearsEvents()
+        {
+            using var             src = new EventSource<String>();
+            EventRecorder<String> rec = EventRecorder.From(src.Event);
 
-		[Test]
-		public void Reset_Resumes()
-		{
-			using var src = new EventSource<String>();
-			var rec = EventRecorder.From(src.Event);
+            src.Invoke("aaa");
 
-			src.Invoke("aaa");
-			rec.Pause();
+            Check.That(rec.IsPaused).IsFalse();
+            Check.That(rec.Count).IsEqualTo(1);
 
-			Check.That(rec.IsPaused)
-				.IsTrue();
-			Check.That(rec.Count)
-				.IsEqualTo(1);
+            rec.Reset();
 
-			rec.Reset();
+            Check.That(rec.IsPaused).IsFalse();
+            Check.That(rec.Count).IsEqualTo(0);
+        }
 
-			Check.That(rec.IsPaused)
-				.IsFalse();
-			Check.That(rec.Count)
-				.IsEqualTo(0);
-		}
+        [Test]
+        public void Reset_Resumes()
+        {
+            using var             src = new EventSource<String>();
+            EventRecorder<String> rec = EventRecorder.From(src.Event);
 
-		[Test]
-		public void Dispose()
-		{
-			using var src = new EventSource<String>();
-			var rec = EventRecorder.From(src.Event);
+            src.Invoke("aaa");
+            rec.Pause();
 
-			src.Invoke("aaa");
-			rec.Dispose();
-			src.Invoke("bbb");
+            Check.That(rec.IsPaused).IsTrue();
+            Check.That(rec.Count).IsEqualTo(1);
 
-			Check.That(rec.Count)
-				.IsEqualTo(1);
-			Check.That(rec.Events)
-				.ContainsExactly("aaa");
-			Check.That(rec.EventInfos)
-				.HasSize(1);
+            rec.Reset();
 
-			var info1 = rec.EventInfos[0];
+            Check.That(rec.IsPaused).IsFalse();
+            Check.That(rec.Count).IsEqualTo(0);
+        }
 
-			Check.That(info1.Value)
-				.IsEqualTo("aaa");
-			Check.That(info1.Index)
-				.IsEqualTo(0);
-			Check.That(info1.Timestamp - DateTimeOffset.Now)
-				.IsLessThan(TimeSpan.FromMilliseconds(500));
-			Check.That(info1.TimeOffset)
-				.IsEqualTo(TimeSpan.Zero);
-			Check.That(info1.Thread)
-				.IsEqualTo(Thread.CurrentThread);
-		}
-	}
+        [Test]
+        public void Dispose()
+        {
+            using var             src = new EventSource<String>();
+            EventRecorder<String> rec = EventRecorder.From(src.Event);
+
+            src.Invoke("aaa");
+            rec.Dispose();
+            src.Invoke("bbb");
+
+            Check.That(rec.Count).IsEqualTo(1);
+            Check.That(rec.Events).ContainsExactly("aaa");
+            Check.That(rec.EventInfos).HasSize(1);
+
+            var info1 = rec.EventInfos[0];
+
+            Check.That(info1.Value).IsEqualTo("aaa");
+            Check.That(info1.Index).IsEqualTo(0);
+            Check.That(info1.Timestamp - DateTimeOffset.Now).IsLessThan(TimeSpan.FromMilliseconds(500));
+            Check.That(info1.TimeOffset).IsEqualTo(TimeSpan.Zero);
+            Check.That(info1.Thread).IsEqualTo(Thread.CurrentThread);
+        }
+    }
 }

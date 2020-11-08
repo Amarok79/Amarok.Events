@@ -33,167 +33,176 @@ using NUnit.Framework;
 
 namespace Amarok.Events
 {
-	[TestFixture]
-	public class Test_Documentation
-	{
-		public interface IFooService
-		{
-			Event<Int32> Progress { get; }
-		}
+    [TestFixture]
+    public class Test_Documentation
+    {
+        public interface IFooService
+        {
+            Event<Int32> Progress { get; }
+        }
 
-		internal sealed class FooServiceImpl :
-			IFooService
-		{
-			private readonly EventSource<Int32> mProgressEventSource = new EventSource<Int32>();
-
-
-			public Event<Int32> Progress => mProgressEventSource.Event;
+        internal sealed class FooServiceImpl : IFooService
+        {
+            private readonly EventSource<Int32> mProgressEventSource = new EventSource<Int32>();
 
 
-			public void DoSomething()
-			{
-				// raises the event
-				mProgressEventSource.Invoke(50);
-			}
-		}
+            public Event<Int32> Progress => mProgressEventSource.Event;
 
 
-		[Test]
-		public void Example1()
-		{
-			FooServiceImpl serviceImpl = new FooServiceImpl();
-			IFooService service = serviceImpl;
+            public void DoSomething()
+            {
+                // raises the event
+                mProgressEventSource.Invoke(50);
+            }
+        }
 
-			IDisposable subscription = service.Progress.Subscribe(
-				x => Console.WriteLine(x + "%")
-			);
 
-			serviceImpl.DoSomething();
-			// console output:	50%
+        [Test]
+        public void Example1()
+        {
+            var         serviceImpl = new FooServiceImpl();
+            IFooService service     = serviceImpl;
 
-			GC.KeepAlive(subscription);
-		}
+            var subscription = service.Progress.Subscribe(x => Console.WriteLine(x + "%"));
 
-		[Test]
-		public void Example2()
-		{
-			FooServiceImpl serviceImpl = new FooServiceImpl();
-			IFooService service = serviceImpl;
+            serviceImpl.DoSomething();
 
-			IDisposable subscription = service.Progress.Subscribe(
-				x => Console.WriteLine(x + "%")
-			);
+            // console output:	50%
 
-			serviceImpl.DoSomething();
-			// console output:	50%
+            GC.KeepAlive(subscription);
+        }
 
-			subscription.Dispose();
+        [Test]
+        public void Example2()
+        {
+            var         serviceImpl = new FooServiceImpl();
+            IFooService service     = serviceImpl;
 
-			serviceImpl.DoSomething();
-		}
+            var subscription = service.Progress.Subscribe(x => Console.WriteLine(x + "%"));
 
-		[Test]
-		public void Example3()
-		{
-			using var source = new EventSource<String>();
+            serviceImpl.DoSomething();
 
-			source.Event.Subscribe(x => Console.WriteLine(x + "1"));
-			source.Event.Subscribe(x => Console.WriteLine(x + "2"));
+            // console output:	50%
 
-			Console.WriteLine("A");
-			source.Invoke("B");
-			Console.WriteLine("C");
+            subscription.Dispose();
 
-			// output:
-			//	A
-			//	B1
-			//	B2
-			//	C
-		}
+            serviceImpl.DoSomething();
+        }
 
-		[Test]
-		public void Example4()
-		{
-			using var source = new EventSource<String>();
+        [Test]
+        public void Example3()
+        {
+            using var source = new EventSource<String>();
 
-			source.Event.Subscribe(async x => {     // async event handler
-				await Task.Delay(10);
-				Console.WriteLine(x + "1");
-			});
+            source.Event.Subscribe(x => Console.WriteLine(x + "1"));
+            source.Event.Subscribe(x => Console.WriteLine(x + "2"));
 
-			source.Event.Subscribe(async x => {     // async event handler
-				await Task.Delay(50);
-				Console.WriteLine(x + "2");
-			});
+            Console.WriteLine("A");
+            source.Invoke("B");
+            Console.WriteLine("C");
 
-			Console.WriteLine("A");
-			source.Invoke("B");
-			Console.WriteLine("C");
+            // output:
+            //	A
+            //	B1
+            //	B2
+            //	C
+        }
 
-			Thread.Sleep(500);
+        [Test]
+        public void Example4()
+        {
+            using var source = new EventSource<String>();
 
-			// output:
-			//	A
-			//	C
-			//	B1
-			//	B2
-		}
+            source.Event.Subscribe(
+                async x => {
+                    // async event handler
+                    await Task.Delay(10);
+                    Console.WriteLine(x + "1");
+                }
+            );
 
-		[Test]
-		public async Task Example5()
-		{
-			using var source = new EventSource<String>();
+            source.Event.Subscribe(
+                async x => {
+                    // async event handler
+                    await Task.Delay(50);
+                    Console.WriteLine(x + "2");
+                }
+            );
 
-			source.Event.Subscribe(async x => {     // async event handler
-				await Task.Delay(10);
-				Console.WriteLine(x + "1");
-			});
+            Console.WriteLine("A");
+            source.Invoke("B");
+            Console.WriteLine("C");
 
-			source.Event.Subscribe(async x => {     // async event handler
-				await Task.Delay(50);
-				Console.WriteLine(x + "2");
-			});
+            Thread.Sleep(500);
 
-			Console.WriteLine("A");
-			await source.InvokeAsync("B");
-			Console.WriteLine("C");
+            // output:
+            //	A
+            //	C
+            //	B1
+            //	B2
+        }
 
-			// output:
-			//	A
-			//	B1
-			//	B2
-			//	C
-		}
+        [Test]
+        public async Task Example5()
+        {
+            using var source = new EventSource<String>();
 
-		[Test]
-		public async Task Example6()
-		{
-			using var source = new EventSource<String>();
+            source.Event.Subscribe(
+                async x => {
+                    // async event handler
+                    await Task.Delay(10);
+                    Console.WriteLine(x + "1");
+                }
+            );
 
-			source.Event.Subscribe(x => Console.WriteLine(x + "1"));
-			source.Event.Subscribe(x => Console.WriteLine(x + "2"));
+            source.Event.Subscribe(
+                async x => {
+                    // async event handler
+                    await Task.Delay(50);
+                    Console.WriteLine(x + "2");
+                }
+            );
 
-			Console.WriteLine("A");
-			await source.InvokeAsync("B");
-			Console.WriteLine("C");
+            Console.WriteLine("A");
+            await source.InvokeAsync("B");
+            Console.WriteLine("C");
 
-			// output:
-			//	A
-			//	B1
-			//	B2
-			//	C
-		}
+            // output:
+            //	A
+            //	B1
+            //	B2
+            //	C
+        }
 
-		[Test]
-		public void Example7()
-		{
-			using var source = new EventSource<String>();
+        [Test]
+        public async Task Example6()
+        {
+            using var source = new EventSource<String>();
 
-			source.Event.Subscribe(x => Console.WriteLine(x + "1"));
+            source.Event.Subscribe(x => Console.WriteLine(x + "1"));
+            source.Event.Subscribe(x => Console.WriteLine(x + "2"));
 
-			Console.WriteLine("A");
-			source.Invoke("B");
-			Console.WriteLine("C");
-		}
-	}
+            Console.WriteLine("A");
+            await source.InvokeAsync("B");
+            Console.WriteLine("C");
+
+            // output:
+            //	A
+            //	B1
+            //	B2
+            //	C
+        }
+
+        [Test]
+        public void Example7()
+        {
+            using var source = new EventSource<String>();
+
+            source.Event.Subscribe(x => Console.WriteLine(x + "1"));
+
+            Console.WriteLine("A");
+            source.Invoke("B");
+            Console.WriteLine("C");
+        }
+    }
 }

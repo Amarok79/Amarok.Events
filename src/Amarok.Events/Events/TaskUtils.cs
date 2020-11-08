@@ -28,9 +28,9 @@ using System.Threading.Tasks;
 
 namespace Amarok.Events
 {
-	internal static class TaskUtils
-	{
-		public static readonly Task<Boolean> TrueTask = Task.FromResult(true);
-		public static readonly Task<Boolean> FalseTask = Task.FromResult(false);
-	}
+    internal static class TaskUtils
+    {
+        public static readonly Task<Boolean> TrueTask = Task.FromResult(true);
+        public static readonly Task<Boolean> FalseTask = Task.FromResult(false);
+    }
 }

@@ -28,30 +28,29 @@ using System.Diagnostics;
 
 namespace Amarok.Events
 {
-	/// <summary>
-	/// Implementation class that represents a null subscription.
-	/// </summary>
-	[DebuggerStepThrough]
-	internal sealed class NullSubscription :
-		IDisposable
-	{
-		public static readonly IDisposable Instance = new NullSubscription();
+    /// <summary>
+    ///     Implementation class that represents a null subscription.
+    /// </summary>
+    [DebuggerStepThrough]
+    internal sealed class NullSubscription : IDisposable
+    {
+        public static readonly IDisposable Instance = new NullSubscription();
 
 
-		private NullSubscription()
-		{
-			// shouldn't be construct-able; use static Instance instead
-		}
+        private NullSubscription()
+        {
+            // shouldn't be construct-able; use static Instance instead
+        }
 
 
-		public void Dispose()
-		{
-			// intentionally left empty
-		}
+        public void Dispose()
+        {
+            // intentionally left empty
+        }
 
-		public override String ToString()
-		{
-			return "⇒ <null>";
-		}
-	}
+        public override String ToString()
+        {
+            return "⇒ <null>";
+        }
+    }
 }

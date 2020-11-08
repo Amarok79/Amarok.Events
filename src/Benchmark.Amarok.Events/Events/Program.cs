@@ -27,11 +27,11 @@ using BenchmarkDotNet.Running;
 
 namespace Amarok.Events
 {
-	public static class Program
-	{
-		public static void Main()
-		{
-			BenchmarkRunner.Run<Benchmarks>();
-		}
-	}
+    public static class Program
+    {
+        public static void Main()
+        {
+            BenchmarkRunner.Run<Benchmarks>();
+        }
+    }
 }
