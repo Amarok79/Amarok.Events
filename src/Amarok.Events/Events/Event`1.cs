@@ -37,7 +37,7 @@ namespace Amarok.Events
     {
         // a reference to the owning event source; can be null
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly EventSource<T> mSource;
+        private readonly EventSource<T>? mSource;
 
 
         #region ++ Public Interface ++
@@ -46,7 +46,7 @@ namespace Amarok.Events
         ///     Gets a reference to the owning <see cref="EventSource{T}"/>, or null if this <see cref="Event{T}"/> isn't
         ///     associated with an <see cref="EventSource{T}"/>. See also <see cref="HasSource"/>.
         /// </summary>
-        public readonly EventSource<T> Source => mSource;
+        public readonly EventSource<T>? Source => mSource;
 
         /// <summary>
         ///     Gets a boolean value indicating whether this <see cref="Event{T}"/> is associated with an
