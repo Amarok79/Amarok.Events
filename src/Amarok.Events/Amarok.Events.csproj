@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<ProjectGuid>{1FCE1A28-F159-49EA-8F47-92A5FDFFAFDE}</ProjectGuid>
-		<TargetFramework>netstandard2.0</TargetFramework>
+		<TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
 		<RootNamespace>Amarok</RootNamespace>
 		<Version>1.3.0</Version>
 		<Authors>Olaf Kober</Authors>
@@ -25,6 +25,7 @@
 		<IncludeSymbols>true</IncludeSymbols>
 		<IncludeSource>true</IncludeSource>
 		<Nullable>enable</Nullable>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

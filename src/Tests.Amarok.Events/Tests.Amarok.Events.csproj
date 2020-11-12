@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<ProjectGuid>{22B0507E-5916-435D-8D47-2E5E06C00FB5}</ProjectGuid>
-		<TargetFrameworks>netcoreapp2.1;netcoreapp3.1;net48</TargetFrameworks>
+		<TargetFrameworks>netcoreapp2.1;netcoreapp3.1;net48;net5.0</TargetFrameworks>
 		<RootNamespace>Amarok</RootNamespace>
 		<SignAssembly>true</SignAssembly>
 		<AssemblyOriginatorKeyFile>..\amarok.snk</AssemblyOriginatorKeyFile>
