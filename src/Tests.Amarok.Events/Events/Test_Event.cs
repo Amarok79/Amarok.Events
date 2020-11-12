@@ -425,16 +425,12 @@ namespace Amarok.Events
                 Check.That(evt1.Equals(new Event<String>(src1))).IsTrue();
                 Check.That(evt1.Equals(new Event<String>(src2))).IsFalse();
 
-                Check.That(evt1 == null).IsFalse();
-                Check.That(null == evt1).IsFalse();
                 Check.That(evt1 == new Event<String>()).IsFalse();
                 Check.That(evt1 == evt1).IsTrue();
                 Check.That(evt1 == evt2).IsFalse();
                 Check.That(evt1 == new Event<String>(src1)).IsTrue();
                 Check.That(evt1 == new Event<String>(src2)).IsFalse();
 
-                Check.That(evt1 != null).Not.IsFalse();
-                Check.That(null != evt1).Not.IsFalse();
                 Check.That(evt1 != new Event<String>()).Not.IsFalse();
                 Check.That(evt1 != evt1).Not.IsTrue();
                 Check.That(evt1 != evt2).Not.IsFalse();
