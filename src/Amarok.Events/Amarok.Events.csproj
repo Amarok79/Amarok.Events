@@ -21,7 +21,7 @@
 		<SignAssembly>true</SignAssembly>
 		<AssemblyOriginatorKeyFile>..\amarok.snk</AssemblyOriginatorKeyFile>
 		<DelaySign>false</DelaySign>
-		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
 		<IncludeSymbols>true</IncludeSymbols>
 		<IncludeSource>true</IncludeSource>
 		<Nullable>enable</Nullable>
