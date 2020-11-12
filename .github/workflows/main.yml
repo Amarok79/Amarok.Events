@@ -25,6 +25,11 @@ jobs:
         with:
           dotnet-version: 3.1.x        
       
+      - name: Installing .NET 5.0...
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.x        
+
       - name: Getting sources...
         uses: actions/checkout@v2
 
