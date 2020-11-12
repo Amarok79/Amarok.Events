@@ -58,7 +58,7 @@ namespace Amarok.Events
         /// <exception cref="ArgumentNullException">
         ///     A null reference was passed to a method that did not accept it as a valid argument.
         /// </exception>
-        public static void NotifyUnobservedException(Exception exception)
+        public static void NotifyUnobservedException(Exception? exception)
         {
             if (exception == null)
                 throw new ArgumentNullException(nameof(exception));

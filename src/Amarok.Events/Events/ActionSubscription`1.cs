@@ -53,7 +53,7 @@ namespace Amarok.Events
         /// <summary>
         ///     For better debugging experience.
         /// </summary>
-        public Object Target => mAction.Target;
+        public Object? Target => mAction.Target;
 
         /// <summary>
         ///     For better debugging experience.
@@ -120,7 +120,7 @@ namespace Amarok.Events
         /// </summary>
         public override String ToString()
         {
-            return $"⇒ {mAction.Method.DeclaringType.FullName}.{mAction.Method.Name}()";
+            return $"⇒ {mAction.Method.DeclaringType?.FullName}.{mAction.Method.Name}()";
         }
 
 

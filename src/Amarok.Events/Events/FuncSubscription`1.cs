@@ -53,7 +53,7 @@ namespace Amarok.Events
         /// <summary>
         ///     For better debugging experience.
         /// </summary>
-        public Object Target => mFunc.Target;
+        public Object? Target => mFunc.Target;
 
         /// <summary>
         ///     For better debugging experience.
@@ -90,7 +90,7 @@ namespace Amarok.Events
                 return;
 
             task.ContinueWith(
-                x => EventSystem.NotifyUnobservedException(x.Exception.InnerException),
+                x => EventSystem.NotifyUnobservedException(x.Exception?.InnerException),
                 TaskContinuationOptions.ExecuteSynchronously | TaskContinuationOptions.OnlyOnFaulted
             );
         }
@@ -128,7 +128,7 @@ namespace Amarok.Events
         /// </summary>
         public override String ToString()
         {
-            return $"⇒ async {mFunc.Method.DeclaringType.FullName}.{mFunc.Method.Name}()";
+            return $"⇒ async {mFunc.Method.DeclaringType?.FullName}.{mFunc.Method.Name}()";
         }
 
 

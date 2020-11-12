@@ -22,8 +22,6 @@
  * SOFTWARE.
 */
 
-#pragma warning disable S2221 // "Exception" should not be caught when not required by called methods
-
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -109,7 +107,7 @@ namespace Amarok.Events
             );
 
             // cancel subscriptions
-            ImmutableArray<Subscription<T>> subscriptions;
+            ImmutableArray<Subscription<T>> subscriptions = default;
             ImmutableInterlocked.InterlockedExchange(ref subscriptions, mSubscriptions);
 
             for (var i = 0; i < subscriptions.Length; i++)
@@ -143,7 +141,7 @@ namespace Amarok.Events
         {
             get
             {
-                ImmutableArray<Subscription<T>> subscriptions;
+                ImmutableArray<Subscription<T>> subscriptions = default;
                 ImmutableInterlocked.InterlockedExchange(ref subscriptions, mSubscriptions);
 
                 return subscriptions.Length;
@@ -201,7 +199,7 @@ namespace Amarok.Events
             if (mIsDisposed)
                 return false;
 
-            ImmutableArray<Subscription<T>> subscriptions;
+            ImmutableArray<Subscription<T>> subscriptions = default;
             ImmutableInterlocked.InterlockedExchange(ref subscriptions, mSubscriptions);
 
             if (subscriptions.Length == 0)
@@ -251,7 +249,7 @@ namespace Amarok.Events
             if (mIsDisposed)
                 return false;
 
-            ImmutableArray<Subscription<T>> subscriptions;
+            ImmutableArray<Subscription<T>> subscriptions = default;
             ImmutableInterlocked.InterlockedExchange(ref subscriptions, mSubscriptions);
 
             if (subscriptions.Length == 0)
@@ -305,7 +303,7 @@ namespace Amarok.Events
             if (mIsDisposed)
                 return false;
 
-            ImmutableArray<Subscription<T>> subscriptions;
+            ImmutableArray<Subscription<T>> subscriptions = default;
             ImmutableInterlocked.InterlockedExchange(ref subscriptions, mSubscriptions);
 
             if (subscriptions.Length == 0)
@@ -362,7 +360,7 @@ namespace Amarok.Events
             if (mIsDisposed)
                 return false;
 
-            ImmutableArray<Subscription<T>> subscriptions;
+            ImmutableArray<Subscription<T>> subscriptions = default;
             ImmutableInterlocked.InterlockedExchange(ref subscriptions, mSubscriptions);
 
             if (subscriptions.Length == 0)
@@ -427,7 +425,7 @@ namespace Amarok.Events
             if (mIsDisposed)
                 return false;
 
-            ImmutableArray<Subscription<T>> subscriptions;
+            ImmutableArray<Subscription<T>> subscriptions = default;
             ImmutableInterlocked.InterlockedExchange(ref subscriptions, mSubscriptions);
 
             if (subscriptions.Length == 0)
@@ -493,7 +491,7 @@ namespace Amarok.Events
             if (mIsDisposed)
                 return new ValueTask<Boolean>(TaskUtils.FalseTask);
 
-            ImmutableArray<Subscription<T>> subscriptions;
+            ImmutableArray<Subscription<T>> subscriptions = default;
             ImmutableInterlocked.InterlockedExchange(ref subscriptions, mSubscriptions);
 
             if (subscriptions.Length == 0)
@@ -544,7 +542,7 @@ namespace Amarok.Events
             if (mIsDisposed)
                 return new ValueTask<Boolean>(TaskUtils.FalseTask);
 
-            ImmutableArray<Subscription<T>> subscriptions;
+            ImmutableArray<Subscription<T>> subscriptions = default;
             ImmutableInterlocked.InterlockedExchange(ref subscriptions, mSubscriptions);
 
             if (subscriptions.Length == 0)
@@ -600,7 +598,7 @@ namespace Amarok.Events
             if (mIsDisposed)
                 return new ValueTask<Boolean>(TaskUtils.FalseTask);
 
-            ImmutableArray<Subscription<T>> subscriptions;
+            ImmutableArray<Subscription<T>> subscriptions = default;
             ImmutableInterlocked.InterlockedExchange(ref subscriptions, mSubscriptions);
 
             if (subscriptions.Length == 0)
@@ -659,7 +657,7 @@ namespace Amarok.Events
             if (mIsDisposed)
                 return new ValueTask<Boolean>(TaskUtils.FalseTask);
 
-            ImmutableArray<Subscription<T>> subscriptions;
+            ImmutableArray<Subscription<T>> subscriptions = default;
             ImmutableInterlocked.InterlockedExchange(ref subscriptions, mSubscriptions);
 
             if (subscriptions.Length == 0)
@@ -726,7 +724,7 @@ namespace Amarok.Events
             if (mIsDisposed)
                 return new ValueTask<Boolean>(TaskUtils.FalseTask);
 
-            ImmutableArray<Subscription<T>> subscriptions;
+            ImmutableArray<Subscription<T>> subscriptions = default;
             ImmutableInterlocked.InterlockedExchange(ref subscriptions, mSubscriptions);
 
             if (subscriptions.Length == 0)
@@ -751,7 +749,7 @@ namespace Amarok.Events
                     if (valueTask.IsCompleted)
                     {
                         if (valueTask.IsFaulted)
-                            EventSystem.NotifyUnobservedException(task.Exception.InnerException);
+                            EventSystem.NotifyUnobservedException(task.Exception?.InnerException);
                     }
                     else
                     {
@@ -781,7 +779,7 @@ namespace Amarok.Events
                 .ContinueWith(
                      _tasks => {
                          if (_tasks.IsFaulted)
-                             EventSystem.NotifyUnobservedException(_tasks.Exception.InnerException);
+                             EventSystem.NotifyUnobservedException(_tasks.Exception?.InnerException);
 
                          taskCompletionSource.SetResult(true);
                      },
