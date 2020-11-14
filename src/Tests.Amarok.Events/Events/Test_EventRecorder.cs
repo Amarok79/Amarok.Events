@@ -104,9 +104,9 @@ namespace Amarok.Events
             EventRecorder<String> rec = EventRecorder.From(src.Event);
 
             src.Invoke("aaa");
-            Thread.Sleep(50);
+            Thread.Sleep(200);
             src.Invoke("bbb");
-            Thread.Sleep(50);
+            Thread.Sleep(200);
             src.Invoke("ccc");
 
             Check.That(rec.IsPaused).IsFalse();
@@ -130,8 +130,8 @@ namespace Amarok.Events
             Check.That(info2.Timestamp - DateTimeOffset.Now).IsLessThan(TimeSpan.FromMilliseconds(500));
 
             Check.That(info2.TimeOffset)
-                 .IsLessThan(TimeSpan.FromMilliseconds(100))
-                 .And.IsGreaterThan(TimeSpan.FromMilliseconds(40));
+                 .IsLessThan(TimeSpan.FromMilliseconds(500))
+                 .And.IsGreaterThan(TimeSpan.FromMilliseconds(200));
 
             Check.That(info2.Thread).IsEqualTo(Thread.CurrentThread);
 
@@ -140,8 +140,8 @@ namespace Amarok.Events
             Check.That(info3.Timestamp - DateTimeOffset.Now).IsLessThan(TimeSpan.FromMilliseconds(500));
 
             Check.That(info3.TimeOffset)
-                 .IsLessThan(TimeSpan.FromMilliseconds(75))
-                 .And.IsGreaterThan(TimeSpan.FromMilliseconds(40));
+                 .IsLessThan(TimeSpan.FromMilliseconds(500))
+                 .And.IsGreaterThan(TimeSpan.FromMilliseconds(200));
 
             Check.That(info3.Thread).IsEqualTo(Thread.CurrentThread);
 
