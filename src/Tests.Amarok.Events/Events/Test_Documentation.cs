@@ -22,9 +22,6 @@
  * SOFTWARE.
  */
 
-#pragma warning disable S2931 // Classes with "IDisposable" members should implement "IDisposable"
-#pragma warning disable S2699 // Tests should include assertions
-
 using System;
 using System.Threading;
 using System.Threading.Tasks;

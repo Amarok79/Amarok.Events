@@ -22,9 +22,6 @@
  * SOFTWARE.
  */
 
-#pragma warning disable S1694 // An abstract class should have both abstract and concrete methods
-#pragma warning disable S3881 // "IDisposable" should be implemented correctly
-
 using System;
 using System.Threading.Tasks;
 

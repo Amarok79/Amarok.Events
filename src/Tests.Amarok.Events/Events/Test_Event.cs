@@ -23,7 +23,6 @@
  */
 
 #pragma warning disable CS1718 // Comparison made to same variable
-#pragma warning disable S1764  // Identical expressions should not be used on both sides of a binary operator
 
 using System;
 using System.Threading.Tasks;

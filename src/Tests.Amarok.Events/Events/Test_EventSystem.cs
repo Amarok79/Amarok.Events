@@ -23,7 +23,6 @@
  */
 
 using System;
-using NCrunch.Framework;
 using NFluent;
 using NUnit.Framework;
 
@@ -41,7 +40,7 @@ namespace Amarok.Events
                  .WithProperty(x => x.ParamName, "exception");
         }
 
-        [Test, Serial]
+        [Test]
         public void NotifyUnobservedException_RaisesEvent()
         {
             var       called    = 0;

@@ -22,8 +22,6 @@
  * SOFTWARE.
  */
 
-#pragma warning disable S2365 // Properties should not make collection or array copies
-
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
