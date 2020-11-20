@@ -5,7 +5,6 @@
     "test-projects": [
       "src/Tests.Amarok.Events/Tests.Amarok.Events.csproj"
     ],
-    "test-runner": "dotnettest",
     "mutate-level": "Standard",
     "coverage-analysis": "perTest",
     "log-level": "info",
