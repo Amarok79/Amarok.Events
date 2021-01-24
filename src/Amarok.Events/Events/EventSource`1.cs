@@ -776,15 +776,15 @@ namespace Amarok.Events
             var taskCompletionSource = new TaskCompletionSource<Boolean>();
 
             Task.WhenAll(tasks)
-                .ContinueWith(
-                     _tasks => {
-                         if (_tasks.IsFaulted)
-                             EventSystem.NotifyUnobservedException(_tasks.Exception?.InnerException);
+               .ContinueWith(
+                    _tasks => {
+                        if (_tasks.IsFaulted)
+                            EventSystem.NotifyUnobservedException(_tasks.Exception?.InnerException);
 
-                         taskCompletionSource.SetResult(true);
-                     },
-                     TaskContinuationOptions.ExecuteSynchronously
-                 );
+                        taskCompletionSource.SetResult(true);
+                    },
+                    TaskContinuationOptions.ExecuteSynchronously
+                );
 
             return new ValueTask<Boolean>(taskCompletionSource.Task);
         }

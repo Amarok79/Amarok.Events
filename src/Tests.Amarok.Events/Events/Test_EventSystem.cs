@@ -36,8 +36,8 @@ namespace Amarok.Events
         public void NotifyUnobservedException_ThrowsForNullException()
         {
             Check.ThatCode(() => EventSystem.NotifyUnobservedException(null))
-                 .Throws<ArgumentNullException>()
-                 .WithProperty(x => x.ParamName, "exception");
+               .Throws<ArgumentNullException>()
+               .WithProperty(x => x.ParamName, "exception");
         }
 
         [Test]

@@ -133,8 +133,8 @@ namespace Amarok.Events
                 using var src = new EventSource<String>();
 
                 Check.ThatCode(() => src.Event.Subscribe((Action<String>) null))
-                     .Throws<ArgumentNullException>()
-                     .WithProperty(x => x.ParamName, "action");
+                   .Throws<ArgumentNullException>()
+                   .WithProperty(x => x.ParamName, "action");
             }
         }
 
@@ -214,8 +214,8 @@ namespace Amarok.Events
                 using var src = new EventSource<String>();
 
                 Check.ThatCode(() => src.Event.SubscribeWeak((Action<String>) null))
-                     .Throws<ArgumentNullException>()
-                     .WithProperty(x => x.ParamName, "action");
+                   .Throws<ArgumentNullException>()
+                   .WithProperty(x => x.ParamName, "action");
             }
         }
 
@@ -295,8 +295,8 @@ namespace Amarok.Events
                 using var src = new EventSource<String>();
 
                 Check.ThatCode(() => src.Event.Subscribe((Func<String, Task>) null))
-                     .Throws<ArgumentNullException>()
-                     .WithProperty(x => x.ParamName, "func");
+                   .Throws<ArgumentNullException>()
+                   .WithProperty(x => x.ParamName, "func");
             }
         }
 
@@ -376,8 +376,8 @@ namespace Amarok.Events
                 using var src = new EventSource<String>();
 
                 Check.ThatCode(() => src.Event.SubscribeWeak((Func<String, Task>) null))
-                     .Throws<ArgumentNullException>()
-                     .WithProperty(x => x.ParamName, "func");
+                   .Throws<ArgumentNullException>()
+                   .WithProperty(x => x.ParamName, "func");
             }
         }
 

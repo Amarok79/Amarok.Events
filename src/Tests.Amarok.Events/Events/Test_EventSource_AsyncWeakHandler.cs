@@ -82,7 +82,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
                 Check.That(( (FuncSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 var flag1 = service.Do("abc");
 
@@ -120,7 +120,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
                 Check.That(( (FuncSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 var flag1 = service.Do("abc");
 
@@ -156,7 +156,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
                 Check.That(( (FuncSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 var flag1 = service.Do("abc");
 
@@ -190,7 +190,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
                 Check.That(( (FuncSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Exception exception = null;
 
@@ -231,7 +231,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
                 Check.That(( (FuncSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Exception exception = null;
 
@@ -270,7 +270,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
                 Check.That(( (FuncSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Exception exception = null;
 
@@ -311,7 +311,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
                 Check.That(( (FuncSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 var strongSub = (FuncSubscription<String>) subscription;
                 var weakSub   = (WeakSubscription<String>) strongSub.TestingGetPreviousSubscription();
@@ -358,7 +358,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
                 Check.That(( (FuncSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 var flag1 = await service.DoAsync("abc");
 
@@ -396,7 +396,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
                 Check.That(( (FuncSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 var flag1 = await service.DoAsync("abc");
 
@@ -428,7 +428,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
                 Check.That(( (FuncSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 var flag1 = await service.DoAsync("abc");
 
@@ -462,7 +462,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
                 Check.That(( (FuncSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Exception exception = null;
 
@@ -503,7 +503,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
                 Check.That(( (FuncSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Exception exception = null;
 
@@ -542,7 +542,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
                 Check.That(( (FuncSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Exception exception = null;
 
@@ -583,7 +583,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
                 Check.That(( (FuncSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 var strongSub = (FuncSubscription<String>) subscription;
                 var weakSub   = (WeakSubscription<String>) strongSub.TestingGetPreviousSubscription();

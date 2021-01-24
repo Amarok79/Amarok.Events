@@ -142,10 +142,10 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription().ToString())
-                     .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
+                   .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
                 var flag1 = service.Do("abc");
 
@@ -197,19 +197,19 @@ namespace Amarok.Events
                 Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription().ToString())
-                     .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
+                   .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
                 Check.That(subscription2).IsNotNull();
                 Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription().ToString())
-                     .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
+                   .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
                 Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -272,19 +272,19 @@ namespace Amarok.Events
                 Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription().ToString())
-                     .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
+                   .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
                 Check.That(subscription2).IsNotNull();
                 Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription().ToString())
-                     .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
+                   .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
                 Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -331,10 +331,10 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription().ToString())
-                     .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
+                   .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
                 var strongSub = (ActionSubscription<String>) subscription;
                 var weakSub   = (WeakSubscription<String>) strongSub.TestingGetPreviousSubscription();
@@ -380,10 +380,10 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription().ToString())
-                     .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
+                   .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
                 subscription.Dispose();
 
@@ -419,10 +419,10 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription().ToString())
-                     .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
+                   .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
                 service.ChangedSource.Dispose();
 
@@ -485,7 +485,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 var factoryCalled = 0;
 
@@ -555,13 +555,13 @@ namespace Amarok.Events
                 Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).IsNotNull();
                 Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -642,13 +642,13 @@ namespace Amarok.Events
                 Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).IsNotNull();
                 Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -704,7 +704,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 var strongSub = (ActionSubscription<String>) subscription;
                 var weakSub   = (WeakSubscription<String>) strongSub.TestingGetPreviousSubscription();
@@ -766,7 +766,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 subscription.Dispose();
 
@@ -811,7 +811,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 service.ChangedSource.Dispose();
 
@@ -843,8 +843,8 @@ namespace Amarok.Events
                 var service = new FooService();
 
                 Check.ThatCode(() => service.Do((Func<String>) null))
-                     .Throws<ArgumentNullException>()
-                     .WithProperty(x => x.ParamName, "valueFactory");
+                   .Throws<ArgumentNullException>()
+                   .WithProperty(x => x.ParamName, "valueFactory");
             }
         }
 
@@ -894,7 +894,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 var factoryCalled = 0;
                 var fa            = 0;
@@ -972,13 +972,13 @@ namespace Amarok.Events
                 Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).IsNotNull();
                 Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -1067,13 +1067,13 @@ namespace Amarok.Events
                 Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).IsNotNull();
                 Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -1133,7 +1133,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 var strongSub = (ActionSubscription<String>) subscription;
                 var weakSub   = (WeakSubscription<String>) strongSub.TestingGetPreviousSubscription();
@@ -1203,7 +1203,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 subscription.Dispose();
 
@@ -1249,7 +1249,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 service.ChangedSource.Dispose();
 
@@ -1282,8 +1282,8 @@ namespace Amarok.Events
                 var service = new FooService();
 
                 Check.ThatCode(() => service.Do(null, 123))
-                     .Throws<ArgumentNullException>()
-                     .WithProperty(x => x.ParamName, "valueFactory");
+                   .Throws<ArgumentNullException>()
+                   .WithProperty(x => x.ParamName, "valueFactory");
             }
         }
 
@@ -1334,7 +1334,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 var factoryCalled = 0;
                 var fa            = 0;
@@ -1420,13 +1420,13 @@ namespace Amarok.Events
                 Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).IsNotNull();
                 Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -1523,13 +1523,13 @@ namespace Amarok.Events
                 Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).IsNotNull();
                 Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -1593,7 +1593,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 var strongSub = (ActionSubscription<String>) subscription;
                 var weakSub   = (WeakSubscription<String>) strongSub.TestingGetPreviousSubscription();
@@ -1671,7 +1671,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 subscription.Dispose();
 
@@ -1718,7 +1718,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 service.ChangedSource.Dispose();
 
@@ -1752,8 +1752,8 @@ namespace Amarok.Events
                 var service = new FooService();
 
                 Check.ThatCode(() => service.Do(null, 123, 1.2))
-                     .Throws<ArgumentNullException>()
-                     .WithProperty(x => x.ParamName, "valueFactory");
+                   .Throws<ArgumentNullException>()
+                   .WithProperty(x => x.ParamName, "valueFactory");
             }
         }
 
@@ -1805,7 +1805,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 var factoryCalled = 0;
                 var fa            = 0;
@@ -1899,13 +1899,13 @@ namespace Amarok.Events
                 Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).IsNotNull();
                 Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -2010,13 +2010,13 @@ namespace Amarok.Events
                 Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).IsNotNull();
                 Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -2084,7 +2084,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 var strongSub = (ActionSubscription<String>) subscription;
                 var weakSub   = (WeakSubscription<String>) strongSub.TestingGetPreviousSubscription();
@@ -2170,7 +2170,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 subscription.Dispose();
 
@@ -2218,7 +2218,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 service.ChangedSource.Dispose();
 
@@ -2253,8 +2253,8 @@ namespace Amarok.Events
                 var service = new FooService();
 
                 Check.ThatCode(() => service.Do(null, 123, 1.2, 'a'))
-                     .Throws<ArgumentNullException>()
-                     .WithProperty(x => x.ParamName, "valueFactory");
+                   .Throws<ArgumentNullException>()
+                   .WithProperty(x => x.ParamName, "valueFactory");
             }
         }
 
@@ -2292,7 +2292,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 var flag1 = await service.DoAsync("abc");
 
@@ -2339,12 +2339,12 @@ namespace Amarok.Events
                 Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -2402,12 +2402,12 @@ namespace Amarok.Events
                 Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -2450,7 +2450,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 var strongSub = (ActionSubscription<String>) subscription;
                 var weakSub   = (WeakSubscription<String>) strongSub.TestingGetPreviousSubscription();
@@ -2493,7 +2493,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 subscription.Dispose();
 
@@ -2524,7 +2524,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 service.ChangedSource.Dispose();
 
@@ -2578,7 +2578,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 var factoryCalled = 0;
 
@@ -2643,12 +2643,12 @@ namespace Amarok.Events
                 Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -2724,12 +2724,12 @@ namespace Amarok.Events
                 Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -2781,7 +2781,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 var strongSub = (ActionSubscription<String>) subscription;
                 var weakSub   = (WeakSubscription<String>) strongSub.TestingGetPreviousSubscription();
@@ -2842,7 +2842,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 subscription.Dispose();
 
@@ -2882,7 +2882,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 service.ChangedSource.Dispose();
 
@@ -2910,8 +2910,8 @@ namespace Amarok.Events
                 var service = new FooService();
 
                 Check.ThatAsyncCode(async () => await service.DoAsync((Func<String>) null))
-                     .Throws<ArgumentNullException>()
-                     .WithProperty(x => x.ParamName, "valueFactory");
+                   .Throws<ArgumentNullException>()
+                   .WithProperty(x => x.ParamName, "valueFactory");
             }
         }
 
@@ -2956,7 +2956,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 var factoryCalled = 0;
                 var fa            = 0;
@@ -3029,12 +3029,12 @@ namespace Amarok.Events
                 Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -3118,12 +3118,12 @@ namespace Amarok.Events
                 Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -3179,7 +3179,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 var strongSub = (ActionSubscription<String>) subscription;
                 var weakSub   = (WeakSubscription<String>) strongSub.TestingGetPreviousSubscription();
@@ -3248,7 +3248,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 subscription.Dispose();
 
@@ -3289,7 +3289,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 service.ChangedSource.Dispose();
 
@@ -3318,8 +3318,8 @@ namespace Amarok.Events
                 var service = new FooService();
 
                 Check.ThatAsyncCode(async () => await service.DoAsync(null, 123))
-                     .Throws<ArgumentNullException>()
-                     .WithProperty(x => x.ParamName, "valueFactory");
+                   .Throws<ArgumentNullException>()
+                   .WithProperty(x => x.ParamName, "valueFactory");
             }
         }
 
@@ -3365,7 +3365,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 var factoryCalled = 0;
                 var fa            = 0;
@@ -3446,12 +3446,12 @@ namespace Amarok.Events
                 Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -3543,12 +3543,12 @@ namespace Amarok.Events
                 Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -3608,7 +3608,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 var strongSub = (ActionSubscription<String>) subscription;
                 var weakSub   = (WeakSubscription<String>) strongSub.TestingGetPreviousSubscription();
@@ -3684,7 +3684,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 subscription.Dispose();
 
@@ -3726,7 +3726,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 service.ChangedSource.Dispose();
 
@@ -3756,8 +3756,8 @@ namespace Amarok.Events
                 var service = new FooService();
 
                 Check.ThatAsyncCode(async () => await service.DoAsync(null, 123, 1.2))
-                     .Throws<ArgumentNullException>()
-                     .WithProperty(x => x.ParamName, "valueFactory");
+                   .Throws<ArgumentNullException>()
+                   .WithProperty(x => x.ParamName, "valueFactory");
             }
         }
 
@@ -3804,7 +3804,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 var factoryCalled = 0;
                 var fa            = 0;
@@ -3893,12 +3893,12 @@ namespace Amarok.Events
                 Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -3998,12 +3998,12 @@ namespace Amarok.Events
                 Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -4067,7 +4067,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 var strongSub = (ActionSubscription<String>) subscription;
                 var weakSub   = (WeakSubscription<String>) strongSub.TestingGetPreviousSubscription();
@@ -4152,7 +4152,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 subscription.Dispose();
 
@@ -4195,7 +4195,7 @@ namespace Amarok.Events
                 Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
                 Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                     .IsInstanceOf<WeakSubscription<String>>();
+                   .IsInstanceOf<WeakSubscription<String>>();
 
                 service.ChangedSource.Dispose();
 
@@ -4226,8 +4226,8 @@ namespace Amarok.Events
                 var service = new FooService();
 
                 Check.ThatAsyncCode(async () => await service.DoAsync(null, 123, 1.2, 'a'))
-                     .Throws<ArgumentNullException>()
-                     .WithProperty(x => x.ParamName, "valueFactory");
+                   .Throws<ArgumentNullException>()
+                   .WithProperty(x => x.ParamName, "valueFactory");
             }
         }
     }

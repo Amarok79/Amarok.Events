@@ -130,8 +130,8 @@ namespace Amarok.Events
             Check.That(info2.Timestamp - DateTimeOffset.Now).IsLessThan(TimeSpan.FromMilliseconds(500));
 
             Check.That(info2.TimeOffset)
-                 .IsLessThan(TimeSpan.FromMilliseconds(500))
-                 .And.IsGreaterThan(TimeSpan.FromMilliseconds(200));
+               .IsLessThan(TimeSpan.FromMilliseconds(500))
+               .And.IsGreaterThan(TimeSpan.FromMilliseconds(200));
 
             Check.That(info2.Thread).IsEqualTo(Thread.CurrentThread);
 
@@ -140,8 +140,8 @@ namespace Amarok.Events
             Check.That(info3.Timestamp - DateTimeOffset.Now).IsLessThan(TimeSpan.FromMilliseconds(500));
 
             Check.That(info3.TimeOffset)
-                 .IsLessThan(TimeSpan.FromMilliseconds(500))
-                 .And.IsGreaterThan(TimeSpan.FromMilliseconds(200));
+               .IsLessThan(TimeSpan.FromMilliseconds(500))
+               .And.IsGreaterThan(TimeSpan.FromMilliseconds(200));
 
             Check.That(info3.Thread).IsEqualTo(Thread.CurrentThread);
 

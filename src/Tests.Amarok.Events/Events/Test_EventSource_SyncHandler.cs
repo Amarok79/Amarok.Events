@@ -627,8 +627,8 @@ namespace Amarok.Events
                 var service = new FooService();
 
                 Check.ThatCode(() => service.Do((Func<String>) null))
-                     .Throws<ArgumentNullException>()
-                     .WithProperty(x => x.ParamName, "valueFactory");
+                   .Throws<ArgumentNullException>()
+                   .WithProperty(x => x.ParamName, "valueFactory");
             }
         }
 
@@ -951,8 +951,8 @@ namespace Amarok.Events
                 var service = new FooService();
 
                 Check.ThatCode(() => service.Do(null, 123))
-                     .Throws<ArgumentNullException>()
-                     .WithProperty(x => x.ParamName, "valueFactory");
+                   .Throws<ArgumentNullException>()
+                   .WithProperty(x => x.ParamName, "valueFactory");
             }
         }
 
@@ -1298,8 +1298,8 @@ namespace Amarok.Events
                 var service = new FooService();
 
                 Check.ThatCode(() => service.Do(null, 123, 1.2))
-                     .Throws<ArgumentNullException>()
-                     .WithProperty(x => x.ParamName, "valueFactory");
+                   .Throws<ArgumentNullException>()
+                   .WithProperty(x => x.ParamName, "valueFactory");
             }
         }
 
@@ -1668,8 +1668,8 @@ namespace Amarok.Events
                 var service = new FooService();
 
                 Check.ThatCode(() => service.Do(null, 123, 1.2, 'a'))
-                     .Throws<ArgumentNullException>()
-                     .WithProperty(x => x.ParamName, "valueFactory");
+                   .Throws<ArgumentNullException>()
+                   .WithProperty(x => x.ParamName, "valueFactory");
             }
         }
 
@@ -2192,8 +2192,8 @@ namespace Amarok.Events
                 var service = new FooService();
 
                 Check.ThatAsyncCode(async () => await service.DoAsync((Func<String>) null))
-                     .Throws<ArgumentNullException>()
-                     .WithProperty(x => x.ParamName, "valueFactory");
+                   .Throws<ArgumentNullException>()
+                   .WithProperty(x => x.ParamName, "valueFactory");
             }
         }
 
@@ -2516,8 +2516,8 @@ namespace Amarok.Events
                 var service = new FooService();
 
                 Check.ThatAsyncCode(async () => await service.DoAsync(null, 123))
-                     .Throws<ArgumentNullException>()
-                     .WithProperty(x => x.ParamName, "valueFactory");
+                   .Throws<ArgumentNullException>()
+                   .WithProperty(x => x.ParamName, "valueFactory");
             }
         }
 
@@ -2863,8 +2863,8 @@ namespace Amarok.Events
                 var service = new FooService();
 
                 Check.ThatAsyncCode(async () => await service.DoAsync(null, 123, 1.2))
-                     .Throws<ArgumentNullException>()
-                     .WithProperty(x => x.ParamName, "valueFactory");
+                   .Throws<ArgumentNullException>()
+                   .WithProperty(x => x.ParamName, "valueFactory");
             }
         }
 
@@ -3233,8 +3233,8 @@ namespace Amarok.Events
                 var service = new FooService();
 
                 Check.ThatAsyncCode(async () => await service.DoAsync(null, 123, 1.2, 'a'))
-                     .Throws<ArgumentNullException>()
-                     .WithProperty(x => x.ParamName, "valueFactory");
+                   .Throws<ArgumentNullException>()
+                   .WithProperty(x => x.ParamName, "valueFactory");
             }
         }
     }
