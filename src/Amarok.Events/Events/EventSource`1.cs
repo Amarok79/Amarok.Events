@@ -872,7 +872,7 @@ namespace Amarok.Events
                     computed = initial.Add(subscription);
                 }
                 while (initial !=
-                       ImmutableInterlocked.InterlockedCompareExchange(ref mSubscriptions, computed, initial));
+                    ImmutableInterlocked.InterlockedCompareExchange(ref mSubscriptions, computed, initial));
             }
             finally
             {
@@ -894,7 +894,7 @@ namespace Amarok.Events
                     computed = initial.Remove(subscription);
                 }
                 while (initial !=
-                       ImmutableInterlocked.InterlockedCompareExchange(ref mSubscriptions, computed, initial));
+                    ImmutableInterlocked.InterlockedCompareExchange(ref mSubscriptions, computed, initial));
             }
             finally
             {
