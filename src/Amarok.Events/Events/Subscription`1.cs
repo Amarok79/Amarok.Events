@@ -22,6 +22,8 @@
  * SOFTWARE.
  */
 
+#pragma warning disable S3881 // "IDisposable" should be implemented correctly
+
 using System;
 using System.Threading.Tasks;
 

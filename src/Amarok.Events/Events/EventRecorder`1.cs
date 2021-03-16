@@ -40,9 +40,9 @@ namespace Amarok.Events
     public sealed class EventRecorder<T> : IDisposable
     {
         // data
-        private readonly Object mSyncThis = new Object();
-        private readonly List<EventInfo> mEventInfos = new List<EventInfo>();
-        private readonly Stopwatch mWatch = new Stopwatch();
+        private readonly Object mSyncThis = new();
+        private readonly List<EventInfo> mEventInfos = new();
+        private readonly Stopwatch mWatch = new();
         private readonly IDisposable mSubscription;
 
         // state
@@ -241,7 +241,13 @@ namespace Amarok.Events
             /// <summary>
             ///     Initializes a new instance.
             /// </summary>
-            public EventInfo(T value, Int32 index, DateTimeOffset timestamp, TimeSpan timeOffset, Thread thread)
+            public EventInfo(
+                T value,
+                Int32 index,
+                DateTimeOffset timestamp,
+                TimeSpan timeOffset,
+                Thread thread
+            )
             {
                 Value      = value;
                 Index      = index;

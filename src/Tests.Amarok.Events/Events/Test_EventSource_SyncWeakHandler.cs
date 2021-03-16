@@ -40,7 +40,7 @@ namespace Amarok.Events
 
         public sealed class FooService : IFooService
         {
-            public readonly EventSource<String> ChangedSource = new EventSource<String>();
+            public readonly EventSource<String> ChangedSource = new();
 
             public Event<String> Changed => ChangedSource.Event;
 

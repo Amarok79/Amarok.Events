@@ -33,7 +33,7 @@ namespace Amarok.Events
     public static class EventSystem
     {
         // static data
-        private static readonly EventSource<Exception> sUnobservedExceptionEventSource = new EventSource<Exception>();
+        private static readonly EventSource<Exception> sUnobservedExceptionEventSource = new();
 
 
         #region ++ Public Interface ++

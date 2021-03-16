@@ -48,7 +48,7 @@ namespace Amarok.Events
 
         // sync object for disposal
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly Object mSyncDispose = new Object();
+        private readonly Object mSyncDispose = new();
 
         // state of disposal
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
