@@ -40,7 +40,7 @@ namespace Amarok.Events
 
         internal sealed class FooServiceImpl : IFooService
         {
-            private readonly EventSource<Int32> mProgressEventSource = new EventSource<Int32>();
+            private readonly EventSource<Int32> mProgressEventSource = new();
 
 
             public Event<Int32> Progress => mProgressEventSource.Event;

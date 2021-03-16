@@ -111,7 +111,7 @@ namespace Amarok.Events
 
             public sealed class FooServiceImpl : IFooService
             {
-                private readonly EventSource<String> mFooChanged = new EventSource<String>();
+                private readonly EventSource<String> mFooChanged = new();
 
                 public Event<String> FooChanged => mFooChanged.Event;
 
@@ -152,7 +152,7 @@ namespace Amarok.Events
             public FooServiceImpl ServiceWeakHandlerCount3;
             public FooServiceImpl ServiceWeakHandlerCount9;
 
-            private readonly List<IDisposable> mSubscriptions = new List<IDisposable>();
+            private readonly List<IDisposable> mSubscriptions = new();
 
 
             public Amarok()
