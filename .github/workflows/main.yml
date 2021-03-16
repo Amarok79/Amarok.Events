@@ -124,10 +124,6 @@ jobs:
       - name: Build Release
         run: dotnet build --configuration Release
 
-      - name: Build NuGet package
-        run: _pack.cmd
-        shell: cmd
-
       - name: Upload NuGet package
         uses: actions/upload-artifact@v2
         with:
