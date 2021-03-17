@@ -4,7 +4,7 @@
 		<ProjectGuid>{1FCE1A28-F159-49EA-8F47-92A5FDFFAFDE}</ProjectGuid>
 		<TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
 		<RootNamespace>Amarok</RootNamespace>
-		<Version>1.4.0</Version>
+		<Version>1.4.1</Version>
 		<Authors>Olaf Kober</Authors>
 		<Company>&lt;none&gt;</Company>
 		<Description>A fast and light-weight implementation of the observer pattern that supports synchronous and asynchronous invocation and/or subscribers. A potential replacement for regular .NET events.</Description>
