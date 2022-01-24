@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<ProjectGuid>{69D06772-DC49-4E90-BFC5-397E8B2CA52C}</ProjectGuid>
 		<OutputType>Exe</OutputType>
-		<TargetFrameworks>netcoreapp2.1;netcoreapp3.1;net48;net5.0</TargetFrameworks>
+		<TargetFrameworks>netcoreapp3.1;net48;net5.0</TargetFrameworks>
 		<RootNamespace>Amarok</RootNamespace>
 		<AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
 		<AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
