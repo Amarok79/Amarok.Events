@@ -92,7 +92,7 @@ internal sealed class ActionSubscription<T> : Subscription<T>
         }
         else
         {
-            // remove ourself from event source
+            // remove ourselves from event source
             mSource.Remove(this);
         }
     }

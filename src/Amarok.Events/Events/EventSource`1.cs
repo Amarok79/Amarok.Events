@@ -857,10 +857,7 @@ public sealed class EventSource<T> : IProgress<T>, IDisposable
                 }
                 else
                 {
-                    if (tasks == null)
-                    {
-                        tasks = new List<Task>(subscriptions.Length);
-                    }
+                    tasks ??= new List<Task>(subscriptions.Length);
 
                     tasks.Add(task);
                 }

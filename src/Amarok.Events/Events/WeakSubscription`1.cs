@@ -17,13 +17,13 @@ namespace Amarok.Events;
 internal sealed class WeakSubscription<T> : Subscription<T>
 {
     /// <summary>
-    ///     a reference to the event source; necessary for disposal
+    ///     A reference to the event source; necessary for disposal.
     /// </summary>
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     private readonly EventSource<T> mSource;
 
     /// <summary>
-    ///     a weak reference to another subscription referring to the handler
+    ///     A weak reference to another subscription referring to the handler.
     /// </summary>
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     private readonly WeakReference<Subscription<T>> mNextSubscription;
@@ -57,7 +57,7 @@ internal sealed class WeakSubscription<T> : Subscription<T>
         }
         else
         {
-            // otherwise, remove ourself from event source
+            // otherwise, remove ourselves from event source
             mSource.Remove(this);
         }
     }
@@ -73,7 +73,7 @@ internal sealed class WeakSubscription<T> : Subscription<T>
             return subscription.InvokeAsync(value);
         }
 
-        // otherwise, remove ourself from event source
+        // otherwise, remove ourselves from event source
         mSource.Remove(this);
 
         return new ValueTask(Task.CompletedTask);
@@ -84,7 +84,7 @@ internal sealed class WeakSubscription<T> : Subscription<T>
     /// </summary>
     public override void Dispose()
     {
-        // simply, remove ourself from event source
+        // simply, remove ourselves from event source
         mSource.Remove(this);
     }
 

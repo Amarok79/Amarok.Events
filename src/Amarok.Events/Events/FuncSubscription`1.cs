@@ -102,7 +102,7 @@ internal sealed class FuncSubscription<T> : Subscription<T>
         }
         else
         {
-            // remove ourself from event source
+            // remove ourselves from event source
             mSource.Remove(this);
         }
     }
