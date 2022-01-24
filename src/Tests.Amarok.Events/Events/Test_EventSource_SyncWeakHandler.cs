@@ -1,26 +1,4 @@
-﻿/* MIT License
- * 
- * Copyright (c) 2020, Olaf Kober
- * https://github.com/Amarok79/Amarok.Events
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
+﻿// Copyright (c) 2022, Olaf Kober <olaf.kober@outlook.com>
 
 using System;
 using System.Threading;
@@ -29,688 +7,915 @@ using NFluent;
 using NUnit.Framework;
 
 
-namespace Amarok.Events
+namespace Amarok.Events;
+
+
+public class Test_EventSource_SyncWeakHandler
 {
-    public class Test_EventSource_SyncWeakHandler
+    public interface IFooService
     {
-        public interface IFooService
+        Event<String> Changed { get; }
+    }
+
+    public sealed class FooService : IFooService
+    {
+        public readonly EventSource<String> ChangedSource = new();
+
+        public Event<String> Changed => ChangedSource.Event;
+
+        public Boolean Do(String value)
         {
-            Event<String> Changed { get; }
+            return ChangedSource.Invoke(value);
         }
 
-        public sealed class FooService : IFooService
+        public Boolean Do(Func<String> func)
         {
-            public readonly EventSource<String> ChangedSource = new();
-
-            public Event<String> Changed => ChangedSource.Event;
-
-            public Boolean Do(String value)
-            {
-                return ChangedSource.Invoke(value);
-            }
-
-            public Boolean Do(Func<String> func)
-            {
-                return ChangedSource.Invoke(func);
-            }
-
-            public Boolean Do(Func<Int32, String> func, Int32 arg)
-            {
-                return ChangedSource.Invoke(func, arg);
-            }
-
-            public Boolean Do(Func<Int32, Double, String> func, Int32 arg1, Double arg2)
-            {
-                return ChangedSource.Invoke(func, arg1, arg2);
-            }
-
-            public Boolean Do(Func<Int32, Double, Char, String> func, Int32 arg1, Double arg2, Char arg3)
-            {
-                return ChangedSource.Invoke(func, arg1, arg2, arg3);
-            }
-
-            public ValueTask<Boolean> DoAsync(String value)
-            {
-                return ChangedSource.InvokeAsync(value);
-            }
-
-            public ValueTask<Boolean> DoAsync(Func<String> func)
-            {
-                return ChangedSource.InvokeAsync(func);
-            }
-
-            public ValueTask<Boolean> DoAsync(Func<Int32, String> func, Int32 arg)
-            {
-                return ChangedSource.InvokeAsync(func, arg);
-            }
-
-            public ValueTask<Boolean> DoAsync(Func<Int32, Double, String> func, Int32 arg1, Double arg2)
-            {
-                return ChangedSource.InvokeAsync(func, arg1, arg2);
-            }
-
-            public ValueTask<Boolean> DoAsync(
-                Func<Int32, Double, Char, String> func,
-                Int32 arg1,
-                Double arg2,
-                Char arg3
-            )
-            {
-                return ChangedSource.InvokeAsync(func, arg1, arg2, arg3);
-            }
+            return ChangedSource.Invoke(func);
         }
 
-
-        // --- TESTS ---
-
-
-        [TestFixture]
-        public class Invoke
+        public Boolean Do(Func<Int32, String> func, Int32 arg)
         {
-            [Test]
-            public void Invoke_Without_Handler()
-            {
-                var service = new FooService();
-                var flag    = service.Do("abc");
+            return ChangedSource.Invoke(func, arg);
+        }
 
-                Check.That(flag).IsFalse();
+        public Boolean Do(Func<Int32, Double, String> func, Int32 arg1, Double arg2)
+        {
+            return ChangedSource.Invoke(func, arg1, arg2);
+        }
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
+        public Boolean Do(
+            Func<Int32, Double, Char, String> func,
+            Int32 arg1,
+            Double arg2,
+            Char arg3
+        )
+        {
+            return ChangedSource.Invoke(func, arg1, arg2, arg3);
+        }
 
-                Check.That(service.ChangedSource.Event).IsEqualTo(service.Changed);
-                Check.That(service.Changed.Source).IsSameReferenceAs(service.ChangedSource);
-                Check.That(service.Changed.HasSource).IsTrue();
-            }
+        public ValueTask<Boolean> DoAsync(String value)
+        {
+            return ChangedSource.InvokeAsync(value);
+        }
 
-            [Test]
-            public void Invoke_With_SingleHandler()
-            {
-                var service = new FooService();
+        public ValueTask<Boolean> DoAsync(Func<String> func)
+        {
+            return ChangedSource.InvokeAsync(func);
+        }
 
-                var    called = 0;
-                String arg    = null;
+        public ValueTask<Boolean> DoAsync(Func<Int32, String> func, Int32 arg)
+        {
+            return ChangedSource.InvokeAsync(func, arg);
+        }
 
-                var subscription = service.Changed.SubscribeWeak(
+        public ValueTask<Boolean> DoAsync(Func<Int32, Double, String> func, Int32 arg1, Double arg2)
+        {
+            return ChangedSource.InvokeAsync(func, arg1, arg2);
+        }
+
+        public ValueTask<Boolean> DoAsync(
+            Func<Int32, Double, Char, String> func,
+            Int32 arg1,
+            Double arg2,
+            Char arg3
+        )
+        {
+            return ChangedSource.InvokeAsync(func, arg1, arg2, arg3);
+        }
+    }
+
+
+    // --- TESTS ---
+
+
+    [TestFixture]
+    public class Invoke
+    {
+        [Test]
+        public void Invoke_Without_Handler()
+        {
+            var service = new FooService();
+            var flag    = service.Do("abc");
+
+            Check.That(flag)
+               .IsFalse();
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+
+            Check.That(service.ChangedSource.Event)
+               .IsEqualTo(service.Changed);
+
+            Check.That(service.Changed.Source)
+               .IsSameReferenceAs(service.ChangedSource);
+
+            Check.That(service.Changed.HasSource)
+               .IsTrue();
+        }
+
+        [Test]
+        public void Invoke_With_SingleHandler()
+        {
+            var service = new FooService();
+
+            var    called = 0;
+            String arg    = null;
+
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
+
+            Check.That(subscription)
+               .IsNotNull();
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                   .ToString()
+                )
+               .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
+
+            var flag1 = service.Do("abc");
+
+            Check.That(flag1)
+               .IsTrue();
+
+            Check.That(called)
+               .IsEqualTo(1);
+
+            Check.That(arg)
+               .IsEqualTo("abc");
+
+            called = 0;
+            var flag2 = service.Do("def");
+
+            Check.That(flag2)
+               .IsTrue();
+
+            Check.That(called)
+               .IsEqualTo(1);
+
+            Check.That(arg)
+               .IsEqualTo("def");
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(1);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+
+            Check.That(service.ChangedSource.Event)
+               .IsEqualTo(service.Changed);
+
+            Check.That(service.Changed.Source)
+               .IsSameReferenceAs(service.ChangedSource);
+
+            Check.That(service.Changed.HasSource)
+               .IsTrue();
+        }
+
+        [Test]
+        public void Invoke_With_MultipleHandler()
+        {
+            var service = new FooService();
+
+            var    called1 = 0;
+            String arg1    = null;
+
+            var subscription1 = service.Changed.SubscribeWeak(
+                x => {
+                    arg1 = x;
+                    called1++;
+                }
+            );
+
+            var    called2 = 0;
+            String arg2    = null;
+
+            var subscription2 = service.Changed.SubscribeWeak(
+                x => {
+                    arg2 = x;
+                    called2++;
+                }
+            );
+
+            Check.That(subscription1)
+               .IsNotNull();
+
+            Check.That(subscription1)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
+                   .ToString()
+                )
+               .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
+
+            Check.That(subscription2)
+               .IsNotNull();
+
+            Check.That(subscription2)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
+                   .ToString()
+                )
+               .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
+
+            Check.That(subscription2)
+               .Not.IsSameReferenceAs(subscription1);
+
+            var flag1 = service.Do("abc");
+
+            Check.That(flag1)
+               .IsTrue();
+
+            Check.That(called1)
+               .IsEqualTo(1);
+
+            Check.That(arg1)
+               .IsEqualTo("abc");
+
+            Check.That(called2)
+               .IsEqualTo(1);
+
+            Check.That(arg2)
+               .IsEqualTo("abc");
+
+            called1 = 0;
+            called2 = 0;
+            var flag2 = service.Do("def");
+
+            Check.That(flag2)
+               .IsTrue();
+
+            Check.That(called1)
+               .IsEqualTo(1);
+
+            Check.That(arg1)
+               .IsEqualTo("def");
+
+            Check.That(called2)
+               .IsEqualTo(1);
+
+            Check.That(arg2)
+               .IsEqualTo("def");
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(2);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+
+            Check.That(service.ChangedSource.Event)
+               .IsEqualTo(service.Changed);
+
+            Check.That(service.Changed.Source)
+               .IsSameReferenceAs(service.ChangedSource);
+
+            Check.That(service.Changed.HasSource)
+               .IsTrue();
+        }
+
+        [Test]
+        public void Invoke_With_MultipleHandler_OneThrowingExceptionAllInvoked()
+        {
+            var service = new FooService();
+
+            var    called1 = 0;
+            String arg1    = null;
+
+            var subscription1 = service.Changed.SubscribeWeak(
+                new Action<String>(
                     x => {
-                        arg = x;
-                        called++;
+                        arg1 = x;
+                        called1++;
+
+                        throw new ApplicationException("1");
                     }
-                );
+                )
+            );
 
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
+            var    called2 = 0;
+            String arg2    = null;
 
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
+            var subscription2 = service.Changed.SubscribeWeak(
+                x => {
+                    arg2 = x;
+                    called2++;
+                }
+            );
 
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription().ToString())
-                   .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
+            Check.That(subscription1)
+               .IsNotNull();
 
+            Check.That(subscription1)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
+                   .ToString()
+                )
+               .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
+
+            Check.That(subscription2)
+               .IsNotNull();
+
+            Check.That(subscription2)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
+                   .ToString()
+                )
+               .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
+
+            Check.That(subscription2)
+               .Not.IsSameReferenceAs(subscription1);
+
+            Exception exception = null;
+
+            using (EventSystem.UnobservedException.SubscribeWeak(
+                    x => Volatile.Write(ref exception, x)
+                ))
+            {
                 var flag1 = service.Do("abc");
 
-                Check.That(flag1).IsTrue();
-                Check.That(called).IsEqualTo(1);
-                Check.That(arg).IsEqualTo("abc");
+                Check.That(flag1)
+                   .IsTrue();
 
-                called = 0;
-                var flag2 = service.Do("def");
+                Check.That(called1)
+                   .IsEqualTo(1);
 
-                Check.That(flag2).IsTrue();
-                Check.That(called).IsEqualTo(1);
-                Check.That(arg).IsEqualTo("def");
+                Check.That(arg1)
+                   .IsEqualTo("abc");
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
+                Check.That(called2)
+                   .IsEqualTo(1);
 
-                Check.That(service.ChangedSource.Event).IsEqualTo(service.Changed);
-                Check.That(service.Changed.Source).IsSameReferenceAs(service.ChangedSource);
-                Check.That(service.Changed.HasSource).IsTrue();
-            }
+                Check.That(arg2)
+                   .IsEqualTo("abc");
 
-            [Test]
-            public void Invoke_With_MultipleHandler()
-            {
-                var service = new FooService();
+                Check.That(exception)
+                   .IsInstanceOf<ApplicationException>();
 
-                var    called1 = 0;
-                String arg1    = null;
+                Check.That(exception.Message)
+                   .IsEqualTo("1");
 
-                var subscription1 = service.Changed.SubscribeWeak(
-                    x => {
-                        arg1 = x;
-                        called1++;
-                    }
-                );
+                Check.That(service.ChangedSource.NumberOfSubscriptions)
+                   .IsEqualTo(2);
 
-                var    called2 = 0;
-                String arg2    = null;
+                Check.That(service.ChangedSource.IsDisposed)
+                   .IsFalse();
 
-                var subscription2 = service.Changed.SubscribeWeak(
-                    x => {
-                        arg2 = x;
-                        called2++;
-                    }
-                );
+                Check.That(service.ChangedSource.Event)
+                   .IsEqualTo(service.Changed);
 
-                Check.That(subscription1).IsNotNull();
-                Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
+                Check.That(service.Changed.Source)
+                   .IsSameReferenceAs(service.ChangedSource);
 
-                Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription().ToString())
-                   .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
-
-                Check.That(subscription2).IsNotNull();
-                Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription().ToString())
-                   .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
-
-                Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
-
-                var flag1 = service.Do("abc");
-
-                Check.That(flag1).IsTrue();
-                Check.That(called1).IsEqualTo(1);
-                Check.That(arg1).IsEqualTo("abc");
-                Check.That(called2).IsEqualTo(1);
-                Check.That(arg2).IsEqualTo("abc");
-
-                called1 = 0;
-                called2 = 0;
-                var flag2 = service.Do("def");
-
-                Check.That(flag2).IsTrue();
-                Check.That(called1).IsEqualTo(1);
-                Check.That(arg1).IsEqualTo("def");
-                Check.That(called2).IsEqualTo(1);
-                Check.That(arg2).IsEqualTo("def");
-
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-
-                Check.That(service.ChangedSource.Event).IsEqualTo(service.Changed);
-                Check.That(service.Changed.Source).IsSameReferenceAs(service.ChangedSource);
-                Check.That(service.Changed.HasSource).IsTrue();
-            }
-
-            [Test]
-            public void Invoke_With_MultipleHandler_OneThrowingExceptionAllInvoked()
-            {
-                var service = new FooService();
-
-                var    called1 = 0;
-                String arg1    = null;
-
-                var subscription1 = service.Changed.SubscribeWeak(
-                    new Action<String>(
-                        x => {
-                            arg1 = x;
-                            called1++;
-
-                            throw new ApplicationException("1");
-                        }
-                    )
-                );
-
-                var    called2 = 0;
-                String arg2    = null;
-
-                var subscription2 = service.Changed.SubscribeWeak(
-                    x => {
-                        arg2 = x;
-                        called2++;
-                    }
-                );
-
-                Check.That(subscription1).IsNotNull();
-                Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription().ToString())
-                   .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
-
-                Check.That(subscription2).IsNotNull();
-                Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription().ToString())
-                   .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
-
-                Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
-
-                Exception exception = null;
-
-                using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
-                {
-                    var flag1 = service.Do("abc");
-
-                    Check.That(flag1).IsTrue();
-                    Check.That(called1).IsEqualTo(1);
-                    Check.That(arg1).IsEqualTo("abc");
-                    Check.That(called2).IsEqualTo(1);
-                    Check.That(arg2).IsEqualTo("abc");
-
-                    Check.That(exception).IsInstanceOf<ApplicationException>();
-                    Check.That(exception.Message).IsEqualTo("1");
-
-                    Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
-                    Check.That(service.ChangedSource.IsDisposed).IsFalse();
-
-                    Check.That(service.ChangedSource.Event).IsEqualTo(service.Changed);
-                    Check.That(service.Changed.Source).IsSameReferenceAs(service.ChangedSource);
-                    Check.That(service.Changed.HasSource).IsTrue();
-                }
-            }
-
-            [Test]
-            public void Invoke_After_SubscriptionGCed()
-            {
-                var service = new FooService();
-
-                var    called = 0;
-                String arg    = null;
-
-                var subscription = service.Changed.SubscribeWeak(
-                    x => {
-                        arg = x;
-                        called++;
-                    }
-                );
-
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription().ToString())
-                   .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
-
-                var strongSub = (ActionSubscription<String>) subscription;
-                var weakSub   = (WeakSubscription<String>) strongSub.TestingGetPreviousSubscription();
-                strongSub.TestingClearNextSubscription();
-                weakSub.TestingClearNextSubscription();
-
-                var flag1 = service.Do("abc");
-
-                Check.That(flag1).IsTrue();
-                Check.That(called).IsEqualTo(0);
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-
-                var flag2 = service.Do("abc");
-
-                Check.That(flag2).IsFalse();
-                Check.That(called).IsEqualTo(0);
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()).IsNull();
-                Check.That(weakSub.ToString()).StartsWith("⇒ weak ⇒ <null>");
-                Check.That(weakSub.Subscription).IsNotNull();
-            }
-
-            [Test]
-            public void Invoke_After_SubscriptionDisposed()
-            {
-                var service = new FooService();
-
-                var    called = 0;
-                String arg    = null;
-
-                var subscription = service.Changed.SubscribeWeak(
-                    x => {
-                        arg = x;
-                        called++;
-                    }
-                );
-
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription().ToString())
-                   .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
-
-                subscription.Dispose();
-
-                var flag1 = service.Do("abc");
-
-                Check.That(flag1).IsFalse();
-                Check.That(called).IsEqualTo(0);
-
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-
-                Check.That(service.ChangedSource.Event).IsEqualTo(service.Changed);
-                Check.That(service.Changed.Source).IsSameReferenceAs(service.ChangedSource);
-                Check.That(service.Changed.HasSource).IsTrue();
-            }
-
-            [Test]
-            public void Invoke_After_EventSourceDisposed()
-            {
-                var service = new FooService();
-
-                var    called = 0;
-                String arg    = null;
-
-                var subscription = service.Changed.SubscribeWeak(
-                    x => {
-                        arg = x;
-                        called++;
-                    }
-                );
-
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription().ToString())
-                   .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
-
-                service.ChangedSource.Dispose();
-
-                var flag1 = service.Do("abc");
-
-                Check.That(flag1).IsFalse();
-                Check.That(called).IsEqualTo(0);
-
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsTrue();
-
-                Check.That(service.ChangedSource.Event).IsEqualTo(service.Changed);
-                Check.That(service.Changed.Source).IsSameReferenceAs(service.ChangedSource);
-                Check.That(service.Changed.HasSource).IsTrue();
+                Check.That(service.Changed.HasSource)
+                   .IsTrue();
             }
         }
 
-        [TestFixture]
-        public class Invoke_ValueFactory
+        [Test]
+        public void Invoke_After_SubscriptionGCed()
         {
-            [Test]
-            public void Invoke_Without_Handler()
-            {
-                var service = new FooService();
+            var service = new FooService();
 
-                var flag = service.Do(
-                    () => {
-                        Assert.Fail("MUST NOT be calld");
+            var    called = 0;
+            String arg    = null;
 
-                        return "abc";
-                    }
-                );
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
 
-                Check.That(flag).IsFalse();
+            Check.That(subscription)
+               .IsNotNull();
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
 
-                Check.That(service.ChangedSource.Event).IsEqualTo(service.Changed);
-                Check.That(service.Changed.Source).IsSameReferenceAs(service.ChangedSource);
-                Check.That(service.Changed.HasSource).IsTrue();
-            }
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
 
-            [Test]
-            public void Invoke_With_SingleHandler()
-            {
-                var service = new FooService();
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                   .ToString()
+                )
+               .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
-                var    called = 0;
-                String arg    = null;
+            var strongSub = (ActionSubscription<String>) subscription;
+            var weakSub   = (WeakSubscription<String>) strongSub.TestingGetPreviousSubscription();
+            strongSub.TestingClearNextSubscription();
+            weakSub.TestingClearNextSubscription();
 
-                var subscription = service.Changed.SubscribeWeak(
-                    x => {
-                        arg = x;
-                        called++;
-                    }
-                );
+            var flag1 = service.Do("abc");
 
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
+            Check.That(flag1)
+               .IsTrue();
 
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
+            Check.That(called)
+               .IsEqualTo(0);
 
-                var factoryCalled = 0;
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
 
-                var flag1 = service.Do(
-                    () => {
-                        factoryCalled++;
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
 
-                        return "abc";
-                    }
-                );
+            var flag2 = service.Do("abc");
 
-                Check.That(flag1).IsTrue();
-                Check.That(called).IsEqualTo(1);
-                Check.That(arg).IsEqualTo("abc");
-                Check.That(factoryCalled).IsEqualTo(1);
+            Check.That(flag2)
+               .IsFalse();
 
-                called        = 0;
-                factoryCalled = 0;
+            Check.That(called)
+               .IsEqualTo(0);
 
-                var flag2 = service.Do(
-                    () => {
-                        factoryCalled++;
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
 
-                        return "def";
-                    }
-                );
+            Check.That(subscription)
+               .IsNotNull();
 
-                Check.That(flag2).IsTrue();
-                Check.That(called).IsEqualTo(1);
-                Check.That(arg).IsEqualTo("def");
-                Check.That(factoryCalled).IsEqualTo(1);
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsNull();
 
-                Check.That(service.ChangedSource.Event).IsEqualTo(service.Changed);
-                Check.That(service.Changed.Source).IsSameReferenceAs(service.ChangedSource);
-                Check.That(service.Changed.HasSource).IsTrue();
-            }
+            Check.That(weakSub.ToString())
+               .StartsWith("⇒ weak ⇒ <null>");
 
-            [Test]
-            public void Invoke_With_MultipleHandler()
-            {
-                var service = new FooService();
+            Check.That(weakSub.Subscription)
+               .IsNotNull();
+        }
 
-                var    called1 = 0;
-                String arg1    = null;
+        [Test]
+        public void Invoke_After_SubscriptionDisposed()
+        {
+            var service = new FooService();
 
-                var subscription1 = service.Changed.SubscribeWeak(
+            var    called = 0;
+            String arg    = null;
+
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
+
+            Check.That(subscription)
+               .IsNotNull();
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                   .ToString()
+                )
+               .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
+
+            subscription.Dispose();
+
+            var flag1 = service.Do("abc");
+
+            Check.That(flag1)
+               .IsFalse();
+
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+
+            Check.That(service.ChangedSource.Event)
+               .IsEqualTo(service.Changed);
+
+            Check.That(service.Changed.Source)
+               .IsSameReferenceAs(service.ChangedSource);
+
+            Check.That(service.Changed.HasSource)
+               .IsTrue();
+        }
+
+        [Test]
+        public void Invoke_After_EventSourceDisposed()
+        {
+            var service = new FooService();
+
+            var    called = 0;
+            String arg    = null;
+
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
+
+            Check.That(subscription)
+               .IsNotNull();
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                   .ToString()
+                )
+               .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
+
+            service.ChangedSource.Dispose();
+
+            var flag1 = service.Do("abc");
+
+            Check.That(flag1)
+               .IsFalse();
+
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsTrue();
+
+            Check.That(service.ChangedSource.Event)
+               .IsEqualTo(service.Changed);
+
+            Check.That(service.Changed.Source)
+               .IsSameReferenceAs(service.ChangedSource);
+
+            Check.That(service.Changed.HasSource)
+               .IsTrue();
+        }
+    }
+
+    [TestFixture]
+    public class Invoke_ValueFactory
+    {
+        [Test]
+        public void Invoke_Without_Handler()
+        {
+            var service = new FooService();
+
+            var flag = service.Do(
+                () => {
+                    Assert.Fail("MUST NOT be calld");
+
+                    return "abc";
+                }
+            );
+
+            Check.That(flag)
+               .IsFalse();
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+
+            Check.That(service.ChangedSource.Event)
+               .IsEqualTo(service.Changed);
+
+            Check.That(service.Changed.Source)
+               .IsSameReferenceAs(service.ChangedSource);
+
+            Check.That(service.Changed.HasSource)
+               .IsTrue();
+        }
+
+        [Test]
+        public void Invoke_With_SingleHandler()
+        {
+            var service = new FooService();
+
+            var    called = 0;
+            String arg    = null;
+
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
+
+            Check.That(subscription)
+               .IsNotNull();
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            var factoryCalled = 0;
+
+            var flag1 = service.Do(
+                () => {
+                    factoryCalled++;
+
+                    return "abc";
+                }
+            );
+
+            Check.That(flag1)
+               .IsTrue();
+
+            Check.That(called)
+               .IsEqualTo(1);
+
+            Check.That(arg)
+               .IsEqualTo("abc");
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            called        = 0;
+            factoryCalled = 0;
+
+            var flag2 = service.Do(
+                () => {
+                    factoryCalled++;
+
+                    return "def";
+                }
+            );
+
+            Check.That(flag2)
+               .IsTrue();
+
+            Check.That(called)
+               .IsEqualTo(1);
+
+            Check.That(arg)
+               .IsEqualTo("def");
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(1);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+
+            Check.That(service.ChangedSource.Event)
+               .IsEqualTo(service.Changed);
+
+            Check.That(service.Changed.Source)
+               .IsSameReferenceAs(service.ChangedSource);
+
+            Check.That(service.Changed.HasSource)
+               .IsTrue();
+        }
+
+        [Test]
+        public void Invoke_With_MultipleHandler()
+        {
+            var service = new FooService();
+
+            var    called1 = 0;
+            String arg1    = null;
+
+            var subscription1 = service.Changed.SubscribeWeak(
+                x => {
+                    arg1 = x;
+                    called1++;
+                }
+            );
+
+            var    called2 = 0;
+            String arg2    = null;
+
+            var subscription2 = service.Changed.SubscribeWeak(
+                x => {
+                    arg2 = x;
+                    called2++;
+                }
+            );
+
+            Check.That(subscription1)
+               .IsNotNull();
+
+            Check.That(subscription1)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .IsNotNull();
+
+            Check.That(subscription2)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .Not.IsSameReferenceAs(subscription1);
+
+            var factoryCalled = 0;
+
+            var flag1 = service.Do(
+                () => {
+                    factoryCalled++;
+
+                    return "abc";
+                }
+            );
+
+            Check.That(flag1)
+               .IsTrue();
+
+            Check.That(called1)
+               .IsEqualTo(1);
+
+            Check.That(arg1)
+               .IsEqualTo("abc");
+
+            Check.That(called2)
+               .IsEqualTo(1);
+
+            Check.That(arg2)
+               .IsEqualTo("abc");
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            called1       = 0;
+            called2       = 0;
+            factoryCalled = 0;
+
+            var flag2 = service.Do(
+                () => {
+                    factoryCalled++;
+
+                    return "def";
+                }
+            );
+
+            Check.That(flag2)
+               .IsTrue();
+
+            Check.That(called1)
+               .IsEqualTo(1);
+
+            Check.That(arg1)
+               .IsEqualTo("def");
+
+            Check.That(called2)
+               .IsEqualTo(1);
+
+            Check.That(arg2)
+               .IsEqualTo("def");
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(2);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+
+            Check.That(service.ChangedSource.Event)
+               .IsEqualTo(service.Changed);
+
+            Check.That(service.Changed.Source)
+               .IsSameReferenceAs(service.ChangedSource);
+
+            Check.That(service.Changed.HasSource)
+               .IsTrue();
+        }
+
+        [Test]
+        public void Invoke_With_MultipleHandler_OneThrowingExceptionAllInvoked()
+        {
+            var service = new FooService();
+
+            var    called1 = 0;
+            String arg1    = null;
+
+            var subscription1 = service.Changed.SubscribeWeak(
+                new Action<String>(
                     x => {
                         arg1 = x;
                         called1++;
+
+                        throw new ApplicationException("1");
                     }
-                );
+                )
+            );
 
-                var    called2 = 0;
-                String arg2    = null;
+            var    called2 = 0;
+            String arg2    = null;
 
-                var subscription2 = service.Changed.SubscribeWeak(
-                    x => {
-                        arg2 = x;
-                        called2++;
-                    }
-                );
-
-                Check.That(subscription1).IsNotNull();
-                Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).IsNotNull();
-                Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
-
-                var factoryCalled = 0;
-
-                var flag1 = service.Do(
-                    () => {
-                        factoryCalled++;
-
-                        return "abc";
-                    }
-                );
-
-                Check.That(flag1).IsTrue();
-                Check.That(called1).IsEqualTo(1);
-                Check.That(arg1).IsEqualTo("abc");
-                Check.That(called2).IsEqualTo(1);
-                Check.That(arg2).IsEqualTo("abc");
-                Check.That(factoryCalled).IsEqualTo(1);
-
-                called1       = 0;
-                called2       = 0;
-                factoryCalled = 0;
-
-                var flag2 = service.Do(
-                    () => {
-                        factoryCalled++;
-
-                        return "def";
-                    }
-                );
-
-                Check.That(flag2).IsTrue();
-                Check.That(called1).IsEqualTo(1);
-                Check.That(arg1).IsEqualTo("def");
-                Check.That(called2).IsEqualTo(1);
-                Check.That(arg2).IsEqualTo("def");
-                Check.That(factoryCalled).IsEqualTo(1);
-
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-
-                Check.That(service.ChangedSource.Event).IsEqualTo(service.Changed);
-                Check.That(service.Changed.Source).IsSameReferenceAs(service.ChangedSource);
-                Check.That(service.Changed.HasSource).IsTrue();
-            }
-
-            [Test]
-            public void Invoke_With_MultipleHandler_OneThrowingExceptionAllInvoked()
-            {
-                var service = new FooService();
-
-                var    called1 = 0;
-                String arg1    = null;
-
-                var subscription1 = service.Changed.SubscribeWeak(
-                    new Action<String>(
-                        x => {
-                            arg1 = x;
-                            called1++;
-
-                            throw new ApplicationException("1");
-                        }
-                    )
-                );
-
-                var    called2 = 0;
-                String arg2    = null;
-
-                var subscription2 = service.Changed.SubscribeWeak(
-                    x => {
-                        arg2 = x;
-                        called2++;
-                    }
-                );
-
-                Check.That(subscription1).IsNotNull();
-                Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).IsNotNull();
-                Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
-
-                Exception exception = null;
-
-                using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
-                {
-                    var factoryCalled = 0;
-
-                    var flag1 = service.Do(
-                        () => {
-                            factoryCalled++;
-
-                            return "abc";
-                        }
-                    );
-
-                    Check.That(flag1).IsTrue();
-                    Check.That(called1).IsEqualTo(1);
-                    Check.That(arg1).IsEqualTo("abc");
-                    Check.That(called2).IsEqualTo(1);
-                    Check.That(arg2).IsEqualTo("abc");
-                    Check.That(factoryCalled).IsEqualTo(1);
-
-                    Check.That(exception).IsInstanceOf<ApplicationException>();
-                    Check.That(exception.Message).IsEqualTo("1");
-
-                    Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
-                    Check.That(service.ChangedSource.IsDisposed).IsFalse();
-
-                    Check.That(service.ChangedSource.Event).IsEqualTo(service.Changed);
-                    Check.That(service.Changed.Source).IsSameReferenceAs(service.ChangedSource);
-                    Check.That(service.Changed.HasSource).IsTrue();
+            var subscription2 = service.Changed.SubscribeWeak(
+                x => {
+                    arg2 = x;
+                    called2++;
                 }
-            }
+            );
 
-            [Test]
-            public void Invoke_After_SubscriptionGCed()
+            Check.That(subscription1)
+               .IsNotNull();
+
+            Check.That(subscription1)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .IsNotNull();
+
+            Check.That(subscription2)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .Not.IsSameReferenceAs(subscription1);
+
+            Exception exception = null;
+
+            using (EventSystem.UnobservedException.SubscribeWeak(
+                    x => Volatile.Write(ref exception, x)
+                ))
             {
-                var service = new FooService();
-
-                var    called = 0;
-                String arg    = null;
-
-                var subscription = service.Changed.SubscribeWeak(
-                    x => {
-                        arg = x;
-                        called++;
-                    }
-                );
-
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                var strongSub = (ActionSubscription<String>) subscription;
-                var weakSub   = (WeakSubscription<String>) strongSub.TestingGetPreviousSubscription();
-                strongSub.TestingClearNextSubscription();
-                weakSub.TestingClearNextSubscription();
-
                 var factoryCalled = 0;
 
                 var flag1 = service.Do(
@@ -721,181 +926,605 @@ namespace Amarok.Events
                     }
                 );
 
-                Check.That(flag1).IsTrue();
-                Check.That(called).IsEqualTo(0);
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-                Check.That(factoryCalled).IsEqualTo(1);
+                Check.That(flag1)
+                   .IsTrue();
 
-                factoryCalled = 0;
+                Check.That(called1)
+                   .IsEqualTo(1);
 
-                var flag2 = service.Do(
-                    () => {
-                        factoryCalled++;
+                Check.That(arg1)
+                   .IsEqualTo("abc");
 
-                        return "abc";
-                    }
-                );
+                Check.That(called2)
+                   .IsEqualTo(1);
 
-                Check.That(flag2).IsFalse();
-                Check.That(called).IsEqualTo(0);
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(factoryCalled).IsEqualTo(0);
+                Check.That(arg2)
+                   .IsEqualTo("abc");
 
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()).IsNull();
-            }
+                Check.That(factoryCalled)
+                   .IsEqualTo(1);
 
-            [Test]
-            public void Invoke_After_SubscriptionDisposed()
-            {
-                var service = new FooService();
+                Check.That(exception)
+                   .IsInstanceOf<ApplicationException>();
 
-                var    called = 0;
-                String arg    = null;
+                Check.That(exception.Message)
+                   .IsEqualTo("1");
 
-                var subscription = service.Changed.SubscribeWeak(
-                    x => {
-                        arg = x;
-                        called++;
-                    }
-                );
+                Check.That(service.ChangedSource.NumberOfSubscriptions)
+                   .IsEqualTo(2);
 
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
+                Check.That(service.ChangedSource.IsDisposed)
+                   .IsFalse();
 
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
+                Check.That(service.ChangedSource.Event)
+                   .IsEqualTo(service.Changed);
 
-                subscription.Dispose();
+                Check.That(service.Changed.Source)
+                   .IsSameReferenceAs(service.ChangedSource);
 
-                var factoryCalled = 0;
-
-                var flag1 = service.Do(
-                    () => {
-                        factoryCalled++;
-
-                        return "abc";
-                    }
-                );
-
-                Check.That(flag1).IsFalse();
-                Check.That(called).IsEqualTo(0);
-                Check.That(factoryCalled).IsEqualTo(0);
-
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-
-                Check.That(service.ChangedSource.Event).IsEqualTo(service.Changed);
-                Check.That(service.Changed.Source).IsSameReferenceAs(service.ChangedSource);
-                Check.That(service.Changed.HasSource).IsTrue();
-            }
-
-            [Test]
-            public void Invoke_After_EventSourceDisposed()
-            {
-                var service = new FooService();
-
-                var    called = 0;
-                String arg    = null;
-
-                var subscription = service.Changed.SubscribeWeak(
-                    x => {
-                        arg = x;
-                        called++;
-                    }
-                );
-
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                service.ChangedSource.Dispose();
-
-                var factoryCalled = 0;
-
-                var flag1 = service.Do(
-                    () => {
-                        factoryCalled++;
-
-                        return "abc";
-                    }
-                );
-
-                Check.That(flag1).IsFalse();
-                Check.That(called).IsEqualTo(0);
-                Check.That(factoryCalled).IsEqualTo(0);
-
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsTrue();
-
-                Check.That(service.ChangedSource.Event).IsEqualTo(service.Changed);
-                Check.That(service.Changed.Source).IsSameReferenceAs(service.ChangedSource);
-                Check.That(service.Changed.HasSource).IsTrue();
-            }
-
-            [Test]
-            public void Exception_For_NullFactory()
-            {
-                var service = new FooService();
-
-                Check.ThatCode(() => service.Do((Func<String>) null))
-                   .Throws<ArgumentNullException>()
-                   .WithProperty(x => x.ParamName, "valueFactory");
+                Check.That(service.Changed.HasSource)
+                   .IsTrue();
             }
         }
 
-        [TestFixture]
-        public class Invoke_ValueFactory_Arg1
+        [Test]
+        public void Invoke_After_SubscriptionGCed()
         {
-            [Test]
-            public void Invoke_Without_Handler()
-            {
-                var service = new FooService();
+            var service = new FooService();
 
-                var flag = service.Do(
-                    a => {
-                        Assert.Fail("MUST NOT be calld");
+            var    called = 0;
+            String arg    = null;
 
-                        return "abc";
-                    },
-                    123
-                );
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
 
-                Check.That(flag).IsFalse();
+            Check.That(subscription)
+               .IsNotNull();
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
 
-                Check.That(service.ChangedSource.Event).IsEqualTo(service.Changed);
-                Check.That(service.Changed.Source).IsSameReferenceAs(service.ChangedSource);
-                Check.That(service.Changed.HasSource).IsTrue();
-            }
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
 
-            [Test]
-            public void Invoke_With_SingleHandler()
-            {
-                var service = new FooService();
+            var strongSub = (ActionSubscription<String>) subscription;
+            var weakSub   = (WeakSubscription<String>) strongSub.TestingGetPreviousSubscription();
+            strongSub.TestingClearNextSubscription();
+            weakSub.TestingClearNextSubscription();
 
-                var    called = 0;
-                String arg    = null;
+            var factoryCalled = 0;
 
-                var subscription = service.Changed.SubscribeWeak(
+            var flag1 = service.Do(
+                () => {
+                    factoryCalled++;
+
+                    return "abc";
+                }
+            );
+
+            Check.That(flag1)
+               .IsTrue();
+
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            factoryCalled = 0;
+
+            var flag2 = service.Do(
+                () => {
+                    factoryCalled++;
+
+                    return "abc";
+                }
+            );
+
+            Check.That(flag2)
+               .IsFalse();
+
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(factoryCalled)
+               .IsEqualTo(0);
+
+            Check.That(subscription)
+               .IsNotNull();
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsNull();
+        }
+
+        [Test]
+        public void Invoke_After_SubscriptionDisposed()
+        {
+            var service = new FooService();
+
+            var    called = 0;
+            String arg    = null;
+
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
+
+            Check.That(subscription)
+               .IsNotNull();
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            subscription.Dispose();
+
+            var factoryCalled = 0;
+
+            var flag1 = service.Do(
+                () => {
+                    factoryCalled++;
+
+                    return "abc";
+                }
+            );
+
+            Check.That(flag1)
+               .IsFalse();
+
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(factoryCalled)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+
+            Check.That(service.ChangedSource.Event)
+               .IsEqualTo(service.Changed);
+
+            Check.That(service.Changed.Source)
+               .IsSameReferenceAs(service.ChangedSource);
+
+            Check.That(service.Changed.HasSource)
+               .IsTrue();
+        }
+
+        [Test]
+        public void Invoke_After_EventSourceDisposed()
+        {
+            var service = new FooService();
+
+            var    called = 0;
+            String arg    = null;
+
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
+
+            Check.That(subscription)
+               .IsNotNull();
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            service.ChangedSource.Dispose();
+
+            var factoryCalled = 0;
+
+            var flag1 = service.Do(
+                () => {
+                    factoryCalled++;
+
+                    return "abc";
+                }
+            );
+
+            Check.That(flag1)
+               .IsFalse();
+
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(factoryCalled)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsTrue();
+
+            Check.That(service.ChangedSource.Event)
+               .IsEqualTo(service.Changed);
+
+            Check.That(service.Changed.Source)
+               .IsSameReferenceAs(service.ChangedSource);
+
+            Check.That(service.Changed.HasSource)
+               .IsTrue();
+        }
+
+        [Test]
+        public void Exception_For_NullFactory()
+        {
+            var service = new FooService();
+
+            Check.ThatCode(() => service.Do((Func<String>) null))
+               .Throws<ArgumentNullException>()
+               .WithProperty(x => x.ParamName, "valueFactory");
+        }
+    }
+
+    [TestFixture]
+    public class Invoke_ValueFactory_Arg1
+    {
+        [Test]
+        public void Invoke_Without_Handler()
+        {
+            var service = new FooService();
+
+            var flag = service.Do(
+                a => {
+                    Assert.Fail("MUST NOT be calld");
+
+                    return "abc";
+                },
+                123
+            );
+
+            Check.That(flag)
+               .IsFalse();
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+
+            Check.That(service.ChangedSource.Event)
+               .IsEqualTo(service.Changed);
+
+            Check.That(service.Changed.Source)
+               .IsSameReferenceAs(service.ChangedSource);
+
+            Check.That(service.Changed.HasSource)
+               .IsTrue();
+        }
+
+        [Test]
+        public void Invoke_With_SingleHandler()
+        {
+            var service = new FooService();
+
+            var    called = 0;
+            String arg    = null;
+
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
+
+            Check.That(subscription)
+               .IsNotNull();
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            var factoryCalled = 0;
+            var fa            = 0;
+
+            var flag1 = service.Do(
+                a => {
+                    fa = a;
+                    factoryCalled++;
+
+                    return "abc";
+                },
+                123
+            );
+
+            Check.That(flag1)
+               .IsTrue();
+
+            Check.That(called)
+               .IsEqualTo(1);
+
+            Check.That(arg)
+               .IsEqualTo("abc");
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            Check.That(fa)
+               .IsEqualTo(123);
+
+            called        = 0;
+            factoryCalled = 0;
+            fa            = 0;
+
+            var flag2 = service.Do(
+                a => {
+                    fa = a;
+                    factoryCalled++;
+
+                    return "def";
+                },
+                456
+            );
+
+            Check.That(flag2)
+               .IsTrue();
+
+            Check.That(called)
+               .IsEqualTo(1);
+
+            Check.That(arg)
+               .IsEqualTo("def");
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            Check.That(fa)
+               .IsEqualTo(456);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(1);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+
+            Check.That(service.ChangedSource.Event)
+               .IsEqualTo(service.Changed);
+
+            Check.That(service.Changed.Source)
+               .IsSameReferenceAs(service.ChangedSource);
+
+            Check.That(service.Changed.HasSource)
+               .IsTrue();
+        }
+
+        [Test]
+        public void Invoke_With_MultipleHandler()
+        {
+            var service = new FooService();
+
+            var    called1 = 0;
+            String arg1    = null;
+
+            var subscription1 = service.Changed.SubscribeWeak(
+                x => {
+                    arg1 = x;
+                    called1++;
+                }
+            );
+
+            var    called2 = 0;
+            String arg2    = null;
+
+            var subscription2 = service.Changed.SubscribeWeak(
+                x => {
+                    arg2 = x;
+                    called2++;
+                }
+            );
+
+            Check.That(subscription1)
+               .IsNotNull();
+
+            Check.That(subscription1)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .IsNotNull();
+
+            Check.That(subscription2)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .Not.IsSameReferenceAs(subscription1);
+
+            var factoryCalled = 0;
+            var fa            = 0;
+
+            var flag1 = service.Do(
+                a => {
+                    fa = a;
+                    factoryCalled++;
+
+                    return "abc";
+                },
+                123
+            );
+
+            Check.That(flag1)
+               .IsTrue();
+
+            Check.That(called1)
+               .IsEqualTo(1);
+
+            Check.That(arg1)
+               .IsEqualTo("abc");
+
+            Check.That(called2)
+               .IsEqualTo(1);
+
+            Check.That(arg2)
+               .IsEqualTo("abc");
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            Check.That(fa)
+               .IsEqualTo(123);
+
+            called1       = 0;
+            called2       = 0;
+            factoryCalled = 0;
+            fa            = 0;
+
+            var flag2 = service.Do(
+                a => {
+                    fa = a;
+                    factoryCalled++;
+
+                    return "def";
+                },
+                456
+            );
+
+            Check.That(flag2)
+               .IsTrue();
+
+            Check.That(called1)
+               .IsEqualTo(1);
+
+            Check.That(arg1)
+               .IsEqualTo("def");
+
+            Check.That(called2)
+               .IsEqualTo(1);
+
+            Check.That(arg2)
+               .IsEqualTo("def");
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            Check.That(fa)
+               .IsEqualTo(456);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(2);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+
+            Check.That(service.ChangedSource.Event)
+               .IsEqualTo(service.Changed);
+
+            Check.That(service.Changed.Source)
+               .IsSameReferenceAs(service.ChangedSource);
+
+            Check.That(service.Changed.HasSource)
+               .IsTrue();
+        }
+
+        [Test]
+        public void Invoke_With_MultipleHandler_OneThrowingExceptionAllInvoked()
+        {
+            var service = new FooService();
+
+            var    called1 = 0;
+            String arg1    = null;
+
+            var subscription1 = service.Changed.SubscribeWeak(
+                new Action<String>(
                     x => {
-                        arg = x;
-                        called++;
+                        arg1 = x;
+                        called1++;
+
+                        throw new ApplicationException("1");
                     }
-                );
+                )
+            );
 
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
+            var    called2 = 0;
+            String arg2    = null;
 
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
+            var subscription2 = service.Changed.SubscribeWeak(
+                x => {
+                    arg2 = x;
+                    called2++;
+                }
+            );
 
+            Check.That(subscription1)
+               .IsNotNull();
+
+            Check.That(subscription1)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .IsNotNull();
+
+            Check.That(subscription2)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .Not.IsSameReferenceAs(subscription1);
+
+            Exception exception = null;
+
+            using (EventSystem.UnobservedException.SubscribeWeak(
+                    x => Volatile.Write(ref exception, x)
+                ))
+            {
                 var factoryCalled = 0;
                 var fa            = 0;
 
@@ -909,433 +1538,647 @@ namespace Amarok.Events
                     123
                 );
 
-                Check.That(flag1).IsTrue();
-                Check.That(called).IsEqualTo(1);
-                Check.That(arg).IsEqualTo("abc");
-                Check.That(factoryCalled).IsEqualTo(1);
-                Check.That(fa).IsEqualTo(123);
+                Check.That(flag1)
+                   .IsTrue();
 
-                called        = 0;
-                factoryCalled = 0;
-                fa            = 0;
+                Check.That(called1)
+                   .IsEqualTo(1);
 
-                var flag2 = service.Do(
-                    a => {
-                        fa = a;
-                        factoryCalled++;
+                Check.That(arg1)
+                   .IsEqualTo("abc");
 
-                        return "def";
-                    },
-                    456
-                );
+                Check.That(called2)
+                   .IsEqualTo(1);
 
-                Check.That(flag2).IsTrue();
-                Check.That(called).IsEqualTo(1);
-                Check.That(arg).IsEqualTo("def");
-                Check.That(factoryCalled).IsEqualTo(1);
-                Check.That(fa).IsEqualTo(456);
+                Check.That(arg2)
+                   .IsEqualTo("abc");
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
+                Check.That(factoryCalled)
+                   .IsEqualTo(1);
 
-                Check.That(service.ChangedSource.Event).IsEqualTo(service.Changed);
-                Check.That(service.Changed.Source).IsSameReferenceAs(service.ChangedSource);
-                Check.That(service.Changed.HasSource).IsTrue();
-            }
+                Check.That(fa)
+                   .IsEqualTo(123);
 
-            [Test]
-            public void Invoke_With_MultipleHandler()
-            {
-                var service = new FooService();
+                Check.That(exception)
+                   .IsInstanceOf<ApplicationException>();
 
-                var    called1 = 0;
-                String arg1    = null;
+                Check.That(exception.Message)
+                   .IsEqualTo("1");
 
-                var subscription1 = service.Changed.SubscribeWeak(
-                    x => {
-                        arg1 = x;
-                        called1++;
-                    }
-                );
+                Check.That(service.ChangedSource.NumberOfSubscriptions)
+                   .IsEqualTo(2);
 
-                var    called2 = 0;
-                String arg2    = null;
+                Check.That(service.ChangedSource.IsDisposed)
+                   .IsFalse();
 
-                var subscription2 = service.Changed.SubscribeWeak(
-                    x => {
-                        arg2 = x;
-                        called2++;
-                    }
-                );
+                Check.That(service.ChangedSource.Event)
+                   .IsEqualTo(service.Changed);
 
-                Check.That(subscription1).IsNotNull();
-                Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
+                Check.That(service.Changed.Source)
+                   .IsSameReferenceAs(service.ChangedSource);
 
-                Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).IsNotNull();
-                Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
-
-                var factoryCalled = 0;
-                var fa            = 0;
-
-                var flag1 = service.Do(
-                    a => {
-                        fa = a;
-                        factoryCalled++;
-
-                        return "abc";
-                    },
-                    123
-                );
-
-                Check.That(flag1).IsTrue();
-                Check.That(called1).IsEqualTo(1);
-                Check.That(arg1).IsEqualTo("abc");
-                Check.That(called2).IsEqualTo(1);
-                Check.That(arg2).IsEqualTo("abc");
-                Check.That(factoryCalled).IsEqualTo(1);
-                Check.That(fa).IsEqualTo(123);
-
-                called1       = 0;
-                called2       = 0;
-                factoryCalled = 0;
-                fa            = 0;
-
-                var flag2 = service.Do(
-                    a => {
-                        fa = a;
-                        factoryCalled++;
-
-                        return "def";
-                    },
-                    456
-                );
-
-                Check.That(flag2).IsTrue();
-                Check.That(called1).IsEqualTo(1);
-                Check.That(arg1).IsEqualTo("def");
-                Check.That(called2).IsEqualTo(1);
-                Check.That(arg2).IsEqualTo("def");
-                Check.That(factoryCalled).IsEqualTo(1);
-                Check.That(fa).IsEqualTo(456);
-
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-
-                Check.That(service.ChangedSource.Event).IsEqualTo(service.Changed);
-                Check.That(service.Changed.Source).IsSameReferenceAs(service.ChangedSource);
-                Check.That(service.Changed.HasSource).IsTrue();
-            }
-
-            [Test]
-            public void Invoke_With_MultipleHandler_OneThrowingExceptionAllInvoked()
-            {
-                var service = new FooService();
-
-                var    called1 = 0;
-                String arg1    = null;
-
-                var subscription1 = service.Changed.SubscribeWeak(
-                    new Action<String>(
-                        x => {
-                            arg1 = x;
-                            called1++;
-
-                            throw new ApplicationException("1");
-                        }
-                    )
-                );
-
-                var    called2 = 0;
-                String arg2    = null;
-
-                var subscription2 = service.Changed.SubscribeWeak(
-                    x => {
-                        arg2 = x;
-                        called2++;
-                    }
-                );
-
-                Check.That(subscription1).IsNotNull();
-                Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).IsNotNull();
-                Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
-
-                Exception exception = null;
-
-                using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
-                {
-                    var factoryCalled = 0;
-                    var fa            = 0;
-
-                    var flag1 = service.Do(
-                        a => {
-                            fa = a;
-                            factoryCalled++;
-
-                            return "abc";
-                        },
-                        123
-                    );
-
-                    Check.That(flag1).IsTrue();
-                    Check.That(called1).IsEqualTo(1);
-                    Check.That(arg1).IsEqualTo("abc");
-                    Check.That(called2).IsEqualTo(1);
-                    Check.That(arg2).IsEqualTo("abc");
-                    Check.That(factoryCalled).IsEqualTo(1);
-                    Check.That(fa).IsEqualTo(123);
-
-                    Check.That(exception).IsInstanceOf<ApplicationException>();
-                    Check.That(exception.Message).IsEqualTo("1");
-
-                    Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
-                    Check.That(service.ChangedSource.IsDisposed).IsFalse();
-
-                    Check.That(service.ChangedSource.Event).IsEqualTo(service.Changed);
-                    Check.That(service.Changed.Source).IsSameReferenceAs(service.ChangedSource);
-                    Check.That(service.Changed.HasSource).IsTrue();
-                }
-            }
-
-            [Test]
-            public void Invoke_After_SubscriptionGCed()
-            {
-                var service = new FooService();
-
-                var    called = 0;
-                String arg    = null;
-
-                var subscription = service.Changed.SubscribeWeak(
-                    x => {
-                        arg = x;
-                        called++;
-                    }
-                );
-
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                var strongSub = (ActionSubscription<String>) subscription;
-                var weakSub   = (WeakSubscription<String>) strongSub.TestingGetPreviousSubscription();
-                strongSub.TestingClearNextSubscription();
-                weakSub.TestingClearNextSubscription();
-
-                var factoryCalled = 0;
-                var fa            = 0;
-
-                var flag1 = service.Do(
-                    a => {
-                        fa = a;
-                        factoryCalled++;
-
-                        return "abc";
-                    },
-                    123
-                );
-
-                Check.That(flag1).IsTrue();
-                Check.That(called).IsEqualTo(0);
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-                Check.That(factoryCalled).IsEqualTo(1);
-                Check.That(fa).IsEqualTo(123);
-
-                factoryCalled = 0;
-                fa            = 0;
-
-                var flag2 = service.Do(
-                    a => {
-                        fa = a;
-                        factoryCalled++;
-
-                        return "abc";
-                    },
-                    456
-                );
-
-                Check.That(flag2).IsFalse();
-                Check.That(called).IsEqualTo(0);
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(factoryCalled).IsEqualTo(0);
-                Check.That(fa).IsEqualTo(0);
-
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()).IsNull();
-            }
-
-            [Test]
-            public void Invoke_After_SubscriptionDisposed()
-            {
-                var service = new FooService();
-
-                var    called = 0;
-                String arg    = null;
-
-                var subscription = service.Changed.SubscribeWeak(
-                    x => {
-                        arg = x;
-                        called++;
-                    }
-                );
-
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                subscription.Dispose();
-
-                var factoryCalled = 0;
-
-                var flag1 = service.Do(
-                    a => {
-                        factoryCalled++;
-
-                        return "abc";
-                    },
-                    123
-                );
-
-                Check.That(flag1).IsFalse();
-                Check.That(called).IsEqualTo(0);
-                Check.That(factoryCalled).IsEqualTo(0);
-
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-
-                Check.That(service.ChangedSource.Event).IsEqualTo(service.Changed);
-                Check.That(service.Changed.Source).IsSameReferenceAs(service.ChangedSource);
-                Check.That(service.Changed.HasSource).IsTrue();
-            }
-
-            [Test]
-            public void Invoke_After_EventSourceDisposed()
-            {
-                var service = new FooService();
-
-                var    called = 0;
-                String arg    = null;
-
-                var subscription = service.Changed.SubscribeWeak(
-                    x => {
-                        arg = x;
-                        called++;
-                    }
-                );
-
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                service.ChangedSource.Dispose();
-
-                var factoryCalled = 0;
-
-                var flag1 = service.Do(
-                    a => {
-                        factoryCalled++;
-
-                        return "abc";
-                    },
-                    123
-                );
-
-                Check.That(flag1).IsFalse();
-                Check.That(called).IsEqualTo(0);
-                Check.That(factoryCalled).IsEqualTo(0);
-
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsTrue();
-
-                Check.That(service.ChangedSource.Event).IsEqualTo(service.Changed);
-                Check.That(service.Changed.Source).IsSameReferenceAs(service.ChangedSource);
-                Check.That(service.Changed.HasSource).IsTrue();
-            }
-
-            [Test]
-            public void Exception_For_NullFactory()
-            {
-                var service = new FooService();
-
-                Check.ThatCode(() => service.Do(null, 123))
-                   .Throws<ArgumentNullException>()
-                   .WithProperty(x => x.ParamName, "valueFactory");
+                Check.That(service.Changed.HasSource)
+                   .IsTrue();
             }
         }
 
-        [TestFixture]
-        public class Invoke_ValueFactory_Arg2
+        [Test]
+        public void Invoke_After_SubscriptionGCed()
         {
-            [Test]
-            public void Invoke_Without_Handler()
-            {
-                var service = new FooService();
+            var service = new FooService();
 
-                var flag = service.Do(
-                    (a, b) => {
-                        Assert.Fail("MUST NOT be calld");
+            var    called = 0;
+            String arg    = null;
 
-                        return "abc";
-                    },
-                    123,
-                    1.2
-                );
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
 
-                Check.That(flag).IsFalse();
+            Check.That(subscription)
+               .IsNotNull();
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
 
-                Check.That(service.ChangedSource.Event).IsEqualTo(service.Changed);
-                Check.That(service.Changed.Source).IsSameReferenceAs(service.ChangedSource);
-                Check.That(service.Changed.HasSource).IsTrue();
-            }
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
 
-            [Test]
-            public void Invoke_With_SingleHandler()
-            {
-                var service = new FooService();
+            var strongSub = (ActionSubscription<String>) subscription;
+            var weakSub   = (WeakSubscription<String>) strongSub.TestingGetPreviousSubscription();
+            strongSub.TestingClearNextSubscription();
+            weakSub.TestingClearNextSubscription();
 
-                var    called = 0;
-                String arg    = null;
+            var factoryCalled = 0;
+            var fa            = 0;
 
-                var subscription = service.Changed.SubscribeWeak(
+            var flag1 = service.Do(
+                a => {
+                    fa = a;
+                    factoryCalled++;
+
+                    return "abc";
+                },
+                123
+            );
+
+            Check.That(flag1)
+               .IsTrue();
+
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            Check.That(fa)
+               .IsEqualTo(123);
+
+            factoryCalled = 0;
+            fa            = 0;
+
+            var flag2 = service.Do(
+                a => {
+                    fa = a;
+                    factoryCalled++;
+
+                    return "abc";
+                },
+                456
+            );
+
+            Check.That(flag2)
+               .IsFalse();
+
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(factoryCalled)
+               .IsEqualTo(0);
+
+            Check.That(fa)
+               .IsEqualTo(0);
+
+            Check.That(subscription)
+               .IsNotNull();
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsNull();
+        }
+
+        [Test]
+        public void Invoke_After_SubscriptionDisposed()
+        {
+            var service = new FooService();
+
+            var    called = 0;
+            String arg    = null;
+
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
+
+            Check.That(subscription)
+               .IsNotNull();
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            subscription.Dispose();
+
+            var factoryCalled = 0;
+
+            var flag1 = service.Do(
+                a => {
+                    factoryCalled++;
+
+                    return "abc";
+                },
+                123
+            );
+
+            Check.That(flag1)
+               .IsFalse();
+
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(factoryCalled)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+
+            Check.That(service.ChangedSource.Event)
+               .IsEqualTo(service.Changed);
+
+            Check.That(service.Changed.Source)
+               .IsSameReferenceAs(service.ChangedSource);
+
+            Check.That(service.Changed.HasSource)
+               .IsTrue();
+        }
+
+        [Test]
+        public void Invoke_After_EventSourceDisposed()
+        {
+            var service = new FooService();
+
+            var    called = 0;
+            String arg    = null;
+
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
+
+            Check.That(subscription)
+               .IsNotNull();
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            service.ChangedSource.Dispose();
+
+            var factoryCalled = 0;
+
+            var flag1 = service.Do(
+                a => {
+                    factoryCalled++;
+
+                    return "abc";
+                },
+                123
+            );
+
+            Check.That(flag1)
+               .IsFalse();
+
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(factoryCalled)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsTrue();
+
+            Check.That(service.ChangedSource.Event)
+               .IsEqualTo(service.Changed);
+
+            Check.That(service.Changed.Source)
+               .IsSameReferenceAs(service.ChangedSource);
+
+            Check.That(service.Changed.HasSource)
+               .IsTrue();
+        }
+
+        [Test]
+        public void Exception_For_NullFactory()
+        {
+            var service = new FooService();
+
+            Check.ThatCode(() => service.Do(null, 123))
+               .Throws<ArgumentNullException>()
+               .WithProperty(x => x.ParamName, "valueFactory");
+        }
+    }
+
+    [TestFixture]
+    public class Invoke_ValueFactory_Arg2
+    {
+        [Test]
+        public void Invoke_Without_Handler()
+        {
+            var service = new FooService();
+
+            var flag = service.Do(
+                (a, b) => {
+                    Assert.Fail("MUST NOT be calld");
+
+                    return "abc";
+                },
+                123,
+                1.2
+            );
+
+            Check.That(flag)
+               .IsFalse();
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+
+            Check.That(service.ChangedSource.Event)
+               .IsEqualTo(service.Changed);
+
+            Check.That(service.Changed.Source)
+               .IsSameReferenceAs(service.ChangedSource);
+
+            Check.That(service.Changed.HasSource)
+               .IsTrue();
+        }
+
+        [Test]
+        public void Invoke_With_SingleHandler()
+        {
+            var service = new FooService();
+
+            var    called = 0;
+            String arg    = null;
+
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
+
+            Check.That(subscription)
+               .IsNotNull();
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            var factoryCalled = 0;
+            var fa            = 0;
+            var fb            = 0.0;
+
+            var flag1 = service.Do(
+                (a, b) => {
+                    fa = a;
+                    fb = b;
+                    factoryCalled++;
+
+                    return "abc";
+                },
+                123,
+                1.2
+            );
+
+            Check.That(flag1)
+               .IsTrue();
+
+            Check.That(called)
+               .IsEqualTo(1);
+
+            Check.That(arg)
+               .IsEqualTo("abc");
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            Check.That(fa)
+               .IsEqualTo(123);
+
+            Check.That(fb)
+               .IsEqualTo(1.2);
+
+            called        = 0;
+            factoryCalled = 0;
+            fa            = 0;
+            fb            = 0.0;
+
+            var flag2 = service.Do(
+                (a, b) => {
+                    fa = a;
+                    fb = b;
+                    factoryCalled++;
+
+                    return "def";
+                },
+                456,
+                3.4
+            );
+
+            Check.That(flag2)
+               .IsTrue();
+
+            Check.That(called)
+               .IsEqualTo(1);
+
+            Check.That(arg)
+               .IsEqualTo("def");
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            Check.That(fa)
+               .IsEqualTo(456);
+
+            Check.That(fb)
+               .IsEqualTo(3.4);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(1);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+
+            Check.That(service.ChangedSource.Event)
+               .IsEqualTo(service.Changed);
+
+            Check.That(service.Changed.Source)
+               .IsSameReferenceAs(service.ChangedSource);
+
+            Check.That(service.Changed.HasSource)
+               .IsTrue();
+        }
+
+        [Test]
+        public void Invoke_With_MultipleHandler()
+        {
+            var service = new FooService();
+
+            var    called1 = 0;
+            String arg1    = null;
+
+            var subscription1 = service.Changed.SubscribeWeak(
+                x => {
+                    arg1 = x;
+                    called1++;
+                }
+            );
+
+            var    called2 = 0;
+            String arg2    = null;
+
+            var subscription2 = service.Changed.SubscribeWeak(
+                x => {
+                    arg2 = x;
+                    called2++;
+                }
+            );
+
+            Check.That(subscription1)
+               .IsNotNull();
+
+            Check.That(subscription1)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .IsNotNull();
+
+            Check.That(subscription2)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .Not.IsSameReferenceAs(subscription1);
+
+            var factoryCalled = 0;
+            var fa            = 0;
+            var fb            = 0.0;
+
+            var flag1 = service.Do(
+                (a, b) => {
+                    fa = a;
+                    fb = b;
+                    factoryCalled++;
+
+                    return "abc";
+                },
+                123,
+                1.2
+            );
+
+            Check.That(flag1)
+               .IsTrue();
+
+            Check.That(called1)
+               .IsEqualTo(1);
+
+            Check.That(arg1)
+               .IsEqualTo("abc");
+
+            Check.That(called2)
+               .IsEqualTo(1);
+
+            Check.That(arg2)
+               .IsEqualTo("abc");
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            Check.That(fa)
+               .IsEqualTo(123);
+
+            Check.That(fb)
+               .IsEqualTo(1.2);
+
+            called1       = 0;
+            called2       = 0;
+            factoryCalled = 0;
+            fa            = 0;
+            fb            = 0.0;
+
+            var flag2 = service.Do(
+                (a, b) => {
+                    fa = a;
+                    fb = b;
+                    factoryCalled++;
+
+                    return "def";
+                },
+                456,
+                3.4
+            );
+
+            Check.That(flag2)
+               .IsTrue();
+
+            Check.That(called1)
+               .IsEqualTo(1);
+
+            Check.That(arg1)
+               .IsEqualTo("def");
+
+            Check.That(called2)
+               .IsEqualTo(1);
+
+            Check.That(arg2)
+               .IsEqualTo("def");
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            Check.That(fa)
+               .IsEqualTo(456);
+
+            Check.That(fb)
+               .IsEqualTo(3.4);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(2);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+
+            Check.That(service.ChangedSource.Event)
+               .IsEqualTo(service.Changed);
+
+            Check.That(service.Changed.Source)
+               .IsSameReferenceAs(service.ChangedSource);
+
+            Check.That(service.Changed.HasSource)
+               .IsTrue();
+        }
+
+        [Test]
+        public void Invoke_With_MultipleHandler_OneThrowingExceptionAllInvoked()
+        {
+            var service = new FooService();
+
+            var    called1 = 0;
+            String arg1    = null;
+
+            var subscription1 = service.Changed.SubscribeWeak(
+                new Action<String>(
                     x => {
-                        arg = x;
-                        called++;
+                        arg1 = x;
+                        called1++;
+
+                        throw new ApplicationException("1");
                     }
-                );
+                )
+            );
 
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
+            var    called2 = 0;
+            String arg2    = null;
 
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
+            var subscription2 = service.Changed.SubscribeWeak(
+                x => {
+                    arg2 = x;
+                    called2++;
+                }
+            );
 
+            Check.That(subscription1)
+               .IsNotNull();
+
+            Check.That(subscription1)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .IsNotNull();
+
+            Check.That(subscription2)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .Not.IsSameReferenceAs(subscription1);
+
+            Exception exception = null;
+
+            using (EventSystem.UnobservedException.SubscribeWeak(
+                    x => Volatile.Write(ref exception, x)
+                ))
+            {
                 var factoryCalled = 0;
                 var fa            = 0;
                 var fb            = 0.0;
@@ -1352,461 +2195,689 @@ namespace Amarok.Events
                     1.2
                 );
 
-                Check.That(flag1).IsTrue();
-                Check.That(called).IsEqualTo(1);
-                Check.That(arg).IsEqualTo("abc");
-                Check.That(factoryCalled).IsEqualTo(1);
-                Check.That(fa).IsEqualTo(123);
-                Check.That(fb).IsEqualTo(1.2);
+                Check.That(flag1)
+                   .IsTrue();
 
-                called        = 0;
-                factoryCalled = 0;
-                fa            = 0;
-                fb            = 0.0;
+                Check.That(called1)
+                   .IsEqualTo(1);
 
-                var flag2 = service.Do(
-                    (a, b) => {
-                        fa = a;
-                        fb = b;
-                        factoryCalled++;
+                Check.That(arg1)
+                   .IsEqualTo("abc");
 
-                        return "def";
-                    },
-                    456,
-                    3.4
-                );
+                Check.That(called2)
+                   .IsEqualTo(1);
 
-                Check.That(flag2).IsTrue();
-                Check.That(called).IsEqualTo(1);
-                Check.That(arg).IsEqualTo("def");
-                Check.That(factoryCalled).IsEqualTo(1);
-                Check.That(fa).IsEqualTo(456);
-                Check.That(fb).IsEqualTo(3.4);
+                Check.That(arg2)
+                   .IsEqualTo("abc");
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
+                Check.That(factoryCalled)
+                   .IsEqualTo(1);
 
-                Check.That(service.ChangedSource.Event).IsEqualTo(service.Changed);
-                Check.That(service.Changed.Source).IsSameReferenceAs(service.ChangedSource);
-                Check.That(service.Changed.HasSource).IsTrue();
-            }
+                Check.That(fa)
+                   .IsEqualTo(123);
 
-            [Test]
-            public void Invoke_With_MultipleHandler()
-            {
-                var service = new FooService();
+                Check.That(fb)
+                   .IsEqualTo(1.2);
 
-                var    called1 = 0;
-                String arg1    = null;
+                Check.That(exception)
+                   .IsInstanceOf<ApplicationException>();
 
-                var subscription1 = service.Changed.SubscribeWeak(
-                    x => {
-                        arg1 = x;
-                        called1++;
-                    }
-                );
+                Check.That(exception.Message)
+                   .IsEqualTo("1");
 
-                var    called2 = 0;
-                String arg2    = null;
+                Check.That(service.ChangedSource.NumberOfSubscriptions)
+                   .IsEqualTo(2);
 
-                var subscription2 = service.Changed.SubscribeWeak(
-                    x => {
-                        arg2 = x;
-                        called2++;
-                    }
-                );
+                Check.That(service.ChangedSource.IsDisposed)
+                   .IsFalse();
 
-                Check.That(subscription1).IsNotNull();
-                Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
+                Check.That(service.ChangedSource.Event)
+                   .IsEqualTo(service.Changed);
 
-                Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
+                Check.That(service.Changed.Source)
+                   .IsSameReferenceAs(service.ChangedSource);
 
-                Check.That(subscription2).IsNotNull();
-                Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
-
-                var factoryCalled = 0;
-                var fa            = 0;
-                var fb            = 0.0;
-
-                var flag1 = service.Do(
-                    (a, b) => {
-                        fa = a;
-                        fb = b;
-                        factoryCalled++;
-
-                        return "abc";
-                    },
-                    123,
-                    1.2
-                );
-
-                Check.That(flag1).IsTrue();
-                Check.That(called1).IsEqualTo(1);
-                Check.That(arg1).IsEqualTo("abc");
-                Check.That(called2).IsEqualTo(1);
-                Check.That(arg2).IsEqualTo("abc");
-                Check.That(factoryCalled).IsEqualTo(1);
-                Check.That(fa).IsEqualTo(123);
-                Check.That(fb).IsEqualTo(1.2);
-
-                called1       = 0;
-                called2       = 0;
-                factoryCalled = 0;
-                fa            = 0;
-                fb            = 0.0;
-
-                var flag2 = service.Do(
-                    (a, b) => {
-                        fa = a;
-                        fb = b;
-                        factoryCalled++;
-
-                        return "def";
-                    },
-                    456,
-                    3.4
-                );
-
-                Check.That(flag2).IsTrue();
-                Check.That(called1).IsEqualTo(1);
-                Check.That(arg1).IsEqualTo("def");
-                Check.That(called2).IsEqualTo(1);
-                Check.That(arg2).IsEqualTo("def");
-                Check.That(factoryCalled).IsEqualTo(1);
-                Check.That(fa).IsEqualTo(456);
-                Check.That(fb).IsEqualTo(3.4);
-
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-
-                Check.That(service.ChangedSource.Event).IsEqualTo(service.Changed);
-                Check.That(service.Changed.Source).IsSameReferenceAs(service.ChangedSource);
-                Check.That(service.Changed.HasSource).IsTrue();
-            }
-
-            [Test]
-            public void Invoke_With_MultipleHandler_OneThrowingExceptionAllInvoked()
-            {
-                var service = new FooService();
-
-                var    called1 = 0;
-                String arg1    = null;
-
-                var subscription1 = service.Changed.SubscribeWeak(
-                    new Action<String>(
-                        x => {
-                            arg1 = x;
-                            called1++;
-
-                            throw new ApplicationException("1");
-                        }
-                    )
-                );
-
-                var    called2 = 0;
-                String arg2    = null;
-
-                var subscription2 = service.Changed.SubscribeWeak(
-                    x => {
-                        arg2 = x;
-                        called2++;
-                    }
-                );
-
-                Check.That(subscription1).IsNotNull();
-                Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).IsNotNull();
-                Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
-
-                Exception exception = null;
-
-                using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
-                {
-                    var factoryCalled = 0;
-                    var fa            = 0;
-                    var fb            = 0.0;
-
-                    var flag1 = service.Do(
-                        (a, b) => {
-                            fa = a;
-                            fb = b;
-                            factoryCalled++;
-
-                            return "abc";
-                        },
-                        123,
-                        1.2
-                    );
-
-                    Check.That(flag1).IsTrue();
-                    Check.That(called1).IsEqualTo(1);
-                    Check.That(arg1).IsEqualTo("abc");
-                    Check.That(called2).IsEqualTo(1);
-                    Check.That(arg2).IsEqualTo("abc");
-                    Check.That(factoryCalled).IsEqualTo(1);
-                    Check.That(fa).IsEqualTo(123);
-                    Check.That(fb).IsEqualTo(1.2);
-
-                    Check.That(exception).IsInstanceOf<ApplicationException>();
-                    Check.That(exception.Message).IsEqualTo("1");
-
-                    Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
-                    Check.That(service.ChangedSource.IsDisposed).IsFalse();
-
-                    Check.That(service.ChangedSource.Event).IsEqualTo(service.Changed);
-                    Check.That(service.Changed.Source).IsSameReferenceAs(service.ChangedSource);
-                    Check.That(service.Changed.HasSource).IsTrue();
-                }
-            }
-
-            [Test]
-            public void Invoke_After_SubscriptionGCed()
-            {
-                var service = new FooService();
-
-                var    called = 0;
-                String arg    = null;
-
-                var subscription = service.Changed.SubscribeWeak(
-                    x => {
-                        arg = x;
-                        called++;
-                    }
-                );
-
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                var strongSub = (ActionSubscription<String>) subscription;
-                var weakSub   = (WeakSubscription<String>) strongSub.TestingGetPreviousSubscription();
-                strongSub.TestingClearNextSubscription();
-                weakSub.TestingClearNextSubscription();
-
-                var factoryCalled = 0;
-                var fa            = 0;
-                var fb            = 0.0;
-
-                var flag1 = service.Do(
-                    (a, b) => {
-                        fa = a;
-                        fb = b;
-                        factoryCalled++;
-
-                        return "abc";
-                    },
-                    123,
-                    1.2
-                );
-
-                Check.That(flag1).IsTrue();
-                Check.That(called).IsEqualTo(0);
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-                Check.That(factoryCalled).IsEqualTo(1);
-                Check.That(fa).IsEqualTo(123);
-                Check.That(fb).IsEqualTo(1.2);
-
-                factoryCalled = 0;
-                fa            = 0;
-                fb            = 0.0;
-
-                var flag2 = service.Do(
-                    (a, b) => {
-                        fa = a;
-                        fb = b;
-                        factoryCalled++;
-
-                        return "abc";
-                    },
-                    456,
-                    3.4
-                );
-
-                Check.That(flag2).IsFalse();
-                Check.That(called).IsEqualTo(0);
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(factoryCalled).IsEqualTo(0);
-                Check.That(fa).IsEqualTo(0);
-                Check.That(fb).IsEqualTo(0.0);
-
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()).IsNull();
-            }
-
-            [Test]
-            public void Invoke_After_SubscriptionDisposed()
-            {
-                var service = new FooService();
-
-                var    called = 0;
-                String arg    = null;
-
-                var subscription = service.Changed.SubscribeWeak(
-                    x => {
-                        arg = x;
-                        called++;
-                    }
-                );
-
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                subscription.Dispose();
-
-                var factoryCalled = 0;
-
-                var flag1 = service.Do(
-                    (a, b) => {
-                        factoryCalled++;
-
-                        return "abc";
-                    },
-                    123,
-                    1.2
-                );
-
-                Check.That(flag1).IsFalse();
-                Check.That(called).IsEqualTo(0);
-                Check.That(factoryCalled).IsEqualTo(0);
-
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-
-                Check.That(service.ChangedSource.Event).IsEqualTo(service.Changed);
-                Check.That(service.Changed.Source).IsSameReferenceAs(service.ChangedSource);
-                Check.That(service.Changed.HasSource).IsTrue();
-            }
-
-            [Test]
-            public void Invoke_After_EventSourceDisposed()
-            {
-                var service = new FooService();
-
-                var    called = 0;
-                String arg    = null;
-
-                var subscription = service.Changed.SubscribeWeak(
-                    x => {
-                        arg = x;
-                        called++;
-                    }
-                );
-
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                service.ChangedSource.Dispose();
-
-                var factoryCalled = 0;
-
-                var flag1 = service.Do(
-                    (a, b) => {
-                        factoryCalled++;
-
-                        return "abc";
-                    },
-                    123,
-                    1.2
-                );
-
-                Check.That(flag1).IsFalse();
-                Check.That(called).IsEqualTo(0);
-                Check.That(factoryCalled).IsEqualTo(0);
-
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsTrue();
-
-                Check.That(service.ChangedSource.Event).IsEqualTo(service.Changed);
-                Check.That(service.Changed.Source).IsSameReferenceAs(service.ChangedSource);
-                Check.That(service.Changed.HasSource).IsTrue();
-            }
-
-            [Test]
-            public void Exception_For_NullFactory()
-            {
-                var service = new FooService();
-
-                Check.ThatCode(() => service.Do(null, 123, 1.2))
-                   .Throws<ArgumentNullException>()
-                   .WithProperty(x => x.ParamName, "valueFactory");
+                Check.That(service.Changed.HasSource)
+                   .IsTrue();
             }
         }
 
-        [TestFixture]
-        public class Invoke_ValueFactory_Arg3
+        [Test]
+        public void Invoke_After_SubscriptionGCed()
         {
-            [Test]
-            public void Invoke_Without_Handler()
-            {
-                var service = new FooService();
+            var service = new FooService();
 
-                var flag = service.Do(
-                    (a, b, c) => {
-                        Assert.Fail("MUST NOT be calld");
+            var    called = 0;
+            String arg    = null;
 
-                        return "abc";
-                    },
-                    123,
-                    1.2,
-                    'a'
-                );
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
 
-                Check.That(flag).IsFalse();
+            Check.That(subscription)
+               .IsNotNull();
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
 
-                Check.That(service.ChangedSource.Event).IsEqualTo(service.Changed);
-                Check.That(service.Changed.Source).IsSameReferenceAs(service.ChangedSource);
-                Check.That(service.Changed.HasSource).IsTrue();
-            }
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
 
-            [Test]
-            public void Invoke_With_SingleHandler()
-            {
-                var service = new FooService();
+            var strongSub = (ActionSubscription<String>) subscription;
+            var weakSub   = (WeakSubscription<String>) strongSub.TestingGetPreviousSubscription();
+            strongSub.TestingClearNextSubscription();
+            weakSub.TestingClearNextSubscription();
 
-                var    called = 0;
-                String arg    = null;
+            var factoryCalled = 0;
+            var fa            = 0;
+            var fb            = 0.0;
 
-                var subscription = service.Changed.SubscribeWeak(
+            var flag1 = service.Do(
+                (a, b) => {
+                    fa = a;
+                    fb = b;
+                    factoryCalled++;
+
+                    return "abc";
+                },
+                123,
+                1.2
+            );
+
+            Check.That(flag1)
+               .IsTrue();
+
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            Check.That(fa)
+               .IsEqualTo(123);
+
+            Check.That(fb)
+               .IsEqualTo(1.2);
+
+            factoryCalled = 0;
+            fa            = 0;
+            fb            = 0.0;
+
+            var flag2 = service.Do(
+                (a, b) => {
+                    fa = a;
+                    fb = b;
+                    factoryCalled++;
+
+                    return "abc";
+                },
+                456,
+                3.4
+            );
+
+            Check.That(flag2)
+               .IsFalse();
+
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(factoryCalled)
+               .IsEqualTo(0);
+
+            Check.That(fa)
+               .IsEqualTo(0);
+
+            Check.That(fb)
+               .IsEqualTo(0.0);
+
+            Check.That(subscription)
+               .IsNotNull();
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsNull();
+        }
+
+        [Test]
+        public void Invoke_After_SubscriptionDisposed()
+        {
+            var service = new FooService();
+
+            var    called = 0;
+            String arg    = null;
+
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
+
+            Check.That(subscription)
+               .IsNotNull();
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            subscription.Dispose();
+
+            var factoryCalled = 0;
+
+            var flag1 = service.Do(
+                (a, b) => {
+                    factoryCalled++;
+
+                    return "abc";
+                },
+                123,
+                1.2
+            );
+
+            Check.That(flag1)
+               .IsFalse();
+
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(factoryCalled)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+
+            Check.That(service.ChangedSource.Event)
+               .IsEqualTo(service.Changed);
+
+            Check.That(service.Changed.Source)
+               .IsSameReferenceAs(service.ChangedSource);
+
+            Check.That(service.Changed.HasSource)
+               .IsTrue();
+        }
+
+        [Test]
+        public void Invoke_After_EventSourceDisposed()
+        {
+            var service = new FooService();
+
+            var    called = 0;
+            String arg    = null;
+
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
+
+            Check.That(subscription)
+               .IsNotNull();
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            service.ChangedSource.Dispose();
+
+            var factoryCalled = 0;
+
+            var flag1 = service.Do(
+                (a, b) => {
+                    factoryCalled++;
+
+                    return "abc";
+                },
+                123,
+                1.2
+            );
+
+            Check.That(flag1)
+               .IsFalse();
+
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(factoryCalled)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsTrue();
+
+            Check.That(service.ChangedSource.Event)
+               .IsEqualTo(service.Changed);
+
+            Check.That(service.Changed.Source)
+               .IsSameReferenceAs(service.ChangedSource);
+
+            Check.That(service.Changed.HasSource)
+               .IsTrue();
+        }
+
+        [Test]
+        public void Exception_For_NullFactory()
+        {
+            var service = new FooService();
+
+            Check.ThatCode(() => service.Do(null, 123, 1.2))
+               .Throws<ArgumentNullException>()
+               .WithProperty(x => x.ParamName, "valueFactory");
+        }
+    }
+
+    [TestFixture]
+    public class Invoke_ValueFactory_Arg3
+    {
+        [Test]
+        public void Invoke_Without_Handler()
+        {
+            var service = new FooService();
+
+            var flag = service.Do(
+                (a, b, c) => {
+                    Assert.Fail("MUST NOT be calld");
+
+                    return "abc";
+                },
+                123,
+                1.2,
+                'a'
+            );
+
+            Check.That(flag)
+               .IsFalse();
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+
+            Check.That(service.ChangedSource.Event)
+               .IsEqualTo(service.Changed);
+
+            Check.That(service.Changed.Source)
+               .IsSameReferenceAs(service.ChangedSource);
+
+            Check.That(service.Changed.HasSource)
+               .IsTrue();
+        }
+
+        [Test]
+        public void Invoke_With_SingleHandler()
+        {
+            var service = new FooService();
+
+            var    called = 0;
+            String arg    = null;
+
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
+
+            Check.That(subscription)
+               .IsNotNull();
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            var factoryCalled = 0;
+            var fa            = 0;
+            var fb            = 0.0;
+            var fc            = ' ';
+
+            var flag1 = service.Do(
+                (a, b, c) => {
+                    fa = a;
+                    fb = b;
+                    fc = c;
+                    factoryCalled++;
+
+                    return "abc";
+                },
+                123,
+                1.2,
+                'a'
+            );
+
+            Check.That(flag1)
+               .IsTrue();
+
+            Check.That(called)
+               .IsEqualTo(1);
+
+            Check.That(arg)
+               .IsEqualTo("abc");
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            Check.That(fa)
+               .IsEqualTo(123);
+
+            Check.That(fb)
+               .IsEqualTo(1.2);
+
+            Check.That(fc)
+               .IsEqualTo('a');
+
+            called        = 0;
+            factoryCalled = 0;
+            fa            = 0;
+            fb            = 0.0;
+            fc            = ' ';
+
+            var flag2 = service.Do(
+                (a, b, c) => {
+                    fa = a;
+                    fb = b;
+                    fc = c;
+                    factoryCalled++;
+
+                    return "def";
+                },
+                456,
+                3.4,
+                'b'
+            );
+
+            Check.That(flag2)
+               .IsTrue();
+
+            Check.That(called)
+               .IsEqualTo(1);
+
+            Check.That(arg)
+               .IsEqualTo("def");
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            Check.That(fa)
+               .IsEqualTo(456);
+
+            Check.That(fb)
+               .IsEqualTo(3.4);
+
+            Check.That(fc)
+               .IsEqualTo('b');
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(1);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+
+            Check.That(service.ChangedSource.Event)
+               .IsEqualTo(service.Changed);
+
+            Check.That(service.Changed.Source)
+               .IsSameReferenceAs(service.ChangedSource);
+
+            Check.That(service.Changed.HasSource)
+               .IsTrue();
+        }
+
+        [Test]
+        public void Invoke_With_MultipleHandler()
+        {
+            var service = new FooService();
+
+            var    called1 = 0;
+            String arg1    = null;
+
+            var subscription1 = service.Changed.SubscribeWeak(
+                x => {
+                    arg1 = x;
+                    called1++;
+                }
+            );
+
+            var    called2 = 0;
+            String arg2    = null;
+
+            var subscription2 = service.Changed.SubscribeWeak(
+                x => {
+                    arg2 = x;
+                    called2++;
+                }
+            );
+
+            Check.That(subscription1)
+               .IsNotNull();
+
+            Check.That(subscription1)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .IsNotNull();
+
+            Check.That(subscription2)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .Not.IsSameReferenceAs(subscription1);
+
+            var factoryCalled = 0;
+            var fa            = 0;
+            var fb            = 0.0;
+            var fc            = ' ';
+
+            var flag1 = service.Do(
+                (a, b, c) => {
+                    fa = a;
+                    fb = b;
+                    fc = c;
+                    factoryCalled++;
+
+                    return "abc";
+                },
+                123,
+                1.2,
+                'a'
+            );
+
+            Check.That(flag1)
+               .IsTrue();
+
+            Check.That(called1)
+               .IsEqualTo(1);
+
+            Check.That(arg1)
+               .IsEqualTo("abc");
+
+            Check.That(called2)
+               .IsEqualTo(1);
+
+            Check.That(arg2)
+               .IsEqualTo("abc");
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            Check.That(fa)
+               .IsEqualTo(123);
+
+            Check.That(fb)
+               .IsEqualTo(1.2);
+
+            Check.That(fc)
+               .IsEqualTo('a');
+
+            called1       = 0;
+            called2       = 0;
+            factoryCalled = 0;
+            fa            = 0;
+            fb            = 0.0;
+            fc            = ' ';
+
+            var flag2 = service.Do(
+                (a, b, c) => {
+                    fa = a;
+                    fb = b;
+                    fc = c;
+                    factoryCalled++;
+
+                    return "def";
+                },
+                456,
+                3.4,
+                'b'
+            );
+
+            Check.That(flag2)
+               .IsTrue();
+
+            Check.That(called1)
+               .IsEqualTo(1);
+
+            Check.That(arg1)
+               .IsEqualTo("def");
+
+            Check.That(called2)
+               .IsEqualTo(1);
+
+            Check.That(arg2)
+               .IsEqualTo("def");
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            Check.That(fa)
+               .IsEqualTo(456);
+
+            Check.That(fb)
+               .IsEqualTo(3.4);
+
+            Check.That(fc)
+               .IsEqualTo('b');
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(2);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+
+            Check.That(service.ChangedSource.Event)
+               .IsEqualTo(service.Changed);
+
+            Check.That(service.Changed.Source)
+               .IsSameReferenceAs(service.ChangedSource);
+
+            Check.That(service.Changed.HasSource)
+               .IsTrue();
+        }
+
+        [Test]
+        public void Invoke_With_MultipleHandler_OneThrowingExceptionAllInvoked()
+        {
+            var service = new FooService();
+
+            var    called1 = 0;
+            String arg1    = null;
+
+            var subscription1 = service.Changed.SubscribeWeak(
+                new Action<String>(
                     x => {
-                        arg = x;
-                        called++;
+                        arg1 = x;
+                        called1++;
+
+                        throw new ApplicationException("1");
                     }
-                );
+                )
+            );
 
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
+            var    called2 = 0;
+            String arg2    = null;
 
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
+            var subscription2 = service.Changed.SubscribeWeak(
+                x => {
+                    arg2 = x;
+                    called2++;
+                }
+            );
 
+            Check.That(subscription1)
+               .IsNotNull();
+
+            Check.That(subscription1)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .IsNotNull();
+
+            Check.That(subscription2)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .Not.IsSameReferenceAs(subscription1);
+
+            Exception exception = null;
+
+            using (EventSystem.UnobservedException.SubscribeWeak(
+                    x => Volatile.Write(ref exception, x)
+                ))
+            {
                 var factoryCalled = 0;
                 var fa            = 0;
                 var fb            = 0.0;
@@ -1826,968 +2897,983 @@ namespace Amarok.Events
                     'a'
                 );
 
-                Check.That(flag1).IsTrue();
-                Check.That(called).IsEqualTo(1);
-                Check.That(arg).IsEqualTo("abc");
-                Check.That(factoryCalled).IsEqualTo(1);
-                Check.That(fa).IsEqualTo(123);
-                Check.That(fb).IsEqualTo(1.2);
-                Check.That(fc).IsEqualTo('a');
+                Check.That(flag1)
+                   .IsTrue();
 
-                called        = 0;
-                factoryCalled = 0;
-                fa            = 0;
-                fb            = 0.0;
-                fc            = ' ';
+                Check.That(called1)
+                   .IsEqualTo(1);
 
-                var flag2 = service.Do(
-                    (a, b, c) => {
-                        fa = a;
-                        fb = b;
-                        fc = c;
-                        factoryCalled++;
+                Check.That(arg1)
+                   .IsEqualTo("abc");
 
-                        return "def";
-                    },
-                    456,
-                    3.4,
-                    'b'
-                );
+                Check.That(called2)
+                   .IsEqualTo(1);
 
-                Check.That(flag2).IsTrue();
-                Check.That(called).IsEqualTo(1);
-                Check.That(arg).IsEqualTo("def");
-                Check.That(factoryCalled).IsEqualTo(1);
-                Check.That(fa).IsEqualTo(456);
-                Check.That(fb).IsEqualTo(3.4);
-                Check.That(fc).IsEqualTo('b');
+                Check.That(arg2)
+                   .IsEqualTo("abc");
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
+                Check.That(factoryCalled)
+                   .IsEqualTo(1);
 
-                Check.That(service.ChangedSource.Event).IsEqualTo(service.Changed);
-                Check.That(service.Changed.Source).IsSameReferenceAs(service.ChangedSource);
-                Check.That(service.Changed.HasSource).IsTrue();
-            }
+                Check.That(fa)
+                   .IsEqualTo(123);
 
-            [Test]
-            public void Invoke_With_MultipleHandler()
-            {
-                var service = new FooService();
+                Check.That(fb)
+                   .IsEqualTo(1.2);
 
-                var    called1 = 0;
-                String arg1    = null;
+                Check.That(fc)
+                   .IsEqualTo('a');
 
-                var subscription1 = service.Changed.SubscribeWeak(
-                    x => {
-                        arg1 = x;
-                        called1++;
-                    }
-                );
+                Check.That(exception)
+                   .IsInstanceOf<ApplicationException>();
 
-                var    called2 = 0;
-                String arg2    = null;
+                Check.That(exception.Message)
+                   .IsEqualTo("1");
 
-                var subscription2 = service.Changed.SubscribeWeak(
-                    x => {
-                        arg2 = x;
-                        called2++;
-                    }
-                );
+                Check.That(service.ChangedSource.NumberOfSubscriptions)
+                   .IsEqualTo(2);
 
-                Check.That(subscription1).IsNotNull();
-                Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
+                Check.That(service.ChangedSource.IsDisposed)
+                   .IsFalse();
 
-                Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
+                Check.That(service.ChangedSource.Event)
+                   .IsEqualTo(service.Changed);
 
-                Check.That(subscription2).IsNotNull();
-                Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
+                Check.That(service.Changed.Source)
+                   .IsSameReferenceAs(service.ChangedSource);
 
-                Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
-
-                var factoryCalled = 0;
-                var fa            = 0;
-                var fb            = 0.0;
-                var fc            = ' ';
-
-                var flag1 = service.Do(
-                    (a, b, c) => {
-                        fa = a;
-                        fb = b;
-                        fc = c;
-                        factoryCalled++;
-
-                        return "abc";
-                    },
-                    123,
-                    1.2,
-                    'a'
-                );
-
-                Check.That(flag1).IsTrue();
-                Check.That(called1).IsEqualTo(1);
-                Check.That(arg1).IsEqualTo("abc");
-                Check.That(called2).IsEqualTo(1);
-                Check.That(arg2).IsEqualTo("abc");
-                Check.That(factoryCalled).IsEqualTo(1);
-                Check.That(fa).IsEqualTo(123);
-                Check.That(fb).IsEqualTo(1.2);
-                Check.That(fc).IsEqualTo('a');
-
-                called1       = 0;
-                called2       = 0;
-                factoryCalled = 0;
-                fa            = 0;
-                fb            = 0.0;
-                fc            = ' ';
-
-                var flag2 = service.Do(
-                    (a, b, c) => {
-                        fa = a;
-                        fb = b;
-                        fc = c;
-                        factoryCalled++;
-
-                        return "def";
-                    },
-                    456,
-                    3.4,
-                    'b'
-                );
-
-                Check.That(flag2).IsTrue();
-                Check.That(called1).IsEqualTo(1);
-                Check.That(arg1).IsEqualTo("def");
-                Check.That(called2).IsEqualTo(1);
-                Check.That(arg2).IsEqualTo("def");
-                Check.That(factoryCalled).IsEqualTo(1);
-                Check.That(fa).IsEqualTo(456);
-                Check.That(fb).IsEqualTo(3.4);
-                Check.That(fc).IsEqualTo('b');
-
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-
-                Check.That(service.ChangedSource.Event).IsEqualTo(service.Changed);
-                Check.That(service.Changed.Source).IsSameReferenceAs(service.ChangedSource);
-                Check.That(service.Changed.HasSource).IsTrue();
-            }
-
-            [Test]
-            public void Invoke_With_MultipleHandler_OneThrowingExceptionAllInvoked()
-            {
-                var service = new FooService();
-
-                var    called1 = 0;
-                String arg1    = null;
-
-                var subscription1 = service.Changed.SubscribeWeak(
-                    new Action<String>(
-                        x => {
-                            arg1 = x;
-                            called1++;
-
-                            throw new ApplicationException("1");
-                        }
-                    )
-                );
-
-                var    called2 = 0;
-                String arg2    = null;
-
-                var subscription2 = service.Changed.SubscribeWeak(
-                    x => {
-                        arg2 = x;
-                        called2++;
-                    }
-                );
-
-                Check.That(subscription1).IsNotNull();
-                Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).IsNotNull();
-                Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
-
-                Exception exception = null;
-
-                using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
-                {
-                    var factoryCalled = 0;
-                    var fa            = 0;
-                    var fb            = 0.0;
-                    var fc            = ' ';
-
-                    var flag1 = service.Do(
-                        (a, b, c) => {
-                            fa = a;
-                            fb = b;
-                            fc = c;
-                            factoryCalled++;
-
-                            return "abc";
-                        },
-                        123,
-                        1.2,
-                        'a'
-                    );
-
-                    Check.That(flag1).IsTrue();
-                    Check.That(called1).IsEqualTo(1);
-                    Check.That(arg1).IsEqualTo("abc");
-                    Check.That(called2).IsEqualTo(1);
-                    Check.That(arg2).IsEqualTo("abc");
-                    Check.That(factoryCalled).IsEqualTo(1);
-                    Check.That(fa).IsEqualTo(123);
-                    Check.That(fb).IsEqualTo(1.2);
-                    Check.That(fc).IsEqualTo('a');
-
-                    Check.That(exception).IsInstanceOf<ApplicationException>();
-                    Check.That(exception.Message).IsEqualTo("1");
-
-                    Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
-                    Check.That(service.ChangedSource.IsDisposed).IsFalse();
-
-                    Check.That(service.ChangedSource.Event).IsEqualTo(service.Changed);
-                    Check.That(service.Changed.Source).IsSameReferenceAs(service.ChangedSource);
-                    Check.That(service.Changed.HasSource).IsTrue();
-                }
-            }
-
-            [Test]
-            public void Invoke_After_SubscriptionGCed()
-            {
-                var service = new FooService();
-
-                var    called = 0;
-                String arg    = null;
-
-                var subscription = service.Changed.SubscribeWeak(
-                    x => {
-                        arg = x;
-                        called++;
-                    }
-                );
-
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                var strongSub = (ActionSubscription<String>) subscription;
-                var weakSub   = (WeakSubscription<String>) strongSub.TestingGetPreviousSubscription();
-                strongSub.TestingClearNextSubscription();
-                weakSub.TestingClearNextSubscription();
-
-                var factoryCalled = 0;
-                var fa            = 0;
-                var fb            = 0.0;
-                var fc            = ' ';
-
-                var flag1 = service.Do(
-                    (a, b, c) => {
-                        fa = a;
-                        fb = b;
-                        fc = c;
-                        factoryCalled++;
-
-                        return "abc";
-                    },
-                    123,
-                    1.2,
-                    'a'
-                );
-
-                Check.That(flag1).IsTrue();
-                Check.That(called).IsEqualTo(0);
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-                Check.That(factoryCalled).IsEqualTo(1);
-                Check.That(fa).IsEqualTo(123);
-                Check.That(fb).IsEqualTo(1.2);
-                Check.That(fc).IsEqualTo('a');
-
-                factoryCalled = 0;
-                fa            = 0;
-                fb            = 0.0;
-                fc            = ' ';
-
-                var flag2 = service.Do(
-                    (a, b, c) => {
-                        fa = a;
-                        fb = b;
-                        fc = c;
-                        factoryCalled++;
-
-                        return "abc";
-                    },
-                    123,
-                    1.2,
-                    'a'
-                );
-
-                Check.That(flag2).IsFalse();
-                Check.That(called).IsEqualTo(0);
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(factoryCalled).IsEqualTo(0);
-                Check.That(fa).IsEqualTo(0);
-                Check.That(fb).IsEqualTo(0.0);
-                Check.That(fc).IsEqualTo(' ');
-
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()).IsNull();
-            }
-
-            [Test]
-            public void Invoke_After_SubscriptionDisposed()
-            {
-                var service = new FooService();
-
-                var    called = 0;
-                String arg    = null;
-
-                var subscription = service.Changed.SubscribeWeak(
-                    x => {
-                        arg = x;
-                        called++;
-                    }
-                );
-
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                subscription.Dispose();
-
-                var factoryCalled = 0;
-
-                var flag1 = service.Do(
-                    (a, b, c) => {
-                        factoryCalled++;
-
-                        return "abc";
-                    },
-                    123,
-                    1.2,
-                    'a'
-                );
-
-                Check.That(flag1).IsFalse();
-                Check.That(called).IsEqualTo(0);
-                Check.That(factoryCalled).IsEqualTo(0);
-
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-
-                Check.That(service.ChangedSource.Event).IsEqualTo(service.Changed);
-                Check.That(service.Changed.Source).IsSameReferenceAs(service.ChangedSource);
-                Check.That(service.Changed.HasSource).IsTrue();
-            }
-
-            [Test]
-            public void Invoke_After_EventSourceDisposed()
-            {
-                var service = new FooService();
-
-                var    called = 0;
-                String arg    = null;
-
-                var subscription = service.Changed.SubscribeWeak(
-                    x => {
-                        arg = x;
-                        called++;
-                    }
-                );
-
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                service.ChangedSource.Dispose();
-
-                var factoryCalled = 0;
-
-                var flag1 = service.Do(
-                    (a, b, c) => {
-                        factoryCalled++;
-
-                        return "abc";
-                    },
-                    123,
-                    1.2,
-                    'a'
-                );
-
-                Check.That(flag1).IsFalse();
-                Check.That(called).IsEqualTo(0);
-                Check.That(factoryCalled).IsEqualTo(0);
-
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsTrue();
-
-                Check.That(service.ChangedSource.Event).IsEqualTo(service.Changed);
-                Check.That(service.Changed.Source).IsSameReferenceAs(service.ChangedSource);
-                Check.That(service.Changed.HasSource).IsTrue();
-            }
-
-            [Test]
-            public void Exception_For_NullFactory()
-            {
-                var service = new FooService();
-
-                Check.ThatCode(() => service.Do(null, 123, 1.2, 'a'))
-                   .Throws<ArgumentNullException>()
-                   .WithProperty(x => x.ParamName, "valueFactory");
+                Check.That(service.Changed.HasSource)
+                   .IsTrue();
             }
         }
 
-        [TestFixture]
-        public class InvokeAsync
+        [Test]
+        public void Invoke_After_SubscriptionGCed()
         {
-            [Test]
-            public async Task InvokeAsync_Without_Handler()
-            {
-                var service = new FooService();
+            var service = new FooService();
 
-                var flag = await service.DoAsync("abc");
+            var    called = 0;
+            String arg    = null;
 
-                Check.That(flag).IsFalse();
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-            }
+            Check.That(subscription)
+               .IsNotNull();
 
-            [Test]
-            public async Task InvokeAsync_With_SingleHandler()
-            {
-                var service = new FooService();
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
 
-                var    called = 0;
-                String arg    = null;
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
 
-                var subscription = service.Changed.SubscribeWeak(
+            var strongSub = (ActionSubscription<String>) subscription;
+            var weakSub   = (WeakSubscription<String>) strongSub.TestingGetPreviousSubscription();
+            strongSub.TestingClearNextSubscription();
+            weakSub.TestingClearNextSubscription();
+
+            var factoryCalled = 0;
+            var fa            = 0;
+            var fb            = 0.0;
+            var fc            = ' ';
+
+            var flag1 = service.Do(
+                (a, b, c) => {
+                    fa = a;
+                    fb = b;
+                    fc = c;
+                    factoryCalled++;
+
+                    return "abc";
+                },
+                123,
+                1.2,
+                'a'
+            );
+
+            Check.That(flag1)
+               .IsTrue();
+
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            Check.That(fa)
+               .IsEqualTo(123);
+
+            Check.That(fb)
+               .IsEqualTo(1.2);
+
+            Check.That(fc)
+               .IsEqualTo('a');
+
+            factoryCalled = 0;
+            fa            = 0;
+            fb            = 0.0;
+            fc            = ' ';
+
+            var flag2 = service.Do(
+                (a, b, c) => {
+                    fa = a;
+                    fb = b;
+                    fc = c;
+                    factoryCalled++;
+
+                    return "abc";
+                },
+                123,
+                1.2,
+                'a'
+            );
+
+            Check.That(flag2)
+               .IsFalse();
+
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(factoryCalled)
+               .IsEqualTo(0);
+
+            Check.That(fa)
+               .IsEqualTo(0);
+
+            Check.That(fb)
+               .IsEqualTo(0.0);
+
+            Check.That(fc)
+               .IsEqualTo(' ');
+
+            Check.That(subscription)
+               .IsNotNull();
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsNull();
+        }
+
+        [Test]
+        public void Invoke_After_SubscriptionDisposed()
+        {
+            var service = new FooService();
+
+            var    called = 0;
+            String arg    = null;
+
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
+
+            Check.That(subscription)
+               .IsNotNull();
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            subscription.Dispose();
+
+            var factoryCalled = 0;
+
+            var flag1 = service.Do(
+                (a, b, c) => {
+                    factoryCalled++;
+
+                    return "abc";
+                },
+                123,
+                1.2,
+                'a'
+            );
+
+            Check.That(flag1)
+               .IsFalse();
+
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(factoryCalled)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+
+            Check.That(service.ChangedSource.Event)
+               .IsEqualTo(service.Changed);
+
+            Check.That(service.Changed.Source)
+               .IsSameReferenceAs(service.ChangedSource);
+
+            Check.That(service.Changed.HasSource)
+               .IsTrue();
+        }
+
+        [Test]
+        public void Invoke_After_EventSourceDisposed()
+        {
+            var service = new FooService();
+
+            var    called = 0;
+            String arg    = null;
+
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
+
+            Check.That(subscription)
+               .IsNotNull();
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            service.ChangedSource.Dispose();
+
+            var factoryCalled = 0;
+
+            var flag1 = service.Do(
+                (a, b, c) => {
+                    factoryCalled++;
+
+                    return "abc";
+                },
+                123,
+                1.2,
+                'a'
+            );
+
+            Check.That(flag1)
+               .IsFalse();
+
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(factoryCalled)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsTrue();
+
+            Check.That(service.ChangedSource.Event)
+               .IsEqualTo(service.Changed);
+
+            Check.That(service.Changed.Source)
+               .IsSameReferenceAs(service.ChangedSource);
+
+            Check.That(service.Changed.HasSource)
+               .IsTrue();
+        }
+
+        [Test]
+        public void Exception_For_NullFactory()
+        {
+            var service = new FooService();
+
+            Check.ThatCode(() => service.Do(null, 123, 1.2, 'a'))
+               .Throws<ArgumentNullException>()
+               .WithProperty(x => x.ParamName, "valueFactory");
+        }
+    }
+
+    [TestFixture]
+    public class InvokeAsync
+    {
+        [Test]
+        public async Task InvokeAsync_Without_Handler()
+        {
+            var service = new FooService();
+
+            var flag = await service.DoAsync("abc");
+
+            Check.That(flag)
+               .IsFalse();
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+        }
+
+        [Test]
+        public async Task InvokeAsync_With_SingleHandler()
+        {
+            var service = new FooService();
+
+            var    called = 0;
+            String arg    = null;
+
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            var flag1 = await service.DoAsync("abc");
+
+            Check.That(flag1)
+               .IsTrue();
+
+            Check.That(called)
+               .IsEqualTo(1);
+
+            Check.That(arg)
+               .IsEqualTo("abc");
+
+            called = 0;
+            var flag2 = await service.DoAsync("def");
+
+            Check.That(flag2)
+               .IsTrue();
+
+            Check.That(called)
+               .IsEqualTo(1);
+
+            Check.That(arg)
+               .IsEqualTo("def");
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(1);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+        }
+
+        [Test]
+        public async Task InvokeAsync_With_MultipleHandler()
+        {
+            var service = new FooService();
+
+            var    called1 = 0;
+            String arg1    = null;
+
+            var subscription1 = service.Changed.SubscribeWeak(
+                x => {
+                    arg1 = x;
+                    called1++;
+                }
+            );
+
+            var    called2 = 0;
+            String arg2    = null;
+
+            var subscription2 = service.Changed.SubscribeWeak(
+                x => {
+                    arg2 = x;
+                    called2++;
+                }
+            );
+
+            Check.That(subscription1)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .Not.IsSameReferenceAs(subscription1);
+
+            var flag1 = await service.DoAsync("abc");
+
+            Check.That(flag1)
+               .IsTrue();
+
+            Check.That(called1)
+               .IsEqualTo(1);
+
+            Check.That(arg1)
+               .IsEqualTo("abc");
+
+            Check.That(called2)
+               .IsEqualTo(1);
+
+            Check.That(arg2)
+               .IsEqualTo("abc");
+
+            called1 = 0;
+            called2 = 0;
+            var flag2 = await service.DoAsync("def");
+
+            Check.That(flag2)
+               .IsTrue();
+
+            Check.That(called1)
+               .IsEqualTo(1);
+
+            Check.That(arg1)
+               .IsEqualTo("def");
+
+            Check.That(called2)
+               .IsEqualTo(1);
+
+            Check.That(arg2)
+               .IsEqualTo("def");
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(2);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+        }
+
+        [Test]
+        public async Task InvokeAsync_With_MultipleHandler_OneThrowingExceptionAllInvoked()
+        {
+            var service = new FooService();
+
+            var    called1 = 0;
+            String arg1    = null;
+
+            var subscription1 = service.Changed.SubscribeWeak(
+                new Action<String>(
                     x => {
-                        arg = x;
-                        called++;
+                        arg1 = x;
+                        called1++;
+
+                        throw new ApplicationException("1");
                     }
-                );
+                )
+            );
 
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
+            var    called2 = 0;
+            String arg2    = null;
 
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
+            var subscription2 = service.Changed.SubscribeWeak(
+                x => {
+                    arg2 = x;
+                    called2++;
+                }
+            );
 
+            Check.That(subscription1)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .Not.IsSameReferenceAs(subscription1);
+
+            Exception exception = null;
+
+            using (EventSystem.UnobservedException.SubscribeWeak(
+                    x => Volatile.Write(ref exception, x)
+                ))
+            {
                 var flag1 = await service.DoAsync("abc");
 
-                Check.That(flag1).IsTrue();
-                Check.That(called).IsEqualTo(1);
-                Check.That(arg).IsEqualTo("abc");
+                Check.That(flag1)
+                   .IsTrue();
 
-                called = 0;
-                var flag2 = await service.DoAsync("def");
+                Check.That(called1)
+                   .IsEqualTo(1);
 
-                Check.That(flag2).IsTrue();
-                Check.That(called).IsEqualTo(1);
-                Check.That(arg).IsEqualTo("def");
+                Check.That(arg1)
+                   .IsEqualTo("abc");
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-            }
+                Check.That(called2)
+                   .IsEqualTo(1);
 
-            [Test]
-            public async Task InvokeAsync_With_MultipleHandler()
-            {
-                var service = new FooService();
+                Check.That(arg2)
+                   .IsEqualTo("abc");
 
-                var    called1 = 0;
-                String arg1    = null;
+                Check.That(exception)
+                   .IsInstanceOf<ApplicationException>();
 
-                var subscription1 = service.Changed.SubscribeWeak(
-                    x => {
-                        arg1 = x;
-                        called1++;
-                    }
-                );
+                Check.That(exception.Message)
+                   .IsEqualTo("1");
 
-                var    called2 = 0;
-                String arg2    = null;
+                Check.That(service.ChangedSource.NumberOfSubscriptions)
+                   .IsEqualTo(2);
 
-                var subscription2 = service.Changed.SubscribeWeak(
-                    x => {
-                        arg2 = x;
-                        called2++;
-                    }
-                );
-
-                Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
-
-                var flag1 = await service.DoAsync("abc");
-
-                Check.That(flag1).IsTrue();
-                Check.That(called1).IsEqualTo(1);
-                Check.That(arg1).IsEqualTo("abc");
-                Check.That(called2).IsEqualTo(1);
-                Check.That(arg2).IsEqualTo("abc");
-
-                called1 = 0;
-                called2 = 0;
-                var flag2 = await service.DoAsync("def");
-
-                Check.That(flag2).IsTrue();
-                Check.That(called1).IsEqualTo(1);
-                Check.That(arg1).IsEqualTo("def");
-                Check.That(called2).IsEqualTo(1);
-                Check.That(arg2).IsEqualTo("def");
-
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-            }
-
-            [Test]
-            public async Task InvokeAsync_With_MultipleHandler_OneThrowingExceptionAllInvoked()
-            {
-                var service = new FooService();
-
-                var    called1 = 0;
-                String arg1    = null;
-
-                var subscription1 = service.Changed.SubscribeWeak(
-                    new Action<String>(
-                        x => {
-                            arg1 = x;
-                            called1++;
-
-                            throw new ApplicationException("1");
-                        }
-                    )
-                );
-
-                var    called2 = 0;
-                String arg2    = null;
-
-                var subscription2 = service.Changed.SubscribeWeak(
-                    x => {
-                        arg2 = x;
-                        called2++;
-                    }
-                );
-
-                Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
-
-                Exception exception = null;
-
-                using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
-                {
-                    var flag1 = await service.DoAsync("abc");
-
-                    Check.That(flag1).IsTrue();
-                    Check.That(called1).IsEqualTo(1);
-                    Check.That(arg1).IsEqualTo("abc");
-                    Check.That(called2).IsEqualTo(1);
-                    Check.That(arg2).IsEqualTo("abc");
-
-                    Check.That(exception).IsInstanceOf<ApplicationException>();
-                    Check.That(exception.Message).IsEqualTo("1");
-
-                    Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
-                    Check.That(service.ChangedSource.IsDisposed).IsFalse();
-                }
-            }
-
-            [Test]
-            public async Task InvokeAsync_After_SubscriptionGCed()
-            {
-                var service = new FooService();
-
-                var    called = 0;
-                String arg    = null;
-
-                var subscription = service.Changed.SubscribeWeak(
-                    x => {
-                        arg = x;
-                        called++;
-                    }
-                );
-
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                var strongSub = (ActionSubscription<String>) subscription;
-                var weakSub   = (WeakSubscription<String>) strongSub.TestingGetPreviousSubscription();
-                strongSub.TestingClearNextSubscription();
-                weakSub.TestingClearNextSubscription();
-
-                var flag1 = await service.DoAsync("abc");
-
-                Check.That(flag1).IsTrue();
-                Check.That(called).IsEqualTo(0);
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-
-                var flag2 = await service.DoAsync("abc");
-
-                Check.That(flag2).IsFalse();
-                Check.That(called).IsEqualTo(0);
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()).IsNull();
-            }
-
-            [Test]
-            public async Task InvokeAsync_After_SubscriptionDisposed()
-            {
-                var service = new FooService();
-
-                var    called = 0;
-                String arg    = null;
-
-                var subscription = service.Changed.SubscribeWeak(
-                    x => {
-                        arg = x;
-                        called++;
-                    }
-                );
-
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                subscription.Dispose();
-
-                var flag1 = await service.DoAsync("abc");
-
-                Check.That(flag1).IsFalse();
-                Check.That(called).IsEqualTo(0);
-
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-            }
-
-            [Test]
-            public async Task InvokeAsync_After_EventSourceDisposed()
-            {
-                var service = new FooService();
-
-                var    called = 0;
-                String arg    = null;
-
-                var subscription = service.Changed.SubscribeWeak(
-                    x => {
-                        arg = x;
-                        called++;
-                    }
-                );
-
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                service.ChangedSource.Dispose();
-
-                var flag1 = await service.DoAsync("abc");
-
-                Check.That(flag1).IsFalse();
-                Check.That(called).IsEqualTo(0);
-
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsTrue();
+                Check.That(service.ChangedSource.IsDisposed)
+                   .IsFalse();
             }
         }
 
-        [TestFixture]
-        public class InvokeAsync_ValueFactory
+        [Test]
+        public async Task InvokeAsync_After_SubscriptionGCed()
         {
-            [Test]
-            public async Task InvokeAsync_Without_Handler()
-            {
-                var service = new FooService();
+            var service = new FooService();
 
-                var flag = await service.DoAsync(
-                    () => {
-                        Assert.Fail("MUST NOT be called");
+            var    called = 0;
+            String arg    = null;
 
-                        return "abc";
-                    }
-                );
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
 
-                Check.That(flag).IsFalse();
+            Check.That(subscription)
+               .IsNotNull();
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-            }
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
 
-            [Test]
-            public async Task InvokeAsync_With_SingleHandler()
-            {
-                var service = new FooService();
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
 
-                var    called = 0;
-                String arg    = null;
+            var strongSub = (ActionSubscription<String>) subscription;
+            var weakSub   = (WeakSubscription<String>) strongSub.TestingGetPreviousSubscription();
+            strongSub.TestingClearNextSubscription();
+            weakSub.TestingClearNextSubscription();
 
-                var subscription = service.Changed.SubscribeWeak(
-                    x => {
-                        arg = x;
-                        called++;
-                    }
-                );
+            var flag1 = await service.DoAsync("abc");
 
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
+            Check.That(flag1)
+               .IsTrue();
 
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
+            Check.That(called)
+               .IsEqualTo(0);
 
-                var factoryCalled = 0;
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
 
-                var flag1 = await service.DoAsync(
-                    () => {
-                        factoryCalled++;
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
 
-                        return "abc";
-                    }
-                );
+            var flag2 = await service.DoAsync("abc");
 
-                Check.That(flag1).IsTrue();
-                Check.That(called).IsEqualTo(1);
-                Check.That(arg).IsEqualTo("abc");
-                Check.That(factoryCalled).IsEqualTo(1);
+            Check.That(flag2)
+               .IsFalse();
 
-                called        = 0;
-                factoryCalled = 0;
+            Check.That(called)
+               .IsEqualTo(0);
 
-                var flag2 = await service.DoAsync(
-                    () => {
-                        factoryCalled++;
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
 
-                        return "def";
-                    }
-                );
+            Check.That(subscription)
+               .IsNotNull();
 
-                Check.That(flag2).IsTrue();
-                Check.That(called).IsEqualTo(1);
-                Check.That(arg).IsEqualTo("def");
-                Check.That(factoryCalled).IsEqualTo(1);
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-            }
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsNull();
+        }
 
-            [Test]
-            public async Task InvokeAsync_With_MultipleHandler()
-            {
-                var service = new FooService();
+        [Test]
+        public async Task InvokeAsync_After_SubscriptionDisposed()
+        {
+            var service = new FooService();
 
-                var    called1 = 0;
-                String arg1    = null;
+            var    called = 0;
+            String arg    = null;
 
-                var subscription1 = service.Changed.SubscribeWeak(
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            subscription.Dispose();
+
+            var flag1 = await service.DoAsync("abc");
+
+            Check.That(flag1)
+               .IsFalse();
+
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+        }
+
+        [Test]
+        public async Task InvokeAsync_After_EventSourceDisposed()
+        {
+            var service = new FooService();
+
+            var    called = 0;
+            String arg    = null;
+
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            service.ChangedSource.Dispose();
+
+            var flag1 = await service.DoAsync("abc");
+
+            Check.That(flag1)
+               .IsFalse();
+
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsTrue();
+        }
+    }
+
+    [TestFixture]
+    public class InvokeAsync_ValueFactory
+    {
+        [Test]
+        public async Task InvokeAsync_Without_Handler()
+        {
+            var service = new FooService();
+
+            var flag = await service.DoAsync(
+                () => {
+                    Assert.Fail("MUST NOT be called");
+
+                    return "abc";
+                }
+            );
+
+            Check.That(flag)
+               .IsFalse();
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+        }
+
+        [Test]
+        public async Task InvokeAsync_With_SingleHandler()
+        {
+            var service = new FooService();
+
+            var    called = 0;
+            String arg    = null;
+
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            var factoryCalled = 0;
+
+            var flag1 = await service.DoAsync(
+                () => {
+                    factoryCalled++;
+
+                    return "abc";
+                }
+            );
+
+            Check.That(flag1)
+               .IsTrue();
+
+            Check.That(called)
+               .IsEqualTo(1);
+
+            Check.That(arg)
+               .IsEqualTo("abc");
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            called        = 0;
+            factoryCalled = 0;
+
+            var flag2 = await service.DoAsync(
+                () => {
+                    factoryCalled++;
+
+                    return "def";
+                }
+            );
+
+            Check.That(flag2)
+               .IsTrue();
+
+            Check.That(called)
+               .IsEqualTo(1);
+
+            Check.That(arg)
+               .IsEqualTo("def");
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(1);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+        }
+
+        [Test]
+        public async Task InvokeAsync_With_MultipleHandler()
+        {
+            var service = new FooService();
+
+            var    called1 = 0;
+            String arg1    = null;
+
+            var subscription1 = service.Changed.SubscribeWeak(
+                x => {
+                    arg1 = x;
+                    called1++;
+                }
+            );
+
+            var    called2 = 0;
+            String arg2    = null;
+
+            var subscription2 = service.Changed.SubscribeWeak(
+                x => {
+                    arg2 = x;
+                    called2++;
+                }
+            );
+
+            Check.That(subscription1)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .Not.IsSameReferenceAs(subscription1);
+
+            var factoryCalled = 0;
+
+            var flag1 = await service.DoAsync(
+                () => {
+                    factoryCalled++;
+
+                    return "abc";
+                }
+            );
+
+            Check.That(flag1)
+               .IsTrue();
+
+            Check.That(called1)
+               .IsEqualTo(1);
+
+            Check.That(arg1)
+               .IsEqualTo("abc");
+
+            Check.That(called2)
+               .IsEqualTo(1);
+
+            Check.That(arg2)
+               .IsEqualTo("abc");
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            called1       = 0;
+            called2       = 0;
+            factoryCalled = 0;
+
+            var flag2 = await service.DoAsync(
+                () => {
+                    factoryCalled++;
+
+                    return "def";
+                }
+            );
+
+            Check.That(flag2)
+               .IsTrue();
+
+            Check.That(called1)
+               .IsEqualTo(1);
+
+            Check.That(arg1)
+               .IsEqualTo("def");
+
+            Check.That(called2)
+               .IsEqualTo(1);
+
+            Check.That(arg2)
+               .IsEqualTo("def");
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(2);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+        }
+
+        [Test]
+        public async Task InvokeAsync_With_MultipleHandler_OneThrowingExceptionButAllInvoked()
+        {
+            var service = new FooService();
+
+            var    called1 = 0;
+            String arg1    = null;
+
+            var subscription1 = service.Changed.SubscribeWeak(
+                new Action<String>(
                     x => {
                         arg1 = x;
                         called1++;
+
+                        throw new ApplicationException("1");
                     }
-                );
+                )
+            );
 
-                var    called2 = 0;
-                String arg2    = null;
+            var    called2 = 0;
+            String arg2    = null;
 
-                var subscription2 = service.Changed.SubscribeWeak(
-                    x => {
-                        arg2 = x;
-                        called2++;
-                    }
-                );
-
-                Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
-
-                var factoryCalled = 0;
-
-                var flag1 = await service.DoAsync(
-                    () => {
-                        factoryCalled++;
-
-                        return "abc";
-                    }
-                );
-
-                Check.That(flag1).IsTrue();
-                Check.That(called1).IsEqualTo(1);
-                Check.That(arg1).IsEqualTo("abc");
-                Check.That(called2).IsEqualTo(1);
-                Check.That(arg2).IsEqualTo("abc");
-                Check.That(factoryCalled).IsEqualTo(1);
-
-                called1       = 0;
-                called2       = 0;
-                factoryCalled = 0;
-
-                var flag2 = await service.DoAsync(
-                    () => {
-                        factoryCalled++;
-
-                        return "def";
-                    }
-                );
-
-                Check.That(flag2).IsTrue();
-                Check.That(called1).IsEqualTo(1);
-                Check.That(arg1).IsEqualTo("def");
-                Check.That(called2).IsEqualTo(1);
-                Check.That(arg2).IsEqualTo("def");
-                Check.That(factoryCalled).IsEqualTo(1);
-
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-            }
-
-            [Test]
-            public async Task InvokeAsync_With_MultipleHandler_OneThrowingExceptionButAllInvoked()
-            {
-                var service = new FooService();
-
-                var    called1 = 0;
-                String arg1    = null;
-
-                var subscription1 = service.Changed.SubscribeWeak(
-                    new Action<String>(
-                        x => {
-                            arg1 = x;
-                            called1++;
-
-                            throw new ApplicationException("1");
-                        }
-                    )
-                );
-
-                var    called2 = 0;
-                String arg2    = null;
-
-                var subscription2 = service.Changed.SubscribeWeak(
-                    x => {
-                        arg2 = x;
-                        called2++;
-                    }
-                );
-
-                Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
-
-                Exception exception = null;
-
-                using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
-                {
-                    var factoryCalled = 0;
-
-                    var flag1 = await service.DoAsync(
-                        () => {
-                            factoryCalled++;
-
-                            return "abc";
-                        }
-                    );
-
-                    Check.That(flag1).IsTrue();
-                    Check.That(called1).IsEqualTo(1);
-                    Check.That(arg1).IsEqualTo("abc");
-                    Check.That(called2).IsEqualTo(1);
-                    Check.That(arg2).IsEqualTo("abc");
-                    Check.That(factoryCalled).IsEqualTo(1);
-
-                    Check.That(exception).IsInstanceOf<ApplicationException>();
-                    Check.That(exception.Message).IsEqualTo("1");
-
-                    Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
-                    Check.That(service.ChangedSource.IsDisposed).IsFalse();
+            var subscription2 = service.Changed.SubscribeWeak(
+                x => {
+                    arg2 = x;
+                    called2++;
                 }
-            }
+            );
 
-            [Test]
-            public async Task InvokeAsync_After_SubscriptionGCed()
+            Check.That(subscription1)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .Not.IsSameReferenceAs(subscription1);
+
+            Exception exception = null;
+
+            using (EventSystem.UnobservedException.SubscribeWeak(
+                    x => Volatile.Write(ref exception, x)
+                ))
             {
-                var service = new FooService();
-
-                var    called = 0;
-                String arg    = null;
-
-                var subscription = service.Changed.SubscribeWeak(
-                    x => {
-                        arg = x;
-                        called++;
-                    }
-                );
-
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                var strongSub = (ActionSubscription<String>) subscription;
-                var weakSub   = (WeakSubscription<String>) strongSub.TestingGetPreviousSubscription();
-                strongSub.TestingClearNextSubscription();
-                weakSub.TestingClearNextSubscription();
-
                 var factoryCalled = 0;
 
                 var flag1 = await service.DoAsync(
@@ -2798,166 +3884,530 @@ namespace Amarok.Events
                     }
                 );
 
-                Check.That(flag1).IsTrue();
-                Check.That(called).IsEqualTo(0);
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-                Check.That(factoryCalled).IsEqualTo(1);
+                Check.That(flag1)
+                   .IsTrue();
 
-                factoryCalled = 0;
+                Check.That(called1)
+                   .IsEqualTo(1);
 
-                var flag2 = await service.DoAsync(
-                    () => {
-                        factoryCalled++;
+                Check.That(arg1)
+                   .IsEqualTo("abc");
 
-                        return "abc";
-                    }
-                );
+                Check.That(called2)
+                   .IsEqualTo(1);
 
-                Check.That(flag2).IsFalse();
-                Check.That(called).IsEqualTo(0);
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(factoryCalled).IsEqualTo(0);
+                Check.That(arg2)
+                   .IsEqualTo("abc");
 
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()).IsNull();
-            }
+                Check.That(factoryCalled)
+                   .IsEqualTo(1);
 
-            [Test]
-            public async Task InvokeAsync_After_SubscriptionDisposed()
-            {
-                var service = new FooService();
+                Check.That(exception)
+                   .IsInstanceOf<ApplicationException>();
 
-                var    called = 0;
-                String arg    = null;
+                Check.That(exception.Message)
+                   .IsEqualTo("1");
 
-                var subscription = service.Changed.SubscribeWeak(
-                    x => {
-                        arg = x;
-                        called++;
-                    }
-                );
+                Check.That(service.ChangedSource.NumberOfSubscriptions)
+                   .IsEqualTo(2);
 
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                subscription.Dispose();
-
-                var factoryCalled = 0;
-
-                var flag1 = await service.DoAsync(
-                    () => {
-                        factoryCalled++;
-
-                        return "abc";
-                    }
-                );
-
-                Check.That(flag1).IsFalse();
-                Check.That(called).IsEqualTo(0);
-                Check.That(factoryCalled).IsEqualTo(0);
-
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-            }
-
-            [Test]
-            public async Task InvokeAsync_After_EventSourceDisposed()
-            {
-                var service = new FooService();
-
-                var    called = 0;
-                String arg    = null;
-
-                var subscription = service.Changed.SubscribeWeak(
-                    x => {
-                        arg = x;
-                        called++;
-                    }
-                );
-
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                service.ChangedSource.Dispose();
-
-                var factoryCalled = 0;
-
-                var flag1 = await service.DoAsync(
-                    () => {
-                        factoryCalled++;
-
-                        return "abc";
-                    }
-                );
-
-                Check.That(flag1).IsFalse();
-                Check.That(called).IsEqualTo(0);
-                Check.That(factoryCalled).IsEqualTo(0);
-
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsTrue();
-            }
-
-            [Test]
-            public void Exception_For_NullFactory()
-            {
-                var service = new FooService();
-
-                Check.ThatAsyncCode(async () => await service.DoAsync((Func<String>) null))
-                   .Throws<ArgumentNullException>()
-                   .WithProperty(x => x.ParamName, "valueFactory");
+                Check.That(service.ChangedSource.IsDisposed)
+                   .IsFalse();
             }
         }
 
-        [TestFixture]
-        public class InvokeAsync_ValueFactory_Arg1
+        [Test]
+        public async Task InvokeAsync_After_SubscriptionGCed()
         {
-            [Test]
-            public async Task InvokeAsync_Without_Handler()
-            {
-                var service = new FooService();
+            var service = new FooService();
 
-                var flag = await service.DoAsync(
-                    a => {
-                        Assert.Fail("MUST NOT be called");
+            var    called = 0;
+            String arg    = null;
 
-                        return "abc";
-                    },
-                    123
-                );
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
 
-                Check.That(flag).IsFalse();
+            Check.That(subscription)
+               .IsNotNull();
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-            }
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
 
-            [Test]
-            public async Task InvokeAsync_With_SingleHandler()
-            {
-                var service = new FooService();
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
 
-                var    called = 0;
-                String arg    = null;
+            var strongSub = (ActionSubscription<String>) subscription;
+            var weakSub   = (WeakSubscription<String>) strongSub.TestingGetPreviousSubscription();
+            strongSub.TestingClearNextSubscription();
+            weakSub.TestingClearNextSubscription();
 
-                var subscription = service.Changed.SubscribeWeak(
+            var factoryCalled = 0;
+
+            var flag1 = await service.DoAsync(
+                () => {
+                    factoryCalled++;
+
+                    return "abc";
+                }
+            );
+
+            Check.That(flag1)
+               .IsTrue();
+
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            factoryCalled = 0;
+
+            var flag2 = await service.DoAsync(
+                () => {
+                    factoryCalled++;
+
+                    return "abc";
+                }
+            );
+
+            Check.That(flag2)
+               .IsFalse();
+
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(factoryCalled)
+               .IsEqualTo(0);
+
+            Check.That(subscription)
+               .IsNotNull();
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsNull();
+        }
+
+        [Test]
+        public async Task InvokeAsync_After_SubscriptionDisposed()
+        {
+            var service = new FooService();
+
+            var    called = 0;
+            String arg    = null;
+
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            subscription.Dispose();
+
+            var factoryCalled = 0;
+
+            var flag1 = await service.DoAsync(
+                () => {
+                    factoryCalled++;
+
+                    return "abc";
+                }
+            );
+
+            Check.That(flag1)
+               .IsFalse();
+
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(factoryCalled)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+        }
+
+        [Test]
+        public async Task InvokeAsync_After_EventSourceDisposed()
+        {
+            var service = new FooService();
+
+            var    called = 0;
+            String arg    = null;
+
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            service.ChangedSource.Dispose();
+
+            var factoryCalled = 0;
+
+            var flag1 = await service.DoAsync(
+                () => {
+                    factoryCalled++;
+
+                    return "abc";
+                }
+            );
+
+            Check.That(flag1)
+               .IsFalse();
+
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(factoryCalled)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsTrue();
+        }
+
+        [Test]
+        public void Exception_For_NullFactory()
+        {
+            var service = new FooService();
+
+            Check.ThatAsyncCode(async () => await service.DoAsync((Func<String>) null))
+               .Throws<ArgumentNullException>()
+               .WithProperty(x => x.ParamName, "valueFactory");
+        }
+    }
+
+    [TestFixture]
+    public class InvokeAsync_ValueFactory_Arg1
+    {
+        [Test]
+        public async Task InvokeAsync_Without_Handler()
+        {
+            var service = new FooService();
+
+            var flag = await service.DoAsync(
+                a => {
+                    Assert.Fail("MUST NOT be called");
+
+                    return "abc";
+                },
+                123
+            );
+
+            Check.That(flag)
+               .IsFalse();
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+        }
+
+        [Test]
+        public async Task InvokeAsync_With_SingleHandler()
+        {
+            var service = new FooService();
+
+            var    called = 0;
+            String arg    = null;
+
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            var factoryCalled = 0;
+            var fa            = 0;
+
+            var flag1 = await service.DoAsync(
+                a => {
+                    fa = a;
+                    factoryCalled++;
+
+                    return "abc";
+                },
+                123
+            );
+
+            Check.That(flag1)
+               .IsTrue();
+
+            Check.That(called)
+               .IsEqualTo(1);
+
+            Check.That(arg)
+               .IsEqualTo("abc");
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            Check.That(fa)
+               .IsEqualTo(123);
+
+            called        = 0;
+            factoryCalled = 0;
+            fa            = 0;
+
+            var flag2 = await service.DoAsync(
+                a => {
+                    fa = a;
+                    factoryCalled++;
+
+                    return "def";
+                },
+                456
+            );
+
+            Check.That(flag2)
+               .IsTrue();
+
+            Check.That(called)
+               .IsEqualTo(1);
+
+            Check.That(arg)
+               .IsEqualTo("def");
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            Check.That(fa)
+               .IsEqualTo(456);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(1);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+        }
+
+        [Test]
+        public async Task InvokeAsync_With_MultipleHandler()
+        {
+            var service = new FooService();
+
+            var    called1 = 0;
+            String arg1    = null;
+
+            var subscription1 = service.Changed.SubscribeWeak(
+                x => {
+                    arg1 = x;
+                    called1++;
+                }
+            );
+
+            var    called2 = 0;
+            String arg2    = null;
+
+            var subscription2 = service.Changed.SubscribeWeak(
+                x => {
+                    arg2 = x;
+                    called2++;
+                }
+            );
+
+            Check.That(subscription1)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .Not.IsSameReferenceAs(subscription1);
+
+            var factoryCalled = 0;
+            var fa            = 0;
+
+            var flag1 = await service.DoAsync(
+                a => {
+                    fa = a;
+                    factoryCalled++;
+
+                    return "abc";
+                },
+                123
+            );
+
+            Check.That(flag1)
+               .IsTrue();
+
+            Check.That(called1)
+               .IsEqualTo(1);
+
+            Check.That(arg1)
+               .IsEqualTo("abc");
+
+            Check.That(called2)
+               .IsEqualTo(1);
+
+            Check.That(arg2)
+               .IsEqualTo("abc");
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            Check.That(fa)
+               .IsEqualTo(123);
+
+            called1       = 0;
+            called2       = 0;
+            factoryCalled = 0;
+            fa            = 0;
+
+            var flag2 = await service.DoAsync(
+                a => {
+                    fa = a;
+                    factoryCalled++;
+
+                    return "def";
+                },
+                456
+            );
+
+            Check.That(flag2)
+               .IsTrue();
+
+            Check.That(called1)
+               .IsEqualTo(1);
+
+            Check.That(arg1)
+               .IsEqualTo("def");
+
+            Check.That(called2)
+               .IsEqualTo(1);
+
+            Check.That(arg2)
+               .IsEqualTo("def");
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            Check.That(fa)
+               .IsEqualTo(456);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(2);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+        }
+
+        [Test]
+        public async Task InvokeAsync_With_MultipleHandler_OneThrowingExceptionButAllInvoked()
+        {
+            var service = new FooService();
+
+            var    called1 = 0;
+            String arg1    = null;
+
+            var subscription1 = service.Changed.SubscribeWeak(
+                new Action<String>(
                     x => {
-                        arg = x;
-                        called++;
+                        arg1 = x;
+                        called1++;
+
+                        throw new ApplicationException("1");
                     }
-                );
+                )
+            );
 
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
+            var    called2 = 0;
+            String arg2    = null;
 
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
+            var subscription2 = service.Changed.SubscribeWeak(
+                x => {
+                    arg2 = x;
+                    called2++;
+                }
+            );
 
+            Check.That(subscription1)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .Not.IsSameReferenceAs(subscription1);
+
+            Exception exception = null;
+
+            using (EventSystem.UnobservedException.SubscribeWeak(
+                    x => Volatile.Write(ref exception, x)
+                ))
+            {
                 var factoryCalled = 0;
                 var fa            = 0;
 
@@ -2971,402 +4421,572 @@ namespace Amarok.Events
                     123
                 );
 
-                Check.That(flag1).IsTrue();
-                Check.That(called).IsEqualTo(1);
-                Check.That(arg).IsEqualTo("abc");
-                Check.That(factoryCalled).IsEqualTo(1);
-                Check.That(fa).IsEqualTo(123);
+                Check.That(flag1)
+                   .IsTrue();
 
-                called        = 0;
-                factoryCalled = 0;
-                fa            = 0;
+                Check.That(called1)
+                   .IsEqualTo(1);
 
-                var flag2 = await service.DoAsync(
-                    a => {
-                        fa = a;
-                        factoryCalled++;
+                Check.That(arg1)
+                   .IsEqualTo("abc");
 
-                        return "def";
-                    },
-                    456
-                );
+                Check.That(called2)
+                   .IsEqualTo(1);
 
-                Check.That(flag2).IsTrue();
-                Check.That(called).IsEqualTo(1);
-                Check.That(arg).IsEqualTo("def");
-                Check.That(factoryCalled).IsEqualTo(1);
-                Check.That(fa).IsEqualTo(456);
+                Check.That(arg2)
+                   .IsEqualTo("abc");
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-            }
+                Check.That(factoryCalled)
+                   .IsEqualTo(1);
 
-            [Test]
-            public async Task InvokeAsync_With_MultipleHandler()
-            {
-                var service = new FooService();
+                Check.That(fa)
+                   .IsEqualTo(123);
 
-                var    called1 = 0;
-                String arg1    = null;
+                Check.That(exception)
+                   .IsInstanceOf<ApplicationException>();
 
-                var subscription1 = service.Changed.SubscribeWeak(
-                    x => {
-                        arg1 = x;
-                        called1++;
-                    }
-                );
+                Check.That(exception.Message)
+                   .IsEqualTo("1");
 
-                var    called2 = 0;
-                String arg2    = null;
+                Check.That(service.ChangedSource.NumberOfSubscriptions)
+                   .IsEqualTo(2);
 
-                var subscription2 = service.Changed.SubscribeWeak(
-                    x => {
-                        arg2 = x;
-                        called2++;
-                    }
-                );
-
-                Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
-
-                var factoryCalled = 0;
-                var fa            = 0;
-
-                var flag1 = await service.DoAsync(
-                    a => {
-                        fa = a;
-                        factoryCalled++;
-
-                        return "abc";
-                    },
-                    123
-                );
-
-                Check.That(flag1).IsTrue();
-                Check.That(called1).IsEqualTo(1);
-                Check.That(arg1).IsEqualTo("abc");
-                Check.That(called2).IsEqualTo(1);
-                Check.That(arg2).IsEqualTo("abc");
-                Check.That(factoryCalled).IsEqualTo(1);
-                Check.That(fa).IsEqualTo(123);
-
-                called1       = 0;
-                called2       = 0;
-                factoryCalled = 0;
-                fa            = 0;
-
-                var flag2 = await service.DoAsync(
-                    a => {
-                        fa = a;
-                        factoryCalled++;
-
-                        return "def";
-                    },
-                    456
-                );
-
-                Check.That(flag2).IsTrue();
-                Check.That(called1).IsEqualTo(1);
-                Check.That(arg1).IsEqualTo("def");
-                Check.That(called2).IsEqualTo(1);
-                Check.That(arg2).IsEqualTo("def");
-                Check.That(factoryCalled).IsEqualTo(1);
-                Check.That(fa).IsEqualTo(456);
-
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-            }
-
-            [Test]
-            public async Task InvokeAsync_With_MultipleHandler_OneThrowingExceptionButAllInvoked()
-            {
-                var service = new FooService();
-
-                var    called1 = 0;
-                String arg1    = null;
-
-                var subscription1 = service.Changed.SubscribeWeak(
-                    new Action<String>(
-                        x => {
-                            arg1 = x;
-                            called1++;
-
-                            throw new ApplicationException("1");
-                        }
-                    )
-                );
-
-                var    called2 = 0;
-                String arg2    = null;
-
-                var subscription2 = service.Changed.SubscribeWeak(
-                    x => {
-                        arg2 = x;
-                        called2++;
-                    }
-                );
-
-                Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
-
-                Exception exception = null;
-
-                using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
-                {
-                    var factoryCalled = 0;
-                    var fa            = 0;
-
-                    var flag1 = await service.DoAsync(
-                        a => {
-                            fa = a;
-                            factoryCalled++;
-
-                            return "abc";
-                        },
-                        123
-                    );
-
-                    Check.That(flag1).IsTrue();
-                    Check.That(called1).IsEqualTo(1);
-                    Check.That(arg1).IsEqualTo("abc");
-                    Check.That(called2).IsEqualTo(1);
-                    Check.That(arg2).IsEqualTo("abc");
-                    Check.That(factoryCalled).IsEqualTo(1);
-                    Check.That(fa).IsEqualTo(123);
-
-                    Check.That(exception).IsInstanceOf<ApplicationException>();
-                    Check.That(exception.Message).IsEqualTo("1");
-
-                    Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
-                    Check.That(service.ChangedSource.IsDisposed).IsFalse();
-                }
-            }
-
-            [Test]
-            public async Task InvokeAsync_After_SubscriptionGCed()
-            {
-                var service = new FooService();
-
-                var    called = 0;
-                String arg    = null;
-
-                var subscription = service.Changed.SubscribeWeak(
-                    x => {
-                        arg = x;
-                        called++;
-                    }
-                );
-
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                var strongSub = (ActionSubscription<String>) subscription;
-                var weakSub   = (WeakSubscription<String>) strongSub.TestingGetPreviousSubscription();
-                strongSub.TestingClearNextSubscription();
-                weakSub.TestingClearNextSubscription();
-
-                var factoryCalled = 0;
-                var fa            = 0;
-
-                var flag1 = await service.DoAsync(
-                    a => {
-                        fa = a;
-                        factoryCalled++;
-
-                        return "abc";
-                    },
-                    123
-                );
-
-                Check.That(flag1).IsTrue();
-                Check.That(called).IsEqualTo(0);
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-                Check.That(factoryCalled).IsEqualTo(1);
-                Check.That(fa).IsEqualTo(123);
-
-                factoryCalled = 0;
-                fa            = 0;
-
-                var flag2 = await service.DoAsync(
-                    a => {
-                        fa = a;
-                        factoryCalled++;
-
-                        return "abc";
-                    },
-                    123
-                );
-
-                Check.That(flag2).IsFalse();
-                Check.That(called).IsEqualTo(0);
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(factoryCalled).IsEqualTo(0);
-                Check.That(fa).IsEqualTo(0);
-
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()).IsNull();
-            }
-
-            [Test]
-            public async Task InvokeAsync_After_SubscriptionDisposed()
-            {
-                var service = new FooService();
-
-                var    called = 0;
-                String arg    = null;
-
-                var subscription = service.Changed.SubscribeWeak(
-                    x => {
-                        arg = x;
-                        called++;
-                    }
-                );
-
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                subscription.Dispose();
-
-                var factoryCalled = 0;
-
-                var flag1 = await service.DoAsync(
-                    a => {
-                        factoryCalled++;
-
-                        return "abc";
-                    },
-                    123
-                );
-
-                Check.That(flag1).IsFalse();
-                Check.That(called).IsEqualTo(0);
-                Check.That(factoryCalled).IsEqualTo(0);
-
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-            }
-
-            [Test]
-            public async Task InvokeAsync_After_EventSourceDisposed()
-            {
-                var service = new FooService();
-
-                var    called = 0;
-                String arg    = null;
-
-                var subscription = service.Changed.SubscribeWeak(
-                    x => {
-                        arg = x;
-                        called++;
-                    }
-                );
-
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                service.ChangedSource.Dispose();
-
-                var factoryCalled = 0;
-
-                var flag1 = await service.DoAsync(
-                    a => {
-                        factoryCalled++;
-
-                        return "abc";
-                    },
-                    123
-                );
-
-                Check.That(flag1).IsFalse();
-                Check.That(called).IsEqualTo(0);
-                Check.That(factoryCalled).IsEqualTo(0);
-
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsTrue();
-            }
-
-            [Test]
-            public void Exception_For_NullFactory()
-            {
-                var service = new FooService();
-
-                Check.ThatAsyncCode(async () => await service.DoAsync(null, 123))
-                   .Throws<ArgumentNullException>()
-                   .WithProperty(x => x.ParamName, "valueFactory");
+                Check.That(service.ChangedSource.IsDisposed)
+                   .IsFalse();
             }
         }
 
-        [TestFixture]
-        public class InvokeAsync_ValueFactory_Arg2
+        [Test]
+        public async Task InvokeAsync_After_SubscriptionGCed()
         {
-            [Test]
-            public async Task InvokeAsync_Without_Handler()
-            {
-                var service = new FooService();
+            var service = new FooService();
 
-                var flag = await service.DoAsync(
-                    (a, b) => {
-                        Assert.Fail("MUST NOT be called");
+            var    called = 0;
+            String arg    = null;
 
-                        return "abc";
-                    },
-                    123,
-                    1.2
-                );
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
 
-                Check.That(flag).IsFalse();
+            Check.That(subscription)
+               .IsNotNull();
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-            }
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
 
-            [Test]
-            public async Task InvokeAsync_With_SingleHandler()
-            {
-                var service = new FooService();
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
 
-                var    called = 0;
-                String arg    = null;
+            var strongSub = (ActionSubscription<String>) subscription;
+            var weakSub   = (WeakSubscription<String>) strongSub.TestingGetPreviousSubscription();
+            strongSub.TestingClearNextSubscription();
+            weakSub.TestingClearNextSubscription();
 
-                var subscription = service.Changed.SubscribeWeak(
+            var factoryCalled = 0;
+            var fa            = 0;
+
+            var flag1 = await service.DoAsync(
+                a => {
+                    fa = a;
+                    factoryCalled++;
+
+                    return "abc";
+                },
+                123
+            );
+
+            Check.That(flag1)
+               .IsTrue();
+
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            Check.That(fa)
+               .IsEqualTo(123);
+
+            factoryCalled = 0;
+            fa            = 0;
+
+            var flag2 = await service.DoAsync(
+                a => {
+                    fa = a;
+                    factoryCalled++;
+
+                    return "abc";
+                },
+                123
+            );
+
+            Check.That(flag2)
+               .IsFalse();
+
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(factoryCalled)
+               .IsEqualTo(0);
+
+            Check.That(fa)
+               .IsEqualTo(0);
+
+            Check.That(subscription)
+               .IsNotNull();
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsNull();
+        }
+
+        [Test]
+        public async Task InvokeAsync_After_SubscriptionDisposed()
+        {
+            var service = new FooService();
+
+            var    called = 0;
+            String arg    = null;
+
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            subscription.Dispose();
+
+            var factoryCalled = 0;
+
+            var flag1 = await service.DoAsync(
+                a => {
+                    factoryCalled++;
+
+                    return "abc";
+                },
+                123
+            );
+
+            Check.That(flag1)
+               .IsFalse();
+
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(factoryCalled)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+        }
+
+        [Test]
+        public async Task InvokeAsync_After_EventSourceDisposed()
+        {
+            var service = new FooService();
+
+            var    called = 0;
+            String arg    = null;
+
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            service.ChangedSource.Dispose();
+
+            var factoryCalled = 0;
+
+            var flag1 = await service.DoAsync(
+                a => {
+                    factoryCalled++;
+
+                    return "abc";
+                },
+                123
+            );
+
+            Check.That(flag1)
+               .IsFalse();
+
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(factoryCalled)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsTrue();
+        }
+
+        [Test]
+        public void Exception_For_NullFactory()
+        {
+            var service = new FooService();
+
+            Check.ThatAsyncCode(async () => await service.DoAsync(null, 123))
+               .Throws<ArgumentNullException>()
+               .WithProperty(x => x.ParamName, "valueFactory");
+        }
+    }
+
+    [TestFixture]
+    public class InvokeAsync_ValueFactory_Arg2
+    {
+        [Test]
+        public async Task InvokeAsync_Without_Handler()
+        {
+            var service = new FooService();
+
+            var flag = await service.DoAsync(
+                (a, b) => {
+                    Assert.Fail("MUST NOT be called");
+
+                    return "abc";
+                },
+                123,
+                1.2
+            );
+
+            Check.That(flag)
+               .IsFalse();
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+        }
+
+        [Test]
+        public async Task InvokeAsync_With_SingleHandler()
+        {
+            var service = new FooService();
+
+            var    called = 0;
+            String arg    = null;
+
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            var factoryCalled = 0;
+            var fa            = 0;
+            var fb            = 0.0;
+
+            var flag1 = await service.DoAsync(
+                (a, b) => {
+                    fa = a;
+                    fb = b;
+                    factoryCalled++;
+
+                    return "abc";
+                },
+                123,
+                1.2
+            );
+
+            Check.That(flag1)
+               .IsTrue();
+
+            Check.That(called)
+               .IsEqualTo(1);
+
+            Check.That(arg)
+               .IsEqualTo("abc");
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            Check.That(fa)
+               .IsEqualTo(123);
+
+            Check.That(fb)
+               .IsEqualTo(1.2);
+
+            called        = 0;
+            factoryCalled = 0;
+            fa            = 0;
+            fb            = 0.0;
+
+            var flag2 = await service.DoAsync(
+                (a, b) => {
+                    fa = a;
+                    fb = b;
+                    factoryCalled++;
+
+                    return "def";
+                },
+                456,
+                3.4
+            );
+
+            Check.That(flag2)
+               .IsTrue();
+
+            Check.That(called)
+               .IsEqualTo(1);
+
+            Check.That(arg)
+               .IsEqualTo("def");
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            Check.That(fa)
+               .IsEqualTo(456);
+
+            Check.That(fb)
+               .IsEqualTo(3.4);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(1);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+        }
+
+        [Test]
+        public async Task InvokeAsync_With_MultipleHandler()
+        {
+            var service = new FooService();
+
+            var    called1 = 0;
+            String arg1    = null;
+
+            var subscription1 = service.Changed.SubscribeWeak(
+                x => {
+                    arg1 = x;
+                    called1++;
+                }
+            );
+
+            var    called2 = 0;
+            String arg2    = null;
+
+            var subscription2 = service.Changed.SubscribeWeak(
+                x => {
+                    arg2 = x;
+                    called2++;
+                }
+            );
+
+            Check.That(subscription1)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .Not.IsSameReferenceAs(subscription1);
+
+            var factoryCalled = 0;
+            var fa            = 0;
+            var fb            = 0.0;
+
+            var flag1 = await service.DoAsync(
+                (a, b) => {
+                    fa = a;
+                    fb = b;
+                    factoryCalled++;
+
+                    return "abc";
+                },
+                123,
+                1.2
+            );
+
+            Check.That(flag1)
+               .IsTrue();
+
+            Check.That(called1)
+               .IsEqualTo(1);
+
+            Check.That(arg1)
+               .IsEqualTo("abc");
+
+            Check.That(called2)
+               .IsEqualTo(1);
+
+            Check.That(arg2)
+               .IsEqualTo("abc");
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            Check.That(fa)
+               .IsEqualTo(123);
+
+            Check.That(fb)
+               .IsEqualTo(1.2);
+
+            called1       = 0;
+            called2       = 0;
+            factoryCalled = 0;
+            fa            = 0;
+            fb            = 0.0;
+
+            var flag2 = await service.DoAsync(
+                (a, b) => {
+                    fa = a;
+                    fb = b;
+                    factoryCalled++;
+
+                    return "def";
+                },
+                456,
+                3.4
+            );
+
+            Check.That(flag2)
+               .IsTrue();
+
+            Check.That(called1)
+               .IsEqualTo(1);
+
+            Check.That(arg1)
+               .IsEqualTo("def");
+
+            Check.That(called2)
+               .IsEqualTo(1);
+
+            Check.That(arg2)
+               .IsEqualTo("def");
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            Check.That(fa)
+               .IsEqualTo(456);
+
+            Check.That(fb)
+               .IsEqualTo(3.4);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(2);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+        }
+
+        [Test]
+        public async Task InvokeAsync_With_MultipleHandler_OneThrowingExceptionButAllInvoked()
+        {
+            var service = new FooService();
+
+            var    called1 = 0;
+            String arg1    = null;
+
+            var subscription1 = service.Changed.SubscribeWeak(
+                new Action<String>(
                     x => {
-                        arg = x;
-                        called++;
+                        arg1 = x;
+                        called1++;
+
+                        throw new ApplicationException("1");
                     }
-                );
+                )
+            );
 
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
+            var    called2 = 0;
+            String arg2    = null;
 
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
+            var subscription2 = service.Changed.SubscribeWeak(
+                x => {
+                    arg2 = x;
+                    called2++;
+                }
+            );
 
+            Check.That(subscription1)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .Not.IsSameReferenceAs(subscription1);
+
+            Exception exception = null;
+
+            using (EventSystem.UnobservedException.SubscribeWeak(
+                    x => Volatile.Write(ref exception, x)
+                ))
+            {
                 var factoryCalled = 0;
                 var fa            = 0;
                 var fb            = 0.0;
@@ -3383,429 +5003,614 @@ namespace Amarok.Events
                     1.2
                 );
 
-                Check.That(flag1).IsTrue();
-                Check.That(called).IsEqualTo(1);
-                Check.That(arg).IsEqualTo("abc");
-                Check.That(factoryCalled).IsEqualTo(1);
-                Check.That(fa).IsEqualTo(123);
-                Check.That(fb).IsEqualTo(1.2);
+                Check.That(flag1)
+                   .IsTrue();
 
-                called        = 0;
-                factoryCalled = 0;
-                fa            = 0;
-                fb            = 0.0;
+                Check.That(called1)
+                   .IsEqualTo(1);
 
-                var flag2 = await service.DoAsync(
-                    (a, b) => {
-                        fa = a;
-                        fb = b;
-                        factoryCalled++;
+                Check.That(arg1)
+                   .IsEqualTo("abc");
 
-                        return "def";
-                    },
-                    456,
-                    3.4
-                );
+                Check.That(called2)
+                   .IsEqualTo(1);
 
-                Check.That(flag2).IsTrue();
-                Check.That(called).IsEqualTo(1);
-                Check.That(arg).IsEqualTo("def");
-                Check.That(factoryCalled).IsEqualTo(1);
-                Check.That(fa).IsEqualTo(456);
-                Check.That(fb).IsEqualTo(3.4);
+                Check.That(arg2)
+                   .IsEqualTo("abc");
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-            }
+                Check.That(factoryCalled)
+                   .IsEqualTo(1);
 
-            [Test]
-            public async Task InvokeAsync_With_MultipleHandler()
-            {
-                var service = new FooService();
+                Check.That(fa)
+                   .IsEqualTo(123);
 
-                var    called1 = 0;
-                String arg1    = null;
+                Check.That(fb)
+                   .IsEqualTo(1.2);
 
-                var subscription1 = service.Changed.SubscribeWeak(
-                    x => {
-                        arg1 = x;
-                        called1++;
-                    }
-                );
+                Check.That(exception)
+                   .IsInstanceOf<ApplicationException>();
 
-                var    called2 = 0;
-                String arg2    = null;
+                Check.That(exception.Message)
+                   .IsEqualTo("1");
 
-                var subscription2 = service.Changed.SubscribeWeak(
-                    x => {
-                        arg2 = x;
-                        called2++;
-                    }
-                );
+                Check.That(service.ChangedSource.NumberOfSubscriptions)
+                   .IsEqualTo(2);
 
-                Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
-
-                var factoryCalled = 0;
-                var fa            = 0;
-                var fb            = 0.0;
-
-                var flag1 = await service.DoAsync(
-                    (a, b) => {
-                        fa = a;
-                        fb = b;
-                        factoryCalled++;
-
-                        return "abc";
-                    },
-                    123,
-                    1.2
-                );
-
-                Check.That(flag1).IsTrue();
-                Check.That(called1).IsEqualTo(1);
-                Check.That(arg1).IsEqualTo("abc");
-                Check.That(called2).IsEqualTo(1);
-                Check.That(arg2).IsEqualTo("abc");
-                Check.That(factoryCalled).IsEqualTo(1);
-                Check.That(fa).IsEqualTo(123);
-                Check.That(fb).IsEqualTo(1.2);
-
-                called1       = 0;
-                called2       = 0;
-                factoryCalled = 0;
-                fa            = 0;
-                fb            = 0.0;
-
-                var flag2 = await service.DoAsync(
-                    (a, b) => {
-                        fa = a;
-                        fb = b;
-                        factoryCalled++;
-
-                        return "def";
-                    },
-                    456,
-                    3.4
-                );
-
-                Check.That(flag2).IsTrue();
-                Check.That(called1).IsEqualTo(1);
-                Check.That(arg1).IsEqualTo("def");
-                Check.That(called2).IsEqualTo(1);
-                Check.That(arg2).IsEqualTo("def");
-                Check.That(factoryCalled).IsEqualTo(1);
-                Check.That(fa).IsEqualTo(456);
-                Check.That(fb).IsEqualTo(3.4);
-
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-            }
-
-            [Test]
-            public async Task InvokeAsync_With_MultipleHandler_OneThrowingExceptionButAllInvoked()
-            {
-                var service = new FooService();
-
-                var    called1 = 0;
-                String arg1    = null;
-
-                var subscription1 = service.Changed.SubscribeWeak(
-                    new Action<String>(
-                        x => {
-                            arg1 = x;
-                            called1++;
-
-                            throw new ApplicationException("1");
-                        }
-                    )
-                );
-
-                var    called2 = 0;
-                String arg2    = null;
-
-                var subscription2 = service.Changed.SubscribeWeak(
-                    x => {
-                        arg2 = x;
-                        called2++;
-                    }
-                );
-
-                Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
-
-                Exception exception = null;
-
-                using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
-                {
-                    var factoryCalled = 0;
-                    var fa            = 0;
-                    var fb            = 0.0;
-
-                    var flag1 = await service.DoAsync(
-                        (a, b) => {
-                            fa = a;
-                            fb = b;
-                            factoryCalled++;
-
-                            return "abc";
-                        },
-                        123,
-                        1.2
-                    );
-
-                    Check.That(flag1).IsTrue();
-                    Check.That(called1).IsEqualTo(1);
-                    Check.That(arg1).IsEqualTo("abc");
-                    Check.That(called2).IsEqualTo(1);
-                    Check.That(arg2).IsEqualTo("abc");
-                    Check.That(factoryCalled).IsEqualTo(1);
-                    Check.That(fa).IsEqualTo(123);
-                    Check.That(fb).IsEqualTo(1.2);
-
-                    Check.That(exception).IsInstanceOf<ApplicationException>();
-                    Check.That(exception.Message).IsEqualTo("1");
-
-                    Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
-                    Check.That(service.ChangedSource.IsDisposed).IsFalse();
-                }
-            }
-
-            [Test]
-            public async Task InvokeAsync_After_SubscriptionGCed()
-            {
-                var service = new FooService();
-
-                var    called = 0;
-                String arg    = null;
-
-                var subscription = service.Changed.SubscribeWeak(
-                    x => {
-                        arg = x;
-                        called++;
-                    }
-                );
-
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                var strongSub = (ActionSubscription<String>) subscription;
-                var weakSub   = (WeakSubscription<String>) strongSub.TestingGetPreviousSubscription();
-                strongSub.TestingClearNextSubscription();
-                weakSub.TestingClearNextSubscription();
-
-                var factoryCalled = 0;
-                var fa            = 0;
-                var fb            = 0.0;
-
-                var flag1 = await service.DoAsync(
-                    (a, b) => {
-                        fa = a;
-                        fb = b;
-                        factoryCalled++;
-
-                        return "abc";
-                    },
-                    123,
-                    1.2
-                );
-
-                Check.That(flag1).IsTrue();
-                Check.That(called).IsEqualTo(0);
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-                Check.That(factoryCalled).IsEqualTo(1);
-                Check.That(fa).IsEqualTo(123);
-                Check.That(fb).IsEqualTo(1.2);
-                factoryCalled = 0;
-                fa            = 0;
-                fb            = 0.0;
-
-                var flag2 = await service.DoAsync(
-                    (a, b) => {
-                        fa = a;
-                        fb = b;
-                        factoryCalled++;
-
-                        return "abc";
-                    },
-                    123,
-                    1.2
-                );
-
-                Check.That(flag2).IsFalse();
-                Check.That(called).IsEqualTo(0);
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(factoryCalled).IsEqualTo(0);
-                Check.That(fa).IsEqualTo(0);
-                Check.That(fb).IsEqualTo(0.0);
-
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()).IsNull();
-            }
-
-            [Test]
-            public async Task InvokeAsync_After_SubscriptionDisposed()
-            {
-                var service = new FooService();
-
-                var    called = 0;
-                String arg    = null;
-
-                var subscription = service.Changed.SubscribeWeak(
-                    x => {
-                        arg = x;
-                        called++;
-                    }
-                );
-
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                subscription.Dispose();
-
-                var factoryCalled = 0;
-
-                var flag1 = await service.DoAsync(
-                    (a, b) => {
-                        factoryCalled++;
-
-                        return "abc";
-                    },
-                    123,
-                    1.2
-                );
-
-                Check.That(flag1).IsFalse();
-                Check.That(called).IsEqualTo(0);
-                Check.That(factoryCalled).IsEqualTo(0);
-
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-            }
-
-            [Test]
-            public async Task InvokeAsync_After_EventSourceDisposed()
-            {
-                var service = new FooService();
-
-                var    called = 0;
-                String arg    = null;
-
-                var subscription = service.Changed.SubscribeWeak(
-                    x => {
-                        arg = x;
-                        called++;
-                    }
-                );
-
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                service.ChangedSource.Dispose();
-
-                var factoryCalled = 0;
-
-                var flag1 = await service.DoAsync(
-                    (a, b) => {
-                        factoryCalled++;
-
-                        return "abc";
-                    },
-                    123,
-                    1.2
-                );
-
-                Check.That(flag1).IsFalse();
-                Check.That(called).IsEqualTo(0);
-                Check.That(factoryCalled).IsEqualTo(0);
-
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsTrue();
-            }
-
-            [Test]
-            public void Exception_For_NullFactory()
-            {
-                var service = new FooService();
-
-                Check.ThatAsyncCode(async () => await service.DoAsync(null, 123, 1.2))
-                   .Throws<ArgumentNullException>()
-                   .WithProperty(x => x.ParamName, "valueFactory");
+                Check.That(service.ChangedSource.IsDisposed)
+                   .IsFalse();
             }
         }
 
-        [TestFixture]
-        public class InvokeAsync_ValueFactory_Arg3
+        [Test]
+        public async Task InvokeAsync_After_SubscriptionGCed()
         {
-            [Test]
-            public async Task InvokeAsync_Without_Handler()
-            {
-                var service = new FooService();
+            var service = new FooService();
 
-                var flag = await service.DoAsync(
-                    (a, b, c) => {
-                        Assert.Fail("MUST NOT be called");
+            var    called = 0;
+            String arg    = null;
 
-                        return "abc";
-                    },
-                    123,
-                    1.2,
-                    'a'
-                );
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
 
-                Check.That(flag).IsFalse();
+            Check.That(subscription)
+               .IsNotNull();
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-            }
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
 
-            [Test]
-            public async Task InvokeAsync_With_SingleHandler()
-            {
-                var service = new FooService();
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
 
-                var    called = 0;
-                String arg    = null;
+            var strongSub = (ActionSubscription<String>) subscription;
+            var weakSub   = (WeakSubscription<String>) strongSub.TestingGetPreviousSubscription();
+            strongSub.TestingClearNextSubscription();
+            weakSub.TestingClearNextSubscription();
 
-                var subscription = service.Changed.SubscribeWeak(
+            var factoryCalled = 0;
+            var fa            = 0;
+            var fb            = 0.0;
+
+            var flag1 = await service.DoAsync(
+                (a, b) => {
+                    fa = a;
+                    fb = b;
+                    factoryCalled++;
+
+                    return "abc";
+                },
+                123,
+                1.2
+            );
+
+            Check.That(flag1)
+               .IsTrue();
+
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            Check.That(fa)
+               .IsEqualTo(123);
+
+            Check.That(fb)
+               .IsEqualTo(1.2);
+
+            factoryCalled = 0;
+            fa            = 0;
+            fb            = 0.0;
+
+            var flag2 = await service.DoAsync(
+                (a, b) => {
+                    fa = a;
+                    fb = b;
+                    factoryCalled++;
+
+                    return "abc";
+                },
+                123,
+                1.2
+            );
+
+            Check.That(flag2)
+               .IsFalse();
+
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(factoryCalled)
+               .IsEqualTo(0);
+
+            Check.That(fa)
+               .IsEqualTo(0);
+
+            Check.That(fb)
+               .IsEqualTo(0.0);
+
+            Check.That(subscription)
+               .IsNotNull();
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsNull();
+        }
+
+        [Test]
+        public async Task InvokeAsync_After_SubscriptionDisposed()
+        {
+            var service = new FooService();
+
+            var    called = 0;
+            String arg    = null;
+
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            subscription.Dispose();
+
+            var factoryCalled = 0;
+
+            var flag1 = await service.DoAsync(
+                (a, b) => {
+                    factoryCalled++;
+
+                    return "abc";
+                },
+                123,
+                1.2
+            );
+
+            Check.That(flag1)
+               .IsFalse();
+
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(factoryCalled)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+        }
+
+        [Test]
+        public async Task InvokeAsync_After_EventSourceDisposed()
+        {
+            var service = new FooService();
+
+            var    called = 0;
+            String arg    = null;
+
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            service.ChangedSource.Dispose();
+
+            var factoryCalled = 0;
+
+            var flag1 = await service.DoAsync(
+                (a, b) => {
+                    factoryCalled++;
+
+                    return "abc";
+                },
+                123,
+                1.2
+            );
+
+            Check.That(flag1)
+               .IsFalse();
+
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(factoryCalled)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsTrue();
+        }
+
+        [Test]
+        public void Exception_For_NullFactory()
+        {
+            var service = new FooService();
+
+            Check.ThatAsyncCode(async () => await service.DoAsync(null, 123, 1.2))
+               .Throws<ArgumentNullException>()
+               .WithProperty(x => x.ParamName, "valueFactory");
+        }
+    }
+
+    [TestFixture]
+    public class InvokeAsync_ValueFactory_Arg3
+    {
+        [Test]
+        public async Task InvokeAsync_Without_Handler()
+        {
+            var service = new FooService();
+
+            var flag = await service.DoAsync(
+                (a, b, c) => {
+                    Assert.Fail("MUST NOT be called");
+
+                    return "abc";
+                },
+                123,
+                1.2,
+                'a'
+            );
+
+            Check.That(flag)
+               .IsFalse();
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+        }
+
+        [Test]
+        public async Task InvokeAsync_With_SingleHandler()
+        {
+            var service = new FooService();
+
+            var    called = 0;
+            String arg    = null;
+
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            var factoryCalled = 0;
+            var fa            = 0;
+            var fb            = 0.0;
+            var fc            = ' ';
+
+            var flag1 = await service.DoAsync(
+                (a, b, c) => {
+                    fa = a;
+                    fb = b;
+                    fc = c;
+                    factoryCalled++;
+
+                    return "abc";
+                },
+                123,
+                1.2,
+                'a'
+            );
+
+            Check.That(flag1)
+               .IsTrue();
+
+            Check.That(called)
+               .IsEqualTo(1);
+
+            Check.That(arg)
+               .IsEqualTo("abc");
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            Check.That(fa)
+               .IsEqualTo(123);
+
+            Check.That(fb)
+               .IsEqualTo(1.2);
+
+            Check.That(fc)
+               .IsEqualTo('a');
+
+            called        = 0;
+            factoryCalled = 0;
+            fa            = 0;
+            fb            = 0.0;
+            fc            = ' ';
+
+            var flag2 = await service.DoAsync(
+                (a, b, c) => {
+                    fa = a;
+                    fb = b;
+                    fc = c;
+                    factoryCalled++;
+
+                    return "def";
+                },
+                456,
+                3.4,
+                'b'
+            );
+
+            Check.That(flag2)
+               .IsTrue();
+
+            Check.That(called)
+               .IsEqualTo(1);
+
+            Check.That(arg)
+               .IsEqualTo("def");
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            Check.That(fa)
+               .IsEqualTo(456);
+
+            Check.That(fb)
+               .IsEqualTo(3.4);
+
+            Check.That(fc)
+               .IsEqualTo('b');
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(1);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+        }
+
+        [Test]
+        public async Task InvokeAsync_With_MultipleHandler()
+        {
+            var service = new FooService();
+
+            var    called1 = 0;
+            String arg1    = null;
+
+            var subscription1 = service.Changed.SubscribeWeak(
+                x => {
+                    arg1 = x;
+                    called1++;
+                }
+            );
+
+            var    called2 = 0;
+            String arg2    = null;
+
+            var subscription2 = service.Changed.SubscribeWeak(
+                x => {
+                    arg2 = x;
+                    called2++;
+                }
+            );
+
+            Check.That(subscription1)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .Not.IsSameReferenceAs(subscription1);
+
+            var factoryCalled = 0;
+            var fa            = 0;
+            var fb            = 0.0;
+            var fc            = ' ';
+
+            var flag1 = await service.DoAsync(
+                (a, b, c) => {
+                    fa = a;
+                    fb = b;
+                    fc = c;
+                    factoryCalled++;
+
+                    return "abc";
+                },
+                123,
+                1.2,
+                'a'
+            );
+
+            Check.That(flag1)
+               .IsTrue();
+
+            Check.That(called1)
+               .IsEqualTo(1);
+
+            Check.That(arg1)
+               .IsEqualTo("abc");
+
+            Check.That(called2)
+               .IsEqualTo(1);
+
+            Check.That(arg2)
+               .IsEqualTo("abc");
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            Check.That(fa)
+               .IsEqualTo(123);
+
+            Check.That(fb)
+               .IsEqualTo(1.2);
+
+            Check.That(fc)
+               .IsEqualTo('a');
+
+            called1       = 0;
+            called2       = 0;
+            factoryCalled = 0;
+            fa            = 0;
+            fb            = 0.0;
+            fc            = ' ';
+
+            var flag2 = await service.DoAsync(
+                (a, b, c) => {
+                    fa = a;
+                    fb = b;
+                    fc = c;
+                    factoryCalled++;
+
+                    return "def";
+                },
+                456,
+                3.4,
+                'b'
+            );
+
+            Check.That(flag2)
+               .IsTrue();
+
+            Check.That(called1)
+               .IsEqualTo(1);
+
+            Check.That(arg1)
+               .IsEqualTo("def");
+
+            Check.That(called2)
+               .IsEqualTo(1);
+
+            Check.That(arg2)
+               .IsEqualTo("def");
+
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
+
+            Check.That(fa)
+               .IsEqualTo(456);
+
+            Check.That(fb)
+               .IsEqualTo(3.4);
+
+            Check.That(fc)
+               .IsEqualTo('b');
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(2);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+        }
+
+        [Test]
+        public async Task InvokeAsync_With_MultipleHandler_OneThrowingExceptionButAllInvoked()
+        {
+            var service = new FooService();
+
+            var    called1 = 0;
+            String arg1    = null;
+
+            var subscription1 = service.Changed.SubscribeWeak(
+                new Action<String>(
                     x => {
-                        arg = x;
-                        called++;
+                        arg1 = x;
+                        called1++;
+
+                        throw new ApplicationException("1");
                     }
-                );
+                )
+            );
 
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
+            var    called2 = 0;
+            String arg2    = null;
 
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
+            var subscription2 = service.Changed.SubscribeWeak(
+                x => {
+                    arg2 = x;
+                    called2++;
+                }
+            );
 
+            Check.That(subscription1)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(subscription2)
+               .Not.IsSameReferenceAs(subscription1);
+
+            Exception exception = null;
+
+            using (EventSystem.UnobservedException.SubscribeWeak(
+                    x => Volatile.Write(ref exception, x)
+                ))
+            {
                 var factoryCalled = 0;
                 var fa            = 0;
                 var fb            = 0.0;
@@ -3825,410 +5630,289 @@ namespace Amarok.Events
                     'a'
                 );
 
-                Check.That(flag1).IsTrue();
-                Check.That(called).IsEqualTo(1);
-                Check.That(arg).IsEqualTo("abc");
-                Check.That(factoryCalled).IsEqualTo(1);
-                Check.That(fa).IsEqualTo(123);
-                Check.That(fb).IsEqualTo(1.2);
-                Check.That(fc).IsEqualTo('a');
+                Check.That(flag1)
+                   .IsTrue();
 
-                called        = 0;
-                factoryCalled = 0;
-                fa            = 0;
-                fb            = 0.0;
-                fc            = ' ';
+                Check.That(called1)
+                   .IsEqualTo(1);
 
-                var flag2 = await service.DoAsync(
-                    (a, b, c) => {
-                        fa = a;
-                        fb = b;
-                        fc = c;
-                        factoryCalled++;
+                Check.That(arg1)
+                   .IsEqualTo("abc");
 
-                        return "def";
-                    },
-                    456,
-                    3.4,
-                    'b'
-                );
+                Check.That(called2)
+                   .IsEqualTo(1);
 
-                Check.That(flag2).IsTrue();
-                Check.That(called).IsEqualTo(1);
-                Check.That(arg).IsEqualTo("def");
-                Check.That(factoryCalled).IsEqualTo(1);
-                Check.That(fa).IsEqualTo(456);
-                Check.That(fb).IsEqualTo(3.4);
-                Check.That(fc).IsEqualTo('b');
+                Check.That(arg2)
+                   .IsEqualTo("abc");
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
+                Check.That(factoryCalled)
+                   .IsEqualTo(1);
+
+                Check.That(fa)
+                   .IsEqualTo(123);
+
+                Check.That(fb)
+                   .IsEqualTo(1.2);
+
+                Check.That(fc)
+                   .IsEqualTo('a');
+
+                Check.That(exception)
+                   .IsInstanceOf<ApplicationException>();
+
+                Check.That(exception.Message)
+                   .IsEqualTo("1");
+
+                Check.That(service.ChangedSource.NumberOfSubscriptions)
+                   .IsEqualTo(2);
+
+                Check.That(service.ChangedSource.IsDisposed)
+                   .IsFalse();
             }
+        }
 
-            [Test]
-            public async Task InvokeAsync_With_MultipleHandler()
-            {
-                var service = new FooService();
+        [Test]
+        public async Task InvokeAsync_After_SubscriptionGCed()
+        {
+            var service = new FooService();
 
-                var    called1 = 0;
-                String arg1    = null;
+            var    called = 0;
+            String arg    = null;
 
-                var subscription1 = service.Changed.SubscribeWeak(
-                    x => {
-                        arg1 = x;
-                        called1++;
-                    }
-                );
-
-                var    called2 = 0;
-                String arg2    = null;
-
-                var subscription2 = service.Changed.SubscribeWeak(
-                    x => {
-                        arg2 = x;
-                        called2++;
-                    }
-                );
-
-                Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
-
-                var factoryCalled = 0;
-                var fa            = 0;
-                var fb            = 0.0;
-                var fc            = ' ';
-
-                var flag1 = await service.DoAsync(
-                    (a, b, c) => {
-                        fa = a;
-                        fb = b;
-                        fc = c;
-                        factoryCalled++;
-
-                        return "abc";
-                    },
-                    123,
-                    1.2,
-                    'a'
-                );
-
-                Check.That(flag1).IsTrue();
-                Check.That(called1).IsEqualTo(1);
-                Check.That(arg1).IsEqualTo("abc");
-                Check.That(called2).IsEqualTo(1);
-                Check.That(arg2).IsEqualTo("abc");
-                Check.That(factoryCalled).IsEqualTo(1);
-                Check.That(fa).IsEqualTo(123);
-                Check.That(fb).IsEqualTo(1.2);
-                Check.That(fc).IsEqualTo('a');
-
-                called1       = 0;
-                called2       = 0;
-                factoryCalled = 0;
-                fa            = 0;
-                fb            = 0.0;
-                fc            = ' ';
-
-                var flag2 = await service.DoAsync(
-                    (a, b, c) => {
-                        fa = a;
-                        fb = b;
-                        fc = c;
-                        factoryCalled++;
-
-                        return "def";
-                    },
-                    456,
-                    3.4,
-                    'b'
-                );
-
-                Check.That(flag2).IsTrue();
-                Check.That(called1).IsEqualTo(1);
-                Check.That(arg1).IsEqualTo("def");
-                Check.That(called2).IsEqualTo(1);
-                Check.That(arg2).IsEqualTo("def");
-                Check.That(factoryCalled).IsEqualTo(1);
-                Check.That(fa).IsEqualTo(456);
-                Check.That(fb).IsEqualTo(3.4);
-                Check.That(fc).IsEqualTo('b');
-
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-            }
-
-            [Test]
-            public async Task InvokeAsync_With_MultipleHandler_OneThrowingExceptionButAllInvoked()
-            {
-                var service = new FooService();
-
-                var    called1 = 0;
-                String arg1    = null;
-
-                var subscription1 = service.Changed.SubscribeWeak(
-                    new Action<String>(
-                        x => {
-                            arg1 = x;
-                            called1++;
-
-                            throw new ApplicationException("1");
-                        }
-                    )
-                );
-
-                var    called2 = 0;
-                String arg2    = null;
-
-                var subscription2 = service.Changed.SubscribeWeak(
-                    x => {
-                        arg2 = x;
-                        called2++;
-                    }
-                );
-
-                Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
-
-                Check.That(( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
-
-                Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
-
-                Exception exception = null;
-
-                using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
-                {
-                    var factoryCalled = 0;
-                    var fa            = 0;
-                    var fb            = 0.0;
-                    var fc            = ' ';
-
-                    var flag1 = await service.DoAsync(
-                        (a, b, c) => {
-                            fa = a;
-                            fb = b;
-                            fc = c;
-                            factoryCalled++;
-
-                            return "abc";
-                        },
-                        123,
-                        1.2,
-                        'a'
-                    );
-
-                    Check.That(flag1).IsTrue();
-                    Check.That(called1).IsEqualTo(1);
-                    Check.That(arg1).IsEqualTo("abc");
-                    Check.That(called2).IsEqualTo(1);
-                    Check.That(arg2).IsEqualTo("abc");
-                    Check.That(factoryCalled).IsEqualTo(1);
-                    Check.That(fa).IsEqualTo(123);
-                    Check.That(fb).IsEqualTo(1.2);
-                    Check.That(fc).IsEqualTo('a');
-
-                    Check.That(exception).IsInstanceOf<ApplicationException>();
-                    Check.That(exception.Message).IsEqualTo("1");
-
-                    Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
-                    Check.That(service.ChangedSource.IsDisposed).IsFalse();
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
                 }
-            }
+            );
 
-            [Test]
-            public async Task InvokeAsync_After_SubscriptionGCed()
-            {
-                var service = new FooService();
+            Check.That(subscription)
+               .IsNotNull();
 
-                var    called = 0;
-                String arg    = null;
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
 
-                var subscription = service.Changed.SubscribeWeak(
-                    x => {
-                        arg = x;
-                        called++;
-                    }
-                );
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
 
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
+            var strongSub = (ActionSubscription<String>) subscription;
+            var weakSub   = (WeakSubscription<String>) strongSub.TestingGetPreviousSubscription();
+            strongSub.TestingClearNextSubscription();
+            weakSub.TestingClearNextSubscription();
 
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
+            var factoryCalled = 0;
+            var fa            = 0;
+            var fb            = 0.0;
+            var fc            = ' ';
 
-                var strongSub = (ActionSubscription<String>) subscription;
-                var weakSub   = (WeakSubscription<String>) strongSub.TestingGetPreviousSubscription();
-                strongSub.TestingClearNextSubscription();
-                weakSub.TestingClearNextSubscription();
+            var flag1 = await service.DoAsync(
+                (a, b, c) => {
+                    fa = a;
+                    fb = b;
+                    fc = c;
+                    factoryCalled++;
 
-                var factoryCalled = 0;
-                var fa            = 0;
-                var fb            = 0.0;
-                var fc            = ' ';
+                    return "abc";
+                },
+                123,
+                1.2,
+                'a'
+            );
 
-                var flag1 = await service.DoAsync(
-                    (a, b, c) => {
-                        fa = a;
-                        fb = b;
-                        fc = c;
-                        factoryCalled++;
+            Check.That(flag1)
+               .IsTrue();
 
-                        return "abc";
-                    },
-                    123,
-                    1.2,
-                    'a'
-                );
+            Check.That(called)
+               .IsEqualTo(0);
 
-                Check.That(flag1).IsTrue();
-                Check.That(called).IsEqualTo(0);
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-                Check.That(factoryCalled).IsEqualTo(1);
-                Check.That(fa).IsEqualTo(123);
-                Check.That(fb).IsEqualTo(1.2);
-                Check.That(fc).IsEqualTo('a');
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
 
-                factoryCalled = 0;
-                fa            = 0;
-                fb            = 0.0;
-                fc            = ' ';
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
 
-                var flag2 = await service.DoAsync(
-                    (a, b, c) => {
-                        fa = a;
-                        fb = b;
-                        fc = c;
-                        factoryCalled++;
+            Check.That(factoryCalled)
+               .IsEqualTo(1);
 
-                        return "abc";
-                    },
-                    123,
-                    1.2,
-                    'a'
-                );
+            Check.That(fa)
+               .IsEqualTo(123);
 
-                Check.That(flag2).IsFalse();
-                Check.That(called).IsEqualTo(0);
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(factoryCalled).IsEqualTo(0);
-                Check.That(fa).IsEqualTo(0);
-                Check.That(fb).IsEqualTo(0.0);
-                Check.That(fc).IsEqualTo(' ');
+            Check.That(fb)
+               .IsEqualTo(1.2);
 
-                Check.That(subscription).IsNotNull();
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()).IsNull();
-            }
+            Check.That(fc)
+               .IsEqualTo('a');
 
-            [Test]
-            public async Task InvokeAsync_After_SubscriptionDisposed()
-            {
-                var service = new FooService();
+            factoryCalled = 0;
+            fa            = 0;
+            fb            = 0.0;
+            fc            = ' ';
 
-                var    called = 0;
-                String arg    = null;
+            var flag2 = await service.DoAsync(
+                (a, b, c) => {
+                    fa = a;
+                    fb = b;
+                    fc = c;
+                    factoryCalled++;
 
-                var subscription = service.Changed.SubscribeWeak(
-                    x => {
-                        arg = x;
-                        called++;
-                    }
-                );
+                    return "abc";
+                },
+                123,
+                1.2,
+                'a'
+            );
 
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
+            Check.That(flag2)
+               .IsFalse();
 
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
+            Check.That(called)
+               .IsEqualTo(0);
 
-                subscription.Dispose();
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
 
-                var factoryCalled = 0;
+            Check.That(factoryCalled)
+               .IsEqualTo(0);
 
-                var flag1 = await service.DoAsync(
-                    (a, b, c) => {
-                        factoryCalled++;
+            Check.That(fa)
+               .IsEqualTo(0);
 
-                        return "abc";
-                    },
-                    123,
-                    1.2,
-                    'a'
-                );
+            Check.That(fb)
+               .IsEqualTo(0.0);
 
-                Check.That(flag1).IsFalse();
-                Check.That(called).IsEqualTo(0);
-                Check.That(factoryCalled).IsEqualTo(0);
+            Check.That(fc)
+               .IsEqualTo(' ');
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsFalse();
-            }
+            Check.That(subscription)
+               .IsNotNull();
 
-            [Test]
-            public async Task InvokeAsync_After_EventSourceDisposed()
-            {
-                var service = new FooService();
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
 
-                var    called = 0;
-                String arg    = null;
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsNull();
+        }
 
-                var subscription = service.Changed.SubscribeWeak(
-                    x => {
-                        arg = x;
-                        called++;
-                    }
-                );
+        [Test]
+        public async Task InvokeAsync_After_SubscriptionDisposed()
+        {
+            var service = new FooService();
 
-                Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
+            var    called = 0;
+            String arg    = null;
 
-                Check.That(( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription())
-                   .IsInstanceOf<WeakSubscription<String>>();
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
 
-                service.ChangedSource.Dispose();
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
 
-                var factoryCalled = 0;
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
 
-                var flag1 = await service.DoAsync(
-                    (a, b, c) => {
-                        factoryCalled++;
+            subscription.Dispose();
 
-                        return "abc";
-                    },
-                    123,
-                    1.2,
-                    'a'
-                );
+            var factoryCalled = 0;
 
-                Check.That(flag1).IsFalse();
-                Check.That(called).IsEqualTo(0);
-                Check.That(factoryCalled).IsEqualTo(0);
+            var flag1 = await service.DoAsync(
+                (a, b, c) => {
+                    factoryCalled++;
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
-                Check.That(service.ChangedSource.IsDisposed).IsTrue();
-            }
+                    return "abc";
+                },
+                123,
+                1.2,
+                'a'
+            );
 
-            [Test]
-            public void Exception_For_NullFactory()
-            {
-                var service = new FooService();
+            Check.That(flag1)
+               .IsFalse();
 
-                Check.ThatAsyncCode(async () => await service.DoAsync(null, 123, 1.2, 'a'))
-                   .Throws<ArgumentNullException>()
-                   .WithProperty(x => x.ParamName, "valueFactory");
-            }
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(factoryCalled)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsFalse();
+        }
+
+        [Test]
+        public async Task InvokeAsync_After_EventSourceDisposed()
+        {
+            var service = new FooService();
+
+            var    called = 0;
+            String arg    = null;
+
+            var subscription = service.Changed.SubscribeWeak(
+                x => {
+                    arg = x;
+                    called++;
+                }
+            );
+
+            Check.That(subscription)
+               .IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(
+                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
+                )
+               .IsInstanceOf<WeakSubscription<String>>();
+
+            service.ChangedSource.Dispose();
+
+            var factoryCalled = 0;
+
+            var flag1 = await service.DoAsync(
+                (a, b, c) => {
+                    factoryCalled++;
+
+                    return "abc";
+                },
+                123,
+                1.2,
+                'a'
+            );
+
+            Check.That(flag1)
+               .IsFalse();
+
+            Check.That(called)
+               .IsEqualTo(0);
+
+            Check.That(factoryCalled)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions)
+               .IsEqualTo(0);
+
+            Check.That(service.ChangedSource.IsDisposed)
+               .IsTrue();
+        }
+
+        [Test]
+        public void Exception_For_NullFactory()
+        {
+            var service = new FooService();
+
+            Check.ThatAsyncCode(async () => await service.DoAsync(null, 123, 1.2, 'a'))
+               .Throws<ArgumentNullException>()
+               .WithProperty(x => x.ParamName, "valueFactory");
         }
     }
 }
