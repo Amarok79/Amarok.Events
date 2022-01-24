@@ -31,11 +31,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="..\Amarok.Events.licenseheader" Link="Amarok.Events.licenseheader" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="BenchmarkDotNet" Version="0.12.1" />
+        <PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
         <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
         <PackageReference Include="System.CodeDom" Version="5.0.0" />
     </ItemGroup>
