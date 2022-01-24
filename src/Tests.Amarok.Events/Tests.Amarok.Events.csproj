@@ -1,55 +1,55 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<ProjectGuid>{22B0507E-5916-435D-8D47-2E5E06C00FB5}</ProjectGuid>
-		<TargetFrameworks>netcoreapp3.1;net48;net5.0</TargetFrameworks>
-		<RootNamespace>Amarok</RootNamespace>
-		<SignAssembly>true</SignAssembly>
-		<AssemblyOriginatorKeyFile>..\amarok.snk</AssemblyOriginatorKeyFile>
-		<AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
-		<AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
-		<IsTestProject>true</IsTestProject>
-		<SonarQubeExclude>true</SonarQubeExclude>
-	</PropertyGroup>
+    <PropertyGroup>
+        <ProjectGuid>{22B0507E-5916-435D-8D47-2E5E06C00FB5}</ProjectGuid>
+        <TargetFrameworks>netcoreapp3.1;net48;net5.0;net6.0</TargetFrameworks>
+        <RootNamespace>Amarok</RootNamespace>
+        <SignAssembly>true</SignAssembly>
+        <AssemblyOriginatorKeyFile>..\amarok.snk</AssemblyOriginatorKeyFile>
+        <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
+        <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+        <IsTestProject>true</IsTestProject>
+        <SonarQubeExclude>true</SonarQubeExclude>
+    </PropertyGroup>
 
-	<PropertyGroup>
-		<OutputPath>..\..\bin\tests\</OutputPath>
-		<GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-		<LangVersion>latest</LangVersion>
-	</PropertyGroup>
+    <PropertyGroup>
+        <OutputPath>..\..\bin\tests\</OutputPath>
+        <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
-		<RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+        <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-		<WarningsAsErrors />
-		<RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
-		<RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <WarningsAsErrors />
+        <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+        <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
+    </PropertyGroup>
 
-	<ItemGroup>
-		<None Include="..\Amarok.Events.licenseheader" Link="Amarok.Events.licenseheader" />
-		<None Include="..\amarok.snk" Link="amarok.snk" />
-	</ItemGroup>
+    <ItemGroup>
+        <None Include="..\Amarok.Events.licenseheader" Link="Amarok.Events.licenseheader" />
+        <None Include="..\amarok.snk" Link="amarok.snk" />
+    </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="coverlet.collector" Version="3.0.3">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.1" />
-		<PackageReference Include="Moq" Version="4.16.1" />
-		<PackageReference Include="NCrunch.Framework" Version="4.7.0.4" />
-		<PackageReference Include="NFluent" Version="2.7.1" />
-		<PackageReference Include="NUnit" Version="3.13.1" />
-		<PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
-	</ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="coverlet.collector" Version="3.0.3">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.1" />
+        <PackageReference Include="Moq" Version="4.16.1" />
+        <PackageReference Include="NCrunch.Framework" Version="4.7.0.4" />
+        <PackageReference Include="NFluent" Version="2.7.1" />
+        <PackageReference Include="NUnit" Version="3.13.1" />
+        <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
+    </ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\Amarok.Events\Amarok.Events.csproj" />
-	</ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Amarok.Events\Amarok.Events.csproj" />
+    </ItemGroup>
 
 </Project>

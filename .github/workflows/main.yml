@@ -10,24 +10,24 @@ jobs:
   sonarcloud:
     runs-on: ubuntu-latest
     steps:
-      - name: Install .NET 5.0
+      - name: Install .NET 6.0
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 5.0.x
+          dotnet-version: 6.0.x
 
       - name: Checkout Sources
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
-      - name: SonarScanner for .NET 5
+      - name: SonarScanner for .NET 6
         uses: highbyte/sonarscan-dotnet@2.0
         with:
           sonarProjectKey: Amarok79_Amarok.Events
           sonarProjectName: Amarok.Events
           sonarOrganization: amarok79-github
-          dotnetBuildArguments: --configuration Debug --framework net5.0
-          dotnetTestArguments: --configuration Debug --framework net5.0 --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+          dotnetBuildArguments: --configuration Debug --framework net6.0
+          dotnetTestArguments: --configuration Debug --framework net6.0 --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
           sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.cs.vstest.reportsPaths="**/TestResults/*.trx"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -45,6 +45,11 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 5.0.x
+
+      - name: Install .NET 6.0
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
 
       - name: Install Stryker
         run: dotnet tool install --global dotnet-stryker
@@ -75,6 +80,11 @@ jobs:
         with:
           dotnet-version: 5.0.x
 
+      - name: Install .NET 6.0
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
+
       - name: Checkout sources
         uses: actions/checkout@v2
 
@@ -99,6 +109,11 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 5.0.x
+
+      - name: Install .NET 6.0
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
 
       - name: Checkout sources
         uses: actions/checkout@v2

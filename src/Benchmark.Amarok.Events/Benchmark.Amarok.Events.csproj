@@ -1,47 +1,47 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<ProjectGuid>{69D06772-DC49-4E90-BFC5-397E8B2CA52C}</ProjectGuid>
-		<OutputType>Exe</OutputType>
-		<TargetFrameworks>netcoreapp3.1;net48;net5.0</TargetFrameworks>
-		<RootNamespace>Amarok</RootNamespace>
-		<AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
-		<AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
-		<SonarQubeExclude>true</SonarQubeExclude>
-	</PropertyGroup>
+    <PropertyGroup>
+        <ProjectGuid>{69D06772-DC49-4E90-BFC5-397E8B2CA52C}</ProjectGuid>
+        <OutputType>Exe</OutputType>
+        <TargetFrameworks>netcoreapp3.1;net48;net5.0;net6.0</TargetFrameworks>
+        <RootNamespace>Amarok</RootNamespace>
+        <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
+        <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+        <SonarQubeExclude>true</SonarQubeExclude>
+    </PropertyGroup>
 
-	<PropertyGroup>
-		<OutputPath>..\..\bin\benchmark\</OutputPath>
-		<GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-		<LangVersion>latest</LangVersion>
-	</PropertyGroup>
+    <PropertyGroup>
+        <OutputPath>..\..\bin\benchmark\</OutputPath>
+        <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<NoWarn>1701;1702</NoWarn>
-		<RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
-		<RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <NoWarn>1701;1702</NoWarn>
+        <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+        <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-		<WarningsAsErrors />
-		<NoWarn>1701;1702</NoWarn>
-		<RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
-		<RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+        <WarningsAsErrors />
+        <NoWarn>1701;1702</NoWarn>
+        <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+        <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
+    </PropertyGroup>
 
-	<ItemGroup>
-		<None Include="..\Amarok.Events.licenseheader" Link="Amarok.Events.licenseheader" />
-	</ItemGroup>
+    <ItemGroup>
+        <None Include="..\Amarok.Events.licenseheader" Link="Amarok.Events.licenseheader" />
+    </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="BenchmarkDotNet" Version="0.12.1" />
-		<PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
-		<PackageReference Include="System.CodeDom" Version="5.0.0" />
-	</ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="BenchmarkDotNet" Version="0.12.1" />
+        <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
+        <PackageReference Include="System.CodeDom" Version="5.0.0" />
+    </ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\Amarok.Events\Amarok.Events.csproj" />
-	</ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Amarok.Events\Amarok.Events.csproj" />
+    </ItemGroup>
 
 </Project>
