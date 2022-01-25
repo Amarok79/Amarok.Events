@@ -12,22 +12,30 @@ The implementation is a bit slower than ordinary .NET events regarding raw call 
 
 The library is redistributed as NuGet package: [Amarok.Events](https://www.nuget.org/packages/Amarok.Events/)
 
-The package provides strong-named binaries for *.NET Standard 2.0* and *.NET 5.0*. Tests are performed with *.NET Framework 4.8*, *.NET Core 2.1*, *.NET Core 3.1*, and *.NET 5.0*.
+The package provides strong-named binaries for *.NET Standard 2.0*, *.NET 5.0*, and *.NET 6.0*. Tests are performed with *.NET Framework 4.8*, *.NET Core 3.1*, *.NET 5.0*, and *.NET 6.0*.
 
 
 # Documentation
 
 Table of Content:
-- [Event Source And Event](#event-source-and-event)
-- [Invoke with Synchronous Event Handler](#invoke-with-synchronous-event-handler)
-- [Invoke with Asynchronous Event Handler](#invoke-with-asynchronous-event-handler)
-- [InvokeAsync with Asynchronous Event Handler](#invokeasync-with-asynchronous-event-handler)
-- [InvokeAsync with Synchronous Event Handler](#invokeasync-with-synchronous-event-handler)
-- [Raising Events](#raising-events)
-- [Weak Subscriptions](#weak-subscriptions)
-- [Exception Behavior](#exception-behavior)
-- [IProgress\<T> Integration](#iprogresst-integration)
-- [Event Recorder](#event-recorder)
+- [Introduction](#introduction)
+- [Redistribution](#redistribution)
+- [Documentation](#documentation)
+    - [Event Source and Event](#event-source-and-event)
+    - [Invoke with Synchronous Event Handler](#invoke-with-synchronous-event-handler)
+    - [Invoke with Asynchronous Event Handler](#invoke-with-asynchronous-event-handler)
+    - [InvokeAsync with Asynchronous Event Handler](#invokeasync-with-asynchronous-event-handler)
+    - [InvokeAsync with Synchronous Event Handler](#invokeasync-with-synchronous-event-handler)
+    - [Raising Events](#raising-events)
+    - [Weak Subscriptions](#weak-subscriptions)
+    - [Exception Behavior](#exception-behavior)
+    - [IProgress\<T> Integration](#iprogresst-integration)
+    - [Event Recorder](#event-recorder)
+- [Frequently Asked Questions](#frequently-asked-questions)
+    - [Is this library thread-safe?](#is-this-library-thread-safe)
+    - [What are the advantages compared to .NET events?](#what-are-the-advantages-compared-to-net-events)
+    - [What about Reactive Extensions?](#what-about-reactive-extensions)
+    - [Who uses this library?](#who-uses-this-library)
 
 
 ### Event Source and Event
