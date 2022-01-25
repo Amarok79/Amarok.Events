@@ -1,19 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <ProjectGuid>{22B0507E-5916-435D-8D47-2E5E06C00FB5}</ProjectGuid>
         <TargetFrameworks>netcoreapp3.1;net48;net5.0;net6.0</TargetFrameworks>
         <RootNamespace>Amarok</RootNamespace>
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>..\amarok.snk</AssemblyOriginatorKeyFile>
-        <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
-        <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
-        <IsTestProject>true</IsTestProject>
+        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     </PropertyGroup>
 
     <PropertyGroup>
         <OutputPath>..\..\bin\tests\</OutputPath>
-        <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 

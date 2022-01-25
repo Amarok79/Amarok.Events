@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <ProjectGuid>{1FCE1A28-F159-49EA-8F47-92A5FDFFAFDE}</ProjectGuid>
         <TargetFrameworks>netstandard2.0;net5.0;net6.0</TargetFrameworks>
         <RootNamespace>Amarok</RootNamespace>
         <Version>1.4.1</Version>
@@ -21,7 +20,6 @@
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>..\amarok.snk</AssemblyOriginatorKeyFile>
         <DelaySign>false</DelaySign>
-        <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
         <IncludeSymbols>true</IncludeSymbols>
         <IncludeSource>true</IncludeSource>
         <Nullable>enable</Nullable>
@@ -31,7 +29,6 @@
     <PropertyGroup>
         <OutputPath>..\..\bin\lib\</OutputPath>
         <DocumentationFile>..\..\bin\lib\Amarok.Events.xml</DocumentationFile>
-        <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
