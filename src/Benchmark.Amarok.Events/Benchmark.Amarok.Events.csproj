@@ -7,7 +7,6 @@
         <RootNamespace>Amarok</RootNamespace>
         <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
         <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
-        <SonarQubeExclude>true</SonarQubeExclude>
     </PropertyGroup>
 
     <PropertyGroup>

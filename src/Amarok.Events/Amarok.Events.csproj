@@ -60,10 +60,6 @@
         <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
         <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
         <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
-        <PackageReference Include="SonarAnalyzer.CSharp" Version="8.34.0.42011">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
     </ItemGroup>
 
 </Project>

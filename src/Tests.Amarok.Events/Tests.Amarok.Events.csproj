@@ -9,7 +9,6 @@
         <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
         <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
         <IsTestProject>true</IsTestProject>
-        <SonarQubeExclude>true</SonarQubeExclude>
     </PropertyGroup>
 
     <PropertyGroup>
