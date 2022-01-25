@@ -1,7 +1,4 @@
 ![CI](https://github.com/Amarok79/Amarok.Events/workflows/CI/badge.svg)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=Amarok79_Amarok.Events&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=Amarok79_Amarok.Events)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Amarok79_Amarok.Events&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=Amarok79_Amarok.Events)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Amarok79_Amarok.Events&metric=security_rating)](https://sonarcloud.io/dashboard?id=Amarok79_Amarok.Events)
 [![NuGet](https://img.shields.io/nuget/v/Amarok.Events.svg?logo=)](https://www.nuget.org/packages/Amarok.Events/)
 
 # Introduction
