@@ -33,40 +33,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-  stryker:
-    runs-on: windows-latest
-    steps:
-      - name: Install .NET Core 3.1
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: 3.1.x
-
-      - name: Install .NET 5.0
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: 5.0.x
-
-      - name: Install .NET 6.0
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: 6.0.x
-
-      - name: Install Stryker
-        run: dotnet tool install --global dotnet-stryker
-
-      - name: Checkout sources
-        uses: actions/checkout@v2
-
-      - name: Run mutation tests
-        run: dotnet stryker
-
-      - name: Upload Stryker Output
-        uses: actions/upload-artifact@v2
-        with:
-          name: mutation-tests
-          path: "**/mutation-report.html"
-          if-no-files-found: error
-
   buildtest:
     runs-on: windows-latest
     steps:
