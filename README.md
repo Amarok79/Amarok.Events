@@ -49,7 +49,7 @@ public interface IFooService
 }
 ```
 
-The event is declared as *getter-only property* of type **Event\<T>**, where **T** represents the type of event argument. This **T** can be of any type.
+The event is declared as *getter-only property* of type **Event\<T>**, where **T** represents the type of event argument. **T** can be of any type.
 
 The implementation class of that interface then initializes a field of type **EventSource\<T>** and implements the getter-only event property.
 
@@ -179,7 +179,7 @@ Again, the thread calling **Invoke()** is also calling the event handlers. Howev
 
 That means a consumer can decide whether it wants to register a synchronous or asynchronous event handler. In the latter case, from a perspective of the event raiser, the behavior is kind of fire-and-forget, because the event raiser can't be sure that all event handlers have completed when **Invoke()** returned.
 
-If you need that guarantee that then use **InvokeAsync()** instead.
+If you need that guarantee then use **InvokeAsync()** instead.
 
 
 ### InvokeAsync with Asynchronous Event Handler
