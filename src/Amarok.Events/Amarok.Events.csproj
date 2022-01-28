@@ -1,13 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <Version>1.5.0</Version>
         <TargetFrameworks>netstandard2.0;net5.0;net6.0</TargetFrameworks>
         <RootNamespace>Amarok</RootNamespace>
-        <Version>1.5.0</Version>
         <Authors>Olaf Kober</Authors>
         <Company>&lt;none&gt;</Company>
         <Description>A fast and light-weight implementation of the observer pattern that supports synchronous and asynchronous invocation and/or subscribers. A potential replacement for regular .NET events.</Description>
         <Copyright>Copyright (c) 2018, Olaf Kober</Copyright>
+        <SignAssembly>true</SignAssembly>
+        <AssemblyOriginatorKeyFile>..\amarok.snk</AssemblyOriginatorKeyFile>
+        <DelaySign>false</DelaySign>
+        <Nullable>enable</Nullable>
+        <EnableNETAnalyzers>true</EnableNETAnalyzers>
+        <Deterministic>true</Deterministic>
+    </PropertyGroup>
+
+    <PropertyGroup>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/Amarok79/Amarok.Events</PackageProjectUrl>
         <RepositoryUrl>https://github.com/Amarok79/Amarok.Events</RepositoryUrl>
@@ -17,13 +26,6 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <PackageTags>Event Observer Publisher Subscriber Progress Recorder Handler</PackageTags>
-        <SignAssembly>true</SignAssembly>
-        <AssemblyOriginatorKeyFile>..\amarok.snk</AssemblyOriginatorKeyFile>
-        <DelaySign>false</DelaySign>
-        <IncludeSymbols>true</IncludeSymbols>
-        <IncludeSource>true</IncludeSource>
-        <Nullable>enable</Nullable>
-        <EnableNETAnalyzers>true</EnableNETAnalyzers>
     </PropertyGroup>
 
     <PropertyGroup>
