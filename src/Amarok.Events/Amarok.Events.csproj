@@ -1,8 +1,6 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Version>1.5.1</Version>
-        <TargetFrameworks>netstandard2.0;net5.0;net6.0</TargetFrameworks>
         <Version>2.0.0</Version>
         <TargetFrameworks>netstandard2.0;net6.0;net7.0</TargetFrameworks>
         <RootNamespace>Amarok</RootNamespace>
@@ -59,8 +57,8 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-        <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
-        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
+        <PackageReference Include="System.Collections.Immutable" Version="7.0.0" />
+        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
         <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
     </ItemGroup>
 
