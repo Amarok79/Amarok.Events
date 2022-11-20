@@ -1,7 +1,5 @@
 ﻿// Copyright (c) 2022, Olaf Kober <olaf.kober@outlook.com>
 
-#pragma warning disable S3881 // "IDisposable" should be implemented correctly
-
 using System;
 using System.Threading.Tasks;
 
