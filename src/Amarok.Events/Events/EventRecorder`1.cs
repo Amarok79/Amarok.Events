@@ -76,8 +76,7 @@ public sealed class EventRecorder<T> : IDisposable
             {
                 if (mCachedEvents == null || mCachedEvents.Length != mEventInfos.Count)
                 {
-                    mCachedEvents = mEventInfos.Select(x => x.Value)
-                       .ToArray();
+                    mCachedEvents = mEventInfos.Select(x => x.Value).ToArray();
                 }
 
                 return mCachedEvents;
@@ -130,13 +129,7 @@ public sealed class EventRecorder<T> : IDisposable
 
             var timeOffset = mEventInfos.Count == 0 ? TimeSpan.Zero : mWatch.Elapsed;
 
-            var info = new EventInfo(
-                value,
-                mEventInfos.Count,
-                DateTimeOffset.Now,
-                timeOffset,
-                Thread.CurrentThread
-            );
+            var info = new EventInfo(value, mEventInfos.Count, DateTimeOffset.Now, timeOffset, Thread.CurrentThread);
 
             mEventInfos.Add(info);
             mWatch.Restart();
@@ -152,9 +145,9 @@ public sealed class EventRecorder<T> : IDisposable
         lock (mSyncThis)
         {
             mEventInfos.Clear();
-            mCachedEvents     = null;
+            mCachedEvents = null;
             mCachedEventInfos = null;
-            mIsPaused         = false;
+            mIsPaused = false;
             mWatch.Reset();
         }
     }
@@ -229,19 +222,13 @@ public sealed class EventRecorder<T> : IDisposable
         /// <summary>
         ///     Initializes a new instance.
         /// </summary>
-        public EventInfo(
-            T value,
-            Int32 index,
-            DateTimeOffset timestamp,
-            TimeSpan timeOffset,
-            Thread thread
-        )
+        public EventInfo(T value, Int32 index, DateTimeOffset timestamp, TimeSpan timeOffset, Thread thread)
         {
-            Value      = value;
-            Index      = index;
-            Timestamp  = timestamp;
+            Value = value;
+            Index = index;
+            Timestamp = timestamp;
             TimeOffset = timeOffset;
-            Thread     = thread;
+            Thread = thread;
         }
     }
 }

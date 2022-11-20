@@ -22,7 +22,7 @@ public class Test_EventSystem
     [Test]
     public void NotifyUnobservedException_RaisesEvent()
     {
-        var       called    = 0;
+        var called = 0;
         Exception exception = null;
 
         void handler(Exception x)
@@ -33,16 +33,13 @@ public class Test_EventSystem
 
         using var subscription = EventSystem.UnobservedException.Subscribe(handler);
 
-        Check.That(called)
-           .IsEqualTo(0);
+        Check.That(called).IsEqualTo(0);
 
         var ex = new ApplicationException();
         EventSystem.NotifyUnobservedException(ex);
 
-        Check.That(called)
-           .IsEqualTo(1);
+        Check.That(called).IsEqualTo(1);
 
-        Check.That(exception)
-           .IsSameReferenceAs(ex);
+        Check.That(exception).IsSameReferenceAs(ex);
     }
 }

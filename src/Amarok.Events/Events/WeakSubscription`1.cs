@@ -40,7 +40,7 @@ internal sealed class WeakSubscription<T> : Subscription<T>
     /// </summary>
     public WeakSubscription(EventSource<T> source, Subscription<T> subscription)
     {
-        mSource           = source;
+        mSource = source;
         mNextSubscription = new WeakReference<Subscription<T>>(subscription);
     }
 

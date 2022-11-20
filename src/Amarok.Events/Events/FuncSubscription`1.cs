@@ -46,7 +46,7 @@ internal sealed class FuncSubscription<T> : Subscription<T>
     public FuncSubscription(EventSource<T> source, Func<T, Task> func)
     {
         mSource = source;
-        mFunc   = func;
+        mFunc = func;
     }
 
 

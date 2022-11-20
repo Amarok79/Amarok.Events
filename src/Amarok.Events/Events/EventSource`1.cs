@@ -15,7 +15,8 @@ namespace Amarok.Events;
 ///     This type represents an Event that allows publishers to raise it. This type is thread-safe.
 /// </summary>
 [DebuggerStepThrough]
-public sealed class EventSource<T> : IProgress<T>, IDisposable
+public sealed class EventSource<T> : IProgress<T>,
+    IDisposable
 {
     // the associated public-facing event
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -95,8 +96,7 @@ public sealed class EventSource<T> : IProgress<T>, IDisposable
 
         for (var i = 0; i < subscriptions.Length; i++)
         {
-            subscriptions[i]
-               .Dispose();
+            subscriptions[i].Dispose();
         }
 
         // clear subscription list
@@ -104,11 +104,10 @@ public sealed class EventSource<T> : IProgress<T>, IDisposable
 
         do
         {
-            initial  = mSubscriptions;
+            initial = mSubscriptions;
             computed = initial.Clear();
         }
-        while (initial !=
-            ImmutableInterlocked.InterlockedCompareExchange(ref mSubscriptions, computed, initial));
+        while (initial != ImmutableInterlocked.InterlockedCompareExchange(ref mSubscriptions, computed, initial));
     }
 
     #endregion
@@ -480,8 +479,7 @@ public sealed class EventSource<T> : IProgress<T>, IDisposable
         {
             try
             {
-                subscriptions[i]
-                   .Invoke(value);
+                subscriptions[i].Invoke(value);
             }
             catch (Exception exception)
             {
@@ -723,11 +721,7 @@ public sealed class EventSource<T> : IProgress<T>, IDisposable
     /// <exception cref="ArgumentNullException">
     ///     A null reference was passed to a method that did not accept it as a valid argument.
     /// </exception>
-    public ValueTask<Boolean> InvokeAsync<TArg1, TArg2>(
-        Func<TArg1, TArg2, T> valueFactory,
-        TArg1 arg1,
-        TArg2 arg2
-    )
+    public ValueTask<Boolean> InvokeAsync<TArg1, TArg2>(Func<TArg1, TArg2, T> valueFactory, TArg1 arg1, TArg2 arg2)
     {
         if (valueFactory == null)
         {
@@ -832,10 +826,7 @@ public sealed class EventSource<T> : IProgress<T>, IDisposable
         return _InvokeAsyncCore(subscriptions, value);
     }
 
-    private static ValueTask<Boolean> _InvokeAsyncCore(
-        ImmutableArray<Subscription<T>> subscriptions,
-        T value
-    )
+    private static ValueTask<Boolean> _InvokeAsyncCore(ImmutableArray<Subscription<T>> subscriptions, T value)
     {
         List<Task> tasks = null!;
 
@@ -843,8 +834,7 @@ public sealed class EventSource<T> : IProgress<T>, IDisposable
         {
             try
             {
-                var valueTask = subscriptions[i]
-                   .InvokeAsync(value);
+                var valueTask = subscriptions[i].InvokeAsync(value);
 
                 var task = valueTask.AsTask();
 
@@ -949,7 +939,7 @@ public sealed class EventSource<T> : IProgress<T>, IDisposable
         }
 
         var strongSubscription = new ActionSubscription<T>(this, action);
-        var weakSubscription   = new WeakSubscription<T>(this, strongSubscription);
+        var weakSubscription = new WeakSubscription<T>(this, strongSubscription);
         strongSubscription.SetPreviousSubscription(weakSubscription);
 
         _AddCore(weakSubscription);
@@ -965,7 +955,7 @@ public sealed class EventSource<T> : IProgress<T>, IDisposable
         }
 
         var strongSubscription = new FuncSubscription<T>(this, func);
-        var weakSubscription   = new WeakSubscription<T>(this, strongSubscription);
+        var weakSubscription = new WeakSubscription<T>(this, strongSubscription);
         strongSubscription.SetPreviousSubscription(weakSubscription);
 
         _AddCore(weakSubscription);
@@ -983,15 +973,10 @@ public sealed class EventSource<T> : IProgress<T>, IDisposable
 
             do
             {
-                initial  = mSubscriptions;
+                initial = mSubscriptions;
                 computed = initial.Add(subscription);
             }
-            while (initial !=
-                ImmutableInterlocked.InterlockedCompareExchange(
-                    ref mSubscriptions,
-                    computed,
-                    initial
-                ));
+            while (initial != ImmutableInterlocked.InterlockedCompareExchange(ref mSubscriptions, computed, initial));
         }
         finally
         {
@@ -1009,15 +994,10 @@ public sealed class EventSource<T> : IProgress<T>, IDisposable
 
             do
             {
-                initial  = mSubscriptions;
+                initial = mSubscriptions;
                 computed = initial.Remove(subscription);
             }
-            while (initial !=
-                ImmutableInterlocked.InterlockedCompareExchange(
-                    ref mSubscriptions,
-                    computed,
-                    initial
-                ));
+            while (initial != ImmutableInterlocked.InterlockedCompareExchange(ref mSubscriptions, computed, initial));
         }
         finally
         {

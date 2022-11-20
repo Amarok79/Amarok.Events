@@ -64,15 +64,15 @@ public class Benchmarks
         {
             ServiceHandlerCount0 = new FooServiceImpl();
 
-            ServiceHandlerCount1            =  new FooServiceImpl();
+            ServiceHandlerCount1 = new FooServiceImpl();
             ServiceHandlerCount1.FooChanged += _HandleFooChanged;
 
-            ServiceHandlerCount3            =  new FooServiceImpl();
+            ServiceHandlerCount3 = new FooServiceImpl();
             ServiceHandlerCount3.FooChanged += _HandleFooChanged;
             ServiceHandlerCount3.FooChanged += _HandleFooChanged;
             ServiceHandlerCount3.FooChanged += _HandleFooChanged;
 
-            ServiceHandlerCount9            =  new FooServiceImpl();
+            ServiceHandlerCount9 = new FooServiceImpl();
             ServiceHandlerCount9.FooChanged += _HandleFooChanged;
             ServiceHandlerCount9.FooChanged += _HandleFooChanged;
             ServiceHandlerCount9.FooChanged += _HandleFooChanged;
@@ -189,61 +189,35 @@ public class Benchmarks
 
             ServiceWeakHandlerCount1 = new FooServiceImpl();
 
-            mSubscriptions.Add(
-                ServiceWeakHandlerCount1.FooChanged.SubscribeWeak(_HandleFooChanged)
-            );
+            mSubscriptions.Add(ServiceWeakHandlerCount1.FooChanged.SubscribeWeak(_HandleFooChanged));
 
             ServiceWeakHandlerCount3 = new FooServiceImpl();
 
-            mSubscriptions.Add(
-                ServiceWeakHandlerCount3.FooChanged.SubscribeWeak(_HandleFooChanged)
-            );
+            mSubscriptions.Add(ServiceWeakHandlerCount3.FooChanged.SubscribeWeak(_HandleFooChanged));
 
-            mSubscriptions.Add(
-                ServiceWeakHandlerCount3.FooChanged.SubscribeWeak(_HandleFooChanged)
-            );
+            mSubscriptions.Add(ServiceWeakHandlerCount3.FooChanged.SubscribeWeak(_HandleFooChanged));
 
-            mSubscriptions.Add(
-                ServiceWeakHandlerCount3.FooChanged.SubscribeWeak(_HandleFooChanged)
-            );
+            mSubscriptions.Add(ServiceWeakHandlerCount3.FooChanged.SubscribeWeak(_HandleFooChanged));
 
             ServiceWeakHandlerCount9 = new FooServiceImpl();
 
-            mSubscriptions.Add(
-                ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(_HandleFooChanged)
-            );
+            mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(_HandleFooChanged));
 
-            mSubscriptions.Add(
-                ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(_HandleFooChanged)
-            );
+            mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(_HandleFooChanged));
 
-            mSubscriptions.Add(
-                ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(_HandleFooChanged)
-            );
+            mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(_HandleFooChanged));
 
-            mSubscriptions.Add(
-                ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(_HandleFooChanged)
-            );
+            mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(_HandleFooChanged));
 
-            mSubscriptions.Add(
-                ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(_HandleFooChanged)
-            );
+            mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(_HandleFooChanged));
 
-            mSubscriptions.Add(
-                ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(_HandleFooChanged)
-            );
+            mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(_HandleFooChanged));
 
-            mSubscriptions.Add(
-                ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(_HandleFooChanged)
-            );
+            mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(_HandleFooChanged));
 
-            mSubscriptions.Add(
-                ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(_HandleFooChanged)
-            );
+            mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(_HandleFooChanged));
 
-            mSubscriptions.Add(
-                ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(_HandleFooChanged)
-            );
+            mSubscriptions.Add(ServiceWeakHandlerCount9.FooChanged.SubscribeWeak(_HandleFooChanged));
         }
     }
 
@@ -318,33 +292,25 @@ public class Benchmarks
     [Benchmark]
     public void Amarok_InvokeAsync_SyncHandler_0()
     {
-        mAmarok.ServiceSyncHandlerCount0.DoAsync()
-           .GetAwaiter()
-           .GetResult();
+        mAmarok.ServiceSyncHandlerCount0.DoAsync().GetAwaiter().GetResult();
     }
 
     [Benchmark]
     public void Amarok_InvokeAsync_SyncHandler_1()
     {
-        mAmarok.ServiceSyncHandlerCount1.DoAsync()
-           .GetAwaiter()
-           .GetResult();
+        mAmarok.ServiceSyncHandlerCount1.DoAsync().GetAwaiter().GetResult();
     }
 
     [Benchmark]
     public void Amarok_InvokeAsync_SyncHandler_3()
     {
-        mAmarok.ServiceSyncHandlerCount3.DoAsync()
-           .GetAwaiter()
-           .GetResult();
+        mAmarok.ServiceSyncHandlerCount3.DoAsync().GetAwaiter().GetResult();
     }
 
     [Benchmark]
     public void Amarok_InvokeAsync_SyncHandler_9()
     {
-        mAmarok.ServiceSyncHandlerCount9.DoAsync()
-           .GetAwaiter()
-           .GetResult();
+        mAmarok.ServiceSyncHandlerCount9.DoAsync().GetAwaiter().GetResult();
     }
 
 

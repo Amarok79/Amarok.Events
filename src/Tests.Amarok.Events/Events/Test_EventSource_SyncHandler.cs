@@ -42,12 +42,7 @@ public class Test_EventSource_SyncHandler
             return ChangedSource.Invoke(func, arg1, arg2);
         }
 
-        public Boolean Do(
-            Func<Int32, Double, Char, String> func,
-            Int32 arg1,
-            Double arg2,
-            Char arg3
-        )
+        public Boolean Do(Func<Int32, Double, Char, String> func, Int32 arg1, Double arg2, Char arg3)
         {
             return ChangedSource.Invoke(func, arg1, arg2, arg3);
         }
@@ -72,12 +67,7 @@ public class Test_EventSource_SyncHandler
             return ChangedSource.InvokeAsync(func, arg1, arg2);
         }
 
-        public ValueTask<Boolean> DoAsync(
-            Func<Int32, Double, Char, String> func,
-            Int32 arg1,
-            Double arg2,
-            Char arg3
-        )
+        public ValueTask<Boolean> DoAsync(Func<Int32, Double, Char, String> func, Int32 arg1, Double arg2, Char arg3)
         {
             return ChangedSource.InvokeAsync(func, arg1, arg2, arg3);
         }
@@ -97,17 +87,13 @@ public class Test_EventSource_SyncHandler
 
             var flag = service.Do("abc");
 
-            Check.That(flag)
-               .IsFalse();
+            Check.That(flag).IsFalse();
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(0);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
 
-            Check.That(service.ChangedSource.Subscriptions)
-               .IsEmpty();
+            Check.That(service.ChangedSource.Subscriptions).IsEmpty();
         }
 
         [Test]
@@ -115,8 +101,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -125,51 +111,36 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(( (ActionSubscription<String>) subscription ).Target)
-               .IsNotNull();
+            Check.That(( (ActionSubscription<String>)subscription ).Target).IsNotNull();
 
-            Check.That(( (ActionSubscription<String>) subscription ).Method)
-               .IsNotNull();
+            Check.That(( (ActionSubscription<String>)subscription ).Method).IsNotNull();
 
             var flag1 = service.Do("abc");
 
-            Check.That(flag1)
-               .IsTrue();
+            Check.That(flag1).IsTrue();
 
-            Check.That(called)
-               .IsEqualTo(1);
+            Check.That(called).IsEqualTo(1);
 
-            Check.That(arg)
-               .IsEqualTo("abc");
+            Check.That(arg).IsEqualTo("abc");
 
             called = 0;
             var flag2 = service.Do("def");
 
-            Check.That(flag2)
-               .IsTrue();
+            Check.That(flag2).IsTrue();
 
-            Check.That(called)
-               .IsEqualTo(1);
+            Check.That(called).IsEqualTo(1);
 
-            Check.That(arg)
-               .IsEqualTo("def");
+            Check.That(arg).IsEqualTo("def");
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(1);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
 
-            Check.That(service.ChangedSource.Subscriptions)
-               .HasSize(1);
+            Check.That(service.ChangedSource.Subscriptions).HasSize(1);
         }
 
         [Test]
@@ -177,8 +148,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called1 = 0;
-            String arg1    = null;
+            var called1 = 0;
+            String arg1 = null;
 
             var subscription1 = service.Changed.Subscribe(
                 x => {
@@ -187,8 +158,8 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            var    called2 = 0;
-            String arg2    = null;
+            var called2 = 0;
+            String arg2 = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -197,69 +168,47 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription1)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .Not.IsSameReferenceAs(subscription1);
+            Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
             var flag1 = service.Do("abc");
 
-            Check.That(flag1)
-               .IsTrue();
+            Check.That(flag1).IsTrue();
 
-            Check.That(called1)
-               .IsEqualTo(1);
+            Check.That(called1).IsEqualTo(1);
 
-            Check.That(arg1)
-               .IsEqualTo("abc");
+            Check.That(arg1).IsEqualTo("abc");
 
-            Check.That(called2)
-               .IsEqualTo(1);
+            Check.That(called2).IsEqualTo(1);
 
-            Check.That(arg2)
-               .IsEqualTo("abc");
+            Check.That(arg2).IsEqualTo("abc");
 
             called1 = 0;
             called2 = 0;
             var flag2 = service.Do("def");
 
-            Check.That(flag2)
-               .IsTrue();
+            Check.That(flag2).IsTrue();
 
-            Check.That(called1)
-               .IsEqualTo(1);
+            Check.That(called1).IsEqualTo(1);
 
-            Check.That(arg1)
-               .IsEqualTo("def");
+            Check.That(arg1).IsEqualTo("def");
 
-            Check.That(called2)
-               .IsEqualTo(1);
+            Check.That(called2).IsEqualTo(1);
 
-            Check.That(arg2)
-               .IsEqualTo("def");
+            Check.That(arg2).IsEqualTo("def");
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(2);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
 
-            Check.That(service.ChangedSource.Subscriptions)
-               .HasSize(2);
+            Check.That(service.ChangedSource.Subscriptions).HasSize(2);
         }
 
         [Test]
@@ -267,8 +216,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called1 = 0;
-            String arg1    = null;
+            var called1 = 0;
+            String arg1 = null;
 
             var subscription1 = service.Changed.Subscribe(
                 new Action<String>(
@@ -281,8 +230,8 @@ public class Test_EventSource_SyncHandler
                 )
             );
 
-            var    called2 = 0;
-            String arg2    = null;
+            var called2 = 0;
+            String arg2 = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -291,24 +240,15 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription1)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .Not.IsSameReferenceAs(subscription1);
+            Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
             Exception exception = null;
 
@@ -316,32 +256,23 @@ public class Test_EventSource_SyncHandler
             {
                 var flag1 = service.Do("abc");
 
-                Check.That(flag1)
-                   .IsTrue();
+                Check.That(flag1).IsTrue();
 
-                Check.That(called1)
-                   .IsEqualTo(1);
+                Check.That(called1).IsEqualTo(1);
 
-                Check.That(arg1)
-                   .IsEqualTo("abc");
+                Check.That(arg1).IsEqualTo("abc");
 
-                Check.That(called2)
-                   .IsEqualTo(1);
+                Check.That(called2).IsEqualTo(1);
 
-                Check.That(arg2)
-                   .IsEqualTo("abc");
+                Check.That(arg2).IsEqualTo("abc");
 
-                Check.That(exception)
-                   .IsInstanceOf<ApplicationException>();
+                Check.That(exception).IsInstanceOf<ApplicationException>();
 
-                Check.That(exception.Message)
-                   .IsEqualTo("1");
+                Check.That(exception.Message).IsEqualTo("1");
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions)
-                   .IsEqualTo(2);
+                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
 
-                Check.That(service.ChangedSource.IsDisposed)
-                   .IsFalse();
+                Check.That(service.ChangedSource.IsDisposed).IsFalse();
             }
         }
 
@@ -350,8 +281,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -360,29 +291,21 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             subscription.Dispose();
 
             var flag1 = service.Do("abc");
 
-            Check.That(flag1)
-               .IsFalse();
+            Check.That(flag1).IsFalse();
 
-            Check.That(called)
-               .IsEqualTo(0);
+            Check.That(called).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(0);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -390,8 +313,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -400,29 +323,21 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             service.ChangedSource.Dispose();
 
             var flag1 = service.Do("abc");
 
-            Check.That(flag1)
-               .IsFalse();
+            Check.That(flag1).IsFalse();
 
-            Check.That(called)
-               .IsEqualTo(0);
+            Check.That(called).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(0);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsTrue();
+            Check.That(service.ChangedSource.IsDisposed).IsTrue();
         }
     }
 
@@ -442,14 +357,11 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(flag)
-               .IsFalse();
+            Check.That(flag).IsFalse();
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(0);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -457,8 +369,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -467,13 +379,9 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             var factoryCalled = 0;
 
@@ -485,19 +393,15 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(flag1)
-               .IsTrue();
+            Check.That(flag1).IsTrue();
 
-            Check.That(called)
-               .IsEqualTo(1);
+            Check.That(called).IsEqualTo(1);
 
-            Check.That(arg)
-               .IsEqualTo("abc");
+            Check.That(arg).IsEqualTo("abc");
 
-            Check.That(factoryCalled)
-               .IsEqualTo(1);
+            Check.That(factoryCalled).IsEqualTo(1);
 
-            called        = 0;
+            called = 0;
             factoryCalled = 0;
 
             var flag2 = service.Do(
@@ -508,23 +412,17 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(flag2)
-               .IsTrue();
+            Check.That(flag2).IsTrue();
 
-            Check.That(called)
-               .IsEqualTo(1);
+            Check.That(called).IsEqualTo(1);
 
-            Check.That(arg)
-               .IsEqualTo("def");
+            Check.That(arg).IsEqualTo("def");
 
-            Check.That(factoryCalled)
-               .IsEqualTo(1);
+            Check.That(factoryCalled).IsEqualTo(1);
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(1);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -532,8 +430,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called1 = 0;
-            String arg1    = null;
+            var called1 = 0;
+            String arg1 = null;
 
             var subscription1 = service.Changed.Subscribe(
                 x => {
@@ -542,8 +440,8 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            var    called2 = 0;
-            String arg2    = null;
+            var called2 = 0;
+            String arg2 = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -552,24 +450,15 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription1)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .Not.IsSameReferenceAs(subscription1);
+            Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
             var factoryCalled = 0;
 
@@ -581,26 +470,20 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(flag1)
-               .IsTrue();
+            Check.That(flag1).IsTrue();
 
-            Check.That(called1)
-               .IsEqualTo(1);
+            Check.That(called1).IsEqualTo(1);
 
-            Check.That(arg1)
-               .IsEqualTo("abc");
+            Check.That(arg1).IsEqualTo("abc");
 
-            Check.That(called2)
-               .IsEqualTo(1);
+            Check.That(called2).IsEqualTo(1);
 
-            Check.That(arg2)
-               .IsEqualTo("abc");
+            Check.That(arg2).IsEqualTo("abc");
 
-            Check.That(factoryCalled)
-               .IsEqualTo(1);
+            Check.That(factoryCalled).IsEqualTo(1);
 
-            called1       = 0;
-            called2       = 0;
+            called1 = 0;
+            called2 = 0;
             factoryCalled = 0;
 
             var flag2 = service.Do(
@@ -611,29 +494,21 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(flag2)
-               .IsTrue();
+            Check.That(flag2).IsTrue();
 
-            Check.That(called1)
-               .IsEqualTo(1);
+            Check.That(called1).IsEqualTo(1);
 
-            Check.That(arg1)
-               .IsEqualTo("def");
+            Check.That(arg1).IsEqualTo("def");
 
-            Check.That(called2)
-               .IsEqualTo(1);
+            Check.That(called2).IsEqualTo(1);
 
-            Check.That(arg2)
-               .IsEqualTo("def");
+            Check.That(arg2).IsEqualTo("def");
 
-            Check.That(factoryCalled)
-               .IsEqualTo(1);
+            Check.That(factoryCalled).IsEqualTo(1);
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(2);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -641,8 +516,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called1 = 0;
-            String arg1    = null;
+            var called1 = 0;
+            String arg1 = null;
 
             var subscription1 = service.Changed.Subscribe(
                 new Action<String>(
@@ -655,8 +530,8 @@ public class Test_EventSource_SyncHandler
                 )
             );
 
-            var    called2 = 0;
-            String arg2    = null;
+            var called2 = 0;
+            String arg2 = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -665,24 +540,15 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription1)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .Not.IsSameReferenceAs(subscription1);
+            Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
             Exception exception = null;
 
@@ -698,35 +564,25 @@ public class Test_EventSource_SyncHandler
                     }
                 );
 
-                Check.That(flag1)
-                   .IsTrue();
+                Check.That(flag1).IsTrue();
 
-                Check.That(called1)
-                   .IsEqualTo(1);
+                Check.That(called1).IsEqualTo(1);
 
-                Check.That(arg1)
-                   .IsEqualTo("abc");
+                Check.That(arg1).IsEqualTo("abc");
 
-                Check.That(called2)
-                   .IsEqualTo(1);
+                Check.That(called2).IsEqualTo(1);
 
-                Check.That(arg2)
-                   .IsEqualTo("abc");
+                Check.That(arg2).IsEqualTo("abc");
 
-                Check.That(factoryCalled)
-                   .IsEqualTo(1);
+                Check.That(factoryCalled).IsEqualTo(1);
 
-                Check.That(exception)
-                   .IsInstanceOf<ApplicationException>();
+                Check.That(exception).IsInstanceOf<ApplicationException>();
 
-                Check.That(exception.Message)
-                   .IsEqualTo("1");
+                Check.That(exception.Message).IsEqualTo("1");
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions)
-                   .IsEqualTo(2);
+                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
 
-                Check.That(service.ChangedSource.IsDisposed)
-                   .IsFalse();
+                Check.That(service.ChangedSource.IsDisposed).IsFalse();
             }
         }
 
@@ -735,8 +591,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -745,13 +601,9 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             subscription.Dispose();
 
@@ -765,20 +617,15 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(flag1)
-               .IsFalse();
+            Check.That(flag1).IsFalse();
 
-            Check.That(called)
-               .IsEqualTo(0);
+            Check.That(called).IsEqualTo(0);
 
-            Check.That(factoryCalled)
-               .IsEqualTo(0);
+            Check.That(factoryCalled).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(0);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -786,8 +633,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -796,13 +643,9 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             service.ChangedSource.Dispose();
 
@@ -816,20 +659,15 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(flag1)
-               .IsFalse();
+            Check.That(flag1).IsFalse();
 
-            Check.That(called)
-               .IsEqualTo(0);
+            Check.That(called).IsEqualTo(0);
 
-            Check.That(factoryCalled)
-               .IsEqualTo(0);
+            Check.That(factoryCalled).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(0);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsTrue();
+            Check.That(service.ChangedSource.IsDisposed).IsTrue();
         }
 
         [Test]
@@ -837,7 +675,7 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            Check.ThatCode(() => service.Do((Func<String>) null))
+            Check.ThatCode(() => service.Do((Func<String>)null))
                .Throws<ArgumentNullException>()
                .WithProperty(x => x.ParamName, "valueFactory");
         }
@@ -860,14 +698,11 @@ public class Test_EventSource_SyncHandler
                 123
             );
 
-            Check.That(flag)
-               .IsFalse();
+            Check.That(flag).IsFalse();
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(0);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -875,8 +710,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -885,16 +720,12 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             var factoryCalled = 0;
-            var fa            = 0;
+            var fa = 0;
 
             var flag1 = service.Do(
                 a => {
@@ -906,24 +737,19 @@ public class Test_EventSource_SyncHandler
                 123
             );
 
-            Check.That(flag1)
-               .IsTrue();
+            Check.That(flag1).IsTrue();
 
-            Check.That(called)
-               .IsEqualTo(1);
+            Check.That(called).IsEqualTo(1);
 
-            Check.That(arg)
-               .IsEqualTo("abc");
+            Check.That(arg).IsEqualTo("abc");
 
-            Check.That(factoryCalled)
-               .IsEqualTo(1);
+            Check.That(factoryCalled).IsEqualTo(1);
 
-            Check.That(fa)
-               .IsEqualTo(123);
+            Check.That(fa).IsEqualTo(123);
 
-            called        = 0;
+            called = 0;
             factoryCalled = 0;
-            fa            = 0;
+            fa = 0;
 
             var flag2 = service.Do(
                 a => {
@@ -935,26 +761,19 @@ public class Test_EventSource_SyncHandler
                 456
             );
 
-            Check.That(flag2)
-               .IsTrue();
+            Check.That(flag2).IsTrue();
 
-            Check.That(called)
-               .IsEqualTo(1);
+            Check.That(called).IsEqualTo(1);
 
-            Check.That(arg)
-               .IsEqualTo("def");
+            Check.That(arg).IsEqualTo("def");
 
-            Check.That(factoryCalled)
-               .IsEqualTo(1);
+            Check.That(factoryCalled).IsEqualTo(1);
 
-            Check.That(fa)
-               .IsEqualTo(456);
+            Check.That(fa).IsEqualTo(456);
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(1);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -962,8 +781,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called1 = 0;
-            String arg1    = null;
+            var called1 = 0;
+            String arg1 = null;
 
             var subscription1 = service.Changed.Subscribe(
                 x => {
@@ -972,8 +791,8 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            var    called2 = 0;
-            String arg2    = null;
+            var called2 = 0;
+            String arg2 = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -982,27 +801,18 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription1)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .Not.IsSameReferenceAs(subscription1);
+            Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
             var factoryCalled = 0;
-            var fa            = 0;
+            var fa = 0;
 
             var flag1 = service.Do(
                 a => {
@@ -1014,31 +824,24 @@ public class Test_EventSource_SyncHandler
                 123
             );
 
-            Check.That(flag1)
-               .IsTrue();
+            Check.That(flag1).IsTrue();
 
-            Check.That(called1)
-               .IsEqualTo(1);
+            Check.That(called1).IsEqualTo(1);
 
-            Check.That(arg1)
-               .IsEqualTo("abc");
+            Check.That(arg1).IsEqualTo("abc");
 
-            Check.That(called2)
-               .IsEqualTo(1);
+            Check.That(called2).IsEqualTo(1);
 
-            Check.That(arg2)
-               .IsEqualTo("abc");
+            Check.That(arg2).IsEqualTo("abc");
 
-            Check.That(factoryCalled)
-               .IsEqualTo(1);
+            Check.That(factoryCalled).IsEqualTo(1);
 
-            Check.That(fa)
-               .IsEqualTo(123);
+            Check.That(fa).IsEqualTo(123);
 
-            called1       = 0;
-            called2       = 0;
+            called1 = 0;
+            called2 = 0;
             factoryCalled = 0;
-            fa            = 0;
+            fa = 0;
 
             var flag2 = service.Do(
                 a => {
@@ -1050,32 +853,23 @@ public class Test_EventSource_SyncHandler
                 456
             );
 
-            Check.That(flag2)
-               .IsTrue();
+            Check.That(flag2).IsTrue();
 
-            Check.That(called1)
-               .IsEqualTo(1);
+            Check.That(called1).IsEqualTo(1);
 
-            Check.That(arg1)
-               .IsEqualTo("def");
+            Check.That(arg1).IsEqualTo("def");
 
-            Check.That(called2)
-               .IsEqualTo(1);
+            Check.That(called2).IsEqualTo(1);
 
-            Check.That(arg2)
-               .IsEqualTo("def");
+            Check.That(arg2).IsEqualTo("def");
 
-            Check.That(factoryCalled)
-               .IsEqualTo(1);
+            Check.That(factoryCalled).IsEqualTo(1);
 
-            Check.That(fa)
-               .IsEqualTo(456);
+            Check.That(fa).IsEqualTo(456);
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(2);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -1083,8 +877,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called1 = 0;
-            String arg1    = null;
+            var called1 = 0;
+            String arg1 = null;
 
             var subscription1 = service.Changed.Subscribe(
                 new Action<String>(
@@ -1097,8 +891,8 @@ public class Test_EventSource_SyncHandler
                 )
             );
 
-            var    called2 = 0;
-            String arg2    = null;
+            var called2 = 0;
+            String arg2 = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -1107,31 +901,22 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription1)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .Not.IsSameReferenceAs(subscription1);
+            Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
             Exception exception = null;
 
             using (EventSystem.UnobservedException.SubscribeWeak(x => exception = x))
             {
                 var factoryCalled = 0;
-                var fa            = 0;
+                var fa = 0;
 
                 var flag1 = service.Do(
                     a => {
@@ -1143,38 +928,27 @@ public class Test_EventSource_SyncHandler
                     123
                 );
 
-                Check.That(flag1)
-                   .IsTrue();
+                Check.That(flag1).IsTrue();
 
-                Check.That(called1)
-                   .IsEqualTo(1);
+                Check.That(called1).IsEqualTo(1);
 
-                Check.That(arg1)
-                   .IsEqualTo("abc");
+                Check.That(arg1).IsEqualTo("abc");
 
-                Check.That(called2)
-                   .IsEqualTo(1);
+                Check.That(called2).IsEqualTo(1);
 
-                Check.That(arg2)
-                   .IsEqualTo("abc");
+                Check.That(arg2).IsEqualTo("abc");
 
-                Check.That(factoryCalled)
-                   .IsEqualTo(1);
+                Check.That(factoryCalled).IsEqualTo(1);
 
-                Check.That(fa)
-                   .IsEqualTo(123);
+                Check.That(fa).IsEqualTo(123);
 
-                Check.That(exception)
-                   .IsInstanceOf<ApplicationException>();
+                Check.That(exception).IsInstanceOf<ApplicationException>();
 
-                Check.That(exception.Message)
-                   .IsEqualTo("1");
+                Check.That(exception.Message).IsEqualTo("1");
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions)
-                   .IsEqualTo(2);
+                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
 
-                Check.That(service.ChangedSource.IsDisposed)
-                   .IsFalse();
+                Check.That(service.ChangedSource.IsDisposed).IsFalse();
             }
         }
 
@@ -1183,8 +957,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -1193,13 +967,9 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             subscription.Dispose();
 
@@ -1214,20 +984,15 @@ public class Test_EventSource_SyncHandler
                 123
             );
 
-            Check.That(flag1)
-               .IsFalse();
+            Check.That(flag1).IsFalse();
 
-            Check.That(called)
-               .IsEqualTo(0);
+            Check.That(called).IsEqualTo(0);
 
-            Check.That(factoryCalled)
-               .IsEqualTo(0);
+            Check.That(factoryCalled).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(0);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -1235,8 +1000,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -1245,13 +1010,9 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             service.ChangedSource.Dispose();
 
@@ -1266,20 +1027,15 @@ public class Test_EventSource_SyncHandler
                 123
             );
 
-            Check.That(flag1)
-               .IsFalse();
+            Check.That(flag1).IsFalse();
 
-            Check.That(called)
-               .IsEqualTo(0);
+            Check.That(called).IsEqualTo(0);
 
-            Check.That(factoryCalled)
-               .IsEqualTo(0);
+            Check.That(factoryCalled).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(0);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsTrue();
+            Check.That(service.ChangedSource.IsDisposed).IsTrue();
         }
 
         [Test]
@@ -1311,14 +1067,11 @@ public class Test_EventSource_SyncHandler
                 1.2
             );
 
-            Check.That(flag)
-               .IsFalse();
+            Check.That(flag).IsFalse();
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(0);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -1326,8 +1079,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -1336,17 +1089,13 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             var factoryCalled = 0;
-            var fa            = 0;
-            var fb            = 0.0;
+            var fa = 0;
+            var fb = 0.0;
 
             var flag1 = service.Do(
                 (a, b) => {
@@ -1360,28 +1109,22 @@ public class Test_EventSource_SyncHandler
                 1.2
             );
 
-            Check.That(flag1)
-               .IsTrue();
+            Check.That(flag1).IsTrue();
 
-            Check.That(called)
-               .IsEqualTo(1);
+            Check.That(called).IsEqualTo(1);
 
-            Check.That(arg)
-               .IsEqualTo("abc");
+            Check.That(arg).IsEqualTo("abc");
 
-            Check.That(factoryCalled)
-               .IsEqualTo(1);
+            Check.That(factoryCalled).IsEqualTo(1);
 
-            Check.That(fa)
-               .IsEqualTo(123);
+            Check.That(fa).IsEqualTo(123);
 
-            Check.That(fb)
-               .IsEqualTo(1.2);
+            Check.That(fb).IsEqualTo(1.2);
 
-            called        = 0;
+            called = 0;
             factoryCalled = 0;
-            fa            = 0;
-            fb            = 0.0;
+            fa = 0;
+            fb = 0.0;
 
             var flag2 = service.Do(
                 (a, b) => {
@@ -1395,29 +1138,21 @@ public class Test_EventSource_SyncHandler
                 3.4
             );
 
-            Check.That(flag2)
-               .IsTrue();
+            Check.That(flag2).IsTrue();
 
-            Check.That(called)
-               .IsEqualTo(1);
+            Check.That(called).IsEqualTo(1);
 
-            Check.That(arg)
-               .IsEqualTo("def");
+            Check.That(arg).IsEqualTo("def");
 
-            Check.That(factoryCalled)
-               .IsEqualTo(1);
+            Check.That(factoryCalled).IsEqualTo(1);
 
-            Check.That(fa)
-               .IsEqualTo(456);
+            Check.That(fa).IsEqualTo(456);
 
-            Check.That(fb)
-               .IsEqualTo(3.4);
+            Check.That(fb).IsEqualTo(3.4);
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(1);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -1425,8 +1160,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called1 = 0;
-            String arg1    = null;
+            var called1 = 0;
+            String arg1 = null;
 
             var subscription1 = service.Changed.Subscribe(
                 x => {
@@ -1435,8 +1170,8 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            var    called2 = 0;
-            String arg2    = null;
+            var called2 = 0;
+            String arg2 = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -1445,28 +1180,19 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription1)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .Not.IsSameReferenceAs(subscription1);
+            Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
             var factoryCalled = 0;
-            var fa            = 0;
-            var fb            = 0.0;
+            var fa = 0;
+            var fb = 0.0;
 
             var flag1 = service.Do(
                 (a, b) => {
@@ -1480,35 +1206,27 @@ public class Test_EventSource_SyncHandler
                 1.2
             );
 
-            Check.That(flag1)
-               .IsTrue();
+            Check.That(flag1).IsTrue();
 
-            Check.That(called1)
-               .IsEqualTo(1);
+            Check.That(called1).IsEqualTo(1);
 
-            Check.That(arg1)
-               .IsEqualTo("abc");
+            Check.That(arg1).IsEqualTo("abc");
 
-            Check.That(called2)
-               .IsEqualTo(1);
+            Check.That(called2).IsEqualTo(1);
 
-            Check.That(arg2)
-               .IsEqualTo("abc");
+            Check.That(arg2).IsEqualTo("abc");
 
-            Check.That(factoryCalled)
-               .IsEqualTo(1);
+            Check.That(factoryCalled).IsEqualTo(1);
 
-            Check.That(fa)
-               .IsEqualTo(123);
+            Check.That(fa).IsEqualTo(123);
 
-            Check.That(fb)
-               .IsEqualTo(1.2);
+            Check.That(fb).IsEqualTo(1.2);
 
-            called1       = 0;
-            called2       = 0;
+            called1 = 0;
+            called2 = 0;
             factoryCalled = 0;
-            fa            = 0;
-            fb            = 0.0;
+            fa = 0;
+            fb = 0.0;
 
             var flag2 = service.Do(
                 (a, b) => {
@@ -1522,35 +1240,25 @@ public class Test_EventSource_SyncHandler
                 3.4
             );
 
-            Check.That(flag2)
-               .IsTrue();
+            Check.That(flag2).IsTrue();
 
-            Check.That(called1)
-               .IsEqualTo(1);
+            Check.That(called1).IsEqualTo(1);
 
-            Check.That(arg1)
-               .IsEqualTo("def");
+            Check.That(arg1).IsEqualTo("def");
 
-            Check.That(called2)
-               .IsEqualTo(1);
+            Check.That(called2).IsEqualTo(1);
 
-            Check.That(arg2)
-               .IsEqualTo("def");
+            Check.That(arg2).IsEqualTo("def");
 
-            Check.That(factoryCalled)
-               .IsEqualTo(1);
+            Check.That(factoryCalled).IsEqualTo(1);
 
-            Check.That(fa)
-               .IsEqualTo(456);
+            Check.That(fa).IsEqualTo(456);
 
-            Check.That(fb)
-               .IsEqualTo(3.4);
+            Check.That(fb).IsEqualTo(3.4);
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(2);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -1558,8 +1266,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called1 = 0;
-            String arg1    = null;
+            var called1 = 0;
+            String arg1 = null;
 
             var subscription1 = service.Changed.Subscribe(
                 new Action<String>(
@@ -1572,8 +1280,8 @@ public class Test_EventSource_SyncHandler
                 )
             );
 
-            var    called2 = 0;
-            String arg2    = null;
+            var called2 = 0;
+            String arg2 = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -1582,32 +1290,23 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription1)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .Not.IsSameReferenceAs(subscription1);
+            Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
             Exception exception = null;
 
             using (EventSystem.UnobservedException.SubscribeWeak(x => exception = x))
             {
                 var factoryCalled = 0;
-                var fa            = 0;
-                var fb            = 0.0;
+                var fa = 0;
+                var fb = 0.0;
 
                 var flag1 = service.Do(
                     (a, b) => {
@@ -1621,41 +1320,29 @@ public class Test_EventSource_SyncHandler
                     1.2
                 );
 
-                Check.That(flag1)
-                   .IsTrue();
+                Check.That(flag1).IsTrue();
 
-                Check.That(called1)
-                   .IsEqualTo(1);
+                Check.That(called1).IsEqualTo(1);
 
-                Check.That(arg1)
-                   .IsEqualTo("abc");
+                Check.That(arg1).IsEqualTo("abc");
 
-                Check.That(called2)
-                   .IsEqualTo(1);
+                Check.That(called2).IsEqualTo(1);
 
-                Check.That(arg2)
-                   .IsEqualTo("abc");
+                Check.That(arg2).IsEqualTo("abc");
 
-                Check.That(factoryCalled)
-                   .IsEqualTo(1);
+                Check.That(factoryCalled).IsEqualTo(1);
 
-                Check.That(fa)
-                   .IsEqualTo(123);
+                Check.That(fa).IsEqualTo(123);
 
-                Check.That(fb)
-                   .IsEqualTo(1.2);
+                Check.That(fb).IsEqualTo(1.2);
 
-                Check.That(exception)
-                   .IsInstanceOf<ApplicationException>();
+                Check.That(exception).IsInstanceOf<ApplicationException>();
 
-                Check.That(exception.Message)
-                   .IsEqualTo("1");
+                Check.That(exception.Message).IsEqualTo("1");
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions)
-                   .IsEqualTo(2);
+                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
 
-                Check.That(service.ChangedSource.IsDisposed)
-                   .IsFalse();
+                Check.That(service.ChangedSource.IsDisposed).IsFalse();
             }
         }
 
@@ -1664,8 +1351,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -1674,13 +1361,9 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             subscription.Dispose();
 
@@ -1696,20 +1379,15 @@ public class Test_EventSource_SyncHandler
                 1.2
             );
 
-            Check.That(flag1)
-               .IsFalse();
+            Check.That(flag1).IsFalse();
 
-            Check.That(called)
-               .IsEqualTo(0);
+            Check.That(called).IsEqualTo(0);
 
-            Check.That(factoryCalled)
-               .IsEqualTo(0);
+            Check.That(factoryCalled).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(0);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -1717,8 +1395,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -1727,13 +1405,9 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             service.ChangedSource.Dispose();
 
@@ -1749,20 +1423,15 @@ public class Test_EventSource_SyncHandler
                 1.2
             );
 
-            Check.That(flag1)
-               .IsFalse();
+            Check.That(flag1).IsFalse();
 
-            Check.That(called)
-               .IsEqualTo(0);
+            Check.That(called).IsEqualTo(0);
 
-            Check.That(factoryCalled)
-               .IsEqualTo(0);
+            Check.That(factoryCalled).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(0);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsTrue();
+            Check.That(service.ChangedSource.IsDisposed).IsTrue();
         }
 
         [Test]
@@ -1795,14 +1464,11 @@ public class Test_EventSource_SyncHandler
                 'a'
             );
 
-            Check.That(flag)
-               .IsFalse();
+            Check.That(flag).IsFalse();
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(0);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -1810,8 +1476,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -1820,18 +1486,14 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             var factoryCalled = 0;
-            var fa            = 0;
-            var fb            = 0.0;
-            var fc            = ' ';
+            var fa = 0;
+            var fb = 0.0;
+            var fc = ' ';
 
             var flag1 = service.Do(
                 (a, b, c) => {
@@ -1847,32 +1509,25 @@ public class Test_EventSource_SyncHandler
                 'a'
             );
 
-            Check.That(flag1)
-               .IsTrue();
+            Check.That(flag1).IsTrue();
 
-            Check.That(called)
-               .IsEqualTo(1);
+            Check.That(called).IsEqualTo(1);
 
-            Check.That(arg)
-               .IsEqualTo("abc");
+            Check.That(arg).IsEqualTo("abc");
 
-            Check.That(factoryCalled)
-               .IsEqualTo(1);
+            Check.That(factoryCalled).IsEqualTo(1);
 
-            Check.That(fa)
-               .IsEqualTo(123);
+            Check.That(fa).IsEqualTo(123);
 
-            Check.That(fb)
-               .IsEqualTo(1.2);
+            Check.That(fb).IsEqualTo(1.2);
 
-            Check.That(fc)
-               .IsEqualTo('a');
+            Check.That(fc).IsEqualTo('a');
 
-            called        = 0;
+            called = 0;
             factoryCalled = 0;
-            fa            = 0;
-            fb            = 0.0;
-            fc            = ' ';
+            fa = 0;
+            fb = 0.0;
+            fc = ' ';
 
             var flag2 = service.Do(
                 (a, b, c) => {
@@ -1888,32 +1543,23 @@ public class Test_EventSource_SyncHandler
                 'b'
             );
 
-            Check.That(flag2)
-               .IsTrue();
+            Check.That(flag2).IsTrue();
 
-            Check.That(called)
-               .IsEqualTo(1);
+            Check.That(called).IsEqualTo(1);
 
-            Check.That(arg)
-               .IsEqualTo("def");
+            Check.That(arg).IsEqualTo("def");
 
-            Check.That(factoryCalled)
-               .IsEqualTo(1);
+            Check.That(factoryCalled).IsEqualTo(1);
 
-            Check.That(fa)
-               .IsEqualTo(456);
+            Check.That(fa).IsEqualTo(456);
 
-            Check.That(fb)
-               .IsEqualTo(3.4);
+            Check.That(fb).IsEqualTo(3.4);
 
-            Check.That(fc)
-               .IsEqualTo('b');
+            Check.That(fc).IsEqualTo('b');
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(1);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -1921,8 +1567,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called1 = 0;
-            String arg1    = null;
+            var called1 = 0;
+            String arg1 = null;
 
             var subscription1 = service.Changed.Subscribe(
                 x => {
@@ -1931,8 +1577,8 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            var    called2 = 0;
-            String arg2    = null;
+            var called2 = 0;
+            String arg2 = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -1941,29 +1587,20 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription1)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .Not.IsSameReferenceAs(subscription1);
+            Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
             var factoryCalled = 0;
-            var fa            = 0;
-            var fb            = 0.0;
-            var fc            = ' ';
+            var fa = 0;
+            var fb = 0.0;
+            var fc = ' ';
 
             var flag1 = service.Do(
                 (a, b, c) => {
@@ -1979,39 +1616,30 @@ public class Test_EventSource_SyncHandler
                 'a'
             );
 
-            Check.That(flag1)
-               .IsTrue();
+            Check.That(flag1).IsTrue();
 
-            Check.That(called1)
-               .IsEqualTo(1);
+            Check.That(called1).IsEqualTo(1);
 
-            Check.That(arg1)
-               .IsEqualTo("abc");
+            Check.That(arg1).IsEqualTo("abc");
 
-            Check.That(called2)
-               .IsEqualTo(1);
+            Check.That(called2).IsEqualTo(1);
 
-            Check.That(arg2)
-               .IsEqualTo("abc");
+            Check.That(arg2).IsEqualTo("abc");
 
-            Check.That(factoryCalled)
-               .IsEqualTo(1);
+            Check.That(factoryCalled).IsEqualTo(1);
 
-            Check.That(fa)
-               .IsEqualTo(123);
+            Check.That(fa).IsEqualTo(123);
 
-            Check.That(fb)
-               .IsEqualTo(1.2);
+            Check.That(fb).IsEqualTo(1.2);
 
-            Check.That(fc)
-               .IsEqualTo('a');
+            Check.That(fc).IsEqualTo('a');
 
-            called1       = 0;
-            called2       = 0;
+            called1 = 0;
+            called2 = 0;
             factoryCalled = 0;
-            fa            = 0;
-            fb            = 0.0;
-            fc            = ' ';
+            fa = 0;
+            fb = 0.0;
+            fc = ' ';
 
             var flag2 = service.Do(
                 (a, b, c) => {
@@ -2027,38 +1655,27 @@ public class Test_EventSource_SyncHandler
                 'b'
             );
 
-            Check.That(flag2)
-               .IsTrue();
+            Check.That(flag2).IsTrue();
 
-            Check.That(called1)
-               .IsEqualTo(1);
+            Check.That(called1).IsEqualTo(1);
 
-            Check.That(arg1)
-               .IsEqualTo("def");
+            Check.That(arg1).IsEqualTo("def");
 
-            Check.That(called2)
-               .IsEqualTo(1);
+            Check.That(called2).IsEqualTo(1);
 
-            Check.That(arg2)
-               .IsEqualTo("def");
+            Check.That(arg2).IsEqualTo("def");
 
-            Check.That(factoryCalled)
-               .IsEqualTo(1);
+            Check.That(factoryCalled).IsEqualTo(1);
 
-            Check.That(fa)
-               .IsEqualTo(456);
+            Check.That(fa).IsEqualTo(456);
 
-            Check.That(fb)
-               .IsEqualTo(3.4);
+            Check.That(fb).IsEqualTo(3.4);
 
-            Check.That(fc)
-               .IsEqualTo('b');
+            Check.That(fc).IsEqualTo('b');
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(2);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -2066,8 +1683,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called1 = 0;
-            String arg1    = null;
+            var called1 = 0;
+            String arg1 = null;
 
             var subscription1 = service.Changed.Subscribe(
                 new Action<String>(
@@ -2080,8 +1697,8 @@ public class Test_EventSource_SyncHandler
                 )
             );
 
-            var    called2 = 0;
-            String arg2    = null;
+            var called2 = 0;
+            String arg2 = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -2090,33 +1707,24 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription1)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .Not.IsSameReferenceAs(subscription1);
+            Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
             Exception exception = null;
 
             using (EventSystem.UnobservedException.SubscribeWeak(x => exception = x))
             {
                 var factoryCalled = 0;
-                var fa            = 0;
-                var fb            = 0.0;
-                var fc            = ' ';
+                var fa = 0;
+                var fb = 0.0;
+                var fc = ' ';
 
                 var flag1 = service.Do(
                     (a, b, c) => {
@@ -2132,44 +1740,31 @@ public class Test_EventSource_SyncHandler
                     'a'
                 );
 
-                Check.That(flag1)
-                   .IsTrue();
+                Check.That(flag1).IsTrue();
 
-                Check.That(called1)
-                   .IsEqualTo(1);
+                Check.That(called1).IsEqualTo(1);
 
-                Check.That(arg1)
-                   .IsEqualTo("abc");
+                Check.That(arg1).IsEqualTo("abc");
 
-                Check.That(called2)
-                   .IsEqualTo(1);
+                Check.That(called2).IsEqualTo(1);
 
-                Check.That(arg2)
-                   .IsEqualTo("abc");
+                Check.That(arg2).IsEqualTo("abc");
 
-                Check.That(factoryCalled)
-                   .IsEqualTo(1);
+                Check.That(factoryCalled).IsEqualTo(1);
 
-                Check.That(fa)
-                   .IsEqualTo(123);
+                Check.That(fa).IsEqualTo(123);
 
-                Check.That(fb)
-                   .IsEqualTo(1.2);
+                Check.That(fb).IsEqualTo(1.2);
 
-                Check.That(fc)
-                   .IsEqualTo('a');
+                Check.That(fc).IsEqualTo('a');
 
-                Check.That(exception)
-                   .IsInstanceOf<ApplicationException>();
+                Check.That(exception).IsInstanceOf<ApplicationException>();
 
-                Check.That(exception.Message)
-                   .IsEqualTo("1");
+                Check.That(exception.Message).IsEqualTo("1");
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions)
-                   .IsEqualTo(2);
+                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
 
-                Check.That(service.ChangedSource.IsDisposed)
-                   .IsFalse();
+                Check.That(service.ChangedSource.IsDisposed).IsFalse();
             }
         }
 
@@ -2178,8 +1773,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -2188,13 +1783,9 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             subscription.Dispose();
 
@@ -2211,20 +1802,15 @@ public class Test_EventSource_SyncHandler
                 'a'
             );
 
-            Check.That(flag1)
-               .IsFalse();
+            Check.That(flag1).IsFalse();
 
-            Check.That(called)
-               .IsEqualTo(0);
+            Check.That(called).IsEqualTo(0);
 
-            Check.That(factoryCalled)
-               .IsEqualTo(0);
+            Check.That(factoryCalled).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(0);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -2232,8 +1818,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -2242,13 +1828,9 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             service.ChangedSource.Dispose();
 
@@ -2265,20 +1847,15 @@ public class Test_EventSource_SyncHandler
                 'a'
             );
 
-            Check.That(flag1)
-               .IsFalse();
+            Check.That(flag1).IsFalse();
 
-            Check.That(called)
-               .IsEqualTo(0);
+            Check.That(called).IsEqualTo(0);
 
-            Check.That(factoryCalled)
-               .IsEqualTo(0);
+            Check.That(factoryCalled).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(0);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsTrue();
+            Check.That(service.ChangedSource.IsDisposed).IsTrue();
         }
 
         [Test]
@@ -2303,14 +1880,11 @@ public class Test_EventSource_SyncHandler
 
             var flag = await service.DoAsync("abc");
 
-            Check.That(flag)
-               .IsFalse();
+            Check.That(flag).IsFalse();
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(0);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -2318,8 +1892,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -2328,42 +1902,30 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             var flag1 = await service.DoAsync("abc");
 
-            Check.That(flag1)
-               .IsTrue();
+            Check.That(flag1).IsTrue();
 
-            Check.That(called)
-               .IsEqualTo(1);
+            Check.That(called).IsEqualTo(1);
 
-            Check.That(arg)
-               .IsEqualTo("abc");
+            Check.That(arg).IsEqualTo("abc");
 
             called = 0;
             var flag2 = await service.DoAsync("def");
 
-            Check.That(flag2)
-               .IsTrue();
+            Check.That(flag2).IsTrue();
 
-            Check.That(called)
-               .IsEqualTo(1);
+            Check.That(called).IsEqualTo(1);
 
-            Check.That(arg)
-               .IsEqualTo("def");
+            Check.That(arg).IsEqualTo("def");
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(1);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -2371,8 +1933,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called1 = 0;
-            String arg1    = null;
+            var called1 = 0;
+            String arg1 = null;
 
             var subscription1 = service.Changed.Subscribe(
                 x => {
@@ -2381,8 +1943,8 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            var    called2 = 0;
-            String arg2    = null;
+            var called2 = 0;
+            String arg2 = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -2391,66 +1953,45 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription1)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .Not.IsSameReferenceAs(subscription1);
+            Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
             var flag1 = await service.DoAsync("abc");
 
-            Check.That(flag1)
-               .IsTrue();
+            Check.That(flag1).IsTrue();
 
-            Check.That(called1)
-               .IsEqualTo(1);
+            Check.That(called1).IsEqualTo(1);
 
-            Check.That(arg1)
-               .IsEqualTo("abc");
+            Check.That(arg1).IsEqualTo("abc");
 
-            Check.That(called2)
-               .IsEqualTo(1);
+            Check.That(called2).IsEqualTo(1);
 
-            Check.That(arg2)
-               .IsEqualTo("abc");
+            Check.That(arg2).IsEqualTo("abc");
 
             called1 = 0;
             called2 = 0;
             var flag2 = await service.DoAsync("def");
 
-            Check.That(flag2)
-               .IsTrue();
+            Check.That(flag2).IsTrue();
 
-            Check.That(called1)
-               .IsEqualTo(1);
+            Check.That(called1).IsEqualTo(1);
 
-            Check.That(arg1)
-               .IsEqualTo("def");
+            Check.That(arg1).IsEqualTo("def");
 
-            Check.That(called2)
-               .IsEqualTo(1);
+            Check.That(called2).IsEqualTo(1);
 
-            Check.That(arg2)
-               .IsEqualTo("def");
+            Check.That(arg2).IsEqualTo("def");
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(2);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -2458,8 +1999,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called1 = 0;
-            String arg1    = null;
+            var called1 = 0;
+            String arg1 = null;
 
             var subscription1 = service.Changed.Subscribe(
                 new Action<String>(
@@ -2472,8 +2013,8 @@ public class Test_EventSource_SyncHandler
                 )
             );
 
-            var    called2 = 0;
-            String arg2    = null;
+            var called2 = 0;
+            String arg2 = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -2482,24 +2023,15 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription1)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .Not.IsSameReferenceAs(subscription1);
+            Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
             Exception exception = null;
 
@@ -2507,32 +2039,23 @@ public class Test_EventSource_SyncHandler
             {
                 var flag1 = await service.DoAsync("abc");
 
-                Check.That(flag1)
-                   .IsTrue();
+                Check.That(flag1).IsTrue();
 
-                Check.That(called1)
-                   .IsEqualTo(1);
+                Check.That(called1).IsEqualTo(1);
 
-                Check.That(arg1)
-                   .IsEqualTo("abc");
+                Check.That(arg1).IsEqualTo("abc");
 
-                Check.That(called2)
-                   .IsEqualTo(1);
+                Check.That(called2).IsEqualTo(1);
 
-                Check.That(arg2)
-                   .IsEqualTo("abc");
+                Check.That(arg2).IsEqualTo("abc");
 
-                Check.That(exception)
-                   .IsInstanceOf<ApplicationException>();
+                Check.That(exception).IsInstanceOf<ApplicationException>();
 
-                Check.That(exception.Message)
-                   .IsEqualTo("1");
+                Check.That(exception.Message).IsEqualTo("1");
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions)
-                   .IsEqualTo(2);
+                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
 
-                Check.That(service.ChangedSource.IsDisposed)
-                   .IsFalse();
+                Check.That(service.ChangedSource.IsDisposed).IsFalse();
             }
         }
 
@@ -2541,8 +2064,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -2551,29 +2074,21 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             subscription.Dispose();
 
             var flag1 = await service.DoAsync("abc");
 
-            Check.That(flag1)
-               .IsFalse();
+            Check.That(flag1).IsFalse();
 
-            Check.That(called)
-               .IsEqualTo(0);
+            Check.That(called).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(0);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -2581,8 +2096,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -2591,29 +2106,21 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             service.ChangedSource.Dispose();
 
             var flag1 = await service.DoAsync("abc");
 
-            Check.That(flag1)
-               .IsFalse();
+            Check.That(flag1).IsFalse();
 
-            Check.That(called)
-               .IsEqualTo(0);
+            Check.That(called).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(0);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsTrue();
+            Check.That(service.ChangedSource.IsDisposed).IsTrue();
         }
     }
 
@@ -2633,14 +2140,11 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(flag)
-               .IsFalse();
+            Check.That(flag).IsFalse();
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(0);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -2648,8 +2152,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -2658,13 +2162,9 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             var factoryCalled = 0;
 
@@ -2676,19 +2176,15 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(flag1)
-               .IsTrue();
+            Check.That(flag1).IsTrue();
 
-            Check.That(called)
-               .IsEqualTo(1);
+            Check.That(called).IsEqualTo(1);
 
-            Check.That(arg)
-               .IsEqualTo("abc");
+            Check.That(arg).IsEqualTo("abc");
 
-            Check.That(factoryCalled)
-               .IsEqualTo(1);
+            Check.That(factoryCalled).IsEqualTo(1);
 
-            called        = 0;
+            called = 0;
             factoryCalled = 0;
 
             var flag2 = await service.DoAsync(
@@ -2699,23 +2195,17 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(flag2)
-               .IsTrue();
+            Check.That(flag2).IsTrue();
 
-            Check.That(called)
-               .IsEqualTo(1);
+            Check.That(called).IsEqualTo(1);
 
-            Check.That(arg)
-               .IsEqualTo("def");
+            Check.That(arg).IsEqualTo("def");
 
-            Check.That(factoryCalled)
-               .IsEqualTo(1);
+            Check.That(factoryCalled).IsEqualTo(1);
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(1);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -2723,8 +2213,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called1 = 0;
-            String arg1    = null;
+            var called1 = 0;
+            String arg1 = null;
 
             var subscription1 = service.Changed.Subscribe(
                 x => {
@@ -2733,8 +2223,8 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            var    called2 = 0;
-            String arg2    = null;
+            var called2 = 0;
+            String arg2 = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -2743,24 +2233,15 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription1)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .Not.IsSameReferenceAs(subscription1);
+            Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
             var factoryCalled = 0;
 
@@ -2772,26 +2253,20 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(flag1)
-               .IsTrue();
+            Check.That(flag1).IsTrue();
 
-            Check.That(called1)
-               .IsEqualTo(1);
+            Check.That(called1).IsEqualTo(1);
 
-            Check.That(arg1)
-               .IsEqualTo("abc");
+            Check.That(arg1).IsEqualTo("abc");
 
-            Check.That(called2)
-               .IsEqualTo(1);
+            Check.That(called2).IsEqualTo(1);
 
-            Check.That(arg2)
-               .IsEqualTo("abc");
+            Check.That(arg2).IsEqualTo("abc");
 
-            Check.That(factoryCalled)
-               .IsEqualTo(1);
+            Check.That(factoryCalled).IsEqualTo(1);
 
-            called1       = 0;
-            called2       = 0;
+            called1 = 0;
+            called2 = 0;
             factoryCalled = 0;
 
             var flag2 = await service.DoAsync(
@@ -2802,29 +2277,21 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(flag2)
-               .IsTrue();
+            Check.That(flag2).IsTrue();
 
-            Check.That(called1)
-               .IsEqualTo(1);
+            Check.That(called1).IsEqualTo(1);
 
-            Check.That(arg1)
-               .IsEqualTo("def");
+            Check.That(arg1).IsEqualTo("def");
 
-            Check.That(called2)
-               .IsEqualTo(1);
+            Check.That(called2).IsEqualTo(1);
 
-            Check.That(arg2)
-               .IsEqualTo("def");
+            Check.That(arg2).IsEqualTo("def");
 
-            Check.That(factoryCalled)
-               .IsEqualTo(1);
+            Check.That(factoryCalled).IsEqualTo(1);
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(2);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -2832,8 +2299,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called1 = 0;
-            String arg1    = null;
+            var called1 = 0;
+            String arg1 = null;
 
             var subscription1 = service.Changed.Subscribe(
                 new Action<String>(
@@ -2846,8 +2313,8 @@ public class Test_EventSource_SyncHandler
                 )
             );
 
-            var    called2 = 0;
-            String arg2    = null;
+            var called2 = 0;
+            String arg2 = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -2856,24 +2323,15 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription1)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .Not.IsSameReferenceAs(subscription1);
+            Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
             Exception exception = null;
 
@@ -2889,35 +2347,25 @@ public class Test_EventSource_SyncHandler
                     }
                 );
 
-                Check.That(flag1)
-                   .IsTrue();
+                Check.That(flag1).IsTrue();
 
-                Check.That(called1)
-                   .IsEqualTo(1);
+                Check.That(called1).IsEqualTo(1);
 
-                Check.That(arg1)
-                   .IsEqualTo("abc");
+                Check.That(arg1).IsEqualTo("abc");
 
-                Check.That(called2)
-                   .IsEqualTo(1);
+                Check.That(called2).IsEqualTo(1);
 
-                Check.That(arg2)
-                   .IsEqualTo("abc");
+                Check.That(arg2).IsEqualTo("abc");
 
-                Check.That(factoryCalled)
-                   .IsEqualTo(1);
+                Check.That(factoryCalled).IsEqualTo(1);
 
-                Check.That(exception)
-                   .IsInstanceOf<ApplicationException>();
+                Check.That(exception).IsInstanceOf<ApplicationException>();
 
-                Check.That(exception.Message)
-                   .IsEqualTo("1");
+                Check.That(exception.Message).IsEqualTo("1");
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions)
-                   .IsEqualTo(2);
+                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
 
-                Check.That(service.ChangedSource.IsDisposed)
-                   .IsFalse();
+                Check.That(service.ChangedSource.IsDisposed).IsFalse();
             }
         }
 
@@ -2926,8 +2374,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -2936,13 +2384,9 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             subscription.Dispose();
 
@@ -2956,20 +2400,15 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(flag1)
-               .IsFalse();
+            Check.That(flag1).IsFalse();
 
-            Check.That(called)
-               .IsEqualTo(0);
+            Check.That(called).IsEqualTo(0);
 
-            Check.That(factoryCalled)
-               .IsEqualTo(0);
+            Check.That(factoryCalled).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(0);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -2977,8 +2416,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -2987,13 +2426,9 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             service.ChangedSource.Dispose();
 
@@ -3007,20 +2442,15 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(flag1)
-               .IsFalse();
+            Check.That(flag1).IsFalse();
 
-            Check.That(called)
-               .IsEqualTo(0);
+            Check.That(called).IsEqualTo(0);
 
-            Check.That(factoryCalled)
-               .IsEqualTo(0);
+            Check.That(factoryCalled).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(0);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsTrue();
+            Check.That(service.ChangedSource.IsDisposed).IsTrue();
         }
 
         [Test]
@@ -3028,7 +2458,7 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            Check.ThatAsyncCode(async () => await service.DoAsync((Func<String>) null))
+            Check.ThatAsyncCode(async () => await service.DoAsync((Func<String>)null))
                .Throws<ArgumentNullException>()
                .WithProperty(x => x.ParamName, "valueFactory");
         }
@@ -3051,14 +2481,11 @@ public class Test_EventSource_SyncHandler
                 123
             );
 
-            Check.That(flag)
-               .IsFalse();
+            Check.That(flag).IsFalse();
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(0);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -3066,8 +2493,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -3076,16 +2503,12 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             var factoryCalled = 0;
-            var fa            = 0;
+            var fa = 0;
 
             var flag1 = await service.DoAsync(
                 a => {
@@ -3097,24 +2520,19 @@ public class Test_EventSource_SyncHandler
                 123
             );
 
-            Check.That(flag1)
-               .IsTrue();
+            Check.That(flag1).IsTrue();
 
-            Check.That(called)
-               .IsEqualTo(1);
+            Check.That(called).IsEqualTo(1);
 
-            Check.That(arg)
-               .IsEqualTo("abc");
+            Check.That(arg).IsEqualTo("abc");
 
-            Check.That(factoryCalled)
-               .IsEqualTo(1);
+            Check.That(factoryCalled).IsEqualTo(1);
 
-            Check.That(fa)
-               .IsEqualTo(123);
+            Check.That(fa).IsEqualTo(123);
 
-            called        = 0;
+            called = 0;
             factoryCalled = 0;
-            fa            = 0;
+            fa = 0;
 
             var flag2 = await service.DoAsync(
                 a => {
@@ -3126,26 +2544,19 @@ public class Test_EventSource_SyncHandler
                 456
             );
 
-            Check.That(flag2)
-               .IsTrue();
+            Check.That(flag2).IsTrue();
 
-            Check.That(called)
-               .IsEqualTo(1);
+            Check.That(called).IsEqualTo(1);
 
-            Check.That(arg)
-               .IsEqualTo("def");
+            Check.That(arg).IsEqualTo("def");
 
-            Check.That(factoryCalled)
-               .IsEqualTo(1);
+            Check.That(factoryCalled).IsEqualTo(1);
 
-            Check.That(fa)
-               .IsEqualTo(456);
+            Check.That(fa).IsEqualTo(456);
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(1);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -3153,8 +2564,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called1 = 0;
-            String arg1    = null;
+            var called1 = 0;
+            String arg1 = null;
 
             var subscription1 = service.Changed.Subscribe(
                 x => {
@@ -3163,8 +2574,8 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            var    called2 = 0;
-            String arg2    = null;
+            var called2 = 0;
+            String arg2 = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -3173,27 +2584,18 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription1)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .Not.IsSameReferenceAs(subscription1);
+            Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
             var factoryCalled = 0;
-            var fa            = 0;
+            var fa = 0;
 
             var flag1 = await service.DoAsync(
                 a => {
@@ -3205,31 +2607,24 @@ public class Test_EventSource_SyncHandler
                 123
             );
 
-            Check.That(flag1)
-               .IsTrue();
+            Check.That(flag1).IsTrue();
 
-            Check.That(called1)
-               .IsEqualTo(1);
+            Check.That(called1).IsEqualTo(1);
 
-            Check.That(arg1)
-               .IsEqualTo("abc");
+            Check.That(arg1).IsEqualTo("abc");
 
-            Check.That(called2)
-               .IsEqualTo(1);
+            Check.That(called2).IsEqualTo(1);
 
-            Check.That(arg2)
-               .IsEqualTo("abc");
+            Check.That(arg2).IsEqualTo("abc");
 
-            Check.That(factoryCalled)
-               .IsEqualTo(1);
+            Check.That(factoryCalled).IsEqualTo(1);
 
-            Check.That(fa)
-               .IsEqualTo(123);
+            Check.That(fa).IsEqualTo(123);
 
-            called1       = 0;
-            called2       = 0;
+            called1 = 0;
+            called2 = 0;
             factoryCalled = 0;
-            fa            = 0;
+            fa = 0;
 
             var flag2 = await service.DoAsync(
                 a => {
@@ -3241,32 +2636,23 @@ public class Test_EventSource_SyncHandler
                 456
             );
 
-            Check.That(flag2)
-               .IsTrue();
+            Check.That(flag2).IsTrue();
 
-            Check.That(called1)
-               .IsEqualTo(1);
+            Check.That(called1).IsEqualTo(1);
 
-            Check.That(arg1)
-               .IsEqualTo("def");
+            Check.That(arg1).IsEqualTo("def");
 
-            Check.That(called2)
-               .IsEqualTo(1);
+            Check.That(called2).IsEqualTo(1);
 
-            Check.That(arg2)
-               .IsEqualTo("def");
+            Check.That(arg2).IsEqualTo("def");
 
-            Check.That(factoryCalled)
-               .IsEqualTo(1);
+            Check.That(factoryCalled).IsEqualTo(1);
 
-            Check.That(fa)
-               .IsEqualTo(456);
+            Check.That(fa).IsEqualTo(456);
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(2);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -3274,8 +2660,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called1 = 0;
-            String arg1    = null;
+            var called1 = 0;
+            String arg1 = null;
 
             var subscription1 = service.Changed.Subscribe(
                 new Action<String>(
@@ -3288,8 +2674,8 @@ public class Test_EventSource_SyncHandler
                 )
             );
 
-            var    called2 = 0;
-            String arg2    = null;
+            var called2 = 0;
+            String arg2 = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -3298,31 +2684,22 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription1)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .Not.IsSameReferenceAs(subscription1);
+            Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
             Exception exception = null;
 
             using (EventSystem.UnobservedException.SubscribeWeak(x => exception = x))
             {
                 var factoryCalled = 0;
-                var fa            = 0;
+                var fa = 0;
 
                 var flag1 = await service.DoAsync(
                     a => {
@@ -3334,38 +2711,27 @@ public class Test_EventSource_SyncHandler
                     123
                 );
 
-                Check.That(flag1)
-                   .IsTrue();
+                Check.That(flag1).IsTrue();
 
-                Check.That(called1)
-                   .IsEqualTo(1);
+                Check.That(called1).IsEqualTo(1);
 
-                Check.That(arg1)
-                   .IsEqualTo("abc");
+                Check.That(arg1).IsEqualTo("abc");
 
-                Check.That(called2)
-                   .IsEqualTo(1);
+                Check.That(called2).IsEqualTo(1);
 
-                Check.That(arg2)
-                   .IsEqualTo("abc");
+                Check.That(arg2).IsEqualTo("abc");
 
-                Check.That(factoryCalled)
-                   .IsEqualTo(1);
+                Check.That(factoryCalled).IsEqualTo(1);
 
-                Check.That(fa)
-                   .IsEqualTo(123);
+                Check.That(fa).IsEqualTo(123);
 
-                Check.That(exception)
-                   .IsInstanceOf<ApplicationException>();
+                Check.That(exception).IsInstanceOf<ApplicationException>();
 
-                Check.That(exception.Message)
-                   .IsEqualTo("1");
+                Check.That(exception.Message).IsEqualTo("1");
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions)
-                   .IsEqualTo(2);
+                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
 
-                Check.That(service.ChangedSource.IsDisposed)
-                   .IsFalse();
+                Check.That(service.ChangedSource.IsDisposed).IsFalse();
             }
         }
 
@@ -3374,8 +2740,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -3384,13 +2750,9 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             subscription.Dispose();
 
@@ -3405,20 +2767,15 @@ public class Test_EventSource_SyncHandler
                 123
             );
 
-            Check.That(flag1)
-               .IsFalse();
+            Check.That(flag1).IsFalse();
 
-            Check.That(called)
-               .IsEqualTo(0);
+            Check.That(called).IsEqualTo(0);
 
-            Check.That(factoryCalled)
-               .IsEqualTo(0);
+            Check.That(factoryCalled).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(0);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -3426,8 +2783,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -3436,13 +2793,9 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             service.ChangedSource.Dispose();
 
@@ -3457,20 +2810,15 @@ public class Test_EventSource_SyncHandler
                 123
             );
 
-            Check.That(flag1)
-               .IsFalse();
+            Check.That(flag1).IsFalse();
 
-            Check.That(called)
-               .IsEqualTo(0);
+            Check.That(called).IsEqualTo(0);
 
-            Check.That(factoryCalled)
-               .IsEqualTo(0);
+            Check.That(factoryCalled).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(0);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsTrue();
+            Check.That(service.ChangedSource.IsDisposed).IsTrue();
         }
 
         [Test]
@@ -3502,14 +2850,11 @@ public class Test_EventSource_SyncHandler
                 1.2
             );
 
-            Check.That(flag)
-               .IsFalse();
+            Check.That(flag).IsFalse();
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(0);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -3517,8 +2862,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -3527,17 +2872,13 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             var factoryCalled = 0;
-            var fa            = 0;
-            var fb            = 0.0;
+            var fa = 0;
+            var fb = 0.0;
 
             var flag1 = await service.DoAsync(
                 (a, b) => {
@@ -3551,28 +2892,22 @@ public class Test_EventSource_SyncHandler
                 1.2
             );
 
-            Check.That(flag1)
-               .IsTrue();
+            Check.That(flag1).IsTrue();
 
-            Check.That(called)
-               .IsEqualTo(1);
+            Check.That(called).IsEqualTo(1);
 
-            Check.That(arg)
-               .IsEqualTo("abc");
+            Check.That(arg).IsEqualTo("abc");
 
-            Check.That(factoryCalled)
-               .IsEqualTo(1);
+            Check.That(factoryCalled).IsEqualTo(1);
 
-            Check.That(fa)
-               .IsEqualTo(123);
+            Check.That(fa).IsEqualTo(123);
 
-            Check.That(fb)
-               .IsEqualTo(1.2);
+            Check.That(fb).IsEqualTo(1.2);
 
-            called        = 0;
+            called = 0;
             factoryCalled = 0;
-            fa            = 0;
-            fb            = 0.0;
+            fa = 0;
+            fb = 0.0;
 
             var flag2 = await service.DoAsync(
                 (a, b) => {
@@ -3586,29 +2921,21 @@ public class Test_EventSource_SyncHandler
                 3.4
             );
 
-            Check.That(flag2)
-               .IsTrue();
+            Check.That(flag2).IsTrue();
 
-            Check.That(called)
-               .IsEqualTo(1);
+            Check.That(called).IsEqualTo(1);
 
-            Check.That(arg)
-               .IsEqualTo("def");
+            Check.That(arg).IsEqualTo("def");
 
-            Check.That(factoryCalled)
-               .IsEqualTo(1);
+            Check.That(factoryCalled).IsEqualTo(1);
 
-            Check.That(fa)
-               .IsEqualTo(456);
+            Check.That(fa).IsEqualTo(456);
 
-            Check.That(fb)
-               .IsEqualTo(3.4);
+            Check.That(fb).IsEqualTo(3.4);
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(1);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -3616,8 +2943,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called1 = 0;
-            String arg1    = null;
+            var called1 = 0;
+            String arg1 = null;
 
             var subscription1 = service.Changed.Subscribe(
                 x => {
@@ -3626,8 +2953,8 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            var    called2 = 0;
-            String arg2    = null;
+            var called2 = 0;
+            String arg2 = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -3636,28 +2963,19 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription1)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .Not.IsSameReferenceAs(subscription1);
+            Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
             var factoryCalled = 0;
-            var fa            = 0;
-            var fb            = 0.0;
+            var fa = 0;
+            var fb = 0.0;
 
             var flag1 = await service.DoAsync(
                 (a, b) => {
@@ -3671,35 +2989,27 @@ public class Test_EventSource_SyncHandler
                 1.2
             );
 
-            Check.That(flag1)
-               .IsTrue();
+            Check.That(flag1).IsTrue();
 
-            Check.That(called1)
-               .IsEqualTo(1);
+            Check.That(called1).IsEqualTo(1);
 
-            Check.That(arg1)
-               .IsEqualTo("abc");
+            Check.That(arg1).IsEqualTo("abc");
 
-            Check.That(called2)
-               .IsEqualTo(1);
+            Check.That(called2).IsEqualTo(1);
 
-            Check.That(arg2)
-               .IsEqualTo("abc");
+            Check.That(arg2).IsEqualTo("abc");
 
-            Check.That(factoryCalled)
-               .IsEqualTo(1);
+            Check.That(factoryCalled).IsEqualTo(1);
 
-            Check.That(fa)
-               .IsEqualTo(123);
+            Check.That(fa).IsEqualTo(123);
 
-            Check.That(fb)
-               .IsEqualTo(1.2);
+            Check.That(fb).IsEqualTo(1.2);
 
-            called1       = 0;
-            called2       = 0;
+            called1 = 0;
+            called2 = 0;
             factoryCalled = 0;
-            fa            = 0;
-            fb            = 0.0;
+            fa = 0;
+            fb = 0.0;
 
             var flag2 = await service.DoAsync(
                 (a, b) => {
@@ -3713,35 +3023,25 @@ public class Test_EventSource_SyncHandler
                 3.4
             );
 
-            Check.That(flag2)
-               .IsTrue();
+            Check.That(flag2).IsTrue();
 
-            Check.That(called1)
-               .IsEqualTo(1);
+            Check.That(called1).IsEqualTo(1);
 
-            Check.That(arg1)
-               .IsEqualTo("def");
+            Check.That(arg1).IsEqualTo("def");
 
-            Check.That(called2)
-               .IsEqualTo(1);
+            Check.That(called2).IsEqualTo(1);
 
-            Check.That(arg2)
-               .IsEqualTo("def");
+            Check.That(arg2).IsEqualTo("def");
 
-            Check.That(factoryCalled)
-               .IsEqualTo(1);
+            Check.That(factoryCalled).IsEqualTo(1);
 
-            Check.That(fa)
-               .IsEqualTo(456);
+            Check.That(fa).IsEqualTo(456);
 
-            Check.That(fb)
-               .IsEqualTo(3.4);
+            Check.That(fb).IsEqualTo(3.4);
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(2);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -3749,8 +3049,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called1 = 0;
-            String arg1    = null;
+            var called1 = 0;
+            String arg1 = null;
 
             var subscription1 = service.Changed.Subscribe(
                 new Action<String>(
@@ -3763,8 +3063,8 @@ public class Test_EventSource_SyncHandler
                 )
             );
 
-            var    called2 = 0;
-            String arg2    = null;
+            var called2 = 0;
+            String arg2 = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -3773,32 +3073,23 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription1)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .Not.IsSameReferenceAs(subscription1);
+            Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
             Exception exception = null;
 
             using (EventSystem.UnobservedException.SubscribeWeak(x => exception = x))
             {
                 var factoryCalled = 0;
-                var fa            = 0;
-                var fb            = 0.0;
+                var fa = 0;
+                var fb = 0.0;
 
                 var flag1 = await service.DoAsync(
                     (a, b) => {
@@ -3812,41 +3103,29 @@ public class Test_EventSource_SyncHandler
                     1.2
                 );
 
-                Check.That(flag1)
-                   .IsTrue();
+                Check.That(flag1).IsTrue();
 
-                Check.That(called1)
-                   .IsEqualTo(1);
+                Check.That(called1).IsEqualTo(1);
 
-                Check.That(arg1)
-                   .IsEqualTo("abc");
+                Check.That(arg1).IsEqualTo("abc");
 
-                Check.That(called2)
-                   .IsEqualTo(1);
+                Check.That(called2).IsEqualTo(1);
 
-                Check.That(arg2)
-                   .IsEqualTo("abc");
+                Check.That(arg2).IsEqualTo("abc");
 
-                Check.That(factoryCalled)
-                   .IsEqualTo(1);
+                Check.That(factoryCalled).IsEqualTo(1);
 
-                Check.That(fa)
-                   .IsEqualTo(123);
+                Check.That(fa).IsEqualTo(123);
 
-                Check.That(fb)
-                   .IsEqualTo(1.2);
+                Check.That(fb).IsEqualTo(1.2);
 
-                Check.That(exception)
-                   .IsInstanceOf<ApplicationException>();
+                Check.That(exception).IsInstanceOf<ApplicationException>();
 
-                Check.That(exception.Message)
-                   .IsEqualTo("1");
+                Check.That(exception.Message).IsEqualTo("1");
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions)
-                   .IsEqualTo(2);
+                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
 
-                Check.That(service.ChangedSource.IsDisposed)
-                   .IsFalse();
+                Check.That(service.ChangedSource.IsDisposed).IsFalse();
             }
         }
 
@@ -3855,8 +3134,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -3865,13 +3144,9 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             subscription.Dispose();
 
@@ -3887,20 +3162,15 @@ public class Test_EventSource_SyncHandler
                 1.2
             );
 
-            Check.That(flag1)
-               .IsFalse();
+            Check.That(flag1).IsFalse();
 
-            Check.That(called)
-               .IsEqualTo(0);
+            Check.That(called).IsEqualTo(0);
 
-            Check.That(factoryCalled)
-               .IsEqualTo(0);
+            Check.That(factoryCalled).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(0);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -3908,8 +3178,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -3918,13 +3188,9 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             service.ChangedSource.Dispose();
 
@@ -3940,20 +3206,15 @@ public class Test_EventSource_SyncHandler
                 1.2
             );
 
-            Check.That(flag1)
-               .IsFalse();
+            Check.That(flag1).IsFalse();
 
-            Check.That(called)
-               .IsEqualTo(0);
+            Check.That(called).IsEqualTo(0);
 
-            Check.That(factoryCalled)
-               .IsEqualTo(0);
+            Check.That(factoryCalled).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(0);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsTrue();
+            Check.That(service.ChangedSource.IsDisposed).IsTrue();
         }
 
         [Test]
@@ -3986,14 +3247,11 @@ public class Test_EventSource_SyncHandler
                 'a'
             );
 
-            Check.That(flag)
-               .IsFalse();
+            Check.That(flag).IsFalse();
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(0);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -4001,8 +3259,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -4011,18 +3269,14 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             var factoryCalled = 0;
-            var fa            = 0;
-            var fb            = 0.0;
-            var fc            = ' ';
+            var fa = 0;
+            var fb = 0.0;
+            var fc = ' ';
 
             var flag1 = await service.DoAsync(
                 (a, b, c) => {
@@ -4038,32 +3292,25 @@ public class Test_EventSource_SyncHandler
                 'a'
             );
 
-            Check.That(flag1)
-               .IsTrue();
+            Check.That(flag1).IsTrue();
 
-            Check.That(called)
-               .IsEqualTo(1);
+            Check.That(called).IsEqualTo(1);
 
-            Check.That(arg)
-               .IsEqualTo("abc");
+            Check.That(arg).IsEqualTo("abc");
 
-            Check.That(factoryCalled)
-               .IsEqualTo(1);
+            Check.That(factoryCalled).IsEqualTo(1);
 
-            Check.That(fa)
-               .IsEqualTo(123);
+            Check.That(fa).IsEqualTo(123);
 
-            Check.That(fb)
-               .IsEqualTo(1.2);
+            Check.That(fb).IsEqualTo(1.2);
 
-            Check.That(fc)
-               .IsEqualTo('a');
+            Check.That(fc).IsEqualTo('a');
 
-            called        = 0;
+            called = 0;
             factoryCalled = 0;
-            fa            = 0;
-            fb            = 0.0;
-            fc            = ' ';
+            fa = 0;
+            fb = 0.0;
+            fc = ' ';
 
             var flag2 = await service.DoAsync(
                 (a, b, c) => {
@@ -4079,32 +3326,23 @@ public class Test_EventSource_SyncHandler
                 'b'
             );
 
-            Check.That(flag2)
-               .IsTrue();
+            Check.That(flag2).IsTrue();
 
-            Check.That(called)
-               .IsEqualTo(1);
+            Check.That(called).IsEqualTo(1);
 
-            Check.That(arg)
-               .IsEqualTo("def");
+            Check.That(arg).IsEqualTo("def");
 
-            Check.That(factoryCalled)
-               .IsEqualTo(1);
+            Check.That(factoryCalled).IsEqualTo(1);
 
-            Check.That(fa)
-               .IsEqualTo(456);
+            Check.That(fa).IsEqualTo(456);
 
-            Check.That(fb)
-               .IsEqualTo(3.4);
+            Check.That(fb).IsEqualTo(3.4);
 
-            Check.That(fc)
-               .IsEqualTo('b');
+            Check.That(fc).IsEqualTo('b');
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(1);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -4112,8 +3350,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called1 = 0;
-            String arg1    = null;
+            var called1 = 0;
+            String arg1 = null;
 
             var subscription1 = service.Changed.Subscribe(
                 x => {
@@ -4122,8 +3360,8 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            var    called2 = 0;
-            String arg2    = null;
+            var called2 = 0;
+            String arg2 = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -4132,29 +3370,20 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription1)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .Not.IsSameReferenceAs(subscription1);
+            Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
             var factoryCalled = 0;
-            var fa            = 0;
-            var fb            = 0.0;
-            var fc            = ' ';
+            var fa = 0;
+            var fb = 0.0;
+            var fc = ' ';
 
             var flag1 = await service.DoAsync(
                 (a, b, c) => {
@@ -4170,39 +3399,30 @@ public class Test_EventSource_SyncHandler
                 'a'
             );
 
-            Check.That(flag1)
-               .IsTrue();
+            Check.That(flag1).IsTrue();
 
-            Check.That(called1)
-               .IsEqualTo(1);
+            Check.That(called1).IsEqualTo(1);
 
-            Check.That(arg1)
-               .IsEqualTo("abc");
+            Check.That(arg1).IsEqualTo("abc");
 
-            Check.That(called2)
-               .IsEqualTo(1);
+            Check.That(called2).IsEqualTo(1);
 
-            Check.That(arg2)
-               .IsEqualTo("abc");
+            Check.That(arg2).IsEqualTo("abc");
 
-            Check.That(factoryCalled)
-               .IsEqualTo(1);
+            Check.That(factoryCalled).IsEqualTo(1);
 
-            Check.That(fa)
-               .IsEqualTo(123);
+            Check.That(fa).IsEqualTo(123);
 
-            Check.That(fb)
-               .IsEqualTo(1.2);
+            Check.That(fb).IsEqualTo(1.2);
 
-            Check.That(fc)
-               .IsEqualTo('a');
+            Check.That(fc).IsEqualTo('a');
 
-            called1       = 0;
-            called2       = 0;
+            called1 = 0;
+            called2 = 0;
             factoryCalled = 0;
-            fa            = 0;
-            fb            = 0.0;
-            fc            = ' ';
+            fa = 0;
+            fb = 0.0;
+            fc = ' ';
 
             var flag2 = await service.DoAsync(
                 (a, b, c) => {
@@ -4218,38 +3438,27 @@ public class Test_EventSource_SyncHandler
                 'b'
             );
 
-            Check.That(flag2)
-               .IsTrue();
+            Check.That(flag2).IsTrue();
 
-            Check.That(called1)
-               .IsEqualTo(1);
+            Check.That(called1).IsEqualTo(1);
 
-            Check.That(arg1)
-               .IsEqualTo("def");
+            Check.That(arg1).IsEqualTo("def");
 
-            Check.That(called2)
-               .IsEqualTo(1);
+            Check.That(called2).IsEqualTo(1);
 
-            Check.That(arg2)
-               .IsEqualTo("def");
+            Check.That(arg2).IsEqualTo("def");
 
-            Check.That(factoryCalled)
-               .IsEqualTo(1);
+            Check.That(factoryCalled).IsEqualTo(1);
 
-            Check.That(fa)
-               .IsEqualTo(456);
+            Check.That(fa).IsEqualTo(456);
 
-            Check.That(fb)
-               .IsEqualTo(3.4);
+            Check.That(fb).IsEqualTo(3.4);
 
-            Check.That(fc)
-               .IsEqualTo('b');
+            Check.That(fc).IsEqualTo('b');
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(2);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -4257,8 +3466,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called1 = 0;
-            String arg1    = null;
+            var called1 = 0;
+            String arg1 = null;
 
             var subscription1 = service.Changed.Subscribe(
                 new Action<String>(
@@ -4271,8 +3480,8 @@ public class Test_EventSource_SyncHandler
                 )
             );
 
-            var    called2 = 0;
-            String arg2    = null;
+            var called2 = 0;
+            String arg2 = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -4281,33 +3490,24 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription1)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription1 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription2 ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(subscription2)
-               .Not.IsSameReferenceAs(subscription1);
+            Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
             Exception exception = null;
 
             using (EventSystem.UnobservedException.SubscribeWeak(x => exception = x))
             {
                 var factoryCalled = 0;
-                var fa            = 0;
-                var fb            = 0.0;
-                var fc            = ' ';
+                var fa = 0;
+                var fb = 0.0;
+                var fc = ' ';
 
                 var flag1 = await service.DoAsync(
                     (a, b, c) => {
@@ -4323,44 +3523,31 @@ public class Test_EventSource_SyncHandler
                     'a'
                 );
 
-                Check.That(flag1)
-                   .IsTrue();
+                Check.That(flag1).IsTrue();
 
-                Check.That(called1)
-                   .IsEqualTo(1);
+                Check.That(called1).IsEqualTo(1);
 
-                Check.That(arg1)
-                   .IsEqualTo("abc");
+                Check.That(arg1).IsEqualTo("abc");
 
-                Check.That(called2)
-                   .IsEqualTo(1);
+                Check.That(called2).IsEqualTo(1);
 
-                Check.That(arg2)
-                   .IsEqualTo("abc");
+                Check.That(arg2).IsEqualTo("abc");
 
-                Check.That(factoryCalled)
-                   .IsEqualTo(1);
+                Check.That(factoryCalled).IsEqualTo(1);
 
-                Check.That(fa)
-                   .IsEqualTo(123);
+                Check.That(fa).IsEqualTo(123);
 
-                Check.That(fb)
-                   .IsEqualTo(1.2);
+                Check.That(fb).IsEqualTo(1.2);
 
-                Check.That(fc)
-                   .IsEqualTo('a');
+                Check.That(fc).IsEqualTo('a');
 
-                Check.That(exception)
-                   .IsInstanceOf<ApplicationException>();
+                Check.That(exception).IsInstanceOf<ApplicationException>();
 
-                Check.That(exception.Message)
-                   .IsEqualTo("1");
+                Check.That(exception.Message).IsEqualTo("1");
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions)
-                   .IsEqualTo(2);
+                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(2);
 
-                Check.That(service.ChangedSource.IsDisposed)
-                   .IsFalse();
+                Check.That(service.ChangedSource.IsDisposed).IsFalse();
             }
         }
 
@@ -4369,8 +3556,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -4379,13 +3566,9 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             subscription.Dispose();
 
@@ -4402,20 +3585,15 @@ public class Test_EventSource_SyncHandler
                 'a'
             );
 
-            Check.That(flag1)
-               .IsFalse();
+            Check.That(flag1).IsFalse();
 
-            Check.That(called)
-               .IsEqualTo(0);
+            Check.That(called).IsEqualTo(0);
 
-            Check.That(factoryCalled)
-               .IsEqualTo(0);
+            Check.That(factoryCalled).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(0);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -4423,8 +3601,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -4433,13 +3611,9 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<ActionSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(
-                    ( (ActionSubscription<String>) subscription ).TestingGetPreviousSubscription()
-                )
-               .IsNull();
+            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             service.ChangedSource.Dispose();
 
@@ -4456,20 +3630,15 @@ public class Test_EventSource_SyncHandler
                 'a'
             );
 
-            Check.That(flag1)
-               .IsFalse();
+            Check.That(flag1).IsFalse();
 
-            Check.That(called)
-               .IsEqualTo(0);
+            Check.That(called).IsEqualTo(0);
 
-            Check.That(factoryCalled)
-               .IsEqualTo(0);
+            Check.That(factoryCalled).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(0);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(0);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsTrue();
+            Check.That(service.ChangedSource.IsDisposed).IsTrue();
         }
 
         [Test]

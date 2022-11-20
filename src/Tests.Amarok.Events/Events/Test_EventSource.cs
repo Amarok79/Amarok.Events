@@ -18,16 +18,13 @@ public class Test_EventSource
         {
             var src = new EventSource<Int32>();
 
-            Check.That(src.IsDisposed)
-               .IsFalse();
+            Check.That(src.IsDisposed).IsFalse();
 
             src.Dispose();
 
-            Check.ThatCode(() => src.Dispose())
-               .DoesNotThrow();
+            Check.ThatCode(() => src.Dispose()).DoesNotThrow();
 
-            Check.That(src.IsDisposed)
-               .IsTrue();
+            Check.That(src.IsDisposed).IsTrue();
         }
 
         [Test]
@@ -36,22 +33,17 @@ public class Test_EventSource
             var src = new EventSource<Int32>();
             var sub = src.Event.Subscribe(x => { });
 
-            Check.That(src.IsDisposed)
-               .IsFalse();
+            Check.That(src.IsDisposed).IsFalse();
 
-            Check.That(src.NumberOfSubscriptions)
-               .IsEqualTo(1);
+            Check.That(src.NumberOfSubscriptions).IsEqualTo(1);
 
             src.Dispose();
 
-            Check.That(src.IsDisposed)
-               .IsTrue();
+            Check.That(src.IsDisposed).IsTrue();
 
-            Check.That(src.NumberOfSubscriptions)
-               .IsEqualTo(0);
+            Check.That(src.NumberOfSubscriptions).IsEqualTo(0);
 
-            Check.ThatCode(() => sub.Dispose())
-               .DoesNotThrow();
+            Check.ThatCode(() => sub.Dispose()).DoesNotThrow();
         }
     }
 }

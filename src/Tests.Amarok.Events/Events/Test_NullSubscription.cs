@@ -16,9 +16,7 @@ public class Test_NullSubscription
         var s1 = NullSubscription.Instance;
         var s2 = NullSubscription.Instance;
 
-        Check.That(s1)
-           .IsNotNull()
-           .And.IsSameReferenceAs(s2);
+        Check.That(s1).IsNotNull().And.IsSameReferenceAs(s2);
     }
 
     [Test]
@@ -26,7 +24,6 @@ public class Test_NullSubscription
     {
         var s = NullSubscription.Instance;
 
-        Check.ThatCode(() => s.Dispose())
-           .DoesNotThrow();
+        Check.ThatCode(() => s.Dispose()).DoesNotThrow();
     }
 }

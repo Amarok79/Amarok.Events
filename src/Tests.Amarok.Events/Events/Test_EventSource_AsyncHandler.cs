@@ -48,8 +48,8 @@ public class Test_EventSource_AsyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 async x => {
@@ -58,46 +58,34 @@ public class Test_EventSource_AsyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<FuncSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
-            Check.That(( (FuncSubscription<String>) subscription ).TestingGetPreviousSubscription())
-               .IsNull();
+            Check.That(( (FuncSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(( (FuncSubscription<String>) subscription ).Target)
-               .IsNotNull();
+            Check.That(( (FuncSubscription<String>)subscription ).Target).IsNotNull();
 
-            Check.That(( (FuncSubscription<String>) subscription ).Method)
-               .IsNotNull();
+            Check.That(( (FuncSubscription<String>)subscription ).Method).IsNotNull();
 
             var flag1 = service.Do("abc");
 
-            Check.That(flag1)
-               .IsTrue();
+            Check.That(flag1).IsTrue();
 
-            Check.That(called)
-               .IsEqualTo(1);
+            Check.That(called).IsEqualTo(1);
 
-            Check.That(arg)
-               .IsEqualTo("abc");
+            Check.That(arg).IsEqualTo("abc");
 
             called = 0;
             var flag2 = service.Do("def");
 
-            Check.That(flag2)
-               .IsTrue();
+            Check.That(flag2).IsTrue();
 
-            Check.That(called)
-               .IsEqualTo(1);
+            Check.That(called).IsEqualTo(1);
 
-            Check.That(arg)
-               .IsEqualTo("def");
+            Check.That(arg).IsEqualTo("def");
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(1);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -105,8 +93,8 @@ public class Test_EventSource_AsyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 async x => {
@@ -116,33 +104,25 @@ public class Test_EventSource_AsyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<FuncSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
-            Check.That(( (FuncSubscription<String>) subscription ).TestingGetPreviousSubscription())
-               .IsNull();
+            Check.That(( (FuncSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             var flag1 = service.Do("abc");
 
-            Check.That(flag1)
-               .IsTrue();
+            Check.That(flag1).IsTrue();
 
-            Check.That(called)
-               .IsEqualTo(0);
+            Check.That(called).IsEqualTo(0);
 
             SpinWait.SpinUntil(() => called == 1, 2000);
 
-            Check.That(called)
-               .IsEqualTo(1);
+            Check.That(called).IsEqualTo(1);
 
-            Check.That(arg)
-               .IsEqualTo("abc");
+            Check.That(arg).IsEqualTo("abc");
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(1);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -150,8 +130,8 @@ public class Test_EventSource_AsyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -162,28 +142,21 @@ public class Test_EventSource_AsyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<FuncSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
-            Check.That(( (FuncSubscription<String>) subscription ).TestingGetPreviousSubscription())
-               .IsNull();
+            Check.That(( (FuncSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             var flag1 = service.Do("abc");
 
-            Check.That(flag1)
-               .IsTrue();
+            Check.That(flag1).IsTrue();
 
-            Check.That(called)
-               .IsEqualTo(1);
+            Check.That(called).IsEqualTo(1);
 
-            Check.That(arg)
-               .IsEqualTo("abc");
+            Check.That(arg).IsEqualTo("abc");
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(1);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -191,8 +164,8 @@ public class Test_EventSource_AsyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -205,37 +178,27 @@ public class Test_EventSource_AsyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<FuncSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
-            Check.That(( (FuncSubscription<String>) subscription ).TestingGetPreviousSubscription())
-               .IsNull();
+            Check.That(( (FuncSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             Exception exception = null;
 
-            using (EventSystem.UnobservedException.SubscribeWeak(
-                    x => Volatile.Write(ref exception, x)
-                ))
+            using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
             {
                 var flag1 = service.Do("abc");
 
-                Check.That(flag1)
-                   .IsTrue();
+                Check.That(flag1).IsTrue();
 
-                Check.That(called)
-                   .IsEqualTo(1);
+                Check.That(called).IsEqualTo(1);
 
-                Check.That(arg)
-                   .IsEqualTo("abc");
+                Check.That(arg).IsEqualTo("abc");
 
-                Check.That(Volatile.Read(ref exception))
-                   .IsNull();
+                Check.That(Volatile.Read(ref exception)).IsNull();
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions)
-                   .IsEqualTo(1);
+                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
 
-                Check.That(service.ChangedSource.IsDisposed)
-                   .IsFalse();
+                Check.That(service.ChangedSource.IsDisposed).IsFalse();
             }
         }
 
@@ -244,8 +207,8 @@ public class Test_EventSource_AsyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 async x => {
@@ -261,37 +224,27 @@ public class Test_EventSource_AsyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<FuncSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
-            Check.That(( (FuncSubscription<String>) subscription ).TestingGetPreviousSubscription())
-               .IsNull();
+            Check.That(( (FuncSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             Exception exception = null;
 
-            using (EventSystem.UnobservedException.SubscribeWeak(
-                    x => Volatile.Write(ref exception, x)
-                ))
+            using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
             {
                 var flag1 = service.Do("abc");
 
-                Check.That(flag1)
-                   .IsTrue();
+                Check.That(flag1).IsTrue();
 
-                Check.That(called)
-                   .IsEqualTo(1);
+                Check.That(called).IsEqualTo(1);
 
-                Check.That(arg)
-                   .IsEqualTo("abc");
+                Check.That(arg).IsEqualTo("abc");
 
-                Check.That(Volatile.Read(ref exception))
-                   .IsInstanceOf<ApplicationException>();
+                Check.That(Volatile.Read(ref exception)).IsInstanceOf<ApplicationException>();
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions)
-                   .IsEqualTo(1);
+                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
 
-                Check.That(service.ChangedSource.IsDisposed)
-                   .IsFalse();
+                Check.That(service.ChangedSource.IsDisposed).IsFalse();
             }
         }
 
@@ -300,8 +253,8 @@ public class Test_EventSource_AsyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 async x => {
@@ -313,39 +266,29 @@ public class Test_EventSource_AsyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<FuncSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
-            Check.That(( (FuncSubscription<String>) subscription ).TestingGetPreviousSubscription())
-               .IsNull();
+            Check.That(( (FuncSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             Exception exception = null;
 
-            using (EventSystem.UnobservedException.SubscribeWeak(
-                    x => Volatile.Write(ref exception, x)
-                ))
+            using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
             {
                 var flag1 = service.Do("abc");
 
-                Check.That(flag1)
-                   .IsTrue();
+                Check.That(flag1).IsTrue();
 
-                Check.That(called)
-                   .IsEqualTo(1);
+                Check.That(called).IsEqualTo(1);
 
-                Check.That(arg)
-                   .IsEqualTo("abc");
+                Check.That(arg).IsEqualTo("abc");
 
                 SpinWait.SpinUntil(() => Volatile.Read(ref exception) != null, 2000);
 
-                Check.That(Volatile.Read(ref exception))
-                   .IsInstanceOf<ApplicationException>();
+                Check.That(Volatile.Read(ref exception)).IsInstanceOf<ApplicationException>();
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions)
-                   .IsEqualTo(1);
+                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
 
-                Check.That(service.ChangedSource.IsDisposed)
-                   .IsFalse();
+                Check.That(service.ChangedSource.IsDisposed).IsFalse();
             }
         }
     }
@@ -358,8 +301,8 @@ public class Test_EventSource_AsyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 async x => {
@@ -368,40 +311,30 @@ public class Test_EventSource_AsyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<FuncSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
-            Check.That(( (FuncSubscription<String>) subscription ).TestingGetPreviousSubscription())
-               .IsNull();
+            Check.That(( (FuncSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             var flag1 = await service.DoAsync("abc");
 
-            Check.That(flag1)
-               .IsTrue();
+            Check.That(flag1).IsTrue();
 
-            Check.That(called)
-               .IsEqualTo(1);
+            Check.That(called).IsEqualTo(1);
 
-            Check.That(arg)
-               .IsEqualTo("abc");
+            Check.That(arg).IsEqualTo("abc");
 
             called = 0;
             var flag2 = await service.DoAsync("def");
 
-            Check.That(flag2)
-               .IsTrue();
+            Check.That(flag2).IsTrue();
 
-            Check.That(called)
-               .IsEqualTo(1);
+            Check.That(called).IsEqualTo(1);
 
-            Check.That(arg)
-               .IsEqualTo("def");
+            Check.That(arg).IsEqualTo("def");
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(1);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -409,8 +342,8 @@ public class Test_EventSource_AsyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 async x => {
@@ -420,28 +353,21 @@ public class Test_EventSource_AsyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<FuncSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
-            Check.That(( (FuncSubscription<String>) subscription ).TestingGetPreviousSubscription())
-               .IsNull();
+            Check.That(( (FuncSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             var flag1 = await service.DoAsync("abc");
 
-            Check.That(flag1)
-               .IsTrue();
+            Check.That(flag1).IsTrue();
 
-            Check.That(called)
-               .IsEqualTo(1);
+            Check.That(called).IsEqualTo(1);
 
-            Check.That(arg)
-               .IsEqualTo("abc");
+            Check.That(arg).IsEqualTo("abc");
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(1);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -449,8 +375,8 @@ public class Test_EventSource_AsyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -461,28 +387,21 @@ public class Test_EventSource_AsyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<FuncSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
-            Check.That(( (FuncSubscription<String>) subscription ).TestingGetPreviousSubscription())
-               .IsNull();
+            Check.That(( (FuncSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             var flag1 = await service.DoAsync("abc");
 
-            Check.That(flag1)
-               .IsTrue();
+            Check.That(flag1).IsTrue();
 
-            Check.That(called)
-               .IsEqualTo(1);
+            Check.That(called).IsEqualTo(1);
 
-            Check.That(arg)
-               .IsEqualTo("abc");
+            Check.That(arg).IsEqualTo("abc");
 
-            Check.That(service.ChangedSource.NumberOfSubscriptions)
-               .IsEqualTo(1);
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
 
-            Check.That(service.ChangedSource.IsDisposed)
-               .IsFalse();
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
         }
 
         [Test]
@@ -490,8 +409,8 @@ public class Test_EventSource_AsyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -504,37 +423,27 @@ public class Test_EventSource_AsyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<FuncSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
-            Check.That(( (FuncSubscription<String>) subscription ).TestingGetPreviousSubscription())
-               .IsNull();
+            Check.That(( (FuncSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             Exception exception = null;
 
-            using (EventSystem.UnobservedException.SubscribeWeak(
-                    x => Volatile.Write(ref exception, x)
-                ))
+            using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
             {
                 var flag1 = await service.DoAsync("abc");
 
-                Check.That(flag1)
-                   .IsTrue();
+                Check.That(flag1).IsTrue();
 
-                Check.That(called)
-                   .IsEqualTo(1);
+                Check.That(called).IsEqualTo(1);
 
-                Check.That(arg)
-                   .IsEqualTo("abc");
+                Check.That(arg).IsEqualTo("abc");
 
-                Check.That(Volatile.Read(ref exception))
-                   .IsNull();
+                Check.That(Volatile.Read(ref exception)).IsNull();
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions)
-                   .IsEqualTo(1);
+                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
 
-                Check.That(service.ChangedSource.IsDisposed)
-                   .IsFalse();
+                Check.That(service.ChangedSource.IsDisposed).IsFalse();
             }
         }
 
@@ -543,8 +452,8 @@ public class Test_EventSource_AsyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 async x => {
@@ -560,37 +469,27 @@ public class Test_EventSource_AsyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<FuncSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
-            Check.That(( (FuncSubscription<String>) subscription ).TestingGetPreviousSubscription())
-               .IsNull();
+            Check.That(( (FuncSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             Exception exception = null;
 
-            using (EventSystem.UnobservedException.SubscribeWeak(
-                    x => Volatile.Write(ref exception, x)
-                ))
+            using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
             {
                 var flag1 = await service.DoAsync("abc");
 
-                Check.That(flag1)
-                   .IsTrue();
+                Check.That(flag1).IsTrue();
 
-                Check.That(called)
-                   .IsEqualTo(1);
+                Check.That(called).IsEqualTo(1);
 
-                Check.That(arg)
-                   .IsEqualTo("abc");
+                Check.That(arg).IsEqualTo("abc");
 
-                Check.That(Volatile.Read(ref exception))
-                   .IsInstanceOf<ApplicationException>();
+                Check.That(Volatile.Read(ref exception)).IsInstanceOf<ApplicationException>();
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions)
-                   .IsEqualTo(1);
+                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
 
-                Check.That(service.ChangedSource.IsDisposed)
-                   .IsFalse();
+                Check.That(service.ChangedSource.IsDisposed).IsFalse();
             }
         }
 
@@ -599,8 +498,8 @@ public class Test_EventSource_AsyncHandler
         {
             var service = new FooService();
 
-            var    called = 0;
-            String arg    = null;
+            var called = 0;
+            String arg = null;
 
             var subscription = service.Changed.Subscribe(
                 async x => {
@@ -612,39 +511,29 @@ public class Test_EventSource_AsyncHandler
                 }
             );
 
-            Check.That(subscription)
-               .IsInstanceOf<FuncSubscription<String>>();
+            Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
-            Check.That(( (FuncSubscription<String>) subscription ).TestingGetPreviousSubscription())
-               .IsNull();
+            Check.That(( (FuncSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
 
             Exception exception = null;
 
-            using (EventSystem.UnobservedException.SubscribeWeak(
-                    x => Volatile.Write(ref exception, x)
-                ))
+            using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
             {
                 var flag1 = await service.DoAsync("abc");
 
-                Check.That(flag1)
-                   .IsTrue();
+                Check.That(flag1).IsTrue();
 
-                Check.That(called)
-                   .IsEqualTo(1);
+                Check.That(called).IsEqualTo(1);
 
-                Check.That(arg)
-                   .IsEqualTo("abc");
+                Check.That(arg).IsEqualTo("abc");
 
                 SpinWait.SpinUntil(() => Volatile.Read(ref exception) != null, 2000);
 
-                Check.That(Volatile.Read(ref exception))
-                   .IsInstanceOf<ApplicationException>();
+                Check.That(Volatile.Read(ref exception)).IsInstanceOf<ApplicationException>();
 
-                Check.That(service.ChangedSource.NumberOfSubscriptions)
-                   .IsEqualTo(1);
+                Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
 
-                Check.That(service.ChangedSource.IsDisposed)
-                   .IsFalse();
+                Check.That(service.ChangedSource.IsDisposed).IsFalse();
             }
         }
     }
