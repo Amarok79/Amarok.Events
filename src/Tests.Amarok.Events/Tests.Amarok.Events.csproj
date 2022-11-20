@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <TargetFrameworks>netcoreapp3.1;net48;net5.0;net6.0</TargetFrameworks>
+        <TargetFrameworks>net48;net6.0;net7.0</TargetFrameworks>
         <RootNamespace>Amarok</RootNamespace>
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>..\amarok.snk</AssemblyOriginatorKeyFile>
