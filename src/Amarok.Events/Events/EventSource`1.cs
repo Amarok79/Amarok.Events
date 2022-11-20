@@ -873,7 +873,7 @@ public sealed class EventSource<T> : IProgress<T>,
         Task.WhenAll(tasks)
            .ContinueWith(
                 (_tasks, _arg) => {
-                    var tcs = (TaskCompletionSource<Boolean>)_arg;
+                    var tcs = (TaskCompletionSource<Boolean>)_arg!;
 
                     if (_tasks.IsFaulted)
                     {
