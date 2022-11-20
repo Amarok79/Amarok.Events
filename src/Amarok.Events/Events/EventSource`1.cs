@@ -872,14 +872,17 @@ public sealed class EventSource<T> : IProgress<T>,
 
         Task.WhenAll(tasks)
            .ContinueWith(
-                _tasks => {
+                (_tasks, _arg) => {
+                    var tcs = (TaskCompletionSource<Boolean>)_arg;
+
                     if (_tasks.IsFaulted)
                     {
                         EventSystem.NotifyUnobservedException(_tasks.Exception?.InnerException);
                     }
 
-                    taskCompletionSource.SetResult(true);
+                    tcs.SetResult(true);
                 },
+                taskCompletionSource,
                 TaskContinuationOptions.ExecuteSynchronously
             );
 
