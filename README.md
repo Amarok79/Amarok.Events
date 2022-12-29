@@ -29,7 +29,7 @@ Table of Content:
     - [Raising Events](#raising-events)
     - [Weak Subscriptions](#weak-subscriptions)
     - [Exception Behavior](#exception-behavior)
-    - [IProgress\<T> Integration](#iprogresst-integration)
+    - [IProgress\<T\> Integration](#iprogresst-integration)
     - [Event Recorder](#event-recorder)
 - [Frequently Asked Questions](#frequently-asked-questions)
     - [Is this library thread-safe?](#is-this-library-thread-safe)
