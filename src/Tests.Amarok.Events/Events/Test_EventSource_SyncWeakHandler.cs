@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2022, Olaf Kober <olaf.kober@outlook.com>
+﻿// Copyright (c) 2024, Olaf Kober <olaf.kober@outlook.com>
 
 using System;
 using System.Threading;
@@ -119,10 +119,10 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription().ToString())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription().ToString())
                .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
             var flag1 = service.Do("abc");
@@ -182,20 +182,20 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription().ToString())
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription().ToString())
                .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
             Check.That(subscription2).IsNotNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription().ToString())
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription().ToString())
                .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
@@ -270,20 +270,20 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription().ToString())
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription().ToString())
                .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
             Check.That(subscription2).IsNotNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription().ToString())
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription().ToString())
                .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
@@ -339,10 +339,10 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription().ToString())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription().ToString())
                .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
             var strongSub = (ActionSubscription<String>)subscription;
@@ -372,7 +372,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(weakSub.ToString()).StartsWith("⇒ weak ⇒ <null>");
 
@@ -398,10 +398,10 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription().ToString())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription().ToString())
                .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
             subscription.Dispose();
@@ -442,10 +442,10 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription().ToString())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription().ToString())
                .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
             service.ChangedSource.Dispose();
@@ -516,7 +516,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             var factoryCalled = 0;
@@ -596,14 +596,14 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsNotNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
@@ -698,14 +698,14 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsNotNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
@@ -771,7 +771,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             var strongSub = (ActionSubscription<String>)subscription;
@@ -821,7 +821,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
         }
 
         [Test]
@@ -843,7 +843,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             subscription.Dispose();
@@ -894,7 +894,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             service.ChangedSource.Dispose();
@@ -986,7 +986,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             var factoryCalled = 0;
@@ -1076,14 +1076,14 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsNotNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
@@ -1188,14 +1188,14 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsNotNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
@@ -1266,7 +1266,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             var strongSub = (ActionSubscription<String>)subscription;
@@ -1326,7 +1326,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
         }
 
         [Test]
@@ -1348,7 +1348,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             subscription.Dispose();
@@ -1400,7 +1400,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             service.ChangedSource.Dispose();
@@ -1494,7 +1494,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             var factoryCalled = 0;
@@ -1594,14 +1594,14 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsNotNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
@@ -1716,14 +1716,14 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsNotNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
@@ -1799,7 +1799,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             var strongSub = (ActionSubscription<String>)subscription;
@@ -1869,7 +1869,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
         }
 
         [Test]
@@ -1891,7 +1891,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             subscription.Dispose();
@@ -1944,7 +1944,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             service.ChangedSource.Dispose();
@@ -2040,7 +2040,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             var factoryCalled = 0;
@@ -2150,14 +2150,14 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsNotNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
@@ -2282,14 +2282,14 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsNotNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
@@ -2370,7 +2370,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             var strongSub = (ActionSubscription<String>)subscription;
@@ -2450,7 +2450,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
         }
 
         [Test]
@@ -2472,7 +2472,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             subscription.Dispose();
@@ -2526,7 +2526,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             service.ChangedSource.Dispose();
@@ -2606,7 +2606,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             var flag1 = await service.DoAsync("abc");
@@ -2658,12 +2658,12 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
@@ -2730,12 +2730,12 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
@@ -2785,7 +2785,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             var strongSub = (ActionSubscription<String>)subscription;
@@ -2815,7 +2815,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
         }
 
         [Test]
@@ -2835,7 +2835,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             subscription.Dispose();
@@ -2868,7 +2868,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             service.ChangedSource.Dispose();
@@ -2925,7 +2925,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             var factoryCalled = 0;
@@ -2997,12 +2997,12 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
@@ -3089,12 +3089,12 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
@@ -3154,7 +3154,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             var strongSub = (ActionSubscription<String>)subscription;
@@ -3204,7 +3204,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
         }
 
         [Test]
@@ -3224,7 +3224,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             subscription.Dispose();
@@ -3267,7 +3267,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             service.ChangedSource.Dispose();
@@ -3345,7 +3345,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             var factoryCalled = 0;
@@ -3427,12 +3427,12 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
@@ -3529,12 +3529,12 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
@@ -3599,7 +3599,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             var strongSub = (ActionSubscription<String>)subscription;
@@ -3659,7 +3659,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
         }
 
         [Test]
@@ -3679,7 +3679,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             subscription.Dispose();
@@ -3723,7 +3723,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             service.ChangedSource.Dispose();
@@ -3803,7 +3803,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             var factoryCalled = 0;
@@ -3895,12 +3895,12 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
@@ -4007,12 +4007,12 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
@@ -4082,7 +4082,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             var strongSub = (ActionSubscription<String>)subscription;
@@ -4152,7 +4152,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
         }
 
         [Test]
@@ -4172,7 +4172,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             subscription.Dispose();
@@ -4217,7 +4217,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             service.ChangedSource.Dispose();
@@ -4299,7 +4299,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             var factoryCalled = 0;
@@ -4401,12 +4401,12 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
@@ -4523,12 +4523,12 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
@@ -4603,7 +4603,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             var strongSub = (ActionSubscription<String>)subscription;
@@ -4683,7 +4683,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
         }
 
         [Test]
@@ -4703,7 +4703,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             subscription.Dispose();
@@ -4749,7 +4749,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription())
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
                .IsInstanceOf<WeakSubscription<String>>();
 
             service.ChangedSource.Dispose();

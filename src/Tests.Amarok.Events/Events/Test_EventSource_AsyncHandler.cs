@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2022, Olaf Kober <olaf.kober@outlook.com>
+﻿// Copyright (c) 2024, Olaf Kober <olaf.kober@outlook.com>
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
 
@@ -60,11 +60,11 @@ public class Test_EventSource_AsyncHandler
 
             Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
-            Check.That(( (FuncSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((FuncSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(( (FuncSubscription<String>)subscription ).Target).IsNotNull();
+            Check.That(((FuncSubscription<String>)subscription).Target).IsNotNull();
 
-            Check.That(( (FuncSubscription<String>)subscription ).Method).IsNotNull();
+            Check.That(((FuncSubscription<String>)subscription).Method).IsNotNull();
 
             var flag1 = service.Do("abc");
 
@@ -106,7 +106,7 @@ public class Test_EventSource_AsyncHandler
 
             Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
-            Check.That(( (FuncSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((FuncSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             var flag1 = service.Do("abc");
 
@@ -144,7 +144,7 @@ public class Test_EventSource_AsyncHandler
 
             Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
-            Check.That(( (FuncSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((FuncSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             var flag1 = service.Do("abc");
 
@@ -180,7 +180,7 @@ public class Test_EventSource_AsyncHandler
 
             Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
-            Check.That(( (FuncSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((FuncSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             Exception exception = null;
 
@@ -226,7 +226,7 @@ public class Test_EventSource_AsyncHandler
 
             Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
-            Check.That(( (FuncSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((FuncSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             Exception exception = null;
 
@@ -268,7 +268,7 @@ public class Test_EventSource_AsyncHandler
 
             Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
-            Check.That(( (FuncSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((FuncSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             Exception exception = null;
 
@@ -313,7 +313,7 @@ public class Test_EventSource_AsyncHandler
 
             Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
-            Check.That(( (FuncSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((FuncSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             var flag1 = await service.DoAsync("abc");
 
@@ -355,7 +355,7 @@ public class Test_EventSource_AsyncHandler
 
             Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
-            Check.That(( (FuncSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((FuncSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             var flag1 = await service.DoAsync("abc");
 
@@ -389,7 +389,7 @@ public class Test_EventSource_AsyncHandler
 
             Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
-            Check.That(( (FuncSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((FuncSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             var flag1 = await service.DoAsync("abc");
 
@@ -425,7 +425,7 @@ public class Test_EventSource_AsyncHandler
 
             Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
-            Check.That(( (FuncSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((FuncSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             Exception exception = null;
 
@@ -471,7 +471,7 @@ public class Test_EventSource_AsyncHandler
 
             Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
-            Check.That(( (FuncSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((FuncSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             Exception exception = null;
 
@@ -513,7 +513,7 @@ public class Test_EventSource_AsyncHandler
 
             Check.That(subscription).IsInstanceOf<FuncSubscription<String>>();
 
-            Check.That(( (FuncSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((FuncSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             Exception exception = null;
 

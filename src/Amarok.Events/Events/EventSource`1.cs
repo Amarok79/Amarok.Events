@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2022, Olaf Kober <olaf.kober@outlook.com>
+﻿// Copyright (c) 2024, Olaf Kober <olaf.kober@outlook.com>
 
 using System;
 using System.Collections.Generic;
@@ -872,12 +872,12 @@ public sealed class EventSource<T> : IProgress<T>,
 
         Task.WhenAll(tasks)
            .ContinueWith(
-                (_tasks, _arg) => {
-                    var tcs = (TaskCompletionSource<Boolean>)_arg!;
+                (t, a) => {
+                    var tcs = (TaskCompletionSource<Boolean>)a!;
 
-                    if (_tasks.IsFaulted)
+                    if (t.IsFaulted)
                     {
-                        EventSystem.NotifyUnobservedException(_tasks.Exception?.InnerException);
+                        EventSystem.NotifyUnobservedException(t.Exception?.InnerException);
                     }
 
                     tcs.SetResult(true);

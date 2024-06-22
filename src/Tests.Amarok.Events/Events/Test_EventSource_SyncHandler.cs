@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2022, Olaf Kober <olaf.kober@outlook.com>
+﻿// Copyright (c) 2024, Olaf Kober <olaf.kober@outlook.com>
 
 using System;
 using System.Threading.Tasks;
@@ -113,11 +113,11 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
-            Check.That(( (ActionSubscription<String>)subscription ).Target).IsNotNull();
+            Check.That(((ActionSubscription<String>)subscription).Target).IsNotNull();
 
-            Check.That(( (ActionSubscription<String>)subscription ).Method).IsNotNull();
+            Check.That(((ActionSubscription<String>)subscription).Method).IsNotNull();
 
             var flag1 = service.Do("abc");
 
@@ -170,11 +170,11 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -242,11 +242,11 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -293,7 +293,7 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             subscription.Dispose();
 
@@ -325,7 +325,7 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             service.ChangedSource.Dispose();
 
@@ -381,7 +381,7 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             var factoryCalled = 0;
 
@@ -452,11 +452,11 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -542,11 +542,11 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -603,7 +603,7 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             subscription.Dispose();
 
@@ -645,7 +645,7 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             service.ChangedSource.Dispose();
 
@@ -722,7 +722,7 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             var factoryCalled = 0;
             var fa = 0;
@@ -803,11 +803,11 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -903,11 +903,11 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -969,7 +969,7 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             subscription.Dispose();
 
@@ -1012,7 +1012,7 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             service.ChangedSource.Dispose();
 
@@ -1091,7 +1091,7 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             var factoryCalled = 0;
             var fa = 0;
@@ -1182,11 +1182,11 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -1292,11 +1292,11 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -1363,7 +1363,7 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             subscription.Dispose();
 
@@ -1407,7 +1407,7 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             service.ChangedSource.Dispose();
 
@@ -1488,7 +1488,7 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             var factoryCalled = 0;
             var fa = 0;
@@ -1589,11 +1589,11 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -1709,11 +1709,11 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -1785,7 +1785,7 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             subscription.Dispose();
 
@@ -1830,7 +1830,7 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             service.ChangedSource.Dispose();
 
@@ -1904,7 +1904,7 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             var flag1 = await service.DoAsync("abc");
 
@@ -1955,11 +1955,11 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -2025,11 +2025,11 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -2076,7 +2076,7 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             subscription.Dispose();
 
@@ -2108,7 +2108,7 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             service.ChangedSource.Dispose();
 
@@ -2164,7 +2164,7 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             var factoryCalled = 0;
 
@@ -2235,11 +2235,11 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -2325,11 +2325,11 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -2386,7 +2386,7 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             subscription.Dispose();
 
@@ -2428,7 +2428,7 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             service.ChangedSource.Dispose();
 
@@ -2505,7 +2505,7 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             var factoryCalled = 0;
             var fa = 0;
@@ -2586,11 +2586,11 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -2686,11 +2686,11 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -2752,7 +2752,7 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             subscription.Dispose();
 
@@ -2795,7 +2795,7 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             service.ChangedSource.Dispose();
 
@@ -2874,7 +2874,7 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             var factoryCalled = 0;
             var fa = 0;
@@ -2965,11 +2965,11 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -3075,11 +3075,11 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -3146,7 +3146,7 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             subscription.Dispose();
 
@@ -3190,7 +3190,7 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             service.ChangedSource.Dispose();
 
@@ -3271,7 +3271,7 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             var factoryCalled = 0;
             var fa = 0;
@@ -3372,11 +3372,11 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -3492,11 +3492,11 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription1 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription2 ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription()).IsNull();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -3568,7 +3568,7 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             subscription.Dispose();
 
@@ -3613,7 +3613,7 @@ public class Test_EventSource_SyncHandler
 
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
-            Check.That(( (ActionSubscription<String>)subscription ).TestingGetPreviousSubscription()).IsNull();
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             service.ChangedSource.Dispose();
 
