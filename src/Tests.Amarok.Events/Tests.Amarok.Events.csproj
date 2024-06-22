@@ -2,27 +2,6 @@
 
     <PropertyGroup>
         <TargetFrameworks>net48;net6.0;net7.0</TargetFrameworks>
-        <RootNamespace>Amarok</RootNamespace>
-        <SignAssembly>true</SignAssembly>
-        <AssemblyOriginatorKeyFile>..\amarok.snk</AssemblyOriginatorKeyFile>
-        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    </PropertyGroup>
-
-    <PropertyGroup>
-        <OutputPath>..\..\bin\tests\</OutputPath>
-        <LangVersion>latest</LangVersion>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-        <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
-        <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <WarningsAsErrors />
-        <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
-        <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
     </PropertyGroup>
 
     <ItemGroup>
