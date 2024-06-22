@@ -3298,7 +3298,7 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            Check.ThatAsyncCode(async () => await service.DoAsync((Func<String>)null))
+            Check.ThatCode(async () => await service.DoAsync((Func<String>)null))
                .Throws<ArgumentNullException>()
                .WithProperty(x => x.ParamName, "valueFactory");
         }
@@ -3755,7 +3755,7 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            Check.ThatAsyncCode(async () => await service.DoAsync(null, 123))
+            Check.ThatCode(async () => await service.DoAsync(null, 123))
                .Throws<ArgumentNullException>()
                .WithProperty(x => x.ParamName, "valueFactory");
         }
@@ -4250,7 +4250,7 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            Check.ThatAsyncCode(async () => await service.DoAsync(null, 123, 1.2))
+            Check.ThatCode(async () => await service.DoAsync(null, 123, 1.2))
                .Throws<ArgumentNullException>()
                .WithProperty(x => x.ParamName, "valueFactory");
         }
@@ -4783,7 +4783,7 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            Check.ThatAsyncCode(async () => await service.DoAsync(null, 123, 1.2, 'a'))
+            Check.ThatCode(async () => await service.DoAsync(null, 123, 1.2, 'a'))
                .Throws<ArgumentNullException>()
                .WithProperty(x => x.ParamName, "valueFactory");
         }
