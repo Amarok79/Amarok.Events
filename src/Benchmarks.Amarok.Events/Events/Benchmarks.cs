@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2022, Olaf Kober <olaf.kober@outlook.com>
+﻿// Copyright (c) 2024, Olaf Kober <olaf.kober@outlook.com>
 
 #pragma warning disable IDE0079 // Remove unnecessary suppression
 #pragma warning disable CA2012  // Use ValueTasks correctly
@@ -16,6 +16,7 @@ namespace Amarok.Events;
 [SimpleJob(RuntimeMoniker.Net48)]
 [SimpleJob(RuntimeMoniker.Net60)]
 [SimpleJob(RuntimeMoniker.Net70)]
+[SimpleJob(RuntimeMoniker.Net80)]
 [MemoryDiagnoser]
 public class Benchmarks
 {
