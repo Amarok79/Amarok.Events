@@ -6,10 +6,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="..\amarok.snk" Link="amarok.snk" />
-    </ItemGroup>
-
-    <ItemGroup>
         <PackageReference Include="BenchmarkDotNet" Version="0.13.12" />
         <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
     </ItemGroup>

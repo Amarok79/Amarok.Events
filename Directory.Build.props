@@ -22,7 +22,7 @@
         <IsPackable>True</IsPackable>
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
         <SignAssembly>True</SignAssembly>
-        <AssemblyOriginatorKeyFile>..\amarok.snk</AssemblyOriginatorKeyFile>
+        <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)src\amarok.snk</AssemblyOriginatorKeyFile>
         <Deterministic>True</Deterministic>
     </PropertyGroup>
 
