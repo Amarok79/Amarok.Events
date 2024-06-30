@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2022, Olaf Kober <olaf.kober@outlook.com>
+﻿// Copyright (c) 2024, Olaf Kober <olaf.kober@outlook.com>
 
 using System;
 using System.Diagnostics;
@@ -9,9 +9,8 @@ namespace Amarok.Events;
 
 
 /// <summary>
-///     Implementation class that represents a weak subscription. This weak subscription usually refers
-///     via weak reference to another subscription, which again refers back to this subscription again
-///     via weak reference.
+///     Implementation class that represents a weak subscription. This weak subscription usually refers via weak reference
+///     to another subscription, which again refers back to this subscription again via weak reference.
 /// </summary>
 [DebuggerStepThrough]
 internal sealed class WeakSubscription<T> : Subscription<T>
@@ -40,7 +39,7 @@ internal sealed class WeakSubscription<T> : Subscription<T>
     /// </summary>
     public WeakSubscription(EventSource<T> source, Subscription<T> subscription)
     {
-        mSource = source;
+        mSource           = source;
         mNextSubscription = new WeakReference<Subscription<T>>(subscription);
     }
 

@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2022, Olaf Kober <olaf.kober@outlook.com>
+﻿// Copyright (c) 2024, Olaf Kober <olaf.kober@outlook.com>
 
 using System;
 using System.Threading;
@@ -36,8 +36,8 @@ public class Test_Documentation
     [Test]
     public void Example1()
     {
-        var serviceImpl = new FooServiceImpl();
-        IFooService service = serviceImpl;
+        var         serviceImpl = new FooServiceImpl();
+        IFooService service     = serviceImpl;
 
         var subscription = service.Progress.Subscribe(x => Console.WriteLine(x + "%"));
 
@@ -51,8 +51,8 @@ public class Test_Documentation
     [Test]
     public void Example2()
     {
-        var serviceImpl = new FooServiceImpl();
-        IFooService service = serviceImpl;
+        var         serviceImpl = new FooServiceImpl();
+        IFooService service     = serviceImpl;
 
         var subscription = service.Progress.Subscribe(x => Console.WriteLine(x + "%"));
 

@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2022, Olaf Kober <olaf.kober@outlook.com>
+﻿// Copyright (c) 2024, Olaf Kober <olaf.kober@outlook.com>
 
 using System;
 using NFluent;
@@ -15,14 +15,14 @@ public class Test_EventSystem
     public void NotifyUnobservedException_ThrowsForNullException()
     {
         Check.ThatCode(() => EventSystem.NotifyUnobservedException(null))
-           .Throws<ArgumentNullException>()
-           .WithProperty(x => x.ParamName, "exception");
+            .Throws<ArgumentNullException>()
+            .WithProperty(x => x.ParamName, "exception");
     }
 
     [Test]
     public void NotifyUnobservedException_RaisesEvent()
     {
-        var called = 0;
+        var       called    = 0;
         Exception exception = null;
 
         void handler(Exception x)

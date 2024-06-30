@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2022, Olaf Kober <olaf.kober@outlook.com>
+﻿// Copyright (c) 2024, Olaf Kober <olaf.kober@outlook.com>
 
 #pragma warning disable CS1718 // Comparison made to same variable
 
@@ -132,8 +132,8 @@ public class Test_Event
             using var src = new EventSource<String>();
 
             Check.ThatCode(() => src.Event.Subscribe((Action<String>)null))
-               .Throws<ArgumentNullException>()
-               .WithProperty(x => x.ParamName, "action");
+                .Throws<ArgumentNullException>()
+                .WithProperty(x => x.ParamName, "action");
         }
     }
 
@@ -231,8 +231,8 @@ public class Test_Event
             using var src = new EventSource<String>();
 
             Check.ThatCode(() => src.Event.SubscribeWeak((Action<String>)null))
-               .Throws<ArgumentNullException>()
-               .WithProperty(x => x.ParamName, "action");
+                .Throws<ArgumentNullException>()
+                .WithProperty(x => x.ParamName, "action");
         }
     }
 
@@ -330,8 +330,8 @@ public class Test_Event
             using var src = new EventSource<String>();
 
             Check.ThatCode(() => src.Event.Subscribe((Func<String, Task>)null))
-               .Throws<ArgumentNullException>()
-               .WithProperty(x => x.ParamName, "func");
+                .Throws<ArgumentNullException>()
+                .WithProperty(x => x.ParamName, "func");
         }
     }
 
@@ -429,8 +429,8 @@ public class Test_Event
             using var src = new EventSource<String>();
 
             Check.ThatCode(() => src.Event.SubscribeWeak((Func<String, Task>)null))
-               .Throws<ArgumentNullException>()
-               .WithProperty(x => x.ParamName, "func");
+                .Throws<ArgumentNullException>()
+                .WithProperty(x => x.ParamName, "func");
         }
     }
 

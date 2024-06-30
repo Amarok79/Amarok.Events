@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2022, Olaf Kober <olaf.kober@outlook.com>
+﻿// Copyright (c) 2024, Olaf Kober <olaf.kober@outlook.com>
 
 using System;
 using System.Threading.Tasks;
@@ -8,9 +8,8 @@ namespace Amarok.Events;
 
 
 /// <summary>
-///     Implementation class that represents a subscription. Concrete derivations implement specific
-///     behaviors, for example, support for synchronous and asynchronous handler methods, weak
-///     subscriptions, etc.
+///     Implementation class that represents a subscription. Concrete derivations implement specific behaviors, for
+///     example, support for synchronous and asynchronous handler methods, weak subscriptions, etc.
 /// </summary>
 internal abstract class Subscription<T> : IDisposable
 {

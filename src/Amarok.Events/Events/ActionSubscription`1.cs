@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2022, Olaf Kober <olaf.kober@outlook.com>
+﻿// Copyright (c) 2024, Olaf Kober <olaf.kober@outlook.com>
 
 using System;
 using System.Diagnostics;
@@ -51,8 +51,7 @@ internal sealed class ActionSubscription<T> : Subscription<T>
 
 
     /// <summary>
-    ///     Invoked to establish a weak reference back to another subscription. Only called for weak
-    ///     subscriptions.
+    ///     Invoked to establish a weak reference back to another subscription. Only called for weak subscriptions.
     /// </summary>
     public void SetPreviousSubscription(Subscription<T> subscription)
     {

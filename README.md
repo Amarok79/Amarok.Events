@@ -3,21 +3,24 @@
 
 # Introduction
 
-This library provides a fast and light-weight implementation of the observer pattern, which can be used as a replacement for regular .NET events. The implementation supports raising events in a *synchronous, blocking* or *asynchronous, await-able* fashion. Besides, both *synchronous* and *asynchronous* event handler can be registered.
+This library provides a fast and light-weight implementation of the observer pattern, which can be used as a replacement
+for regular .NET events. The implementation supports raising events in a *synchronous, blocking* or *asynchronous,
+await-able* fashion. Besides, both *synchronous* and *asynchronous* event handler can be registered.
 
-The implementation is a bit slower than ordinary .NET events regarding raw call performance, but optimized to avoid allocations and therefore suitable for high-performance scenarios or resource-constraint embedded systems.
-
+The implementation is a bit slower than ordinary .NET events regarding raw call performance, but optimized to avoid
+allocations and therefore suitable for high-performance scenarios or resource-constraint embedded systems.
 
 # Redistribution
 
 The library is redistributed as NuGet package: [Amarok.Events](https://www.nuget.org/packages/Amarok.Events/)
 
-The package provides strong-named binaries for *.NET Standard 2.0*, *.NET 6.0*, *.NET 7.0*, and *.NET 8.0*. Tests are performed with *.NET Framework 4.8*, *.NET 6.0*, *.NET 7.0*, and *.NET 8.0*.
-
+The package provides strong-named binaries for *.NET Standard 2.0*, *.NET 6.0*, *.NET 7.0*, and *.NET 8.0*. Tests are
+performed with *.NET Framework 4.8*, *.NET 6.0*, *.NET 7.0*, and *.NET 8.0*.
 
 # Documentation
 
 Table of Content:
+
 - [Introduction](#introduction)
 - [Redistribution](#redistribution)
 - [Documentation](#documentation)
@@ -37,7 +40,6 @@ Table of Content:
     - [What about Reactive Extensions?](#what-about-reactive-extensions)
     - [Who uses this library?](#who-uses-this-library)
 
-
 ### Event Source and Event
 
 Suppose you have an interface and you want to expose an event on that interface. You do that as follows:
@@ -49,17 +51,19 @@ public interface IFooService
 }
 ```
 
-The event is declared as *getter-only property* of type **Event\<T>**, where **T** represents the type of event argument. **T** can be of any type.
+The event is declared as *getter-only property* of type **Event\<T>**, where **T** represents the type of event
+argument. **T** can be of any type.
 
-The implementation class of that interface then initializes a field of type **EventSource\<T>** and implements the getter-only event property.
+The implementation class of that interface then initializes a field of type **EventSource\<T>** and implements the
+getter-only event property.
 
 ```cs
 internal sealed class FooServiceImpl : IFooService
 {
     private readonly EventSource<Int32> mProgressEventSource = new EventSource<Int32>();
-    
+
     public Event<Int32> Progress => mProgressEventSource.Event;
-    
+
     public void DoSomething()
     {
         // raises the event
@@ -68,11 +72,15 @@ internal sealed class FooServiceImpl : IFooService
 }
 ```
 
-In general, the *event source* should be kept private, while the associated **Event\<T>** is made public. This is similar to the pattern used for *CancellationToken* and *CancellationTokenSource*, or *Task\<T>* and *TaskCompletionSource\<T>*.
+In general, the *event source* should be kept private, while the associated **Event\<T>** is made public. This is
+similar to the pattern used for *CancellationToken* and *CancellationTokenSource*, or *Task\<T>* and
+*TaskCompletionSource\<T>*.
 
-For raising the event, one calls **Invoke(**..**)** on the *event source*. Here you supply the event argument that is forwarded to all event handlers.
+For raising the event, one calls **Invoke(**..**)** on the *event source*. Here you supply the event argument that is
+forwarded to all event handlers.
 
-Next, a consumer of the service can subscribe to the event. It just has to call **Subscribe(**..**)** on the *event* that is made public by the service.
+Next, a consumer of the service can subscribe to the event. It just has to call **Subscribe(**..**)** on the *event*
+that is made public by the service.
 
 ```cs
 FooServiceImpl serviceImpl = new FooServiceImpl();
@@ -90,20 +98,23 @@ The object returned from **Subscribe(**..**)** can be used to cancel the subscri
 
 ```cs
 subscription.Dispose();
-    
+
 serviceImpl.DoSomething();
 // does nothing, since no subscribers are registered anymore
 ```
 
-It is recommended that subscribers store these subscription objects somewhere. Otherwise, they won't be able to remove their registered event handlers.
+It is recommended that subscribers store these subscription objects somewhere. Otherwise, they won't be able to remove
+their registered event handlers.
 
-If instead the class exposing the event wants to cancel all subscriptions, for example, because it gets disposed, it can dispose the *event source* too, which automatically cancels all subscriptions and ignores further calls to **Invoke(**..**)**.
+If instead the class exposing the event wants to cancel all subscriptions, for example, because it gets disposed, it can
+dispose the *event source* too, which automatically cancels all subscriptions and ignores further calls to **Invoke(**..
+**)**.
 
 ```cs
 internal sealed class FooServiceImpl : IFooService
 {
     ...
-    
+
     public void Dispose()
     {
         mProgressEventSource.Dispose();
@@ -115,7 +126,8 @@ internal sealed class FooServiceImpl : IFooService
 
 ### Invoke with Synchronous Event Handler
 
-The following code snippet shows a single *event source* with two event handlers. Both event handler and also the code invoking the event print to the console. What`s the console output?
+The following code snippet shows a single *event source* with two event handlers. Both event handler and also the code
+invoking the event print to the console. What`s the console output?
 
 ```cs
 var source = new EventSource<String>();
@@ -140,10 +152,10 @@ The output is:
     B2
     C
 
-This shows that event handlers are invoked directly by the thread that calls **Invoke()**. There is no additional threading introduced by the library.  Also, **Invoke()** returns directly after all event handlers have completed.
+This shows that event handlers are invoked directly by the thread that calls **Invoke()**. There is no additional
+threading introduced by the library. Also, **Invoke()** returns directly after all event handlers have completed.
 
 Please note, the order in which event handlers are invoked is not deterministic. You shouldn't rely on that.
-
 
 ### Invoke with Asynchronous Event Handler
 
@@ -175,16 +187,18 @@ The output is:
     B1    (100 ms delayed)
     B2    (200 ms delayed)
 
-Again, the thread calling **Invoke()** is also calling the event handlers. However, this time, it returns after encountering the first *await* statement, causing **Invoke()** to return earlier as the event handler's continuations.
+Again, the thread calling **Invoke()** is also calling the event handlers. However, this time, it returns after
+encountering the first *await* statement, causing **Invoke()** to return earlier as the event handler's continuations.
 
-That means a consumer can decide whether it wants to register a synchronous or asynchronous event handler. In the latter case, from a perspective of the event raiser, the behavior is kind of fire-and-forget, because the event raiser can't be sure that all event handlers have completed when **Invoke()** returned.
+That means a consumer can decide whether it wants to register a synchronous or asynchronous event handler. In the latter
+case, from a perspective of the event raiser, the behavior is kind of fire-and-forget, because the event raiser can't be
+sure that all event handlers have completed when **Invoke()** returned.
 
 If you need that guarantee then use **InvokeAsync()** instead.
 
-
 ### InvokeAsync with Asynchronous Event Handler
 
-As mentioned previously, **InvokeAsync()** can be used if awaiting the completion of all event handlers is necessary. 
+As mentioned previously, **InvokeAsync()** can be used if awaiting the completion of all event handlers is necessary.
 
 ```cs
 var source = new EventSource<String>();
@@ -214,14 +228,19 @@ This time the output is:
 
 Feels sequential, although it runs fully asynchronous due to the magic of *async* and *await*.
 
-Please note that there is still no additional threading involved. The thread calling **InvokeAsync()** still starts to execute the event handlers. The only special thing here is that **InvokeAsync()** awaits the completion of all those event handlers.
+Please note that there is still no additional threading involved. The thread calling **InvokeAsync()** still starts to
+execute the event handlers. The only special thing here is that **InvokeAsync()** awaits the completion of all those
+event handlers.
 
-If for example, all registered event handlers are async methods but don't await anything, then the entire event invocation would be processed in a synchronous fashion. In fact, the library implementation has special optimizations in place for this specific scenario of async handlers that don't await and complete immediately.
-
+If for example, all registered event handlers are async methods but don't await anything, then the entire event
+invocation would be processed in a synchronous fashion. In fact, the library implementation has special optimizations in
+place for this specific scenario of async handlers that don't await and complete immediately.
 
 ### InvokeAsync with Synchronous Event Handler
 
-Of course, it is also possible to use **InvokeAsync()** for raising events, but with subscribers that register only synchronous event handlers. This is valid, and the library implementation optimizes this scenario so that there is little overhead even though *async/await* is involved.
+Of course, it is also possible to use **InvokeAsync()** for raising events, but with subscribers that register only
+synchronous event handlers. This is valid, and the library implementation optimizes this scenario so that there is
+little overhead even though *async/await* is involved.
 
 ```cs
 var source = new EventSource<String>();
@@ -246,19 +265,22 @@ Of course, the output is:
     B2
     C
 
-
 ### Raising Events
 
-We have already learned that events are raised by calling **Invoke()** or **InvokeAsync()** providing the event argument. In most cases, the event argument won't be a simple string or integer value but some class that must be constructed and filled with information.
+We have already learned that events are raised by calling **Invoke()** or **InvokeAsync()** providing the event
+argument. In most cases, the event argument won't be a simple string or integer value but some class that must be
+constructed and filled with information.
 
 ```cs
 var source = new EventSource<FooEventArg>();
-    
+
 var arg = new FooEventArg() { ... };
 source.Invoke(arg);
 ```
 
-Now, what happens if you raise an event and not a single event handler has been registered? In that case, the construction of a new event argument is wasted CPU instructions and memory allocation, because **Invoke()** returns immediately without doing anything with the supplied event argument.
+Now, what happens if you raise an event and not a single event handler has been registered? In that case, the
+construction of a new event argument is wasted CPU instructions and memory allocation, because **Invoke()** returns
+immediately without doing anything with the supplied event argument.
 
 What if you want to avoid such wasteful instructions?
 
@@ -285,14 +307,17 @@ source.Invoke((arg1) => {
 
 The same overloads are available for **InvokeAsync()** too.
 
-
 ### Weak Subscriptions
 
-It is possible to register an event handler (synchronous or asynchronous) via weak subscription. That is one that is automatically removed after the event handler has been garbage collected.
+It is possible to register an event handler (synchronous or asynchronous) via weak subscription. That is one that is
+automatically removed after the event handler has been garbage collected.
 
-Weak subscriptions support a particular but common use case. Using weak subscriptions in a wrong way can be dangerous as it can cause hard-to-reproduce bugs. Consider this as a warning. However, correctly used they can help in preventing memory leaks, for example, just because you forgot to manually remove an event handler.
+Weak subscriptions support a particular but common use case. Using weak subscriptions in a wrong way can be dangerous as
+it can cause hard-to-reproduce bugs. Consider this as a warning. However, correctly used they can help in preventing
+memory leaks, for example, just because you forgot to manually remove an event handler.
 
-Let's imagine an application where you have a set of services. These services are mainly persistent and live for the entire application lifetime. Such services are commonly registered as singletons in a dependency injection container.
+Let's imagine an application where you have a set of services. These services are mainly persistent and live for the
+entire application lifetime. Such services are commonly registered as singletons in a dependency injection container.
 
 Suppose **IUserManagement** represents such a service. As in all the previous examples, the service exposes an event.
 
@@ -305,12 +330,18 @@ public interface IUserManagement
 
 Next, imagine we have consumers of that service that register on that event.
 
-For example, we might have other persistent services, but they are not a big deal, because they get constructed at some time, register on our **UserAdded** event and the event subscription exists for the remaining application lifetime, same as the involved services.
+For example, we might have other persistent services, but they are not a big deal, because they get constructed at some
+time, register on our **UserAdded** event and the event subscription exists for the remaining application lifetime, same
+as the involved services.
 
-Quite different are user interface related objects like views. Those don't live for the entire application lifetime, but get constructed, register on events, get closed, disposed. When you forget to remove a subscription taken by such a view you have a memory leak. The size of leaked memory increases as the view gets opened and closed multiple times.
-This happens because as in any other observer pattern implementation the observer (in our case the event source) maintains a strong reference to the observable (event handler in our case). This causes quite often memory leaks.
+Quite different are user interface related objects like views. Those don't live for the entire application lifetime, but
+get constructed, register on events, get closed, disposed. When you forget to remove a subscription taken by such a view
+you have a memory leak. The size of leaked memory increases as the view gets opened and closed multiple times.
+This happens because as in any other observer pattern implementation the observer (in our case the event source)
+maintains a strong reference to the observable (event handler in our case). This causes quite often memory leaks.
 
-Here come weak subscriptions into play as they can help prevent such memory leaks. They free the developer from the burden to manually remove event subscriptions.
+Here come weak subscriptions into play as they can help prevent such memory leaks. They free the developer from the
+burden to manually remove event subscriptions.
 
 Such a UI view can use weak subscriptions on our **UserAdded** event as follows.
 
@@ -329,7 +360,7 @@ public sealed class BarView
             x => HandleUserAdded(x)
         );
     }
-        
+
     private void HandleUserAdded(User user)
     {
         ...
@@ -339,16 +370,22 @@ public sealed class BarView
 
 That's it.
 
-In fact, there is just one important point here: Store the subscription object returned by **SubscribeWeak()** into a member field of the same object as your event handler.
+In fact, there is just one important point here: Store the subscription object returned by **SubscribeWeak()** into a
+member field of the same object as your event handler.
 
-You can use that returned object also to cancel the subscription at any time, for example, when the view gets closed. That makes subscription cancellation more deterministic.
+You can use that returned object also to cancel the subscription at any time, for example, when the view gets closed.
+That makes subscription cancellation more deterministic.
 
-If you don't cancel the subscription manually, it is automatically removed from the service event after the view gets closed and garbage collected. This works since only the view hold a strong reference to the subscription (as shown in the previous example). With weak subscriptions, the *event source* of our service doesn't maintain a strong reference to the subscription and the event handler anymore.
+If you don't cancel the subscription manually, it is automatically removed from the service event after the view gets
+closed and garbage collected. This works since only the view hold a strong reference to the subscription (as shown in
+the previous example). With weak subscriptions, the *event source* of our service doesn't maintain a strong reference to
+the subscription and the event handler anymore.
 
-Since the view is kept in memory from other root objects (the UI framework) the subscription is kept alive, and the event handler in the view is invoked as expected. After the view gets closed, all strong references to the view are removed, meaning the view and also it's (the only) strong reference to the subscription are garbage collected.
+Since the view is kept in memory from other root objects (the UI framework) the subscription is kept alive, and the
+event handler in the view is invoked as expected. After the view gets closed, all strong references to the view are
+removed, meaning the view and also it's (the only) strong reference to the subscription are garbage collected.
 
 Weak subscriptions are no silver bullet. As always choose the right tool for the job.
-
 
 ### Exception Behavior
 
@@ -371,26 +408,36 @@ source.Invoke("B");
 Console.WriteLine("C");
 ```
 
-What would you expect to happen? Is the second event handler called regardless of the exception? Is the exception propagated back to the caller?
+What would you expect to happen? Is the second event handler called regardless of the exception? Is the exception
+propagated back to the caller?
 
-Well, regarding exception handling, this library takes a different, maybe controversial approach. I consider it a design flaw of regular .NET events that invocation of the remaining event handlers is aborted if one of the previously invoked event handlers threw an exception. Since the thrown exception is reported back to the event publisher, this makes the event publisher dependent on its subscribers, but the entire observer design pattern exists to decouple both, publisher and subscribers.
+Well, regarding exception handling, this library takes a different, maybe controversial approach. I consider it a design
+flaw of regular .NET events that invocation of the remaining event handlers is aborted if one of the previously invoked
+event handlers threw an exception. Since the thrown exception is reported back to the event publisher, this makes the
+event publisher dependent on its subscribers, but the entire observer design pattern exists to decouple both, publisher
+and subscribers.
 
-In my opinion, the pattern only makes sense, if a publisher doesn't need to care about whether there are subscribers, or whether those subscribers fail with exceptions. The publisher's only responsibility is to invoke all registered event handlers in all cases.
+In my opinion, the pattern only makes sense, if a publisher doesn't need to care about whether there are subscribers, or
+whether those subscribers fail with exceptions. The publisher's only responsibility is to invoke all registered event
+handlers in all cases.
 
 So, our example generates following output:
 
-    A  
-    B1  
-    B2  
+    A
+    B1
+    B2
     C
 
 B2 is reliably invoked, even though B1 threw an exception.
 
 But, what happened with the exception?
 
-Well, the event publisher is NOT bothered with exception handling. Events are there to notify other parts of the application. This is kind of one-way communication. Exceptions are therefore not propagated back to the caller.
+Well, the event publisher is NOT bothered with exception handling. Events are there to notify other parts of the
+application. This is kind of one-way communication. Exceptions are therefore not propagated back to the caller.
 
-Instead, the library catches all exceptions thrown in event handlers and forwards them to the global event **UnobservedException** on **EventSystem**. That way an application can observe all otherwise unobserved exceptions thrown in event handlers and at least log them.
+Instead, the library catches all exceptions thrown in event handlers and forwards them to the global event *
+*UnobservedException** on **EventSystem**. That way an application can observe all otherwise unobserved exceptions
+thrown in event handlers and at least log them.
 
 ```cs
 EventSystem.UnobservedException.Subscribe(ex => {
@@ -398,8 +445,9 @@ EventSystem.UnobservedException.Subscribe(ex => {
 });
 ```
 
-If an application wants to handle those exceptions - and that is generally recommended - then the exception handling should happen in the event handlers itself. If exceptions can occur in an event handler, then the event handler is responsible for careful handling.
-
+If an application wants to handle those exceptions - and that is generally recommended - then the exception handling
+should happen in the event handlers itself. If exceptions can occur in an event handler, then the event handler is
+responsible for careful handling.
 
 ### IProgress\<T> Integration
 
@@ -416,7 +464,8 @@ public void SomeLongRunningMethod(IProgress<Int32> progress)
 }
 ```
 
-The caller then supplies an implementation to receive the progress. This is often done using the ready-made **Progress\<T>** class.
+The caller then supplies an implementation to receive the progress. This is often done using the ready-made *
+*Progress\<T>** class.
 
 ```cs
 var progress = new Progress<T>(x =>
@@ -425,7 +474,7 @@ var progress = new Progress<T>(x =>
 
 SomeLongRunningMethod(progress);
 
-// output might be out-of-order 
+// output might be out-of-order
 0
 1
 2
@@ -437,13 +486,18 @@ SomeLongRunningMethod(progress);
 98
 ```
 
-Depending on from which thread you call this long-running method you might be surprised that the console output is not always sequentially increasing numbers from 0 to 99. That's because **Progress\<T>** invokes its callback via a synchronization context.
+Depending on from which thread you call this long-running method you might be surprised that the console output is not
+always sequentially increasing numbers from 0 to 99. That's because **Progress\<T>** invokes its callback via a
+synchronization context.
 
-That can be the UI thread, then sequential numbers 0 to 99 will be the result because everything is synchronized via the UI thread.
+That can be the UI thread, then sequential numbers 0 to 99 will be the result because everything is synchronized via the
+UI thread.
 
-If it's not the UI thread, then the callback will be invoked via the thread-pool thread, which means callbacks can come out-of-order!
+If it's not the UI thread, then the callback will be invoked via the thread-pool thread, which means callbacks can come
+out-of-order!
 
-As an alternative, you can supply an **EventSource\<T>** as progress object. It forwards progress to its subscribers in the correct order.
+As an alternative, you can supply an **EventSource\<T>** as progress object. It forwards progress to its subscribers in
+the correct order.
 
 ```cs
 var progress = new EventSource<T>();
@@ -464,7 +518,8 @@ SomeLongRunningMethod(progress);
 99
 ```
 
-Of course, it is also possible to subscribe an **IProgress\<T>** onto an event, so that raised event arguments are forwarded to the progress object.
+Of course, it is also possible to subscribe an **IProgress\<T>** onto an event, so that raised event arguments are
+forwarded to the progress object.
 
 ```cs
 IProgress<Int32> progress = new Progress<Int32>(x =>
@@ -480,12 +535,13 @@ source.Invoke(123);
 123
 ```
 
-
 ### Event Recorder
 
-If you are writing unit tests, then there will come the time where you want to ensure that an event on your subject-under-test is correctly raised with the expected event arguments.
+If you are writing unit tests, then there will come the time where you want to ensure that an event on your
+subject-under-test is correctly raised with the expected event arguments.
 
-To ease unit testing, this library provides a ready-made event recorder that can be used to record events and then, later on, analyze them.
+To ease unit testing, this library provides a ready-made event recorder that can be used to record events and then,
+later on, analyze them.
 
 As an example, suppose we have the following implementation class.
 
@@ -515,7 +571,7 @@ public void AddUserRaisesEventWithUserName
     sut.AddUser("Foo");
     Thread.Sleep(50);
     sut.AddUser("Bar");
-    
+
     // assert (using NFluent assertions)
     Check.That(recorder.Events)
         .HasSize(2);        // we expect two events
@@ -527,7 +583,8 @@ public void AddUserRaisesEventWithUserName
 }
 ```
 
-The event recorder can be used to gain even more information. Instead of accessing property **Events**, one can use **EventInfos**, which returns timing and thread information about the recorded events.
+The event recorder can be used to gain even more information. Instead of accessing property **Events**, one can use *
+*EventInfos**, which returns timing and thread information about the recorded events.
 
 ```cs
     recorder.EventInfos[0].Value        // "Foo"
@@ -535,7 +592,7 @@ The event recorder can be used to gain even more information. Instead of accessi
     recorder.EventInfos[0].Timestamp    // DateTimeOffset
     recorder.EventInfos[0].TimeOffset    // 0 ms
     recorder.EventInfos[0].Thread        // the calling thread
-    
+
     recorder.EventInfos[1].Value        // "Bar"
     recorder.EventInfos[1].Index        // 1
     recorder.EventInfos[1].Timestamp    // DateTimeOffset
@@ -543,9 +600,9 @@ The event recorder can be used to gain even more information. Instead of accessi
     recorder.EventInfos[1].Thread        // the calling thread
 ```
 
-If you don't want to record events temporarily, you can **Pause()** and finally **Resume()** the event recorder. If you want to turn off recording completely, call **Dispose()**. To clear the list of recorded events, you can use **Reset()**.
-
-
+If you don't want to record events temporarily, you can **Pause()** and finally **Resume()** the event recorder. If you
+want to turn off recording completely, call **Dispose()**. To clear the list of recorded events, you can use **Reset()
+**.
 
 # Frequently Asked Questions
 
@@ -553,30 +610,38 @@ If you don't want to record events temporarily, you can **Pause()** and finally 
 
 Yes, this library is fully thread-safe.
 
-
 ### What are the advantages compared to .NET events?
 
-.NET events are nice. It's great to have a runtime that natively supports events. However, there are also some real-world "problems" that this library tries to solve.
+.NET events are nice. It's great to have a runtime that natively supports events. However, there are also some
+real-world "problems" that this library tries to solve.
 
- - .NET events don't support *async* event handler. You can have *async void* handlers that are invoked with fire-and-forget semantic, but you can't natively await the completion of an async event handler.
- - .NET events don't invoke all remaining event handlers when a previously invoked event handler threw an exception.
- - Removal of event handlers is sometimes a bit hard, especially when you use lambda expressions a lot.
- - .NET events don't support weak subscriptions that are automatically removed after the event handler got garbage-collected.  
-
+- .NET events don't support *async* event handler. You can have *async void* handlers that are invoked with
+  fire-and-forget semantic, but you can't natively await the completion of an async event handler.
+- .NET events don't invoke all remaining event handlers when a previously invoked event handler threw an exception.
+- Removal of event handlers is sometimes a bit hard, especially when you use lambda expressions a lot.
+- .NET events don't support weak subscriptions that are automatically removed after the event handler got
+  garbage-collected.
 
 ### What about Reactive Extensions?
 
-[Rx.NET](http://reactivex.io/) is a great technology, but it's API can be a bit difficult to use with it's *OnNext()*, *OnCompleted()* and *OnError()* methods. Its strength lies in the processing and coordination of streams of events, not in simplicity.
-
+[Rx.NET](http://reactivex.io/) is a great technology, but it's API can be a bit difficult to use with it's *OnNext()*,
+*OnCompleted()* and *OnError()* methods. Its strength lies in the processing and coordination of streams of events, not
+in simplicity.
 
 ### Who uses this library?
 
-A few years ago, at my day job, we started development of a new software platform for a next-generation product family. We considered using Rx.NET as a replacement for all .NET events because we weren't happy with some limitations of .NET events. However, Rx.NET also doesn't fit well with our requirements.
+A few years ago, at my day job, we started development of a new software platform for a next-generation product family.
+We considered using Rx.NET as a replacement for all .NET events because we weren't happy with some limitations of .NET
+events. However, Rx.NET also doesn't fit well with our requirements.
 
-So, I started to experiment with a simple observer-pattern implementation on my own that would fulfill our requirements. I did that in my free time, but soon the library development was also partly done at my day job, which finally resulted in a closed-source solution.
+So, I started to experiment with a simple observer-pattern implementation on my own that would fulfill our requirements.
+I did that in my free time, but soon the library development was also partly done at my day job, which finally resulted
+in a closed-source solution.
 
 From that time on, our closed-source event library was a cornerstone of our new software platform.
 
-Now, again a few years later, I started to rewrite the entire library once again from scratch with the goal to make it open source. I wanted to share it with the community and I also wanted to be able to use it for my own side projects.
+Now, again a few years later, I started to rewrite the entire library once again from scratch with the goal to make it
+open source. I wanted to share it with the community and I also wanted to be able to use it for my own side projects.
 
-That said, *Amarok.Events* isn't that widely used, but the concepts already have proven to work well. The implementation provided here is already used is several proprietary projects.
+That said, *Amarok.Events* isn't that widely used, but the concepts already have proven to work well. The implementation
+provided here is already used is several proprietary projects.

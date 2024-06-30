@@ -48,8 +48,8 @@ public class Test_EventSource_AsyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 async x => {
@@ -93,8 +93,8 @@ public class Test_EventSource_AsyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 async x => {
@@ -130,8 +130,8 @@ public class Test_EventSource_AsyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -164,8 +164,8 @@ public class Test_EventSource_AsyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -207,8 +207,8 @@ public class Test_EventSource_AsyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 async x => {
@@ -253,8 +253,8 @@ public class Test_EventSource_AsyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 async x => {
@@ -301,8 +301,8 @@ public class Test_EventSource_AsyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 async x => {
@@ -342,8 +342,8 @@ public class Test_EventSource_AsyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 async x => {
@@ -375,8 +375,8 @@ public class Test_EventSource_AsyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -409,8 +409,8 @@ public class Test_EventSource_AsyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -452,8 +452,8 @@ public class Test_EventSource_AsyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 async x => {
@@ -498,8 +498,8 @@ public class Test_EventSource_AsyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 async x => {

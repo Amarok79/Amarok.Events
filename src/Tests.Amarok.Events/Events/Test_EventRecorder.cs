@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2022, Olaf Kober <olaf.kober@outlook.com>
+﻿// Copyright (c) 2024, Olaf Kober <olaf.kober@outlook.com>
 
 using System;
 using System.Threading;
@@ -15,7 +15,7 @@ public class Test_EventRecorder
     public void From_Event()
     {
         using var src = new EventSource<String>();
-        var rec = EventRecorder.From(src.Event);
+        var       rec = EventRecorder.From(src.Event);
 
         Check.That(rec.IsPaused).IsFalse();
 
@@ -66,7 +66,7 @@ public class Test_EventRecorder
     public void Record_SingleEvent()
     {
         using var src = new EventSource<String>();
-        var rec = EventRecorder.From(src.Event);
+        var       rec = EventRecorder.From(src.Event);
 
         src.Invoke("aaa");
 
@@ -95,7 +95,7 @@ public class Test_EventRecorder
     public void Record_MultipleEvents()
     {
         using var src = new EventSource<String>();
-        var rec = EventRecorder.From(src.Event);
+        var       rec = EventRecorder.From(src.Event);
 
         src.Invoke("aaa");
         Thread.Sleep(200);
@@ -132,8 +132,8 @@ public class Test_EventRecorder
         Check.That(info2.Timestamp - DateTimeOffset.Now).IsLessThan(TimeSpan.FromMilliseconds(500));
 
         Check.That(info2.TimeOffset)
-           .IsLessThan(TimeSpan.FromMilliseconds(500))
-           .And.IsGreaterThan(TimeSpan.FromMilliseconds(200));
+            .IsLessThan(TimeSpan.FromMilliseconds(500))
+            .And.IsGreaterThan(TimeSpan.FromMilliseconds(200));
 
         Check.That(info2.Thread).IsEqualTo(Thread.CurrentThread);
 
@@ -144,8 +144,8 @@ public class Test_EventRecorder
         Check.That(info3.Timestamp - DateTimeOffset.Now).IsLessThan(TimeSpan.FromMilliseconds(500));
 
         Check.That(info3.TimeOffset)
-           .IsLessThan(TimeSpan.FromMilliseconds(500))
-           .And.IsGreaterThan(TimeSpan.FromMilliseconds(200));
+            .IsLessThan(TimeSpan.FromMilliseconds(500))
+            .And.IsGreaterThan(TimeSpan.FromMilliseconds(200));
 
         Check.That(info3.Thread).IsEqualTo(Thread.CurrentThread);
 
@@ -158,7 +158,7 @@ public class Test_EventRecorder
     public void Events_Returns_CachedResults()
     {
         using var src = new EventSource<String>();
-        var rec = EventRecorder.From(src.Event);
+        var       rec = EventRecorder.From(src.Event);
 
         src.Invoke("aaa");
 
@@ -180,7 +180,7 @@ public class Test_EventRecorder
     public void EventInfos_Returns_CachedResults()
     {
         using var src = new EventSource<String>();
-        var rec = EventRecorder.From(src.Event);
+        var       rec = EventRecorder.From(src.Event);
 
         src.Invoke("aaa");
 
@@ -202,7 +202,7 @@ public class Test_EventRecorder
     public void Pause()
     {
         using var src = new EventSource<String>();
-        var rec = EventRecorder.From(src.Event);
+        var       rec = EventRecorder.From(src.Event);
 
         rec.Pause();
         src.Invoke("aaa");
@@ -222,7 +222,7 @@ public class Test_EventRecorder
     public void Resume()
     {
         using var src = new EventSource<String>();
-        var rec = EventRecorder.From(src.Event);
+        var       rec = EventRecorder.From(src.Event);
 
         rec.Pause();
         src.Invoke("aaa");
@@ -245,7 +245,7 @@ public class Test_EventRecorder
     public void Reset_ClearsEvents()
     {
         using var src = new EventSource<String>();
-        var rec = EventRecorder.From(src.Event);
+        var       rec = EventRecorder.From(src.Event);
 
         src.Invoke("aaa");
 
@@ -264,7 +264,7 @@ public class Test_EventRecorder
     public void Reset_Resumes()
     {
         using var src = new EventSource<String>();
-        var rec = EventRecorder.From(src.Event);
+        var       rec = EventRecorder.From(src.Event);
 
         src.Invoke("aaa");
         rec.Pause();
@@ -284,7 +284,7 @@ public class Test_EventRecorder
     public void Dispose()
     {
         using var src = new EventSource<String>();
-        var rec = EventRecorder.From(src.Event);
+        var       rec = EventRecorder.From(src.Event);
 
         src.Invoke("aaa");
         rec.Dispose();

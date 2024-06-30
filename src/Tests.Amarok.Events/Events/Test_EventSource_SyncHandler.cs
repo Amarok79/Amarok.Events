@@ -101,8 +101,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -148,8 +148,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.Subscribe(
                 x => {
@@ -158,8 +158,8 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -216,8 +216,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.Subscribe(
                 new Action<String>(
@@ -230,8 +230,8 @@ public class Test_EventSource_SyncHandler
                 )
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -281,8 +281,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -313,8 +313,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -369,8 +369,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -401,7 +401,7 @@ public class Test_EventSource_SyncHandler
 
             Check.That(factoryCalled).IsEqualTo(1);
 
-            called = 0;
+            called        = 0;
             factoryCalled = 0;
 
             var flag2 = service.Do(
@@ -430,8 +430,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.Subscribe(
                 x => {
@@ -440,8 +440,8 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -482,8 +482,8 @@ public class Test_EventSource_SyncHandler
 
             Check.That(factoryCalled).IsEqualTo(1);
 
-            called1 = 0;
-            called2 = 0;
+            called1       = 0;
+            called2       = 0;
             factoryCalled = 0;
 
             var flag2 = service.Do(
@@ -516,8 +516,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.Subscribe(
                 new Action<String>(
@@ -530,8 +530,8 @@ public class Test_EventSource_SyncHandler
                 )
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -591,8 +591,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -633,8 +633,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -676,8 +676,8 @@ public class Test_EventSource_SyncHandler
             var service = new FooService();
 
             Check.ThatCode(() => service.Do((Func<String>)null))
-               .Throws<ArgumentNullException>()
-               .WithProperty(x => x.ParamName, "valueFactory");
+                .Throws<ArgumentNullException>()
+                .WithProperty(x => x.ParamName, "valueFactory");
         }
     }
 
@@ -710,8 +710,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -725,7 +725,7 @@ public class Test_EventSource_SyncHandler
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             var factoryCalled = 0;
-            var fa = 0;
+            var fa            = 0;
 
             var flag1 = service.Do(
                 a => {
@@ -747,9 +747,9 @@ public class Test_EventSource_SyncHandler
 
             Check.That(fa).IsEqualTo(123);
 
-            called = 0;
+            called        = 0;
             factoryCalled = 0;
-            fa = 0;
+            fa            = 0;
 
             var flag2 = service.Do(
                 a => {
@@ -781,8 +781,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.Subscribe(
                 x => {
@@ -791,8 +791,8 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -812,7 +812,7 @@ public class Test_EventSource_SyncHandler
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
             var factoryCalled = 0;
-            var fa = 0;
+            var fa            = 0;
 
             var flag1 = service.Do(
                 a => {
@@ -838,10 +838,10 @@ public class Test_EventSource_SyncHandler
 
             Check.That(fa).IsEqualTo(123);
 
-            called1 = 0;
-            called2 = 0;
+            called1       = 0;
+            called2       = 0;
             factoryCalled = 0;
-            fa = 0;
+            fa            = 0;
 
             var flag2 = service.Do(
                 a => {
@@ -877,8 +877,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.Subscribe(
                 new Action<String>(
@@ -891,8 +891,8 @@ public class Test_EventSource_SyncHandler
                 )
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -916,7 +916,7 @@ public class Test_EventSource_SyncHandler
             using (EventSystem.UnobservedException.SubscribeWeak(x => exception = x))
             {
                 var factoryCalled = 0;
-                var fa = 0;
+                var fa            = 0;
 
                 var flag1 = service.Do(
                     a => {
@@ -957,8 +957,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -1000,8 +1000,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -1044,8 +1044,8 @@ public class Test_EventSource_SyncHandler
             var service = new FooService();
 
             Check.ThatCode(() => service.Do(null, 123))
-               .Throws<ArgumentNullException>()
-               .WithProperty(x => x.ParamName, "valueFactory");
+                .Throws<ArgumentNullException>()
+                .WithProperty(x => x.ParamName, "valueFactory");
         }
     }
 
@@ -1079,8 +1079,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -1094,8 +1094,8 @@ public class Test_EventSource_SyncHandler
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             var factoryCalled = 0;
-            var fa = 0;
-            var fb = 0.0;
+            var fa            = 0;
+            var fb            = 0.0;
 
             var flag1 = service.Do(
                 (a, b) => {
@@ -1121,10 +1121,10 @@ public class Test_EventSource_SyncHandler
 
             Check.That(fb).IsEqualTo(1.2);
 
-            called = 0;
+            called        = 0;
             factoryCalled = 0;
-            fa = 0;
-            fb = 0.0;
+            fa            = 0;
+            fb            = 0.0;
 
             var flag2 = service.Do(
                 (a, b) => {
@@ -1160,8 +1160,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.Subscribe(
                 x => {
@@ -1170,8 +1170,8 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -1191,8 +1191,8 @@ public class Test_EventSource_SyncHandler
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
             var factoryCalled = 0;
-            var fa = 0;
-            var fb = 0.0;
+            var fa            = 0;
+            var fb            = 0.0;
 
             var flag1 = service.Do(
                 (a, b) => {
@@ -1222,11 +1222,11 @@ public class Test_EventSource_SyncHandler
 
             Check.That(fb).IsEqualTo(1.2);
 
-            called1 = 0;
-            called2 = 0;
+            called1       = 0;
+            called2       = 0;
             factoryCalled = 0;
-            fa = 0;
-            fb = 0.0;
+            fa            = 0;
+            fb            = 0.0;
 
             var flag2 = service.Do(
                 (a, b) => {
@@ -1266,8 +1266,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.Subscribe(
                 new Action<String>(
@@ -1280,8 +1280,8 @@ public class Test_EventSource_SyncHandler
                 )
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -1305,8 +1305,8 @@ public class Test_EventSource_SyncHandler
             using (EventSystem.UnobservedException.SubscribeWeak(x => exception = x))
             {
                 var factoryCalled = 0;
-                var fa = 0;
-                var fb = 0.0;
+                var fa            = 0;
+                var fb            = 0.0;
 
                 var flag1 = service.Do(
                     (a, b) => {
@@ -1351,8 +1351,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -1395,8 +1395,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -1440,8 +1440,8 @@ public class Test_EventSource_SyncHandler
             var service = new FooService();
 
             Check.ThatCode(() => service.Do(null, 123, 1.2))
-               .Throws<ArgumentNullException>()
-               .WithProperty(x => x.ParamName, "valueFactory");
+                .Throws<ArgumentNullException>()
+                .WithProperty(x => x.ParamName, "valueFactory");
         }
     }
 
@@ -1476,8 +1476,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -1491,9 +1491,9 @@ public class Test_EventSource_SyncHandler
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             var factoryCalled = 0;
-            var fa = 0;
-            var fb = 0.0;
-            var fc = ' ';
+            var fa            = 0;
+            var fb            = 0.0;
+            var fc            = ' ';
 
             var flag1 = service.Do(
                 (a, b, c) => {
@@ -1523,11 +1523,11 @@ public class Test_EventSource_SyncHandler
 
             Check.That(fc).IsEqualTo('a');
 
-            called = 0;
+            called        = 0;
             factoryCalled = 0;
-            fa = 0;
-            fb = 0.0;
-            fc = ' ';
+            fa            = 0;
+            fb            = 0.0;
+            fc            = ' ';
 
             var flag2 = service.Do(
                 (a, b, c) => {
@@ -1567,8 +1567,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.Subscribe(
                 x => {
@@ -1577,8 +1577,8 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -1598,9 +1598,9 @@ public class Test_EventSource_SyncHandler
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
             var factoryCalled = 0;
-            var fa = 0;
-            var fb = 0.0;
-            var fc = ' ';
+            var fa            = 0;
+            var fb            = 0.0;
+            var fc            = ' ';
 
             var flag1 = service.Do(
                 (a, b, c) => {
@@ -1634,12 +1634,12 @@ public class Test_EventSource_SyncHandler
 
             Check.That(fc).IsEqualTo('a');
 
-            called1 = 0;
-            called2 = 0;
+            called1       = 0;
+            called2       = 0;
             factoryCalled = 0;
-            fa = 0;
-            fb = 0.0;
-            fc = ' ';
+            fa            = 0;
+            fb            = 0.0;
+            fc            = ' ';
 
             var flag2 = service.Do(
                 (a, b, c) => {
@@ -1683,8 +1683,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.Subscribe(
                 new Action<String>(
@@ -1697,8 +1697,8 @@ public class Test_EventSource_SyncHandler
                 )
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -1722,9 +1722,9 @@ public class Test_EventSource_SyncHandler
             using (EventSystem.UnobservedException.SubscribeWeak(x => exception = x))
             {
                 var factoryCalled = 0;
-                var fa = 0;
-                var fb = 0.0;
-                var fc = ' ';
+                var fa            = 0;
+                var fb            = 0.0;
+                var fc            = ' ';
 
                 var flag1 = service.Do(
                     (a, b, c) => {
@@ -1773,8 +1773,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -1818,8 +1818,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -1864,8 +1864,8 @@ public class Test_EventSource_SyncHandler
             var service = new FooService();
 
             Check.ThatCode(() => service.Do(null, 123, 1.2, 'a'))
-               .Throws<ArgumentNullException>()
-               .WithProperty(x => x.ParamName, "valueFactory");
+                .Throws<ArgumentNullException>()
+                .WithProperty(x => x.ParamName, "valueFactory");
         }
     }
 
@@ -1892,8 +1892,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -1933,8 +1933,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.Subscribe(
                 x => {
@@ -1943,8 +1943,8 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -1999,8 +1999,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.Subscribe(
                 new Action<String>(
@@ -2013,8 +2013,8 @@ public class Test_EventSource_SyncHandler
                 )
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -2064,8 +2064,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -2096,8 +2096,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -2152,8 +2152,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -2184,7 +2184,7 @@ public class Test_EventSource_SyncHandler
 
             Check.That(factoryCalled).IsEqualTo(1);
 
-            called = 0;
+            called        = 0;
             factoryCalled = 0;
 
             var flag2 = await service.DoAsync(
@@ -2213,8 +2213,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.Subscribe(
                 x => {
@@ -2223,8 +2223,8 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -2265,8 +2265,8 @@ public class Test_EventSource_SyncHandler
 
             Check.That(factoryCalled).IsEqualTo(1);
 
-            called1 = 0;
-            called2 = 0;
+            called1       = 0;
+            called2       = 0;
             factoryCalled = 0;
 
             var flag2 = await service.DoAsync(
@@ -2299,8 +2299,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.Subscribe(
                 new Action<String>(
@@ -2313,8 +2313,8 @@ public class Test_EventSource_SyncHandler
                 )
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -2374,8 +2374,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -2416,8 +2416,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -2459,8 +2459,8 @@ public class Test_EventSource_SyncHandler
             var service = new FooService();
 
             Check.ThatCode(async () => await service.DoAsync((Func<String>)null))
-               .Throws<ArgumentNullException>()
-               .WithProperty(x => x.ParamName, "valueFactory");
+                .Throws<ArgumentNullException>()
+                .WithProperty(x => x.ParamName, "valueFactory");
         }
     }
 
@@ -2493,8 +2493,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -2508,7 +2508,7 @@ public class Test_EventSource_SyncHandler
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             var factoryCalled = 0;
-            var fa = 0;
+            var fa            = 0;
 
             var flag1 = await service.DoAsync(
                 a => {
@@ -2530,9 +2530,9 @@ public class Test_EventSource_SyncHandler
 
             Check.That(fa).IsEqualTo(123);
 
-            called = 0;
+            called        = 0;
             factoryCalled = 0;
-            fa = 0;
+            fa            = 0;
 
             var flag2 = await service.DoAsync(
                 a => {
@@ -2564,8 +2564,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.Subscribe(
                 x => {
@@ -2574,8 +2574,8 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -2595,7 +2595,7 @@ public class Test_EventSource_SyncHandler
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
             var factoryCalled = 0;
-            var fa = 0;
+            var fa            = 0;
 
             var flag1 = await service.DoAsync(
                 a => {
@@ -2621,10 +2621,10 @@ public class Test_EventSource_SyncHandler
 
             Check.That(fa).IsEqualTo(123);
 
-            called1 = 0;
-            called2 = 0;
+            called1       = 0;
+            called2       = 0;
             factoryCalled = 0;
-            fa = 0;
+            fa            = 0;
 
             var flag2 = await service.DoAsync(
                 a => {
@@ -2660,8 +2660,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.Subscribe(
                 new Action<String>(
@@ -2674,8 +2674,8 @@ public class Test_EventSource_SyncHandler
                 )
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -2699,7 +2699,7 @@ public class Test_EventSource_SyncHandler
             using (EventSystem.UnobservedException.SubscribeWeak(x => exception = x))
             {
                 var factoryCalled = 0;
-                var fa = 0;
+                var fa            = 0;
 
                 var flag1 = await service.DoAsync(
                     a => {
@@ -2740,8 +2740,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -2783,8 +2783,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -2827,8 +2827,8 @@ public class Test_EventSource_SyncHandler
             var service = new FooService();
 
             Check.ThatCode(async () => await service.DoAsync(null, 123))
-               .Throws<ArgumentNullException>()
-               .WithProperty(x => x.ParamName, "valueFactory");
+                .Throws<ArgumentNullException>()
+                .WithProperty(x => x.ParamName, "valueFactory");
         }
     }
 
@@ -2862,8 +2862,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -2877,8 +2877,8 @@ public class Test_EventSource_SyncHandler
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             var factoryCalled = 0;
-            var fa = 0;
-            var fb = 0.0;
+            var fa            = 0;
+            var fb            = 0.0;
 
             var flag1 = await service.DoAsync(
                 (a, b) => {
@@ -2904,10 +2904,10 @@ public class Test_EventSource_SyncHandler
 
             Check.That(fb).IsEqualTo(1.2);
 
-            called = 0;
+            called        = 0;
             factoryCalled = 0;
-            fa = 0;
-            fb = 0.0;
+            fa            = 0;
+            fb            = 0.0;
 
             var flag2 = await service.DoAsync(
                 (a, b) => {
@@ -2943,8 +2943,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.Subscribe(
                 x => {
@@ -2953,8 +2953,8 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -2974,8 +2974,8 @@ public class Test_EventSource_SyncHandler
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
             var factoryCalled = 0;
-            var fa = 0;
-            var fb = 0.0;
+            var fa            = 0;
+            var fb            = 0.0;
 
             var flag1 = await service.DoAsync(
                 (a, b) => {
@@ -3005,11 +3005,11 @@ public class Test_EventSource_SyncHandler
 
             Check.That(fb).IsEqualTo(1.2);
 
-            called1 = 0;
-            called2 = 0;
+            called1       = 0;
+            called2       = 0;
             factoryCalled = 0;
-            fa = 0;
-            fb = 0.0;
+            fa            = 0;
+            fb            = 0.0;
 
             var flag2 = await service.DoAsync(
                 (a, b) => {
@@ -3049,8 +3049,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.Subscribe(
                 new Action<String>(
@@ -3063,8 +3063,8 @@ public class Test_EventSource_SyncHandler
                 )
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -3088,8 +3088,8 @@ public class Test_EventSource_SyncHandler
             using (EventSystem.UnobservedException.SubscribeWeak(x => exception = x))
             {
                 var factoryCalled = 0;
-                var fa = 0;
-                var fb = 0.0;
+                var fa            = 0;
+                var fb            = 0.0;
 
                 var flag1 = await service.DoAsync(
                     (a, b) => {
@@ -3134,8 +3134,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -3178,8 +3178,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -3223,8 +3223,8 @@ public class Test_EventSource_SyncHandler
             var service = new FooService();
 
             Check.ThatCode(async () => await service.DoAsync(null, 123, 1.2))
-               .Throws<ArgumentNullException>()
-               .WithProperty(x => x.ParamName, "valueFactory");
+                .Throws<ArgumentNullException>()
+                .WithProperty(x => x.ParamName, "valueFactory");
         }
     }
 
@@ -3259,8 +3259,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -3274,9 +3274,9 @@ public class Test_EventSource_SyncHandler
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
 
             var factoryCalled = 0;
-            var fa = 0;
-            var fb = 0.0;
-            var fc = ' ';
+            var fa            = 0;
+            var fb            = 0.0;
+            var fc            = ' ';
 
             var flag1 = await service.DoAsync(
                 (a, b, c) => {
@@ -3306,11 +3306,11 @@ public class Test_EventSource_SyncHandler
 
             Check.That(fc).IsEqualTo('a');
 
-            called = 0;
+            called        = 0;
             factoryCalled = 0;
-            fa = 0;
-            fb = 0.0;
-            fc = ' ';
+            fa            = 0;
+            fb            = 0.0;
+            fc            = ' ';
 
             var flag2 = await service.DoAsync(
                 (a, b, c) => {
@@ -3350,8 +3350,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.Subscribe(
                 x => {
@@ -3360,8 +3360,8 @@ public class Test_EventSource_SyncHandler
                 }
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -3381,9 +3381,9 @@ public class Test_EventSource_SyncHandler
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
             var factoryCalled = 0;
-            var fa = 0;
-            var fb = 0.0;
-            var fc = ' ';
+            var fa            = 0;
+            var fb            = 0.0;
+            var fc            = ' ';
 
             var flag1 = await service.DoAsync(
                 (a, b, c) => {
@@ -3417,12 +3417,12 @@ public class Test_EventSource_SyncHandler
 
             Check.That(fc).IsEqualTo('a');
 
-            called1 = 0;
-            called2 = 0;
+            called1       = 0;
+            called2       = 0;
             factoryCalled = 0;
-            fa = 0;
-            fb = 0.0;
-            fc = ' ';
+            fa            = 0;
+            fb            = 0.0;
+            fc            = ' ';
 
             var flag2 = await service.DoAsync(
                 (a, b, c) => {
@@ -3466,8 +3466,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.Subscribe(
                 new Action<String>(
@@ -3480,8 +3480,8 @@ public class Test_EventSource_SyncHandler
                 )
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.Subscribe(
                 x => {
@@ -3505,9 +3505,9 @@ public class Test_EventSource_SyncHandler
             using (EventSystem.UnobservedException.SubscribeWeak(x => exception = x))
             {
                 var factoryCalled = 0;
-                var fa = 0;
-                var fb = 0.0;
-                var fc = ' ';
+                var fa            = 0;
+                var fb            = 0.0;
+                var fc            = ' ';
 
                 var flag1 = await service.DoAsync(
                     (a, b, c) => {
@@ -3556,8 +3556,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -3601,8 +3601,8 @@ public class Test_EventSource_SyncHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.Subscribe(
                 x => {
@@ -3647,8 +3647,8 @@ public class Test_EventSource_SyncHandler
             var service = new FooService();
 
             Check.ThatCode(async () => await service.DoAsync(null, 123, 1.2, 'a'))
-               .Throws<ArgumentNullException>()
-               .WithProperty(x => x.ParamName, "valueFactory");
+                .Throws<ArgumentNullException>()
+                .WithProperty(x => x.ParamName, "valueFactory");
         }
     }
 }

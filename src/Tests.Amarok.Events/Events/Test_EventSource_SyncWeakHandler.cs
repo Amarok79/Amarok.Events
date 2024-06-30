@@ -85,7 +85,7 @@ public class Test_EventSource_SyncWeakHandler
         public void Invoke_Without_Handler()
         {
             var service = new FooService();
-            var flag = service.Do("abc");
+            var flag    = service.Do("abc");
 
             Check.That(flag).IsFalse();
 
@@ -105,8 +105,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -120,10 +120,10 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription().ToString())
-               .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
+                .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
             var flag1 = service.Do("abc");
 
@@ -158,8 +158,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.SubscribeWeak(
                 x => {
@@ -168,8 +168,8 @@ public class Test_EventSource_SyncWeakHandler
                 }
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.SubscribeWeak(
                 x => {
@@ -183,20 +183,20 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription().ToString())
-               .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
+                .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
             Check.That(subscription2).IsNotNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription().ToString())
-               .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
+                .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -242,8 +242,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.SubscribeWeak(
                 new Action<String>(
@@ -256,8 +256,8 @@ public class Test_EventSource_SyncWeakHandler
                 )
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.SubscribeWeak(
                 x => {
@@ -271,20 +271,20 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription().ToString())
-               .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
+                .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
             Check.That(subscription2).IsNotNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription().ToString())
-               .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
+                .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -325,8 +325,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -340,13 +340,13 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription().ToString())
-               .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
+                .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
             var strongSub = (ActionSubscription<String>)subscription;
-            var weakSub = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
+            var weakSub   = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
             strongSub.TestingClearNextSubscription();
             weakSub.TestingClearNextSubscription();
 
@@ -384,8 +384,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -399,10 +399,10 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription().ToString())
-               .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
+                .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
             subscription.Dispose();
 
@@ -428,8 +428,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -443,10 +443,10 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription().ToString())
-               .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
+                .StartsWith("⇒ weak ⇒ Amarok.Events.Test_EventSource");
 
             service.ChangedSource.Dispose();
 
@@ -502,8 +502,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -517,7 +517,7 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             var factoryCalled = 0;
 
@@ -537,7 +537,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(factoryCalled).IsEqualTo(1);
 
-            called = 0;
+            called        = 0;
             factoryCalled = 0;
 
             var flag2 = service.Do(
@@ -572,8 +572,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.SubscribeWeak(
                 x => {
@@ -582,8 +582,8 @@ public class Test_EventSource_SyncWeakHandler
                 }
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.SubscribeWeak(
                 x => {
@@ -597,14 +597,14 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsNotNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -630,8 +630,8 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(factoryCalled).IsEqualTo(1);
 
-            called1 = 0;
-            called2 = 0;
+            called1       = 0;
+            called2       = 0;
             factoryCalled = 0;
 
             var flag2 = service.Do(
@@ -670,8 +670,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.SubscribeWeak(
                 new Action<String>(
@@ -684,8 +684,8 @@ public class Test_EventSource_SyncWeakHandler
                 )
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.SubscribeWeak(
                 x => {
@@ -699,14 +699,14 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsNotNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -757,8 +757,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -772,10 +772,10 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             var strongSub = (ActionSubscription<String>)subscription;
-            var weakSub = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
+            var weakSub   = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
             strongSub.TestingClearNextSubscription();
             weakSub.TestingClearNextSubscription();
 
@@ -829,8 +829,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -844,7 +844,7 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             subscription.Dispose();
 
@@ -880,8 +880,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -895,7 +895,7 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             service.ChangedSource.Dispose();
 
@@ -932,8 +932,8 @@ public class Test_EventSource_SyncWeakHandler
             var service = new FooService();
 
             Check.ThatCode(() => service.Do((Func<String>)null))
-               .Throws<ArgumentNullException>()
-               .WithProperty(x => x.ParamName, "valueFactory");
+                .Throws<ArgumentNullException>()
+                .WithProperty(x => x.ParamName, "valueFactory");
         }
     }
 
@@ -972,8 +972,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -987,10 +987,10 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             var factoryCalled = 0;
-            var fa = 0;
+            var fa            = 0;
 
             var flag1 = service.Do(
                 a => {
@@ -1012,9 +1012,9 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(fa).IsEqualTo(123);
 
-            called = 0;
+            called        = 0;
             factoryCalled = 0;
-            fa = 0;
+            fa            = 0;
 
             var flag2 = service.Do(
                 a => {
@@ -1052,8 +1052,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.SubscribeWeak(
                 x => {
@@ -1062,8 +1062,8 @@ public class Test_EventSource_SyncWeakHandler
                 }
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.SubscribeWeak(
                 x => {
@@ -1077,19 +1077,19 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsNotNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
             var factoryCalled = 0;
-            var fa = 0;
+            var fa            = 0;
 
             var flag1 = service.Do(
                 a => {
@@ -1115,10 +1115,10 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(fa).IsEqualTo(123);
 
-            called1 = 0;
-            called2 = 0;
+            called1       = 0;
+            called2       = 0;
             factoryCalled = 0;
-            fa = 0;
+            fa            = 0;
 
             var flag2 = service.Do(
                 a => {
@@ -1160,8 +1160,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.SubscribeWeak(
                 new Action<String>(
@@ -1174,8 +1174,8 @@ public class Test_EventSource_SyncWeakHandler
                 )
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.SubscribeWeak(
                 x => {
@@ -1189,14 +1189,14 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsNotNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -1205,7 +1205,7 @@ public class Test_EventSource_SyncWeakHandler
             using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
             {
                 var factoryCalled = 0;
-                var fa = 0;
+                var fa            = 0;
 
                 var flag1 = service.Do(
                     a => {
@@ -1252,8 +1252,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -1267,15 +1267,15 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             var strongSub = (ActionSubscription<String>)subscription;
-            var weakSub = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
+            var weakSub   = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
             strongSub.TestingClearNextSubscription();
             weakSub.TestingClearNextSubscription();
 
             var factoryCalled = 0;
-            var fa = 0;
+            var fa            = 0;
 
             var flag1 = service.Do(
                 a => {
@@ -1300,7 +1300,7 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(fa).IsEqualTo(123);
 
             factoryCalled = 0;
-            fa = 0;
+            fa            = 0;
 
             var flag2 = service.Do(
                 a => {
@@ -1334,8 +1334,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -1349,7 +1349,7 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             subscription.Dispose();
 
@@ -1386,8 +1386,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -1401,7 +1401,7 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             service.ChangedSource.Dispose();
 
@@ -1439,8 +1439,8 @@ public class Test_EventSource_SyncWeakHandler
             var service = new FooService();
 
             Check.ThatCode(() => service.Do(null, 123))
-               .Throws<ArgumentNullException>()
-               .WithProperty(x => x.ParamName, "valueFactory");
+                .Throws<ArgumentNullException>()
+                .WithProperty(x => x.ParamName, "valueFactory");
         }
     }
 
@@ -1480,8 +1480,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -1495,11 +1495,11 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             var factoryCalled = 0;
-            var fa = 0;
-            var fb = 0.0;
+            var fa            = 0;
+            var fb            = 0.0;
 
             var flag1 = service.Do(
                 (a, b) => {
@@ -1525,10 +1525,10 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(fb).IsEqualTo(1.2);
 
-            called = 0;
+            called        = 0;
             factoryCalled = 0;
-            fa = 0;
-            fb = 0.0;
+            fa            = 0;
+            fb            = 0.0;
 
             var flag2 = service.Do(
                 (a, b) => {
@@ -1570,8 +1570,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.SubscribeWeak(
                 x => {
@@ -1580,8 +1580,8 @@ public class Test_EventSource_SyncWeakHandler
                 }
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.SubscribeWeak(
                 x => {
@@ -1595,20 +1595,20 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsNotNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
             var factoryCalled = 0;
-            var fa = 0;
-            var fb = 0.0;
+            var fa            = 0;
+            var fb            = 0.0;
 
             var flag1 = service.Do(
                 (a, b) => {
@@ -1638,11 +1638,11 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(fb).IsEqualTo(1.2);
 
-            called1 = 0;
-            called2 = 0;
+            called1       = 0;
+            called2       = 0;
             factoryCalled = 0;
-            fa = 0;
-            fb = 0.0;
+            fa            = 0;
+            fb            = 0.0;
 
             var flag2 = service.Do(
                 (a, b) => {
@@ -1688,8 +1688,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.SubscribeWeak(
                 new Action<String>(
@@ -1702,8 +1702,8 @@ public class Test_EventSource_SyncWeakHandler
                 )
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.SubscribeWeak(
                 x => {
@@ -1717,14 +1717,14 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsNotNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -1733,8 +1733,8 @@ public class Test_EventSource_SyncWeakHandler
             using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
             {
                 var factoryCalled = 0;
-                var fa = 0;
-                var fb = 0.0;
+                var fa            = 0;
+                var fb            = 0.0;
 
                 var flag1 = service.Do(
                     (a, b) => {
@@ -1785,8 +1785,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -1800,16 +1800,16 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             var strongSub = (ActionSubscription<String>)subscription;
-            var weakSub = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
+            var weakSub   = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
             strongSub.TestingClearNextSubscription();
             weakSub.TestingClearNextSubscription();
 
             var factoryCalled = 0;
-            var fa = 0;
-            var fb = 0.0;
+            var fa            = 0;
+            var fb            = 0.0;
 
             var flag1 = service.Do(
                 (a, b) => {
@@ -1838,8 +1838,8 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(fb).IsEqualTo(1.2);
 
             factoryCalled = 0;
-            fa = 0;
-            fb = 0.0;
+            fa            = 0;
+            fb            = 0.0;
 
             var flag2 = service.Do(
                 (a, b) => {
@@ -1877,8 +1877,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -1892,7 +1892,7 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             subscription.Dispose();
 
@@ -1930,8 +1930,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -1945,7 +1945,7 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             service.ChangedSource.Dispose();
 
@@ -1984,8 +1984,8 @@ public class Test_EventSource_SyncWeakHandler
             var service = new FooService();
 
             Check.ThatCode(() => service.Do(null, 123, 1.2))
-               .Throws<ArgumentNullException>()
-               .WithProperty(x => x.ParamName, "valueFactory");
+                .Throws<ArgumentNullException>()
+                .WithProperty(x => x.ParamName, "valueFactory");
         }
     }
 
@@ -2026,8 +2026,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -2041,12 +2041,12 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             var factoryCalled = 0;
-            var fa = 0;
-            var fb = 0.0;
-            var fc = ' ';
+            var fa            = 0;
+            var fb            = 0.0;
+            var fc            = ' ';
 
             var flag1 = service.Do(
                 (a, b, c) => {
@@ -2076,11 +2076,11 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(fc).IsEqualTo('a');
 
-            called = 0;
+            called        = 0;
             factoryCalled = 0;
-            fa = 0;
-            fb = 0.0;
-            fc = ' ';
+            fa            = 0;
+            fb            = 0.0;
+            fc            = ' ';
 
             var flag2 = service.Do(
                 (a, b, c) => {
@@ -2126,8 +2126,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.SubscribeWeak(
                 x => {
@@ -2136,8 +2136,8 @@ public class Test_EventSource_SyncWeakHandler
                 }
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.SubscribeWeak(
                 x => {
@@ -2151,21 +2151,21 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsNotNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
             var factoryCalled = 0;
-            var fa = 0;
-            var fb = 0.0;
-            var fc = ' ';
+            var fa            = 0;
+            var fb            = 0.0;
+            var fc            = ' ';
 
             var flag1 = service.Do(
                 (a, b, c) => {
@@ -2199,12 +2199,12 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(fc).IsEqualTo('a');
 
-            called1 = 0;
-            called2 = 0;
+            called1       = 0;
+            called2       = 0;
             factoryCalled = 0;
-            fa = 0;
-            fb = 0.0;
-            fc = ' ';
+            fa            = 0;
+            fb            = 0.0;
+            fc            = ' ';
 
             var flag2 = service.Do(
                 (a, b, c) => {
@@ -2254,8 +2254,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.SubscribeWeak(
                 new Action<String>(
@@ -2268,8 +2268,8 @@ public class Test_EventSource_SyncWeakHandler
                 )
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.SubscribeWeak(
                 x => {
@@ -2283,14 +2283,14 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsNotNull();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -2299,9 +2299,9 @@ public class Test_EventSource_SyncWeakHandler
             using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
             {
                 var factoryCalled = 0;
-                var fa = 0;
-                var fb = 0.0;
-                var fc = ' ';
+                var fa            = 0;
+                var fb            = 0.0;
+                var fc            = ' ';
 
                 var flag1 = service.Do(
                     (a, b, c) => {
@@ -2356,8 +2356,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -2371,17 +2371,17 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             var strongSub = (ActionSubscription<String>)subscription;
-            var weakSub = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
+            var weakSub   = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
             strongSub.TestingClearNextSubscription();
             weakSub.TestingClearNextSubscription();
 
             var factoryCalled = 0;
-            var fa = 0;
-            var fb = 0.0;
-            var fc = ' ';
+            var fa            = 0;
+            var fb            = 0.0;
+            var fc            = ' ';
 
             var flag1 = service.Do(
                 (a, b, c) => {
@@ -2414,9 +2414,9 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(fc).IsEqualTo('a');
 
             factoryCalled = 0;
-            fa = 0;
-            fb = 0.0;
-            fc = ' ';
+            fa            = 0;
+            fb            = 0.0;
+            fc            = ' ';
 
             var flag2 = service.Do(
                 (a, b, c) => {
@@ -2458,8 +2458,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -2473,7 +2473,7 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             subscription.Dispose();
 
@@ -2512,8 +2512,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -2527,7 +2527,7 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             service.ChangedSource.Dispose();
 
@@ -2567,8 +2567,8 @@ public class Test_EventSource_SyncWeakHandler
             var service = new FooService();
 
             Check.ThatCode(() => service.Do(null, 123, 1.2, 'a'))
-               .Throws<ArgumentNullException>()
-               .WithProperty(x => x.ParamName, "valueFactory");
+                .Throws<ArgumentNullException>()
+                .WithProperty(x => x.ParamName, "valueFactory");
         }
     }
 
@@ -2594,8 +2594,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -2607,7 +2607,7 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             var flag1 = await service.DoAsync("abc");
 
@@ -2636,8 +2636,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.SubscribeWeak(
                 x => {
@@ -2646,8 +2646,8 @@ public class Test_EventSource_SyncWeakHandler
                 }
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.SubscribeWeak(
                 x => {
@@ -2659,12 +2659,12 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -2704,8 +2704,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.SubscribeWeak(
                 new Action<String>(
@@ -2718,8 +2718,8 @@ public class Test_EventSource_SyncWeakHandler
                 )
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.SubscribeWeak(
                 x => {
@@ -2731,12 +2731,12 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -2771,8 +2771,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -2786,10 +2786,10 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             var strongSub = (ActionSubscription<String>)subscription;
-            var weakSub = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
+            var weakSub   = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
             strongSub.TestingClearNextSubscription();
             weakSub.TestingClearNextSubscription();
 
@@ -2823,8 +2823,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -2836,7 +2836,7 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             subscription.Dispose();
 
@@ -2856,8 +2856,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -2869,7 +2869,7 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             service.ChangedSource.Dispose();
 
@@ -2913,8 +2913,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -2926,7 +2926,7 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             var factoryCalled = 0;
 
@@ -2946,7 +2946,7 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(factoryCalled).IsEqualTo(1);
 
-            called = 0;
+            called        = 0;
             factoryCalled = 0;
 
             var flag2 = await service.DoAsync(
@@ -2975,8 +2975,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.SubscribeWeak(
                 x => {
@@ -2985,8 +2985,8 @@ public class Test_EventSource_SyncWeakHandler
                 }
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.SubscribeWeak(
                 x => {
@@ -2998,12 +2998,12 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -3029,8 +3029,8 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(factoryCalled).IsEqualTo(1);
 
-            called1 = 0;
-            called2 = 0;
+            called1       = 0;
+            called2       = 0;
             factoryCalled = 0;
 
             var flag2 = await service.DoAsync(
@@ -3063,8 +3063,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.SubscribeWeak(
                 new Action<String>(
@@ -3077,8 +3077,8 @@ public class Test_EventSource_SyncWeakHandler
                 )
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.SubscribeWeak(
                 x => {
@@ -3090,12 +3090,12 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -3140,8 +3140,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -3155,10 +3155,10 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             var strongSub = (ActionSubscription<String>)subscription;
-            var weakSub = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
+            var weakSub   = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
             strongSub.TestingClearNextSubscription();
             weakSub.TestingClearNextSubscription();
 
@@ -3212,8 +3212,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -3225,7 +3225,7 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             subscription.Dispose();
 
@@ -3255,8 +3255,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -3268,7 +3268,7 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             service.ChangedSource.Dispose();
 
@@ -3299,8 +3299,8 @@ public class Test_EventSource_SyncWeakHandler
             var service = new FooService();
 
             Check.ThatCode(async () => await service.DoAsync((Func<String>)null))
-               .Throws<ArgumentNullException>()
-               .WithProperty(x => x.ParamName, "valueFactory");
+                .Throws<ArgumentNullException>()
+                .WithProperty(x => x.ParamName, "valueFactory");
         }
     }
 
@@ -3333,8 +3333,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -3346,10 +3346,10 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             var factoryCalled = 0;
-            var fa = 0;
+            var fa            = 0;
 
             var flag1 = await service.DoAsync(
                 a => {
@@ -3371,9 +3371,9 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(fa).IsEqualTo(123);
 
-            called = 0;
+            called        = 0;
             factoryCalled = 0;
-            fa = 0;
+            fa            = 0;
 
             var flag2 = await service.DoAsync(
                 a => {
@@ -3405,8 +3405,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.SubscribeWeak(
                 x => {
@@ -3415,8 +3415,8 @@ public class Test_EventSource_SyncWeakHandler
                 }
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.SubscribeWeak(
                 x => {
@@ -3428,17 +3428,17 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
             var factoryCalled = 0;
-            var fa = 0;
+            var fa            = 0;
 
             var flag1 = await service.DoAsync(
                 a => {
@@ -3464,10 +3464,10 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(fa).IsEqualTo(123);
 
-            called1 = 0;
-            called2 = 0;
+            called1       = 0;
+            called2       = 0;
             factoryCalled = 0;
-            fa = 0;
+            fa            = 0;
 
             var flag2 = await service.DoAsync(
                 a => {
@@ -3503,8 +3503,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.SubscribeWeak(
                 new Action<String>(
@@ -3517,8 +3517,8 @@ public class Test_EventSource_SyncWeakHandler
                 )
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.SubscribeWeak(
                 x => {
@@ -3530,12 +3530,12 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -3544,7 +3544,7 @@ public class Test_EventSource_SyncWeakHandler
             using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
             {
                 var factoryCalled = 0;
-                var fa = 0;
+                var fa            = 0;
 
                 var flag1 = await service.DoAsync(
                     a => {
@@ -3585,8 +3585,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -3600,15 +3600,15 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             var strongSub = (ActionSubscription<String>)subscription;
-            var weakSub = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
+            var weakSub   = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
             strongSub.TestingClearNextSubscription();
             weakSub.TestingClearNextSubscription();
 
             var factoryCalled = 0;
-            var fa = 0;
+            var fa            = 0;
 
             var flag1 = await service.DoAsync(
                 a => {
@@ -3633,7 +3633,7 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(fa).IsEqualTo(123);
 
             factoryCalled = 0;
-            fa = 0;
+            fa            = 0;
 
             var flag2 = await service.DoAsync(
                 a => {
@@ -3667,8 +3667,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -3680,7 +3680,7 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             subscription.Dispose();
 
@@ -3711,8 +3711,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -3724,7 +3724,7 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             service.ChangedSource.Dispose();
 
@@ -3756,8 +3756,8 @@ public class Test_EventSource_SyncWeakHandler
             var service = new FooService();
 
             Check.ThatCode(async () => await service.DoAsync(null, 123))
-               .Throws<ArgumentNullException>()
-               .WithProperty(x => x.ParamName, "valueFactory");
+                .Throws<ArgumentNullException>()
+                .WithProperty(x => x.ParamName, "valueFactory");
         }
     }
 
@@ -3791,8 +3791,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -3804,11 +3804,11 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             var factoryCalled = 0;
-            var fa = 0;
-            var fb = 0.0;
+            var fa            = 0;
+            var fb            = 0.0;
 
             var flag1 = await service.DoAsync(
                 (a, b) => {
@@ -3834,10 +3834,10 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(fb).IsEqualTo(1.2);
 
-            called = 0;
+            called        = 0;
             factoryCalled = 0;
-            fa = 0;
-            fb = 0.0;
+            fa            = 0;
+            fb            = 0.0;
 
             var flag2 = await service.DoAsync(
                 (a, b) => {
@@ -3873,8 +3873,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.SubscribeWeak(
                 x => {
@@ -3883,8 +3883,8 @@ public class Test_EventSource_SyncWeakHandler
                 }
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.SubscribeWeak(
                 x => {
@@ -3896,18 +3896,18 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
             var factoryCalled = 0;
-            var fa = 0;
-            var fb = 0.0;
+            var fa            = 0;
+            var fb            = 0.0;
 
             var flag1 = await service.DoAsync(
                 (a, b) => {
@@ -3937,11 +3937,11 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(fb).IsEqualTo(1.2);
 
-            called1 = 0;
-            called2 = 0;
+            called1       = 0;
+            called2       = 0;
             factoryCalled = 0;
-            fa = 0;
-            fb = 0.0;
+            fa            = 0;
+            fb            = 0.0;
 
             var flag2 = await service.DoAsync(
                 (a, b) => {
@@ -3981,8 +3981,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.SubscribeWeak(
                 new Action<String>(
@@ -3995,8 +3995,8 @@ public class Test_EventSource_SyncWeakHandler
                 )
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.SubscribeWeak(
                 x => {
@@ -4008,12 +4008,12 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -4022,8 +4022,8 @@ public class Test_EventSource_SyncWeakHandler
             using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
             {
                 var factoryCalled = 0;
-                var fa = 0;
-                var fb = 0.0;
+                var fa            = 0;
+                var fb            = 0.0;
 
                 var flag1 = await service.DoAsync(
                     (a, b) => {
@@ -4068,8 +4068,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -4083,16 +4083,16 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             var strongSub = (ActionSubscription<String>)subscription;
-            var weakSub = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
+            var weakSub   = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
             strongSub.TestingClearNextSubscription();
             weakSub.TestingClearNextSubscription();
 
             var factoryCalled = 0;
-            var fa = 0;
-            var fb = 0.0;
+            var fa            = 0;
+            var fb            = 0.0;
 
             var flag1 = await service.DoAsync(
                 (a, b) => {
@@ -4121,8 +4121,8 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(fb).IsEqualTo(1.2);
 
             factoryCalled = 0;
-            fa = 0;
-            fb = 0.0;
+            fa            = 0;
+            fb            = 0.0;
 
             var flag2 = await service.DoAsync(
                 (a, b) => {
@@ -4160,8 +4160,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -4173,7 +4173,7 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             subscription.Dispose();
 
@@ -4205,8 +4205,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -4218,7 +4218,7 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             service.ChangedSource.Dispose();
 
@@ -4251,8 +4251,8 @@ public class Test_EventSource_SyncWeakHandler
             var service = new FooService();
 
             Check.ThatCode(async () => await service.DoAsync(null, 123, 1.2))
-               .Throws<ArgumentNullException>()
-               .WithProperty(x => x.ParamName, "valueFactory");
+                .Throws<ArgumentNullException>()
+                .WithProperty(x => x.ParamName, "valueFactory");
         }
     }
 
@@ -4287,8 +4287,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -4300,12 +4300,12 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             var factoryCalled = 0;
-            var fa = 0;
-            var fb = 0.0;
-            var fc = ' ';
+            var fa            = 0;
+            var fb            = 0.0;
+            var fc            = ' ';
 
             var flag1 = await service.DoAsync(
                 (a, b, c) => {
@@ -4335,11 +4335,11 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(fc).IsEqualTo('a');
 
-            called = 0;
+            called        = 0;
             factoryCalled = 0;
-            fa = 0;
-            fb = 0.0;
-            fc = ' ';
+            fa            = 0;
+            fb            = 0.0;
+            fc            = ' ';
 
             var flag2 = await service.DoAsync(
                 (a, b, c) => {
@@ -4379,8 +4379,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.SubscribeWeak(
                 x => {
@@ -4389,8 +4389,8 @@ public class Test_EventSource_SyncWeakHandler
                 }
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.SubscribeWeak(
                 x => {
@@ -4402,19 +4402,19 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
             var factoryCalled = 0;
-            var fa = 0;
-            var fb = 0.0;
-            var fc = ' ';
+            var fa            = 0;
+            var fb            = 0.0;
+            var fc            = ' ';
 
             var flag1 = await service.DoAsync(
                 (a, b, c) => {
@@ -4448,12 +4448,12 @@ public class Test_EventSource_SyncWeakHandler
 
             Check.That(fc).IsEqualTo('a');
 
-            called1 = 0;
-            called2 = 0;
+            called1       = 0;
+            called2       = 0;
             factoryCalled = 0;
-            fa = 0;
-            fb = 0.0;
-            fc = ' ';
+            fa            = 0;
+            fb            = 0.0;
+            fc            = ' ';
 
             var flag2 = await service.DoAsync(
                 (a, b, c) => {
@@ -4497,8 +4497,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called1 = 0;
-            String arg1 = null;
+            var    called1 = 0;
+            String arg1    = null;
 
             var subscription1 = service.Changed.SubscribeWeak(
                 new Action<String>(
@@ -4511,8 +4511,8 @@ public class Test_EventSource_SyncWeakHandler
                 )
             );
 
-            var called2 = 0;
-            String arg2 = null;
+            var    called2 = 0;
+            String arg2    = null;
 
             var subscription2 = service.Changed.SubscribeWeak(
                 x => {
@@ -4524,12 +4524,12 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription1).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription1).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription2).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             Check.That(subscription2).Not.IsSameReferenceAs(subscription1);
 
@@ -4538,9 +4538,9 @@ public class Test_EventSource_SyncWeakHandler
             using (EventSystem.UnobservedException.SubscribeWeak(x => Volatile.Write(ref exception, x)))
             {
                 var factoryCalled = 0;
-                var fa = 0;
-                var fb = 0.0;
-                var fc = ' ';
+                var fa            = 0;
+                var fb            = 0.0;
+                var fc            = ' ';
 
                 var flag1 = await service.DoAsync(
                     (a, b, c) => {
@@ -4589,8 +4589,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -4604,17 +4604,17 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             var strongSub = (ActionSubscription<String>)subscription;
-            var weakSub = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
+            var weakSub   = (WeakSubscription<String>)strongSub.TestingGetPreviousSubscription();
             strongSub.TestingClearNextSubscription();
             weakSub.TestingClearNextSubscription();
 
             var factoryCalled = 0;
-            var fa = 0;
-            var fb = 0.0;
-            var fc = ' ';
+            var fa            = 0;
+            var fb            = 0.0;
+            var fc            = ' ';
 
             var flag1 = await service.DoAsync(
                 (a, b, c) => {
@@ -4647,9 +4647,9 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(fc).IsEqualTo('a');
 
             factoryCalled = 0;
-            fa = 0;
-            fb = 0.0;
-            fc = ' ';
+            fa            = 0;
+            fb            = 0.0;
+            fc            = ' ';
 
             var flag2 = await service.DoAsync(
                 (a, b, c) => {
@@ -4691,8 +4691,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -4704,7 +4704,7 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             subscription.Dispose();
 
@@ -4737,8 +4737,8 @@ public class Test_EventSource_SyncWeakHandler
         {
             var service = new FooService();
 
-            var called = 0;
-            String arg = null;
+            var    called = 0;
+            String arg    = null;
 
             var subscription = service.Changed.SubscribeWeak(
                 x => {
@@ -4750,7 +4750,7 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
 
             Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
-               .IsInstanceOf<WeakSubscription<String>>();
+                .IsInstanceOf<WeakSubscription<String>>();
 
             service.ChangedSource.Dispose();
 
@@ -4784,8 +4784,8 @@ public class Test_EventSource_SyncWeakHandler
             var service = new FooService();
 
             Check.ThatCode(async () => await service.DoAsync(null, 123, 1.2, 'a'))
-               .Throws<ArgumentNullException>()
-               .WithProperty(x => x.ParamName, "valueFactory");
+                .Throws<ArgumentNullException>()
+                .WithProperty(x => x.ParamName, "valueFactory");
         }
     }
 }
