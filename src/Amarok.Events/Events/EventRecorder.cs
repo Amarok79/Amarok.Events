@@ -29,9 +29,10 @@ public static class EventRecorder
     /// </exception>
     public static EventRecorder<T> From<T>(EventSource<T> eventSource)
     {
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (eventSource == null)
-            throw new ArgumentNullException(nameof(eventSource));
+            ThrowHelper.ThrowArgumentNullException(nameof(eventSource));
 
-        return new EventRecorder<T>(eventSource.Event);
+        return new EventRecorder<T>(eventSource!.Event);
     }
 }

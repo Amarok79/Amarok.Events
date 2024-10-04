@@ -66,13 +66,11 @@ public readonly struct Event<T> : IEquatable<Event<T>>
     /// </exception>
     public readonly IDisposable Subscribe(Action<T> action)
     {
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (action == null)
-            throw new ArgumentNullException(nameof(action));
+            ThrowHelper.ThrowArgumentNullException(nameof(action));
 
-        if (mSource == null)
-            return NullSubscription.Instance;
-
-        return mSource.Add(action);
+        return mSource == null ? NullSubscription.Instance : mSource.Add(action!);
     }
 
     /// <summary>
@@ -97,13 +95,11 @@ public readonly struct Event<T> : IEquatable<Event<T>>
     /// </exception>
     public readonly IDisposable Subscribe(Func<T, Task> func)
     {
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (func == null)
-            throw new ArgumentNullException(nameof(func));
+            ThrowHelper.ThrowArgumentNullException(nameof(func));
 
-        if (mSource == null)
-            return NullSubscription.Instance;
-
-        return mSource.Add(func);
+        return mSource == null ? NullSubscription.Instance : mSource.Add(func!);
     }
 
     /// <summary>
@@ -128,7 +124,11 @@ public readonly struct Event<T> : IEquatable<Event<T>>
     /// </exception>
     public readonly IDisposable Subscribe(IProgress<T> progress)
     {
-        return Subscribe(x => progress.Report(x));
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+        if (progress == null)
+            ThrowHelper.ThrowArgumentNullException(nameof(progress));
+
+        return Subscribe(x => progress!.Report(x));
     }
 
     /// <summary>
@@ -157,13 +157,11 @@ public readonly struct Event<T> : IEquatable<Event<T>>
     /// </exception>
     public readonly IDisposable SubscribeWeak(Action<T> action)
     {
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (action == null)
-            throw new ArgumentNullException(nameof(action));
+            ThrowHelper.ThrowArgumentNullException(nameof(action));
 
-        if (mSource == null)
-            return NullSubscription.Instance;
-
-        return mSource.AddWeak(action);
+        return mSource == null ? NullSubscription.Instance : mSource.AddWeak(action!);
     }
 
     /// <summary>
@@ -192,13 +190,11 @@ public readonly struct Event<T> : IEquatable<Event<T>>
     /// </exception>
     public readonly IDisposable SubscribeWeak(Func<T, Task> func)
     {
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (func == null)
-            throw new ArgumentNullException(nameof(func));
+            ThrowHelper.ThrowArgumentNullException(nameof(func));
 
-        if (mSource == null)
-            return NullSubscription.Instance;
-
-        return mSource.AddWeak(func);
+        return mSource == null ? NullSubscription.Instance : mSource.AddWeak(func!);
     }
 
     /// <summary>
@@ -227,7 +223,11 @@ public readonly struct Event<T> : IEquatable<Event<T>>
     /// </exception>
     public readonly IDisposable SubscribeWeak(IProgress<T> progress)
     {
-        return SubscribeWeak(x => progress.Report(x));
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+        if (progress == null)
+            ThrowHelper.ThrowArgumentNullException(nameof(progress));
+
+        return SubscribeWeak(x => progress!.Report(x));
     }
 
 
@@ -236,10 +236,7 @@ public readonly struct Event<T> : IEquatable<Event<T>>
     /// </summary>
     public readonly override String ToString()
     {
-        if (HasSource)
-            return $"Event<{typeof(T).Name}> ⇔ {mSource}";
-
-        return $"Event<{typeof(T).Name}> ⇔ <null>";
+        return HasSource ? $"Event<{typeof(T).Name}> ⇔ {mSource}" : $"Event<{typeof(T).Name}> ⇔ <null>";
     }
 
     #endregion

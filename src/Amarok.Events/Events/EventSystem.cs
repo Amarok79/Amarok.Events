@@ -41,9 +41,9 @@ public static class EventSystem
     public static void NotifyUnobservedException(Exception? exception)
     {
         if (exception == null)
-            throw new ArgumentNullException(nameof(exception));
+            ThrowHelper.ThrowArgumentNullException(nameof(exception));
 
-        sUnobservedExceptionEventSource.Invoke(exception);
+        sUnobservedExceptionEventSource.Invoke(exception!);
     }
 
     #endregion

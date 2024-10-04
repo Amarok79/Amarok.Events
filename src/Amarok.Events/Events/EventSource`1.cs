@@ -233,8 +233,9 @@ public sealed class EventSource<T> : IProgress<T>,
     /// </exception>
     public Boolean Invoke(Func<T> valueFactory)
     {
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (valueFactory == null)
-            throw new ArgumentNullException(nameof(valueFactory));
+            ThrowHelper.ThrowArgumentNullException(nameof(valueFactory));
 
         if (mIsDisposed)
             return false;
@@ -245,7 +246,7 @@ public sealed class EventSource<T> : IProgress<T>,
         if (subscriptions.Length == 0)
             return false;
 
-        var value = valueFactory();
+        var value = valueFactory!();
         _InvokeCore(subscriptions, value);
 
         return true;
@@ -291,8 +292,9 @@ public sealed class EventSource<T> : IProgress<T>,
     /// </exception>
     public Boolean Invoke<TArg>(Func<TArg, T> valueFactory, TArg arg)
     {
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (valueFactory == null)
-            throw new ArgumentNullException(nameof(valueFactory));
+            ThrowHelper.ThrowArgumentNullException(nameof(valueFactory));
 
         if (mIsDisposed)
             return false;
@@ -303,7 +305,7 @@ public sealed class EventSource<T> : IProgress<T>,
         if (subscriptions.Length == 0)
             return false;
 
-        var value = valueFactory(arg);
+        var value = valueFactory!(arg);
         _InvokeCore(subscriptions, value);
 
         return true;
@@ -353,8 +355,9 @@ public sealed class EventSource<T> : IProgress<T>,
     /// </exception>
     public Boolean Invoke<TArg1, TArg2>(Func<TArg1, TArg2, T> valueFactory, TArg1 arg1, TArg2 arg2)
     {
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (valueFactory == null)
-            throw new ArgumentNullException(nameof(valueFactory));
+            ThrowHelper.ThrowArgumentNullException(nameof(valueFactory));
 
         if (mIsDisposed)
             return false;
@@ -365,7 +368,7 @@ public sealed class EventSource<T> : IProgress<T>,
         if (subscriptions.Length == 0)
             return false;
 
-        var value = valueFactory(arg1, arg2);
+        var value = valueFactory!(arg1, arg2);
         _InvokeCore(subscriptions, value);
 
         return true;
@@ -424,8 +427,9 @@ public sealed class EventSource<T> : IProgress<T>,
         TArg3 arg3
     )
     {
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (valueFactory == null)
-            throw new ArgumentNullException(nameof(valueFactory));
+            ThrowHelper.ThrowArgumentNullException(nameof(valueFactory));
 
         if (mIsDisposed)
             return false;
@@ -436,7 +440,7 @@ public sealed class EventSource<T> : IProgress<T>,
         if (subscriptions.Length == 0)
             return false;
 
-        var value = valueFactory(arg1, arg2, arg3);
+        var value = valueFactory!(arg1, arg2, arg3);
         _InvokeCore(subscriptions, value);
 
         return true;
@@ -550,8 +554,9 @@ public sealed class EventSource<T> : IProgress<T>,
     /// </exception>
     public ValueTask<Boolean> InvokeAsync(Func<T> valueFactory)
     {
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (valueFactory == null)
-            throw new ArgumentNullException(nameof(valueFactory));
+            ThrowHelper.ThrowArgumentNullException(nameof(valueFactory));
 
         if (mIsDisposed)
             return new ValueTask<Boolean>(TaskUtils.FalseTask);
@@ -562,7 +567,7 @@ public sealed class EventSource<T> : IProgress<T>,
         if (subscriptions.Length == 0)
             return new ValueTask<Boolean>(TaskUtils.FalseTask);
 
-        var value = valueFactory();
+        var value = valueFactory!();
 
         return _InvokeAsyncCore(subscriptions, value);
     }
@@ -611,8 +616,9 @@ public sealed class EventSource<T> : IProgress<T>,
     /// </exception>
     public ValueTask<Boolean> InvokeAsync<TArg>(Func<TArg, T> valueFactory, TArg arg)
     {
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (valueFactory == null)
-            throw new ArgumentNullException(nameof(valueFactory));
+            ThrowHelper.ThrowArgumentNullException(nameof(valueFactory));
 
         if (mIsDisposed)
             return new ValueTask<Boolean>(TaskUtils.FalseTask);
@@ -623,7 +629,7 @@ public sealed class EventSource<T> : IProgress<T>,
         if (subscriptions.Length == 0)
             return new ValueTask<Boolean>(TaskUtils.FalseTask);
 
-        var value = valueFactory(arg);
+        var value = valueFactory!(arg);
 
         return _InvokeAsyncCore(subscriptions, value);
     }
@@ -680,8 +686,9 @@ public sealed class EventSource<T> : IProgress<T>,
         TArg2 arg2
     )
     {
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (valueFactory == null)
-            throw new ArgumentNullException(nameof(valueFactory));
+            ThrowHelper.ThrowArgumentNullException(nameof(valueFactory));
 
         if (mIsDisposed)
             return new ValueTask<Boolean>(TaskUtils.FalseTask);
@@ -692,7 +699,7 @@ public sealed class EventSource<T> : IProgress<T>,
         if (subscriptions.Length == 0)
             return new ValueTask<Boolean>(TaskUtils.FalseTask);
 
-        var value = valueFactory(arg1, arg2);
+        var value = valueFactory!(arg1, arg2);
 
         return _InvokeAsyncCore(subscriptions, value);
     }
@@ -754,8 +761,9 @@ public sealed class EventSource<T> : IProgress<T>,
         TArg3 arg3
     )
     {
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (valueFactory == null)
-            throw new ArgumentNullException(nameof(valueFactory));
+            ThrowHelper.ThrowArgumentNullException(nameof(valueFactory));
 
         if (mIsDisposed)
             return new ValueTask<Boolean>(TaskUtils.FalseTask);
@@ -766,7 +774,7 @@ public sealed class EventSource<T> : IProgress<T>,
         if (subscriptions.Length == 0)
             return new ValueTask<Boolean>(TaskUtils.FalseTask);
 
-        var value = valueFactory(arg1, arg2, arg3);
+        var value = valueFactory!(arg1, arg2, arg3);
 
         return _InvokeAsyncCore(subscriptions, value);
     }

@@ -6,12 +6,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="BenchmarkDotNet" Version="0.13.12"/>
-        <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0"/>
+        <PackageReference Include="BenchmarkDotNet" Version="0.13.12" />
+        <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Amarok.Events\Amarok.Events.csproj"/>
+        <ProjectReference Include="..\Amarok.Events\Amarok.Events.csproj" />
     </ItemGroup>
 
 </Project>

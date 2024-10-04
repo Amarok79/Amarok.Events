@@ -18,14 +18,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="..\amarok.png" Pack="true" PackagePath="\"/>
+        <None Include="..\amarok.png" Pack="true" PackagePath="\" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All"/>
-        <PackageReference Include="System.Collections.Immutable" Version="8.0.0"/>
-        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0"/>
-        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4"/>
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+        <PackageReference Include="System.Collections.Immutable" Version="8.0.0" />
+        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
+        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
     </ItemGroup>
 
 </Project>
