@@ -63,15 +63,15 @@ public class Benchmarks
         {
             ServiceHandlerCount0 = new FooServiceImpl();
 
-            ServiceHandlerCount1            =  new FooServiceImpl();
+            ServiceHandlerCount1 = new FooServiceImpl();
             ServiceHandlerCount1.FooChanged += _HandleFooChanged;
 
-            ServiceHandlerCount3            =  new FooServiceImpl();
+            ServiceHandlerCount3 = new FooServiceImpl();
             ServiceHandlerCount3.FooChanged += _HandleFooChanged;
             ServiceHandlerCount3.FooChanged += _HandleFooChanged;
             ServiceHandlerCount3.FooChanged += _HandleFooChanged;
 
-            ServiceHandlerCount9            =  new FooServiceImpl();
+            ServiceHandlerCount9 = new FooServiceImpl();
             ServiceHandlerCount9.FooChanged += _HandleFooChanged;
             ServiceHandlerCount9.FooChanged += _HandleFooChanged;
             ServiceHandlerCount9.FooChanged += _HandleFooChanged;

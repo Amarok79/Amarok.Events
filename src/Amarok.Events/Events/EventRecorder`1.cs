@@ -11,10 +11,10 @@ namespace Amarok.Events;
 
 
 /// <summary>
-///     This type represents a recorder of events. The recorder subscribes itself on the supplied event and records all
-///     events that are being raised. In addition to the event argument, the recorder also records information about the
-///     timestamp, the calling thread, etc. This makes it a useful utility in writing unit tests interacting with events.
-///     This type is thread-safe.
+///     This type represents a recorder of events. The recorder subscribes itself on the supplied event
+///     and records all events that are being raised. In addition to the event argument, the recorder
+///     also records information about the timestamp, the calling thread, etc. This makes it a useful
+///     utility in writing unit tests interacting with events. This type is thread-safe.
 /// </summary>
 public sealed class EventRecorder<T> : IDisposable
 {
@@ -61,11 +61,12 @@ public sealed class EventRecorder<T> : IDisposable
     }
 
     /// <summary>
-    ///     Gets the event arguments of the recorded events as read-only list. This property returns a snapshot for the
-    ///     recorded events, thus, it is safe to enumerate the returned collection while still recording further events. The
-    ///     property caches the returned collection and returns this cached collection for subsequent calls, if possible. That
-    ///     means if in the meantime no further events have been recorded, the same list is returned. This is an optimization
-    ///     to reduce memory allocations.
+    ///     Gets the event arguments of the recorded events as read-only list. This property returns a
+    ///     snapshot for the recorded events, thus, it is safe to enumerate the returned collection while
+    ///     still recording further events. The property caches the returned collection and returns this
+    ///     cached collection for subsequent calls, if possible. That means if in the meantime no further
+    ///     events have been recorded, the same list is returned. This is an optimization to reduce memory
+    ///     allocations.
     /// </summary>
     public IReadOnlyList<T> Events
     {
@@ -74,9 +75,7 @@ public sealed class EventRecorder<T> : IDisposable
             lock (mSyncThis)
             {
                 if (mCachedEvents == null || mCachedEvents.Length != mEventInfos.Count)
-                {
                     mCachedEvents = mEventInfos.Select(x => x.Value).ToArray();
-                }
 
                 return mCachedEvents;
             }
@@ -84,10 +83,11 @@ public sealed class EventRecorder<T> : IDisposable
     }
 
     /// <summary>
-    ///     Gets a read-only list of info objects for recorded events, where each info object provides information about a
-    ///     single recorded event. This property returns a snapshot for the recorded events, thus, it is safe to enumerate the
-    ///     returned collection while still recording further events. The property caches the returned collection and returns
-    ///     this cached collection for subsequent calls, if possible. That means if in the meantime no further events have been
+    ///     Gets a read-only list of info objects for recorded events, where each info object provides
+    ///     information about a single recorded event. This property returns a snapshot for the recorded
+    ///     events, thus, it is safe to enumerate the returned collection while still recording further
+    ///     events. The property caches the returned collection and returns this cached collection for
+    ///     subsequent calls, if possible. That means if in the meantime no further events have been
     ///     recorded, the same list is returned. This is an optimization to reduce memory allocations.
     /// </summary>
     public IReadOnlyList<EventInfo> EventInfos
@@ -97,9 +97,7 @@ public sealed class EventRecorder<T> : IDisposable
             lock (mSyncThis)
             {
                 if (mCachedEventInfos == null || mCachedEventInfos.Length != mEventInfos.Count)
-                {
                     mCachedEventInfos = mEventInfos.ToArray();
-                }
 
                 return mCachedEventInfos;
             }
@@ -121,13 +119,17 @@ public sealed class EventRecorder<T> : IDisposable
         lock (mSyncThis)
         {
             if (mIsPaused)
-            {
                 return;
-            }
 
             var timeOffset = mEventInfos.Count == 0 ? TimeSpan.Zero : mWatch.Elapsed;
 
-            var info = new EventInfo(value, mEventInfos.Count, DateTimeOffset.Now, timeOffset, Thread.CurrentThread);
+            var info = new EventInfo(
+                value,
+                mEventInfos.Count,
+                DateTimeOffset.Now,
+                timeOffset,
+                Thread.CurrentThread
+            );
 
             mEventInfos.Add(info);
             mWatch.Restart();
@@ -143,9 +145,9 @@ public sealed class EventRecorder<T> : IDisposable
         lock (mSyncThis)
         {
             mEventInfos.Clear();
-            mCachedEvents     = null;
+            mCachedEvents = null;
             mCachedEventInfos = null;
-            mIsPaused         = false;
+            mIsPaused = false;
             mWatch.Reset();
         }
     }
@@ -174,9 +176,9 @@ public sealed class EventRecorder<T> : IDisposable
 
 
     /// <summary>
-    ///     Disposes this event recorder, meaning the event recorder unregisters from the supplied event. That means no further
-    ///     events are recorded, regardless of whether the event recorder is paused or resumed. The list of already recorded
-    ///     events remains accessible.
+    ///     Disposes this event recorder, meaning the event recorder unregisters from the supplied event.
+    ///     That means no further events are recorded, regardless of whether the event recorder is paused
+    ///     or resumed. The list of already recorded events remains accessible.
     /// </summary>
     public void Dispose()
     {
@@ -195,8 +197,8 @@ public sealed class EventRecorder<T> : IDisposable
         public T Value { get; }
 
         /// <summary>
-        ///     Gets the index number of the recorded event. The first recorded event gets an index of zero, the second recorded
-        ///     event an index of one, the third an index of two.
+        ///     Gets the index number of the recorded event. The first recorded event gets an index of zero,
+        ///     the second recorded event an index of one, the third an index of two.
         /// </summary>
         public Int32 Index { get; }
 
@@ -206,8 +208,8 @@ public sealed class EventRecorder<T> : IDisposable
         public DateTimeOffset Timestamp { get; }
 
         /// <summary>
-        ///     Gets the time offset from the previously recorded event. The first recorded event always has a time offset of zero.
-        ///     The second recorded event usually has a time offset greater than zero.
+        ///     Gets the time offset from the previously recorded event. The first recorded event always has a
+        ///     time offset of zero. The second recorded event usually has a time offset greater than zero.
         /// </summary>
         public TimeSpan TimeOffset { get; }
 
@@ -228,11 +230,11 @@ public sealed class EventRecorder<T> : IDisposable
             Thread thread
         )
         {
-            Value      = value;
-            Index      = index;
-            Timestamp  = timestamp;
+            Value = value;
+            Index = index;
+            Timestamp = timestamp;
             TimeOffset = timeOffset;
-            Thread     = thread;
+            Thread = thread;
         }
     }
 }

@@ -7,8 +7,8 @@ namespace Amarok.Events;
 
 
 /// <summary>
-///     This static type provides factory methods for creating <see cref="EventRecorder{T}"/> instances. This type is
-///     thread-safe.
+///     This static type provides factory methods for creating <see cref="EventRecorder{T}"/>
+///     instances. This type is thread-safe.
 /// </summary>
 public static class EventRecorder
 {
@@ -30,9 +30,7 @@ public static class EventRecorder
     public static EventRecorder<T> From<T>(EventSource<T> eventSource)
     {
         if (eventSource == null)
-        {
             throw new ArgumentNullException(nameof(eventSource));
-        }
 
         return new EventRecorder<T>(eventSource.Event);
     }
