@@ -154,6 +154,43 @@ public class Test_EventSource_SyncHandler
         }
 
         [Test]
+        public void Invoke_With_SingleHandler_NoArg()
+        {
+            var service = new FooService();
+
+            var called = 0;
+
+            var subscription = service.Changed.Subscribe(() => { called++; });
+
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
+
+            Check.That(((ActionSubscription<String>)subscription).Target).IsNotNull();
+
+            Check.That(((ActionSubscription<String>)subscription).Method).IsNotNull();
+
+            var flag1 = service.Do("abc");
+
+            Check.That(flag1).IsTrue();
+
+            Check.That(called).IsEqualTo(1);
+
+            called = 0;
+            var flag2 = service.Do("def");
+
+            Check.That(flag2).IsTrue();
+
+            Check.That(called).IsEqualTo(1);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
+
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
+
+            Check.That(service.ChangedSource.Subscriptions).HasSize(1);
+        }
+
+        [Test]
         public void Invoke_With_MultipleHandler()
         {
             var service = new FooService();
@@ -1932,6 +1969,37 @@ public class Test_EventSource_SyncHandler
             Check.That(called).IsEqualTo(1);
 
             Check.That(arg).IsEqualTo("def");
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
+
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
+        }
+
+        [Test]
+        public async Task InvokeAsync_With_SingleHandler_NoArg()
+        {
+            var service = new FooService();
+
+            var called = 0;
+
+            var subscription = service.Changed.Subscribe(() => { called++; });
+
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription()).IsNull();
+
+            var flag1 = await service.DoAsync("abc");
+
+            Check.That(flag1).IsTrue();
+
+            Check.That(called).IsEqualTo(1);
+
+            called = 0;
+            var flag2 = await service.DoAsync("def");
+
+            Check.That(flag2).IsTrue();
+
+            Check.That(called).IsEqualTo(1);
 
             Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
 

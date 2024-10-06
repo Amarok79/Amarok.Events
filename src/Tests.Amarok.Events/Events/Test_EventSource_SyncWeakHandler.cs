@@ -164,6 +164,49 @@ public class Test_EventSource_SyncWeakHandler
         }
 
         [Test]
+        public void Invoke_With_SingleHandler_NoArg()
+        {
+            var service = new FooService();
+
+            var called = 0;
+
+            var subscription = service.Changed.SubscribeWeak(() => { called++; });
+
+            Check.That(subscription).IsNotNull();
+
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
+                .IsInstanceOf<WeakSubscription<String>>();
+
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription().ToString())
+                .StartsWith("⇒ weak ⇒ Amarok.Events.Event");
+
+            var flag1 = service.Do("abc");
+
+            Check.That(flag1).IsTrue();
+
+            Check.That(called).IsEqualTo(1);
+
+            called = 0;
+            var flag2 = service.Do("def");
+
+            Check.That(flag2).IsTrue();
+
+            Check.That(called).IsEqualTo(1);
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
+
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
+
+            Check.That(service.ChangedSource.Event).IsEqualTo(service.Changed);
+
+            Check.That(service.Changed.Source).IsSameReferenceAs(service.ChangedSource);
+
+            Check.That(service.Changed.HasSource).IsTrue();
+        }
+
+        [Test]
         public void Invoke_With_MultipleHandler()
         {
             var service = new FooService();
@@ -2643,6 +2686,38 @@ public class Test_EventSource_SyncWeakHandler
             Check.That(called).IsEqualTo(1);
 
             Check.That(arg).IsEqualTo("def");
+
+            Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
+
+            Check.That(service.ChangedSource.IsDisposed).IsFalse();
+        }
+
+        [Test]
+        public async Task InvokeAsync_With_SingleHandler_NoArg()
+        {
+            var service = new FooService();
+
+            var called = 0;
+
+            var subscription = service.Changed.SubscribeWeak(() => { called++; });
+
+            Check.That(subscription).IsInstanceOf<ActionSubscription<String>>();
+
+            Check.That(((ActionSubscription<String>)subscription).TestingGetPreviousSubscription())
+                .IsInstanceOf<WeakSubscription<String>>();
+
+            var flag1 = await service.DoAsync("abc");
+
+            Check.That(flag1).IsTrue();
+
+            Check.That(called).IsEqualTo(1);
+
+            called = 0;
+            var flag2 = await service.DoAsync("def");
+
+            Check.That(flag2).IsTrue();
+
+            Check.That(called).IsEqualTo(1);
 
             Check.That(service.ChangedSource.NumberOfSubscriptions).IsEqualTo(1);
 
