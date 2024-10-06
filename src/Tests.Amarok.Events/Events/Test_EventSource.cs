@@ -11,6 +11,20 @@ namespace Amarok.Events;
 public class Test_EventSource
 {
     [TestFixture]
+    public class Usage
+    {
+        [Test]
+        public void ImplicitCastToEvent()
+        {
+            var src = new EventSource<String>();
+
+            Event<String> evt = src;
+
+            Check.That(evt.Source).IsEqualTo(src.Event.Source);
+        }
+    }
+
+    [TestFixture]
     public class Dispose
     {
         [Test]

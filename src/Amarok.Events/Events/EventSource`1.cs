@@ -143,6 +143,15 @@ public sealed class EventSource<T> : IProgress<T>,
 
 
     /// <summary>
+    ///     Implicit cast from event source to event.
+    /// </summary>
+    public static implicit operator Event<T>(EventSource<T> eventSource)
+    {
+        return eventSource.Event;
+    }
+
+
+    /// <summary>
     ///     Initializes a new instance.
     /// </summary>
     public EventSource()
