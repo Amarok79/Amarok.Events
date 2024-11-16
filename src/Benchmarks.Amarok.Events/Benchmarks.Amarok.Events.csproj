@@ -2,12 +2,13 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFrameworks>net48;net6.0;net7.0;net8.0</TargetFrameworks>
+        <TargetFrameworks>net48;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="BenchmarkDotNet" Version="0.14.0" />
-        <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
+        <PackageReference Include="BenchmarkDotNet" />
+        <PackageReference Include="Microsoft.Win32.Registry" />
+        <PackageReference Include="System.Reflection.Metadata" />
     </ItemGroup>
 
     <ItemGroup>

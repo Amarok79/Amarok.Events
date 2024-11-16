@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>netstandard2.0;net6.0;net7.0;net8.0</TargetFrameworks>
+        <TargetFrameworks>netstandard2.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -18,14 +18,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="..\amarok.png" Pack="true" PackagePath="\" />
+        <None Include="..\amarok.png" Pack="True" PackagePath="\" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
-        <PackageReference Include="System.Collections.Immutable" Version="8.0.0" />
-        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
-        <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
+        <PackageReference Include="System.Collections.Immutable" />
+        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" />
+        <PackageReference Include="System.Threading.Tasks.Extensions" />
     </ItemGroup>
 
 </Project>

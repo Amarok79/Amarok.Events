@@ -16,6 +16,7 @@ namespace Amarok.Events;
 [SimpleJob(RuntimeMoniker.Net48)]
 [SimpleJob(RuntimeMoniker.Net60)]
 [SimpleJob(RuntimeMoniker.Net80)]
+[SimpleJob(RuntimeMoniker.Net90)]
 [MemoryDiagnoser]
 public class Benchmarks
 {
