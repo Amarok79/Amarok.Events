@@ -18,6 +18,7 @@
 
     <PropertyGroup>
         <OutputPath>..\..\bin\lib</OutputPath>
+        <PackageOutputPath>..\..\out\nupkg</PackageOutputPath>
         <Nullable>Enable</Nullable>
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
         <IsPackable>True</IsPackable>

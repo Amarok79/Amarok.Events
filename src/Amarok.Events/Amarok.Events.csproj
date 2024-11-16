@@ -11,7 +11,6 @@
         <PackageIcon>amarok.png</PackageIcon>
         <PublishRepositoryUrl>True</PublishRepositoryUrl>
         <EmbedUntrackedSources>True</EmbedUntrackedSources>
-        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
         <PackageTags>Event Observer Publisher Subscriber Progress Recorder Handler</PackageTags>
         <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>

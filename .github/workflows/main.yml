@@ -68,5 +68,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: nuget
-          path: bin/lib/*.nupkg
+          path: out/nupkg/*.nupkg
           if-no-files-found: error
