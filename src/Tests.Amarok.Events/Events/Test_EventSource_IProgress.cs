@@ -30,7 +30,19 @@ public class Test_EventSource_IProgress
 
         FakeMethodWithIProgress(src);
 
-        Check.That(events).ContainsExactly(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+        Check.That(events)
+        .ContainsExactly(
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+        );
     }
 
     [Test]
@@ -50,7 +62,19 @@ public class Test_EventSource_IProgress
             src.Invoke(i);
         }
 
-        Check.That(events).ContainsExactly(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+        Check.That(events)
+        .ContainsExactly(
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+        );
     }
 
     [Test]
@@ -70,7 +94,19 @@ public class Test_EventSource_IProgress
             src.Invoke(i);
         }
 
-        Check.That(events).ContainsExactly(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+        Check.That(events)
+        .ContainsExactly(
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+        );
 
         GC.KeepAlive(subscription);
     }

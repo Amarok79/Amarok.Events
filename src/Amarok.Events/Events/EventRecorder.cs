@@ -7,8 +7,8 @@ namespace Amarok.Events;
 
 
 /// <summary>
-///     This static type provides factory methods for creating <see cref="EventRecorder{T}"/>
-///     instances. This type is thread-safe.
+///     This static type provides factory methods for creating <see cref="EventRecorder{T}"/> instances. This
+///     type is thread-safe.
 /// </summary>
 public static class EventRecorder
 {

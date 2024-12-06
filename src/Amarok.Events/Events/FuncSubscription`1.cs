@@ -46,13 +46,12 @@ internal sealed class FuncSubscription<T> : Subscription<T>
     public FuncSubscription(EventSource<T> source, Func<T, Task> func)
     {
         mSource = source;
-        mFunc = func;
+        mFunc   = func;
     }
 
 
     /// <summary>
-    ///     Invoked to establish a weak reference back to another subscription. Only called for weak
-    ///     subscriptions.
+    ///     Invoked to establish a weak reference back to another subscription. Only called for weak subscriptions.
     /// </summary>
     public void SetPreviousSubscription(Subscription<T> subscription)
     {

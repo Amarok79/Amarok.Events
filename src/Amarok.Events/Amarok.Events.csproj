@@ -1,19 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>netstandard2.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
+        <TargetFrameworks>netstandard2.0;net6.0;net8.0;net9.0</TargetFrameworks>
     </PropertyGroup>
 
     <PropertyGroup>
+        <PackageIcon>amarok.png</PackageIcon>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/Amarok79/Amarok.Events</PackageProjectUrl>
         <RepositoryUrl>https://github.com/Amarok79/Amarok.Events</RepositoryUrl>
-        <PackageIcon>amarok.png</PackageIcon>
-        <PublishRepositoryUrl>True</PublishRepositoryUrl>
-        <EmbedUntrackedSources>True</EmbedUntrackedSources>
-        <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
-        <PackageTags>Event Observer Publisher Subscriber Progress Recorder Handler</PackageTags>
-        <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
     </PropertyGroup>
 
     <ItemGroup>

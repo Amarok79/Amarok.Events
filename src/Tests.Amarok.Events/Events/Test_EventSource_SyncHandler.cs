@@ -42,12 +42,7 @@ public class Test_EventSource_SyncHandler
             return ChangedSource.Invoke(func, arg1, arg2);
         }
 
-        public Boolean Do(
-            Func<Int32, Double, Char, String> func,
-            Int32 arg1,
-            Double arg2,
-            Char arg3
-        )
+        public Boolean Do(Func<Int32, Double, Char, String> func, Int32 arg1, Double arg2, Char arg3)
         {
             return ChangedSource.Invoke(func, arg1, arg2, arg3);
         }
@@ -72,12 +67,7 @@ public class Test_EventSource_SyncHandler
             return ChangedSource.InvokeAsync(func, arg1, arg2);
         }
 
-        public ValueTask<Boolean> DoAsync(
-            Func<Int32, Double, Char, String> func,
-            Int32 arg1,
-            Double arg2,
-            Char arg3
-        )
+        public ValueTask<Boolean> DoAsync(Func<Int32, Double, Char, String> func, Int32 arg1, Double arg2, Char arg3)
         {
             return ChangedSource.InvokeAsync(func, arg1, arg2, arg3);
         }
@@ -448,7 +438,7 @@ public class Test_EventSource_SyncHandler
 
             Check.That(factoryCalled).IsEqualTo(1);
 
-            called = 0;
+            called        = 0;
             factoryCalled = 0;
 
             var flag2 = service.Do(
@@ -529,8 +519,8 @@ public class Test_EventSource_SyncHandler
 
             Check.That(factoryCalled).IsEqualTo(1);
 
-            called1 = 0;
-            called2 = 0;
+            called1       = 0;
+            called2       = 0;
             factoryCalled = 0;
 
             var flag2 = service.Do(
@@ -794,9 +784,9 @@ public class Test_EventSource_SyncHandler
 
             Check.That(fa).IsEqualTo(123);
 
-            called = 0;
+            called        = 0;
             factoryCalled = 0;
-            fa = 0;
+            fa            = 0;
 
             var flag2 = service.Do(
                 a => {
@@ -885,10 +875,10 @@ public class Test_EventSource_SyncHandler
 
             Check.That(fa).IsEqualTo(123);
 
-            called1 = 0;
-            called2 = 0;
+            called1       = 0;
+            called2       = 0;
             factoryCalled = 0;
-            fa = 0;
+            fa            = 0;
 
             var flag2 = service.Do(
                 a => {
@@ -1168,10 +1158,10 @@ public class Test_EventSource_SyncHandler
 
             Check.That(fb).IsEqualTo(1.2);
 
-            called = 0;
+            called        = 0;
             factoryCalled = 0;
-            fa = 0;
-            fb = 0.0;
+            fa            = 0;
+            fb            = 0.0;
 
             var flag2 = service.Do(
                 (a, b) => {
@@ -1269,11 +1259,11 @@ public class Test_EventSource_SyncHandler
 
             Check.That(fb).IsEqualTo(1.2);
 
-            called1 = 0;
-            called2 = 0;
+            called1       = 0;
+            called2       = 0;
             factoryCalled = 0;
-            fa = 0;
-            fb = 0.0;
+            fa            = 0;
+            fb            = 0.0;
 
             var flag2 = service.Do(
                 (a, b) => {
@@ -1570,11 +1560,11 @@ public class Test_EventSource_SyncHandler
 
             Check.That(fc).IsEqualTo('a');
 
-            called = 0;
+            called        = 0;
             factoryCalled = 0;
-            fa = 0;
-            fb = 0.0;
-            fc = ' ';
+            fa            = 0;
+            fb            = 0.0;
+            fc            = ' ';
 
             var flag2 = service.Do(
                 (a, b, c) => {
@@ -1681,12 +1671,12 @@ public class Test_EventSource_SyncHandler
 
             Check.That(fc).IsEqualTo('a');
 
-            called1 = 0;
-            called2 = 0;
+            called1       = 0;
+            called2       = 0;
             factoryCalled = 0;
-            fa = 0;
-            fb = 0.0;
-            fc = ' ';
+            fa            = 0;
+            fb            = 0.0;
+            fc            = ' ';
 
             var flag2 = service.Do(
                 (a, b, c) => {
@@ -2262,7 +2252,7 @@ public class Test_EventSource_SyncHandler
 
             Check.That(factoryCalled).IsEqualTo(1);
 
-            called = 0;
+            called        = 0;
             factoryCalled = 0;
 
             var flag2 = await service.DoAsync(
@@ -2343,8 +2333,8 @@ public class Test_EventSource_SyncHandler
 
             Check.That(factoryCalled).IsEqualTo(1);
 
-            called1 = 0;
-            called2 = 0;
+            called1       = 0;
+            called2       = 0;
             factoryCalled = 0;
 
             var flag2 = await service.DoAsync(
@@ -2608,9 +2598,9 @@ public class Test_EventSource_SyncHandler
 
             Check.That(fa).IsEqualTo(123);
 
-            called = 0;
+            called        = 0;
             factoryCalled = 0;
-            fa = 0;
+            fa            = 0;
 
             var flag2 = await service.DoAsync(
                 a => {
@@ -2699,10 +2689,10 @@ public class Test_EventSource_SyncHandler
 
             Check.That(fa).IsEqualTo(123);
 
-            called1 = 0;
-            called2 = 0;
+            called1       = 0;
+            called2       = 0;
             factoryCalled = 0;
-            fa = 0;
+            fa            = 0;
 
             var flag2 = await service.DoAsync(
                 a => {
@@ -2982,10 +2972,10 @@ public class Test_EventSource_SyncHandler
 
             Check.That(fb).IsEqualTo(1.2);
 
-            called = 0;
+            called        = 0;
             factoryCalled = 0;
-            fa = 0;
-            fb = 0.0;
+            fa            = 0;
+            fb            = 0.0;
 
             var flag2 = await service.DoAsync(
                 (a, b) => {
@@ -3083,11 +3073,11 @@ public class Test_EventSource_SyncHandler
 
             Check.That(fb).IsEqualTo(1.2);
 
-            called1 = 0;
-            called2 = 0;
+            called1       = 0;
+            called2       = 0;
             factoryCalled = 0;
-            fa = 0;
-            fb = 0.0;
+            fa            = 0;
+            fb            = 0.0;
 
             var flag2 = await service.DoAsync(
                 (a, b) => {
@@ -3384,11 +3374,11 @@ public class Test_EventSource_SyncHandler
 
             Check.That(fc).IsEqualTo('a');
 
-            called = 0;
+            called        = 0;
             factoryCalled = 0;
-            fa = 0;
-            fb = 0.0;
-            fc = ' ';
+            fa            = 0;
+            fb            = 0.0;
+            fc            = ' ';
 
             var flag2 = await service.DoAsync(
                 (a, b, c) => {
@@ -3495,12 +3485,12 @@ public class Test_EventSource_SyncHandler
 
             Check.That(fc).IsEqualTo('a');
 
-            called1 = 0;
-            called2 = 0;
+            called1       = 0;
+            called2       = 0;
             factoryCalled = 0;
-            fa = 0;
-            fb = 0.0;
-            fc = ' ';
+            fa            = 0;
+            fb            = 0.0;
+            fc            = ' ';
 
             var flag2 = await service.DoAsync(
                 (a, b, c) => {
