@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>net48;net6.0;net8.0;net9.0</TargetFrameworks>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="..\amarok.snk" Link="amarok.snk" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+        <PackageReference Include="Moq" Version="4.20.72" />
+        <PackageReference Include="NFluent" Version="3.1.0" />
+        <PackageReference Include="NUnit" Version="4.2.2" />
+        <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Amarok.Events\Amarok.Events.csproj" />
+    </ItemGroup>
+
+</Project>

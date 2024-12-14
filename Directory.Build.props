@@ -36,7 +36,7 @@
         <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
     </PropertyGroup>
 
-    <PropertyGroup Condition="$(MSBuildProjectName.StartsWith('Tests.'))">
+    <PropertyGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
         <OutputPath>$(RootDir)bin\tests</OutputPath>
         <Nullable>Disable</Nullable>
         <GenerateDocumentationFile>False</GenerateDocumentationFile>
@@ -44,8 +44,8 @@
         <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     </PropertyGroup>
 
-    <PropertyGroup Condition="$(MSBuildProjectName.StartsWith('Benchmarks.'))">
-        <OutputPath>$(RootDir)bin\benchmark</OutputPath>
+    <PropertyGroup Condition="$(MSBuildProjectName.EndsWith('.Benchmarks'))">
+        <OutputPath>$(RootDir)bin\benchmarks</OutputPath>
         <Nullable>Disable</Nullable>
         <GenerateDocumentationFile>False</GenerateDocumentationFile>
         <IsPackable>False</IsPackable>
