@@ -9,8 +9,9 @@ namespace Amarok.Events;
 
 
 /// <summary>
-///     Implementation class that represents a weak subscription. This weak subscription usually refers via weak
-///     reference to another subscription, which again refers back to this subscription again via weak reference.
+///     Implementation class that represents a weak subscription. This weak subscription usually refers
+///     via weak reference to another subscription, which again refers back to this subscription again
+///     via weak reference.
 /// </summary>
 [DebuggerStepThrough]
 internal sealed class WeakSubscription<T> : Subscription<T>
@@ -93,7 +94,9 @@ internal sealed class WeakSubscription<T> : Subscription<T>
     public override String ToString()
     {
         if (mNextSubscription.TryGetTarget(out var subscription))
+        {
             return $"⇒ weak {subscription}";
+        }
 
         return "⇒ weak ⇒ <null>";
     }

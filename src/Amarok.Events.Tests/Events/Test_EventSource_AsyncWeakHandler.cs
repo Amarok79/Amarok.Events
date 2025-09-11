@@ -250,7 +250,9 @@ public class Test_EventSource_AsyncWeakHandler
                     called++;
 
                     if (called == 1)
+                    {
                         throw new ApplicationException();
+                    }
 
                     await Task.Yield();
                 }
@@ -582,7 +584,9 @@ public class Test_EventSource_AsyncWeakHandler
                     called++;
 
                     if (called == 1)
+                    {
                         throw new ApplicationException();
+                    }
 
                     await Task.Yield();
                 }

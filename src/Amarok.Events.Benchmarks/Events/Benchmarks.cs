@@ -134,7 +134,7 @@ public class Benchmarks
         public FooServiceImpl ServiceWeakHandlerCount3;
         public FooServiceImpl ServiceWeakHandlerCount9;
 
-        private readonly List<IDisposable> mSubscriptions = new();
+        private readonly List<IDisposable> mSubscriptions = [ ];
 
 
         public Amarok()

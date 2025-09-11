@@ -22,8 +22,9 @@ public readonly struct Event<T> : IEquatable<Event<T>>
     #region ++ Public Interface ++
 
     /// <summary>
-    ///     Gets a reference to the owning <see cref="EventSource{T}"/>, or null if this <see cref="Event{T}"/> isn't
-    ///     associated with an <see cref="EventSource{T}"/>. See also <see cref="HasSource"/>.
+    ///     Gets a reference to the owning <see cref="EventSource{T}"/>, or null if this
+    ///     <see cref="Event{T}"/> isn't associated with an <see cref="EventSource{T}"/>. See also
+    ///     <see cref="HasSource"/>.
     /// </summary>
     public readonly EventSource<T>? Source => mSource;
 
@@ -44,10 +45,11 @@ public readonly struct Event<T> : IEquatable<Event<T>>
 
 
     /// <summary>
-    ///     Subscribes the given callback on the event. The callback will be invoked every time the event is raised.
-    ///     This method establishes a strong reference between the event source and the object holding the supplied
-    ///     callback, aka subscriber. That means as long as the event source is kept in memory, it will also keep the
-    ///     subscriber in memory. To break this strong reference, you can dispose the returned subscription.
+    ///     Subscribes the given callback on the event. The callback will be invoked every time the event
+    ///     is raised. This method establishes a strong reference between the event source and the object
+    ///     holding the supplied callback, aka subscriber. That means as long as the event source is kept
+    ///     in memory, it will also keep the subscriber in memory. To break this strong reference, you can
+    ///     dispose the returned subscription.
     /// </summary>
     /// 
     /// <param name="action">
@@ -66,16 +68,19 @@ public readonly struct Event<T> : IEquatable<Event<T>>
     {
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (action == null)
+        {
             ThrowHelper.ThrowArgumentNullException(nameof(action));
+        }
 
         return mSource == null ? NullSubscription.Instance : mSource.Add(action!);
     }
 
     /// <summary>
-    ///     Subscribes the given callback on the event. The callback will be invoked every time the event is raised.
-    ///     This method establishes a strong reference between the event source and the object holding the supplied
-    ///     callback, aka subscriber. That means as long as the event source is kept in memory, it will also keep the
-    ///     subscriber in memory. To break this strong reference, you can dispose the returned subscription.
+    ///     Subscribes the given callback on the event. The callback will be invoked every time the event
+    ///     is raised. This method establishes a strong reference between the event source and the object
+    ///     holding the supplied callback, aka subscriber. That means as long as the event source is kept
+    ///     in memory, it will also keep the subscriber in memory. To break this strong reference, you can
+    ///     dispose the returned subscription.
     /// </summary>
     /// 
     /// <param name="action">
@@ -94,17 +99,20 @@ public readonly struct Event<T> : IEquatable<Event<T>>
     {
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (action == null)
+        {
             ThrowHelper.ThrowArgumentNullException(nameof(action));
+        }
 
         return Subscribe(_ => action!());
     }
 
 
     /// <summary>
-    ///     Subscribes the given callback on the event. The callback will be invoked every time the event is raised.
-    ///     This method establishes a strong reference between the event source and the object holding the supplied
-    ///     callback, aka subscriber. That means as long as the event source is kept in memory, it will also keep the
-    ///     subscriber in memory. To break this strong reference, you can dispose the returned subscription.
+    ///     Subscribes the given callback on the event. The callback will be invoked every time the event
+    ///     is raised. This method establishes a strong reference between the event source and the object
+    ///     holding the supplied callback, aka subscriber. That means as long as the event source is kept
+    ///     in memory, it will also keep the subscriber in memory. To break this strong reference, you can
+    ///     dispose the returned subscription.
     /// </summary>
     /// 
     /// <param name="func">
@@ -123,16 +131,19 @@ public readonly struct Event<T> : IEquatable<Event<T>>
     {
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (func == null)
+        {
             ThrowHelper.ThrowArgumentNullException(nameof(func));
+        }
 
         return mSource == null ? NullSubscription.Instance : mSource.Add(func!);
     }
 
     /// <summary>
-    ///     Subscribes the given callback on the event. The callback will be invoked every time the event is raised.
-    ///     This method establishes a strong reference between the event source and the object holding the supplied
-    ///     callback, aka subscriber. That means as long as the event source is kept in memory, it will also keep the
-    ///     subscriber in memory. To break this strong reference, you can dispose the returned subscription.
+    ///     Subscribes the given callback on the event. The callback will be invoked every time the event
+    ///     is raised. This method establishes a strong reference between the event source and the object
+    ///     holding the supplied callback, aka subscriber. That means as long as the event source is kept
+    ///     in memory, it will also keep the subscriber in memory. To break this strong reference, you can
+    ///     dispose the returned subscription.
     /// </summary>
     /// 
     /// <param name="func">
@@ -151,17 +162,20 @@ public readonly struct Event<T> : IEquatable<Event<T>>
     {
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (func == null)
+        {
             ThrowHelper.ThrowArgumentNullException(nameof(func));
+        }
 
         return Subscribe(_ => func!());
     }
 
 
     /// <summary>
-    ///     Subscribes the given progress object on the event. The progress object will be invoked every time the
-    ///     event is raised. This method establishes a strong reference between the event source and the progress
-    ///     object. That means as long as the event source is kept in memory, it will also keep the progress object
-    ///     in memory. To break this strong reference, you can dispose the returned subscription.
+    ///     Subscribes the given progress object on the event. The progress object will be invoked every
+    ///     time the event is raised. This method establishes a strong reference between the event source
+    ///     and the progress object. That means as long as the event source is kept in memory, it will also
+    ///     keep the progress object in memory. To break this strong reference, you can dispose the
+    ///     returned subscription.
     /// </summary>
     /// 
     /// <param name="progress">
@@ -180,21 +194,24 @@ public readonly struct Event<T> : IEquatable<Event<T>>
     {
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (progress == null)
+        {
             ThrowHelper.ThrowArgumentNullException(nameof(progress));
+        }
 
         return Subscribe(x => progress!.Report(x));
     }
 
 
     /// <summary>
-    ///     Subscribes the given callback on the event. The callback will be invoked every time the event is raised.
-    ///     This method establishes a weak reference between the event source and the object holding the supplied
-    ///     callback, aka subscriber. That means that the subscription is kept alive only as long as both event
-    ///     source and subscriber are kept in memory via strong references from other objects. The event source alone
-    ///     doesn't keep the subscriber in memory. You have to keep a strong reference to the returned subscription
-    ///     object to achieve this. The subscription can be canceled at any time by disposing the returned
-    ///     subscription object. Otherwise, the subscription is automatically canceled if the subscriber is being
-    ///     garbage collected. For this to happen no other strong reference to the returned subscription must exist.
+    ///     Subscribes the given callback on the event. The callback will be invoked every time the event
+    ///     is raised. This method establishes a weak reference between the event source and the object
+    ///     holding the supplied callback, aka subscriber. That means that the subscription is kept alive
+    ///     only as long as both event source and subscriber are kept in memory via strong references from
+    ///     other objects. The event source alone doesn't keep the subscriber in memory. You have to keep a
+    ///     strong reference to the returned subscription object to achieve this. The subscription can be
+    ///     canceled at any time by disposing the returned subscription object. Otherwise, the subscription
+    ///     is automatically canceled if the subscriber is being garbage collected. For this to happen no
+    ///     other strong reference to the returned subscription must exist.
     /// </summary>
     /// 
     /// <param name="action">
@@ -213,20 +230,23 @@ public readonly struct Event<T> : IEquatable<Event<T>>
     {
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (action == null)
+        {
             ThrowHelper.ThrowArgumentNullException(nameof(action));
+        }
 
         return mSource == null ? NullSubscription.Instance : mSource.AddWeak(action!);
     }
 
     /// <summary>
-    ///     Subscribes the given callback on the event. The callback will be invoked every time the event is raised.
-    ///     This method establishes a weak reference between the event source and the object holding the supplied
-    ///     callback, aka subscriber. That means that the subscription is kept alive only as long as both event
-    ///     source and subscriber are kept in memory via strong references from other objects. The event source alone
-    ///     doesn't keep the subscriber in memory. You have to keep a strong reference to the returned subscription
-    ///     object to achieve this. The subscription can be canceled at any time by disposing the returned
-    ///     subscription object. Otherwise, the subscription is automatically canceled if the subscriber is being
-    ///     garbage collected. For this to happen no other strong reference to the returned subscription must exist.
+    ///     Subscribes the given callback on the event. The callback will be invoked every time the event
+    ///     is raised. This method establishes a weak reference between the event source and the object
+    ///     holding the supplied callback, aka subscriber. That means that the subscription is kept alive
+    ///     only as long as both event source and subscriber are kept in memory via strong references from
+    ///     other objects. The event source alone doesn't keep the subscriber in memory. You have to keep a
+    ///     strong reference to the returned subscription object to achieve this. The subscription can be
+    ///     canceled at any time by disposing the returned subscription object. Otherwise, the subscription
+    ///     is automatically canceled if the subscriber is being garbage collected. For this to happen no
+    ///     other strong reference to the returned subscription must exist.
     /// </summary>
     /// 
     /// <param name="action">
@@ -245,21 +265,24 @@ public readonly struct Event<T> : IEquatable<Event<T>>
     {
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (action == null)
+        {
             ThrowHelper.ThrowArgumentNullException(nameof(action));
+        }
 
         return SubscribeWeak(_ => action!());
     }
 
 
     /// <summary>
-    ///     Subscribes the given callback on the event. The callback will be invoked every time the event is raised.
-    ///     This method establishes a weak reference between the event source and the object holding the supplied
-    ///     callback, aka subscriber. That means that the subscription is kept alive only as long as both event
-    ///     source and subscriber are kept in memory via strong references from other objects. The event source alone
-    ///     doesn't keep the subscriber in memory. You have to keep a strong reference to the returned subscription
-    ///     object to achieve this. The subscription can be canceled at any time by disposing the returned
-    ///     subscription object. Otherwise, the subscription is automatically canceled if the subscriber is being
-    ///     garbage collected. For this to happen no other strong reference to the returned subscription must exist.
+    ///     Subscribes the given callback on the event. The callback will be invoked every time the event
+    ///     is raised. This method establishes a weak reference between the event source and the object
+    ///     holding the supplied callback, aka subscriber. That means that the subscription is kept alive
+    ///     only as long as both event source and subscriber are kept in memory via strong references from
+    ///     other objects. The event source alone doesn't keep the subscriber in memory. You have to keep a
+    ///     strong reference to the returned subscription object to achieve this. The subscription can be
+    ///     canceled at any time by disposing the returned subscription object. Otherwise, the subscription
+    ///     is automatically canceled if the subscriber is being garbage collected. For this to happen no
+    ///     other strong reference to the returned subscription must exist.
     /// </summary>
     /// 
     /// <param name="func">
@@ -278,20 +301,23 @@ public readonly struct Event<T> : IEquatable<Event<T>>
     {
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (func == null)
+        {
             ThrowHelper.ThrowArgumentNullException(nameof(func));
+        }
 
         return mSource == null ? NullSubscription.Instance : mSource.AddWeak(func!);
     }
 
     /// <summary>
-    ///     Subscribes the given callback on the event. The callback will be invoked every time the event is raised.
-    ///     This method establishes a weak reference between the event source and the object holding the supplied
-    ///     callback, aka subscriber. That means that the subscription is kept alive only as long as both event
-    ///     source and subscriber are kept in memory via strong references from other objects. The event source alone
-    ///     doesn't keep the subscriber in memory. You have to keep a strong reference to the returned subscription
-    ///     object to achieve this. The subscription can be canceled at any time by disposing the returned
-    ///     subscription object. Otherwise, the subscription is automatically canceled if the subscriber is being
-    ///     garbage collected. For this to happen no other strong reference to the returned subscription must exist.
+    ///     Subscribes the given callback on the event. The callback will be invoked every time the event
+    ///     is raised. This method establishes a weak reference between the event source and the object
+    ///     holding the supplied callback, aka subscriber. That means that the subscription is kept alive
+    ///     only as long as both event source and subscriber are kept in memory via strong references from
+    ///     other objects. The event source alone doesn't keep the subscriber in memory. You have to keep a
+    ///     strong reference to the returned subscription object to achieve this. The subscription can be
+    ///     canceled at any time by disposing the returned subscription object. Otherwise, the subscription
+    ///     is automatically canceled if the subscriber is being garbage collected. For this to happen no
+    ///     other strong reference to the returned subscription must exist.
     /// </summary>
     /// 
     /// <param name="func">
@@ -310,21 +336,24 @@ public readonly struct Event<T> : IEquatable<Event<T>>
     {
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (func == null)
+        {
             ThrowHelper.ThrowArgumentNullException(nameof(func));
+        }
 
         return SubscribeWeak(_ => func!());
     }
 
 
     /// <summary>
-    ///     Subscribes the given progress object on the event. The progress object will be invoked every time the
-    ///     event is raised. This method establishes a weak reference between the event source and the progress
-    ///     object. That means that the subscription is kept alive only as long as both event source and progress
-    ///     object are kept in memory via strong references from other objects. The event source alone doesn't keep
-    ///     the progress object in memory. You have to keep a strong reference to the returned subscription object to
-    ///     achieve this. The subscription can be canceled at any time by disposing the returned subscription object.
-    ///     Otherwise, the subscription is automatically canceled if the progress object is being garbage collected.
-    ///     For this to happen no other strong reference to the returned subscription must exist.
+    ///     Subscribes the given progress object on the event. The progress object will be invoked every
+    ///     time the event is raised. This method establishes a weak reference between the event source and
+    ///     the progress object. That means that the subscription is kept alive only as long as both event
+    ///     source and progress object are kept in memory via strong references from other objects. The
+    ///     event source alone doesn't keep the progress object in memory. You have to keep a strong
+    ///     reference to the returned subscription object to achieve this. The subscription can be canceled
+    ///     at any time by disposing the returned subscription object. Otherwise, the subscription is
+    ///     automatically canceled if the progress object is being garbage collected. For this to happen no
+    ///     other strong reference to the returned subscription must exist.
     /// </summary>
     /// 
     /// <param name="progress">
@@ -343,7 +372,9 @@ public readonly struct Event<T> : IEquatable<Event<T>>
     {
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (progress == null)
+        {
             ThrowHelper.ThrowArgumentNullException(nameof(progress));
+        }
 
         return SubscribeWeak(x => progress!.Report(x));
     }

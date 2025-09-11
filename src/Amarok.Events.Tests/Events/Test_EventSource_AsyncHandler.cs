@@ -249,7 +249,9 @@ public class Test_EventSource_AsyncHandler
                     called++;
 
                     if (called == 1)
+                    {
                         throw new ApplicationException();
+                    }
 
                     await Task.Yield();
                 }
@@ -521,7 +523,9 @@ public class Test_EventSource_AsyncHandler
                     called++;
 
                     if (called == 1)
+                    {
                         throw new ApplicationException();
+                    }
 
                     await Task.Yield();
                 }

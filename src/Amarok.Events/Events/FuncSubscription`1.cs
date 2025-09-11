@@ -51,7 +51,8 @@ internal sealed class FuncSubscription<T> : Subscription<T>
 
 
     /// <summary>
-    ///     Invoked to establish a weak reference back to another subscription. Only called for weak subscriptions.
+    ///     Invoked to establish a weak reference back to another subscription. Only called for weak
+    ///     subscriptions.
     /// </summary>
     public void SetPreviousSubscription(Subscription<T> subscription)
     {
@@ -66,7 +67,9 @@ internal sealed class FuncSubscription<T> : Subscription<T>
         var task = mFunc(value);
 
         if (task.IsCompleted && !task.IsFaulted)
+        {
             return;
+        }
 
         task.ContinueWith(
             x => EventSystem.NotifyUnobservedException(x.Exception?.InnerException),
@@ -93,7 +96,9 @@ internal sealed class FuncSubscription<T> : Subscription<T>
         {
             // dispose the previous subscription, if still reachable
             if (mPreviousSubscription.TryGetTarget(out var subscription))
+            {
                 subscription.Dispose();
+            }
         }
         else
         {
@@ -114,10 +119,14 @@ internal sealed class FuncSubscription<T> : Subscription<T>
     internal Subscription<T>? TestingGetPreviousSubscription()
     {
         if (mPreviousSubscription == null)
+        {
             return null;
+        }
 
         if (mPreviousSubscription.TryGetTarget(out var subscription))
+        {
             return subscription;
+        }
 
         return null;
     }

@@ -51,7 +51,8 @@ internal sealed class ActionSubscription<T> : Subscription<T>
 
 
     /// <summary>
-    ///     Invoked to establish a weak reference back to another subscription. Only called for weak subscriptions.
+    ///     Invoked to establish a weak reference back to another subscription. Only called for weak
+    ///     subscriptions.
     /// </summary>
     public void SetPreviousSubscription(Subscription<T> subscription)
     {
@@ -85,7 +86,9 @@ internal sealed class ActionSubscription<T> : Subscription<T>
         {
             // dispose the previous subscription, if still reachable
             if (mPreviousSubscription.TryGetTarget(out var subscription))
+            {
                 subscription.Dispose();
+            }
         }
         else
         {
@@ -106,10 +109,14 @@ internal sealed class ActionSubscription<T> : Subscription<T>
     internal Subscription<T>? TestingGetPreviousSubscription()
     {
         if (mPreviousSubscription == null)
+        {
             return null;
+        }
 
         if (mPreviousSubscription.TryGetTarget(out var subscription))
+        {
             return subscription;
+        }
 
         return null;
     }

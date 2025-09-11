@@ -58,20 +58,24 @@ public sealed class EventSource<T> : IProgress<T>,
     #region ++ IDisposable Interface ++
 
     /// <summary>
-    ///     Disposes this <see cref="EventSource{T}"/>. After disposal raising the event has no effect anymore. The
-    ///     list of active subscriptions is canceled, releasing all references to subscribers; new subscriptions are
-    ///     not accepted anymore.
+    ///     Disposes this <see cref="EventSource{T}"/>. After disposal raising the event has no effect
+    ///     anymore. The list of active subscriptions is canceled, releasing all references to subscribers;
+    ///     new subscriptions are not accepted anymore.
     /// </summary>
     public void Dispose()
     {
         // ensure that we enter the subsequent code block only once
         if (mIsDisposed)
+        {
             return;
+        }
 
         lock (mSyncDispose)
         {
             if (mIsDisposed)
+            {
                 return;
+            }
 
             mIsDisposed = true;
         }
@@ -116,8 +120,8 @@ public sealed class EventSource<T> : IProgress<T>,
     public Event<T> Event => mEvent;
 
     /// <summary>
-    ///     Gets the current number of subscriptions. This information can be slightly out-of-date in multi-threading
-    ///     scenarios and is intended for diagnosis purposes only.
+    ///     Gets the current number of subscriptions. This information can be slightly out-of-date in
+    ///     multi-threading scenarios and is intended for diagnosis purposes only.
     /// </summary>
     public Int32 NumberOfSubscriptions
     {
@@ -161,22 +165,23 @@ public sealed class EventSource<T> : IProgress<T>,
 
     /// <summary>
     ///     <para>
-    ///         Raises the event with the supplied event argument value. All subscribers are being invoked and the
-    ///         supplied event argument value is forwarded to them. If no subscribers are registered or if the event
-    ///         source has already been disposed, then the event argument value is ignored, no subscribers are called
-    ///         and False is returned.
+    ///         Raises the event with the supplied event argument value. All subscribers are being invoked
+    ///         and the supplied event argument value is forwarded to them. If no subscribers are
+    ///         registered or if the event source has already been disposed, then the event argument value
+    ///         is ignored, no subscribers are called and False is returned.
     ///     </para>
     ///     <para>
     ///         Exceptions thrown by subscribers are caught and forwarded to
-    ///         <see cref="EventSystem.UnobservedException"/>. Regardless of exceptions, always all subscribers are
-    ///         being invoked.
+    ///         <see cref="EventSystem.UnobservedException"/>. Regardless of exceptions, always all
+    ///         subscribers are being invoked.
     ///     </para>
     ///     <para>
-    ///         This method invokes all subscribers synchronously in a blocking fashion, meaning the calling thread
-    ///         raising the event invokes all subscribers directly. The method returns after all subscribers have
-    ///         been executed, except for asynchronous subscribers that run only to their first await statement and
-    ///         then return. That means this method potentially returns before asynchronous subscribers have been
-    ///         completed. To await their completion use <see cref="InvokeAsync(T)"/> instead.
+    ///         This method invokes all subscribers synchronously in a blocking fashion, meaning the
+    ///         calling thread raising the event invokes all subscribers directly. The method returns after
+    ///         all subscribers have been executed, except for asynchronous subscribers that run only to
+    ///         their first await statement and then return. That means this method potentially returns
+    ///         before asynchronous subscribers have been completed. To await their completion use
+    ///         <see cref="InvokeAsync(T)"/> instead.
     ///     </para>
     /// </summary>
     /// 
@@ -190,13 +195,17 @@ public sealed class EventSource<T> : IProgress<T>,
     public Boolean Invoke(T value)
     {
         if (mIsDisposed)
+        {
             return false;
+        }
 
         ImmutableArray<Subscription<T>> subscriptions = default;
         ImmutableInterlocked.InterlockedExchange(ref subscriptions, mSubscriptions);
 
         if (subscriptions.Length == 0)
+        {
             return false;
+        }
 
         _InvokeCore(subscriptions, value);
 
@@ -205,28 +214,30 @@ public sealed class EventSource<T> : IProgress<T>,
 
     /// <summary>
     ///     <para>
-    ///         Raises the event with the supplied event argument value. All subscribers are being invoked and the
-    ///         supplied event argument value is forwarded to them. If no subscribers are registered or if the event
-    ///         source has already been disposed, then the event argument value is ignored, no subscribers are called
-    ///         and False is returned.
+    ///         Raises the event with the supplied event argument value. All subscribers are being invoked
+    ///         and the supplied event argument value is forwarded to them. If no subscribers are
+    ///         registered or if the event source has already been disposed, then the event argument value
+    ///         is ignored, no subscribers are called and False is returned.
     ///     </para>
     ///     <para>
     ///         Exceptions thrown by subscribers are caught and forwarded to
-    ///         <see cref="EventSystem.UnobservedException"/>. Regardless of exceptions, always all subscribers are
-    ///         being invoked.
+    ///         <see cref="EventSystem.UnobservedException"/>. Regardless of exceptions, always all
+    ///         subscribers are being invoked.
     ///     </para>
     ///     <para>
-    ///         This method invokes all subscribers synchronously in a blocking fashion, meaning the calling thread
-    ///         raising the event invokes all subscribers directly. The method returns after all subscribers have
-    ///         been executed, except for asynchronous subscribers that run only to their first await statement and
-    ///         then return. That means this method potentially returns before asynchronous subscribers have been
-    ///         completed. To await their completion use <see cref="InvokeAsync(T)"/> instead.
+    ///         This method invokes all subscribers synchronously in a blocking fashion, meaning the
+    ///         calling thread raising the event invokes all subscribers directly. The method returns after
+    ///         all subscribers have been executed, except for asynchronous subscribers that run only to
+    ///         their first await statement and then return. That means this method potentially returns
+    ///         before asynchronous subscribers have been completed. To await their completion use
+    ///         <see cref="InvokeAsync(T)"/> instead.
     ///     </para>
     /// </summary>
     /// 
     /// <param name="valueFactory">
-    ///     A value factory to determine the event argument value to forward to subscribers. The factory is called
-    ///     only if at least a single subscriber is registered, preventing potentially costly processing.
+    ///     A value factory to determine the event argument value to forward to subscribers. The factory is
+    ///     called only if at least a single subscriber is registered, preventing potentially costly
+    ///     processing.
     /// </param>
     /// 
     /// <returns>
@@ -240,16 +251,22 @@ public sealed class EventSource<T> : IProgress<T>,
     {
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (valueFactory == null)
+        {
             ThrowHelper.ThrowArgumentNullException(nameof(valueFactory));
+        }
 
         if (mIsDisposed)
+        {
             return false;
+        }
 
         ImmutableArray<Subscription<T>> subscriptions = default;
         ImmutableInterlocked.InterlockedExchange(ref subscriptions, mSubscriptions);
 
         if (subscriptions.Length == 0)
+        {
             return false;
+        }
 
         var value = valueFactory!();
         _InvokeCore(subscriptions, value);
@@ -259,28 +276,30 @@ public sealed class EventSource<T> : IProgress<T>,
 
     /// <summary>
     ///     <para>
-    ///         Raises the event with the supplied event argument value. All subscribers are being invoked and the
-    ///         supplied event argument value is forwarded to them. If no subscribers are registered or if the event
-    ///         source has already been disposed, then the event argument value is ignored, no subscribers are called
-    ///         and False is returned.
+    ///         Raises the event with the supplied event argument value. All subscribers are being invoked
+    ///         and the supplied event argument value is forwarded to them. If no subscribers are
+    ///         registered or if the event source has already been disposed, then the event argument value
+    ///         is ignored, no subscribers are called and False is returned.
     ///     </para>
     ///     <para>
     ///         Exceptions thrown by subscribers are caught and forwarded to
-    ///         <see cref="EventSystem.UnobservedException"/>. Regardless of exceptions, always all subscribers are
-    ///         being invoked.
+    ///         <see cref="EventSystem.UnobservedException"/>. Regardless of exceptions, always all
+    ///         subscribers are being invoked.
     ///     </para>
     ///     <para>
-    ///         This method invokes all subscribers synchronously in a blocking fashion, meaning the calling thread
-    ///         raising the event invokes all subscribers directly. The method returns after all subscribers have
-    ///         been executed, except for asynchronous subscribers that run only to their first await statement and
-    ///         then return. That means this method potentially returns before asynchronous subscribers have been
-    ///         completed. To await their completion use <see cref="InvokeAsync(T)"/> instead.
+    ///         This method invokes all subscribers synchronously in a blocking fashion, meaning the
+    ///         calling thread raising the event invokes all subscribers directly. The method returns after
+    ///         all subscribers have been executed, except for asynchronous subscribers that run only to
+    ///         their first await statement and then return. That means this method potentially returns
+    ///         before asynchronous subscribers have been completed. To await their completion use
+    ///         <see cref="InvokeAsync(T)"/> instead.
     ///     </para>
     /// </summary>
     /// 
     /// <param name="valueFactory">
-    ///     A value factory to determine the event argument value to forward to subscribers. The factory is called
-    ///     only if at least a single subscriber is registered, preventing potentially costly processing.
+    ///     A value factory to determine the event argument value to forward to subscribers. The factory is
+    ///     called only if at least a single subscriber is registered, preventing potentially costly
+    ///     processing.
     /// </param>
     /// <param name="arg">
     ///     An argument that is supplied to the given value factory. Useful to prevent closure allocations.
@@ -297,16 +316,22 @@ public sealed class EventSource<T> : IProgress<T>,
     {
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (valueFactory == null)
+        {
             ThrowHelper.ThrowArgumentNullException(nameof(valueFactory));
+        }
 
         if (mIsDisposed)
+        {
             return false;
+        }
 
         ImmutableArray<Subscription<T>> subscriptions = default;
         ImmutableInterlocked.InterlockedExchange(ref subscriptions, mSubscriptions);
 
         if (subscriptions.Length == 0)
+        {
             return false;
+        }
 
         var value = valueFactory!(arg);
         _InvokeCore(subscriptions, value);
@@ -316,34 +341,37 @@ public sealed class EventSource<T> : IProgress<T>,
 
     /// <summary>
     ///     <para>
-    ///         Raises the event with the supplied event argument value. All subscribers are being invoked and the
-    ///         supplied event argument value is forwarded to them. If no subscribers are registered or if the event
-    ///         source has already been disposed, then the event argument value is ignored, no subscribers are called
-    ///         and False is returned.
+    ///         Raises the event with the supplied event argument value. All subscribers are being invoked
+    ///         and the supplied event argument value is forwarded to them. If no subscribers are
+    ///         registered or if the event source has already been disposed, then the event argument value
+    ///         is ignored, no subscribers are called and False is returned.
     ///     </para>
     ///     <para>
     ///         Exceptions thrown by subscribers are caught and forwarded to
-    ///         <see cref="EventSystem.UnobservedException"/>. Regardless of exceptions, always all subscribers are
-    ///         being invoked.
+    ///         <see cref="EventSystem.UnobservedException"/>. Regardless of exceptions, always all
+    ///         subscribers are being invoked.
     ///     </para>
     ///     <para>
-    ///         This method invokes all subscribers synchronously in a blocking fashion, meaning the calling thread
-    ///         raising the event invokes all subscribers directly. The method returns after all subscribers have
-    ///         been executed, except for asynchronous subscribers that run only to their first await statement and
-    ///         then return. That means this method potentially returns before asynchronous subscribers have been
-    ///         completed. To await their completion use <see cref="InvokeAsync(T)"/> instead.
+    ///         This method invokes all subscribers synchronously in a blocking fashion, meaning the
+    ///         calling thread raising the event invokes all subscribers directly. The method returns after
+    ///         all subscribers have been executed, except for asynchronous subscribers that run only to
+    ///         their first await statement and then return. That means this method potentially returns
+    ///         before asynchronous subscribers have been completed. To await their completion use
+    ///         <see cref="InvokeAsync(T)"/> instead.
     ///     </para>
     /// </summary>
     /// 
     /// <param name="valueFactory">
-    ///     A value factory to determine the event argument value to forward to subscribers. The factory is called
-    ///     only if at least a single subscriber is registered, preventing potentially costly processing.
+    ///     A value factory to determine the event argument value to forward to subscribers. The factory is
+    ///     called only if at least a single subscriber is registered, preventing potentially costly
+    ///     processing.
     /// </param>
     /// <param name="arg1">
     ///     An argument that is supplied to the given value factory. Useful to prevent closure allocations.
     /// </param>
     /// <param name="arg2">
-    ///     A second argument that is supplied to the given value factory. Useful to prevent closure allocations.
+    ///     A second argument that is supplied to the given value factory. Useful to prevent closure
+    ///     allocations.
     /// </param>
     /// 
     /// <returns>
@@ -357,16 +385,22 @@ public sealed class EventSource<T> : IProgress<T>,
     {
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (valueFactory == null)
+        {
             ThrowHelper.ThrowArgumentNullException(nameof(valueFactory));
+        }
 
         if (mIsDisposed)
+        {
             return false;
+        }
 
         ImmutableArray<Subscription<T>> subscriptions = default;
         ImmutableInterlocked.InterlockedExchange(ref subscriptions, mSubscriptions);
 
         if (subscriptions.Length == 0)
+        {
             return false;
+        }
 
         var value = valueFactory!(arg1, arg2);
         _InvokeCore(subscriptions, value);
@@ -376,37 +410,41 @@ public sealed class EventSource<T> : IProgress<T>,
 
     /// <summary>
     ///     <para>
-    ///         Raises the event with the supplied event argument value. All subscribers are being invoked and the
-    ///         supplied event argument value is forwarded to them. If no subscribers are registered or if the event
-    ///         source has already been disposed, then the event argument value is ignored, no subscribers are called
-    ///         and False is returned.
+    ///         Raises the event with the supplied event argument value. All subscribers are being invoked
+    ///         and the supplied event argument value is forwarded to them. If no subscribers are
+    ///         registered or if the event source has already been disposed, then the event argument value
+    ///         is ignored, no subscribers are called and False is returned.
     ///     </para>
     ///     <para>
     ///         Exceptions thrown by subscribers are caught and forwarded to
-    ///         <see cref="EventSystem.UnobservedException"/>. Regardless of exceptions, always all subscribers are
-    ///         being invoked.
+    ///         <see cref="EventSystem.UnobservedException"/>. Regardless of exceptions, always all
+    ///         subscribers are being invoked.
     ///     </para>
     ///     <para>
-    ///         This method invokes all subscribers synchronously in a blocking fashion, meaning the calling thread
-    ///         raising the event invokes all subscribers directly. The method returns after all subscribers have
-    ///         been executed, except for asynchronous subscribers that run only to their first await statement and
-    ///         then return. That means this method potentially returns before asynchronous subscribers have been
-    ///         completed. To await their completion use <see cref="InvokeAsync(T)"/> instead.
+    ///         This method invokes all subscribers synchronously in a blocking fashion, meaning the
+    ///         calling thread raising the event invokes all subscribers directly. The method returns after
+    ///         all subscribers have been executed, except for asynchronous subscribers that run only to
+    ///         their first await statement and then return. That means this method potentially returns
+    ///         before asynchronous subscribers have been completed. To await their completion use
+    ///         <see cref="InvokeAsync(T)"/> instead.
     ///     </para>
     /// </summary>
     /// 
     /// <param name="valueFactory">
-    ///     A value factory to determine the event argument value to forward to subscribers. The factory is called
-    ///     only if at least a single subscriber is registered, preventing potentially costly processing.
+    ///     A value factory to determine the event argument value to forward to subscribers. The factory is
+    ///     called only if at least a single subscriber is registered, preventing potentially costly
+    ///     processing.
     /// </param>
     /// <param name="arg1">
     ///     An argument that is supplied to the given value factory. Useful to prevent closure allocations.
     /// </param>
     /// <param name="arg2">
-    ///     A second argument that is supplied to the given value factory. Useful to prevent closure allocations.
+    ///     A second argument that is supplied to the given value factory. Useful to prevent closure
+    ///     allocations.
     /// </param>
     /// <param name="arg3">
-    ///     A third argument that is supplied to the given value factory. Useful to prevent closure allocations.
+    ///     A third argument that is supplied to the given value factory. Useful to prevent closure
+    ///     allocations.
     /// </param>
     /// 
     /// <returns>
@@ -425,16 +463,22 @@ public sealed class EventSource<T> : IProgress<T>,
     {
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (valueFactory == null)
+        {
             ThrowHelper.ThrowArgumentNullException(nameof(valueFactory));
+        }
 
         if (mIsDisposed)
+        {
             return false;
+        }
 
         ImmutableArray<Subscription<T>> subscriptions = default;
         ImmutableInterlocked.InterlockedExchange(ref subscriptions, mSubscriptions);
 
         if (subscriptions.Length == 0)
+        {
             return false;
+        }
 
         var value = valueFactory!(arg1, arg2, arg3);
         _InvokeCore(subscriptions, value);
@@ -460,26 +504,27 @@ public sealed class EventSource<T> : IProgress<T>,
 
     /// <summary>
     ///     <para>
-    ///         Raises the event with the supplied event argument value. All subscribers are being invoked and the
-    ///         supplied event argument value is forwarded to them. If no subscribers are registered or if the event
-    ///         source has already been disposed, then the event argument value is ignored, no subscribers are called
-    ///         and False is returned.
+    ///         Raises the event with the supplied event argument value. All subscribers are being invoked
+    ///         and the supplied event argument value is forwarded to them. If no subscribers are
+    ///         registered or if the event source has already been disposed, then the event argument value
+    ///         is ignored, no subscribers are called and False is returned.
     ///     </para>
     ///     <para>
     ///         Exceptions thrown by subscribers are caught and forwarded to
-    ///         <see cref="EventSystem.UnobservedException"/>. Regardless of exceptions, always all subscribers are
-    ///         being invoked.
+    ///         <see cref="EventSystem.UnobservedException"/>. Regardless of exceptions, always all
+    ///         subscribers are being invoked.
     ///     </para>
     ///     <para>
-    ///         This method invokes all subscribers asynchronously in an awaitable fashion. The calling thread
-    ///         raising the event invokes all subscribers directly. Synchronous subscribers will be sequentially
-    ///         executed by the calling thread. Asynchronous subscribers will be invoked by the calling thread too,
-    ///         but will only run to their first await statement. This method returns immediately after all
-    ///         synchronous subscribers have been executed and all asynchronous subscribers encountered their first
-    ///         await statements. The returned task object can be used to await the completion of those pending
-    ///         asynchronous subscribers. That means this method is guaranteed to complete after all synchronous or
-    ///         asynchronous subscribers have been completed too. This is in contrast to <see cref="Invoke(T)"/> ,
-    ///         which invokes asynchronous subscribers in a fire- and-forget fashion.
+    ///         This method invokes all subscribers asynchronously in an awaitable fashion. The calling
+    ///         thread raising the event invokes all subscribers directly. Synchronous subscribers will be
+    ///         sequentially executed by the calling thread. Asynchronous subscribers will be invoked by
+    ///         the calling thread too, but will only run to their first await statement. This method
+    ///         returns immediately after all synchronous subscribers have been executed and all
+    ///         asynchronous subscribers encountered their first await statements. The returned task object
+    ///         can be used to await the completion of those pending asynchronous subscribers. That means
+    ///         this method is guaranteed to complete after all synchronous or asynchronous subscribers
+    ///         have been completed too. This is in contrast to <see cref="Invoke(T)"/> , which invokes
+    ///         asynchronous subscribers in a fire- and-forget fashion.
     ///     </para>
     /// </summary>
     /// 
@@ -497,45 +542,51 @@ public sealed class EventSource<T> : IProgress<T>,
     public ValueTask<Boolean> InvokeAsync(T value)
     {
         if (mIsDisposed)
+        {
             return new ValueTask<Boolean>(TaskUtils.FalseTask);
+        }
 
         ImmutableArray<Subscription<T>> subscriptions = default;
         ImmutableInterlocked.InterlockedExchange(ref subscriptions, mSubscriptions);
 
         if (subscriptions.Length == 0)
+        {
             return new ValueTask<Boolean>(TaskUtils.FalseTask);
+        }
 
         return _InvokeAsyncCore(subscriptions, value);
     }
 
     /// <summary>
     ///     <para>
-    ///         Raises the event with the supplied event argument value. All subscribers are being invoked and the
-    ///         supplied event argument value is forwarded to them. If no subscribers are registered or if the event
-    ///         source has already been disposed, then the event argument value is ignored, no subscribers are called
-    ///         and False is returned.
+    ///         Raises the event with the supplied event argument value. All subscribers are being invoked
+    ///         and the supplied event argument value is forwarded to them. If no subscribers are
+    ///         registered or if the event source has already been disposed, then the event argument value
+    ///         is ignored, no subscribers are called and False is returned.
     ///     </para>
     ///     <para>
     ///         Exceptions thrown by subscribers are caught and forwarded to
-    ///         <see cref="EventSystem.UnobservedException"/>. Regardless of exceptions, always all subscribers are
-    ///         being invoked.
+    ///         <see cref="EventSystem.UnobservedException"/>. Regardless of exceptions, always all
+    ///         subscribers are being invoked.
     ///     </para>
     ///     <para>
-    ///         This method invokes all subscribers asynchronously in an awaitable fashion. The calling thread
-    ///         raising the event invokes all subscribers directly. Synchronous subscribers will be sequentially
-    ///         executed by the calling thread. Asynchronous subscribers will be invoked by the calling thread too,
-    ///         but will only run to their first await statement. This method returns immediately after all
-    ///         synchronous subscribers have been executed and all asynchronous subscribers encountered their first
-    ///         await statements. The returned task object can be used to await the completion of those pending
-    ///         asynchronous subscribers. That means this method is guaranteed to complete after all synchronous or
-    ///         asynchronous subscribers have been completed too. This is in contrast to <see cref="Invoke(T)"/> ,
-    ///         which invokes asynchronous subscribers in a fire- and-forget fashion.
+    ///         This method invokes all subscribers asynchronously in an awaitable fashion. The calling
+    ///         thread raising the event invokes all subscribers directly. Synchronous subscribers will be
+    ///         sequentially executed by the calling thread. Asynchronous subscribers will be invoked by
+    ///         the calling thread too, but will only run to their first await statement. This method
+    ///         returns immediately after all synchronous subscribers have been executed and all
+    ///         asynchronous subscribers encountered their first await statements. The returned task object
+    ///         can be used to await the completion of those pending asynchronous subscribers. That means
+    ///         this method is guaranteed to complete after all synchronous or asynchronous subscribers
+    ///         have been completed too. This is in contrast to <see cref="Invoke(T)"/> , which invokes
+    ///         asynchronous subscribers in a fire- and-forget fashion.
     ///     </para>
     /// </summary>
     /// 
     /// <param name="valueFactory">
-    ///     A value factory to determine the event argument value to forward to subscribers. The factory is called
-    ///     only if at least a single subscriber is registered, preventing potentially costly processing.
+    ///     A value factory to determine the event argument value to forward to subscribers. The factory is
+    ///     called only if at least a single subscriber is registered, preventing potentially costly
+    ///     processing.
     /// </param>
     /// 
     /// <returns>
@@ -549,16 +600,22 @@ public sealed class EventSource<T> : IProgress<T>,
     {
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (valueFactory == null)
+        {
             ThrowHelper.ThrowArgumentNullException(nameof(valueFactory));
+        }
 
         if (mIsDisposed)
+        {
             return new ValueTask<Boolean>(TaskUtils.FalseTask);
+        }
 
         ImmutableArray<Subscription<T>> subscriptions = default;
         ImmutableInterlocked.InterlockedExchange(ref subscriptions, mSubscriptions);
 
         if (subscriptions.Length == 0)
+        {
             return new ValueTask<Boolean>(TaskUtils.FalseTask);
+        }
 
         var value = valueFactory!();
 
@@ -567,32 +624,34 @@ public sealed class EventSource<T> : IProgress<T>,
 
     /// <summary>
     ///     <para>
-    ///         Raises the event with the supplied event argument value. All subscribers are being invoked and the
-    ///         supplied event argument value is forwarded to them. If no subscribers are registered or if the event
-    ///         source has already been disposed, then the event argument value is ignored, no subscribers are called
-    ///         and False is returned.
+    ///         Raises the event with the supplied event argument value. All subscribers are being invoked
+    ///         and the supplied event argument value is forwarded to them. If no subscribers are
+    ///         registered or if the event source has already been disposed, then the event argument value
+    ///         is ignored, no subscribers are called and False is returned.
     ///     </para>
     ///     <para>
     ///         Exceptions thrown by subscribers are caught and forwarded to
-    ///         <see cref="EventSystem.UnobservedException"/>. Regardless of exceptions, always all subscribers are
-    ///         being invoked.
+    ///         <see cref="EventSystem.UnobservedException"/>. Regardless of exceptions, always all
+    ///         subscribers are being invoked.
     ///     </para>
     ///     <para>
-    ///         This method invokes all subscribers asynchronously in an awaitable fashion. The calling thread
-    ///         raising the event invokes all subscribers directly. Synchronous subscribers will be sequentially
-    ///         executed by the calling thread. Asynchronous subscribers will be invoked by the calling thread too,
-    ///         but will only run to their first await statement. This method returns immediately after all
-    ///         synchronous subscribers have been executed and all asynchronous subscribers encountered their first
-    ///         await statements. The returned task object can be used to await the completion of those pending
-    ///         asynchronous subscribers. That means this method is guaranteed to complete after all synchronous or
-    ///         asynchronous subscribers have been completed too. This is in contrast to <see cref="Invoke(T)"/> ,
-    ///         which invokes asynchronous subscribers in a fire- and-forget fashion.
+    ///         This method invokes all subscribers asynchronously in an awaitable fashion. The calling
+    ///         thread raising the event invokes all subscribers directly. Synchronous subscribers will be
+    ///         sequentially executed by the calling thread. Asynchronous subscribers will be invoked by
+    ///         the calling thread too, but will only run to their first await statement. This method
+    ///         returns immediately after all synchronous subscribers have been executed and all
+    ///         asynchronous subscribers encountered their first await statements. The returned task object
+    ///         can be used to await the completion of those pending asynchronous subscribers. That means
+    ///         this method is guaranteed to complete after all synchronous or asynchronous subscribers
+    ///         have been completed too. This is in contrast to <see cref="Invoke(T)"/> , which invokes
+    ///         asynchronous subscribers in a fire- and-forget fashion.
     ///     </para>
     /// </summary>
     /// 
     /// <param name="valueFactory">
-    ///     A value factory to determine the event argument value to forward to subscribers. The factory is called
-    ///     only if at least a single subscriber is registered, preventing potentially costly processing.
+    ///     A value factory to determine the event argument value to forward to subscribers. The factory is
+    ///     called only if at least a single subscriber is registered, preventing potentially costly
+    ///     processing.
     /// </param>
     /// <param name="arg">
     ///     An argument that is supplied to the given value factory. Useful to prevent closure allocations.
@@ -609,16 +668,22 @@ public sealed class EventSource<T> : IProgress<T>,
     {
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (valueFactory == null)
+        {
             ThrowHelper.ThrowArgumentNullException(nameof(valueFactory));
+        }
 
         if (mIsDisposed)
+        {
             return new ValueTask<Boolean>(TaskUtils.FalseTask);
+        }
 
         ImmutableArray<Subscription<T>> subscriptions = default;
         ImmutableInterlocked.InterlockedExchange(ref subscriptions, mSubscriptions);
 
         if (subscriptions.Length == 0)
+        {
             return new ValueTask<Boolean>(TaskUtils.FalseTask);
+        }
 
         var value = valueFactory!(arg);
 
@@ -627,38 +692,41 @@ public sealed class EventSource<T> : IProgress<T>,
 
     /// <summary>
     ///     <para>
-    ///         Raises the event with the supplied event argument value. All subscribers are being invoked and the
-    ///         supplied event argument value is forwarded to them. If no subscribers are registered or if the event
-    ///         source has already been disposed, then the event argument value is ignored, no subscribers are called
-    ///         and False is returned.
+    ///         Raises the event with the supplied event argument value. All subscribers are being invoked
+    ///         and the supplied event argument value is forwarded to them. If no subscribers are
+    ///         registered or if the event source has already been disposed, then the event argument value
+    ///         is ignored, no subscribers are called and False is returned.
     ///     </para>
     ///     <para>
     ///         Exceptions thrown by subscribers are caught and forwarded to
-    ///         <see cref="EventSystem.UnobservedException"/>. Regardless of exceptions, always all subscribers are
-    ///         being invoked.
+    ///         <see cref="EventSystem.UnobservedException"/>. Regardless of exceptions, always all
+    ///         subscribers are being invoked.
     ///     </para>
     ///     <para>
-    ///         This method invokes all subscribers asynchronously in an awaitable fashion. The calling thread
-    ///         raising the event invokes all subscribers directly. Synchronous subscribers will be sequentially
-    ///         executed by the calling thread. Asynchronous subscribers will be invoked by the calling thread too,
-    ///         but will only run to their first await statement. This method returns immediately after all
-    ///         synchronous subscribers have been executed and all asynchronous subscribers encountered their first
-    ///         await statements. The returned task object can be used to await the completion of those pending
-    ///         asynchronous subscribers. That means this method is guaranteed to complete after all synchronous or
-    ///         asynchronous subscribers have been completed too. This is in contrast to <see cref="Invoke(T)"/> ,
-    ///         which invokes asynchronous subscribers in a fire- and-forget fashion.
+    ///         This method invokes all subscribers asynchronously in an awaitable fashion. The calling
+    ///         thread raising the event invokes all subscribers directly. Synchronous subscribers will be
+    ///         sequentially executed by the calling thread. Asynchronous subscribers will be invoked by
+    ///         the calling thread too, but will only run to their first await statement. This method
+    ///         returns immediately after all synchronous subscribers have been executed and all
+    ///         asynchronous subscribers encountered their first await statements. The returned task object
+    ///         can be used to await the completion of those pending asynchronous subscribers. That means
+    ///         this method is guaranteed to complete after all synchronous or asynchronous subscribers
+    ///         have been completed too. This is in contrast to <see cref="Invoke(T)"/> , which invokes
+    ///         asynchronous subscribers in a fire- and-forget fashion.
     ///     </para>
     /// </summary>
     /// 
     /// <param name="valueFactory">
-    ///     A value factory to determine the event argument value to forward to subscribers. The factory is called
-    ///     only if at least a single subscriber is registered, preventing potentially costly processing.
+    ///     A value factory to determine the event argument value to forward to subscribers. The factory is
+    ///     called only if at least a single subscriber is registered, preventing potentially costly
+    ///     processing.
     /// </param>
     /// <param name="arg1">
     ///     An argument that is supplied to the given value factory. Useful to prevent closure allocations.
     /// </param>
     /// <param name="arg2">
-    ///     A second argument that is supplied to the given value factory. Useful to prevent closure allocations.
+    ///     A second argument that is supplied to the given value factory. Useful to prevent closure
+    ///     allocations.
     /// </param>
     /// 
     /// <returns>
@@ -672,16 +740,22 @@ public sealed class EventSource<T> : IProgress<T>,
     {
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (valueFactory == null)
+        {
             ThrowHelper.ThrowArgumentNullException(nameof(valueFactory));
+        }
 
         if (mIsDisposed)
+        {
             return new ValueTask<Boolean>(TaskUtils.FalseTask);
+        }
 
         ImmutableArray<Subscription<T>> subscriptions = default;
         ImmutableInterlocked.InterlockedExchange(ref subscriptions, mSubscriptions);
 
         if (subscriptions.Length == 0)
+        {
             return new ValueTask<Boolean>(TaskUtils.FalseTask);
+        }
 
         var value = valueFactory!(arg1, arg2);
 
@@ -690,41 +764,45 @@ public sealed class EventSource<T> : IProgress<T>,
 
     /// <summary>
     ///     <para>
-    ///         Raises the event with the supplied event argument value. All subscribers are being invoked and the
-    ///         supplied event argument value is forwarded to them. If no subscribers are registered or if the event
-    ///         source has already been disposed, then the event argument value is ignored, no subscribers are called
-    ///         and False is returned.
+    ///         Raises the event with the supplied event argument value. All subscribers are being invoked
+    ///         and the supplied event argument value is forwarded to them. If no subscribers are
+    ///         registered or if the event source has already been disposed, then the event argument value
+    ///         is ignored, no subscribers are called and False is returned.
     ///     </para>
     ///     <para>
     ///         Exceptions thrown by subscribers are caught and forwarded to
-    ///         <see cref="EventSystem.UnobservedException"/>. Regardless of exceptions, always all subscribers are
-    ///         being invoked.
+    ///         <see cref="EventSystem.UnobservedException"/>. Regardless of exceptions, always all
+    ///         subscribers are being invoked.
     ///     </para>
     ///     <para>
-    ///         This method invokes all subscribers asynchronously in an awaitable fashion. The calling thread
-    ///         raising the event invokes all subscribers directly. Synchronous subscribers will be sequentially
-    ///         executed by the calling thread. Asynchronous subscribers will be invoked by the calling thread too,
-    ///         but will only run to their first await statement. This method returns immediately after all
-    ///         synchronous subscribers have been executed and all asynchronous subscribers encountered their first
-    ///         await statements. The returned task object can be used to await the completion of those pending
-    ///         asynchronous subscribers. That means this method is guaranteed to complete after all synchronous or
-    ///         asynchronous subscribers have been completed too. This is in contrast to <see cref="Invoke(T)"/> ,
-    ///         which invokes asynchronous subscribers in a fire- and-forget fashion.
+    ///         This method invokes all subscribers asynchronously in an awaitable fashion. The calling
+    ///         thread raising the event invokes all subscribers directly. Synchronous subscribers will be
+    ///         sequentially executed by the calling thread. Asynchronous subscribers will be invoked by
+    ///         the calling thread too, but will only run to their first await statement. This method
+    ///         returns immediately after all synchronous subscribers have been executed and all
+    ///         asynchronous subscribers encountered their first await statements. The returned task object
+    ///         can be used to await the completion of those pending asynchronous subscribers. That means
+    ///         this method is guaranteed to complete after all synchronous or asynchronous subscribers
+    ///         have been completed too. This is in contrast to <see cref="Invoke(T)"/> , which invokes
+    ///         asynchronous subscribers in a fire- and-forget fashion.
     ///     </para>
     /// </summary>
     /// 
     /// <param name="valueFactory">
-    ///     A value factory to determine the event argument value to forward to subscribers. The factory is called
-    ///     only if at least a single subscriber is registered, preventing potentially costly processing.
+    ///     A value factory to determine the event argument value to forward to subscribers. The factory is
+    ///     called only if at least a single subscriber is registered, preventing potentially costly
+    ///     processing.
     /// </param>
     /// <param name="arg1">
     ///     An argument that is supplied to the given value factory. Useful to prevent closure allocations.
     /// </param>
     /// <param name="arg2">
-    ///     A second argument that is supplied to the given value factory. Useful to prevent closure allocations.
+    ///     A second argument that is supplied to the given value factory. Useful to prevent closure
+    ///     allocations.
     /// </param>
     /// <param name="arg3">
-    ///     A third argument that is supplied to the given value factory. Useful to prevent closure allocations.
+    ///     A third argument that is supplied to the given value factory. Useful to prevent closure
+    ///     allocations.
     /// </param>
     /// 
     /// <returns>
@@ -743,16 +821,22 @@ public sealed class EventSource<T> : IProgress<T>,
     {
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (valueFactory == null)
+        {
             ThrowHelper.ThrowArgumentNullException(nameof(valueFactory));
+        }
 
         if (mIsDisposed)
+        {
             return new ValueTask<Boolean>(TaskUtils.FalseTask);
+        }
 
         ImmutableArray<Subscription<T>> subscriptions = default;
         ImmutableInterlocked.InterlockedExchange(ref subscriptions, mSubscriptions);
 
         if (subscriptions.Length == 0)
+        {
             return new ValueTask<Boolean>(TaskUtils.FalseTask);
+        }
 
         var value = valueFactory!(arg1, arg2, arg3);
 
@@ -774,7 +858,9 @@ public sealed class EventSource<T> : IProgress<T>,
                 if (valueTask.IsCompleted)
                 {
                     if (valueTask.IsFaulted)
+                    {
                         EventSystem.NotifyUnobservedException(task.Exception?.InnerException);
+                    }
                 }
                 else
                 {
@@ -790,7 +876,9 @@ public sealed class EventSource<T> : IProgress<T>,
         }
 
         if (tasks == null || tasks.Count == 0)
+        {
             return new ValueTask<Boolean>(TaskUtils.TrueTask);
+        }
 
         return _InvokeAsyncCore_WaitForPendingTasks(tasks);
     }
@@ -805,7 +893,9 @@ public sealed class EventSource<T> : IProgress<T>,
                     var tcs = (TaskCompletionSource<Boolean>)a!;
 
                     if (t.IsFaulted)
+                    {
                         EventSystem.NotifyUnobservedException(t.Exception?.InnerException);
+                    }
 
                     tcs.SetResult(true);
                 },
@@ -836,7 +926,9 @@ public sealed class EventSource<T> : IProgress<T>,
     internal IDisposable Add(Action<T> action)
     {
         if (mIsDisposed)
+        {
             return NullSubscription.Instance;
+        }
 
         var subscription = new ActionSubscription<T>(this, action);
 
@@ -848,7 +940,9 @@ public sealed class EventSource<T> : IProgress<T>,
     internal IDisposable Add(Func<T, Task> func)
     {
         if (mIsDisposed)
+        {
             return NullSubscription.Instance;
+        }
 
         var subscription = new FuncSubscription<T>(this, func);
 
@@ -860,7 +954,9 @@ public sealed class EventSource<T> : IProgress<T>,
     internal IDisposable AddWeak(Action<T> action)
     {
         if (mIsDisposed)
+        {
             return NullSubscription.Instance;
+        }
 
         var strongSubscription = new ActionSubscription<T>(this, action);
         var weakSubscription   = new WeakSubscription<T>(this, strongSubscription);
@@ -874,7 +970,9 @@ public sealed class EventSource<T> : IProgress<T>,
     internal IDisposable AddWeak(Func<T, Task> func)
     {
         if (mIsDisposed)
+        {
             return NullSubscription.Instance;
+        }
 
         var strongSubscription = new FuncSubscription<T>(this, func);
         var weakSubscription   = new WeakSubscription<T>(this, strongSubscription);

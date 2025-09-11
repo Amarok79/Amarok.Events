@@ -8,8 +8,9 @@ namespace Amarok.Events;
 
 
 /// <summary>
-///     Implementation class that represents a subscription. Concrete derivations implement specific behaviors,
-///     for example, support for synchronous and asynchronous handler methods, weak subscriptions, etc.
+///     Implementation class that represents a subscription. Concrete derivations implement specific
+///     behaviors, for example, support for synchronous and asynchronous handler methods, weak
+///     subscriptions, etc.
 /// </summary>
 internal abstract class Subscription<T> : IDisposable
 {
