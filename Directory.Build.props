@@ -16,7 +16,6 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <SuppressTfmSupportBuildWarnings>True</SuppressTfmSupportBuildWarnings>
         <CheckEolTargetFramework>False</CheckEolTargetFramework>
     </PropertyGroup>
 

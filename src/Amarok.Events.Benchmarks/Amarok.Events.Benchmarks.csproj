@@ -5,6 +5,10 @@
         <TargetFrameworks>net48;net6.0;net8.0;net9.0</TargetFrameworks>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <SuppressTfmSupportBuildWarnings>True</SuppressTfmSupportBuildWarnings>
+    </PropertyGroup>
+
     <ItemGroup>
         <PackageReference Include="BenchmarkDotNet" Version="0.15.2" />
         <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
