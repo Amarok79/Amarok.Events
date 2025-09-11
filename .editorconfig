@@ -1,7 +1,10 @@
-root = true
+﻿root = true
 
 # C# files
 [*.cs]
+
+
+dotnet_diagnostic.ide1006.severity = none
 
 
 #### Core EditorConfig Options ####
@@ -230,7 +233,7 @@ resharper_keep_existing_linebreaks = false
 resharper_keep_existing_list_patterns_arrangement = false
 resharper_keep_existing_property_patterns_arrangement = false
 resharper_keep_existing_switch_expression_arrangement = false
-resharper_max_array_initializer_elements_on_line = 1
+resharper_max_array_initializer_elements_on_line = 8
 resharper_max_attribute_length_for_same_line = 1
 resharper_max_enum_members_on_line = 1
 resharper_max_formal_parameters_on_line = 4
@@ -617,6 +620,12 @@ dotnet_naming_rule.private_instance_fields_rule_2.resharper_guid = 4a98fdf6-7d98
 dotnet_naming_rule.private_instance_fields_rule_2.severity = warning
 dotnet_naming_rule.private_instance_fields_rule_2.style = m_upper_camel_case_style
 dotnet_naming_rule.private_instance_fields_rule_2.symbols = private_instance_fields_symbols_2
+dotnet_naming_rule.private_instance_fields_rule_3.import_to_resharper = True
+dotnet_naming_rule.private_instance_fields_rule_3.resharper_description = Instance fields (private)
+dotnet_naming_rule.private_instance_fields_rule_3.resharper_guid = 4a98fdf6-7d98-4f5a-afeb-ea44ad98c70c
+dotnet_naming_rule.private_instance_fields_rule_3.severity = warning
+dotnet_naming_rule.private_instance_fields_rule_3.style = m_upper_camel_case_style
+dotnet_naming_rule.private_instance_fields_rule_3.symbols = private_instance_fields_symbols_3
 dotnet_naming_rule.private_static_fields_rule.import_to_resharper = True
 dotnet_naming_rule.private_static_fields_rule.resharper_description = Static fields (private)
 dotnet_naming_rule.private_static_fields_rule.resharper_guid = f9fce829-e6f4-4cb2-80f1-5497c44f51df
@@ -634,6 +643,12 @@ dotnet_naming_rule.private_static_readonly_rule_1.resharper_guid = 15b5b1f1-457c
 dotnet_naming_rule.private_static_readonly_rule_1.severity = warning
 dotnet_naming_rule.private_static_readonly_rule_1.style = s_upper_camel_case_style
 dotnet_naming_rule.private_static_readonly_rule_1.symbols = private_static_readonly_symbols
+dotnet_naming_rule.test_fixtures_rule.import_to_resharper = True
+dotnet_naming_rule.test_fixtures_rule.resharper_description = Test Fixtures
+dotnet_naming_rule.test_fixtures_rule.resharper_guid = 93f5f448-4454-420d-a56d-d9f779d0c375
+dotnet_naming_rule.test_fixtures_rule.severity = warning
+dotnet_naming_rule.test_fixtures_rule.style = test_upper_camel_case_style
+dotnet_naming_rule.test_fixtures_rule.symbols = test_fixtures_symbols
 dotnet_naming_rule.unity_serialized_field_rule.import_to_resharper = True
 dotnet_naming_rule.unity_serialized_field_rule.resharper_description = Unity serialized field
 dotnet_naming_rule.unity_serialized_field_rule.resharper_guid = 5f0fdb63-c892-4d2c-9324-15c80b22a7ef
@@ -652,11 +667,19 @@ dotnet_naming_rule.unity_serialized_field_rule_2.resharper_guid = 5f0fdb63-c892-
 dotnet_naming_rule.unity_serialized_field_rule_2.severity = warning
 dotnet_naming_rule.unity_serialized_field_rule_2.style = lower_camel_case_style
 dotnet_naming_rule.unity_serialized_field_rule_2.symbols = unity_serialized_field_symbols_2
+dotnet_naming_rule.unity_serialized_field_rule_3.import_to_resharper = True
+dotnet_naming_rule.unity_serialized_field_rule_3.resharper_description = Unity serialized field
+dotnet_naming_rule.unity_serialized_field_rule_3.resharper_guid = 5f0fdb63-c892-4d2c-9324-15c80b22a7ef
+dotnet_naming_rule.unity_serialized_field_rule_3.severity = warning
+dotnet_naming_rule.unity_serialized_field_rule_3.style = lower_camel_case_style
+dotnet_naming_rule.unity_serialized_field_rule_3.symbols = unity_serialized_field_symbols_3
 dotnet_naming_style.lower_camel_case_style.capitalization = camel_case
 dotnet_naming_style.m_upper_camel_case_style.capitalization = pascal_case
 dotnet_naming_style.m_upper_camel_case_style.required_prefix = m
 dotnet_naming_style.s_upper_camel_case_style.capitalization = pascal_case
 dotnet_naming_style.s_upper_camel_case_style.required_prefix = s
+dotnet_naming_style.test_upper_camel_case_style.capitalization = pascal_case
+dotnet_naming_style.test_upper_camel_case_style.required_prefix = Test_
 dotnet_naming_style.upper_camel_case_style.capitalization = pascal_case
 dotnet_naming_style.upper_camel_case_style.required_prefix = _
 dotnet_naming_style.upper_camel_case_style_1.capitalization = pascal_case
@@ -677,6 +700,10 @@ dotnet_naming_symbols.private_instance_fields_symbols_2.applicable_accessibiliti
 dotnet_naming_symbols.private_instance_fields_symbols_2.applicable_kinds = field
 dotnet_naming_symbols.private_instance_fields_symbols_2.resharper_applicable_kinds = field,readonly_field
 dotnet_naming_symbols.private_instance_fields_symbols_2.resharper_required_modifiers = instance
+dotnet_naming_symbols.private_instance_fields_symbols_3.applicable_accessibilities = private
+dotnet_naming_symbols.private_instance_fields_symbols_3.applicable_kinds = field
+dotnet_naming_symbols.private_instance_fields_symbols_3.resharper_applicable_kinds = field,readonly_field
+dotnet_naming_symbols.private_instance_fields_symbols_3.resharper_required_modifiers = instance
 dotnet_naming_symbols.private_static_fields_symbols.applicable_accessibilities = private
 dotnet_naming_symbols.private_static_fields_symbols.applicable_kinds = field
 dotnet_naming_symbols.private_static_fields_symbols.required_modifiers = static
@@ -687,6 +714,11 @@ dotnet_naming_symbols.private_static_readonly_symbols.applicable_kinds = field
 dotnet_naming_symbols.private_static_readonly_symbols.required_modifiers = readonly,static
 dotnet_naming_symbols.private_static_readonly_symbols.resharper_applicable_kinds = readonly_field
 dotnet_naming_symbols.private_static_readonly_symbols.resharper_required_modifiers = static
+dotnet_naming_symbols.test_fixtures_symbols.applicable_accessibilities = public
+dotnet_naming_symbols.test_fixtures_symbols.applicable_kinds = 
+dotnet_naming_symbols.test_fixtures_symbols.required_modifiers = static
+dotnet_naming_symbols.test_fixtures_symbols.resharper_applicable_kinds = test_type
+dotnet_naming_symbols.test_fixtures_symbols.resharper_required_modifiers = static
 dotnet_naming_symbols.unity_serialized_field_symbols.applicable_accessibilities = *
 dotnet_naming_symbols.unity_serialized_field_symbols.applicable_kinds = 
 dotnet_naming_symbols.unity_serialized_field_symbols.resharper_applicable_kinds = unity_serialised_field
@@ -699,6 +731,10 @@ dotnet_naming_symbols.unity_serialized_field_symbols_2.applicable_accessibilitie
 dotnet_naming_symbols.unity_serialized_field_symbols_2.applicable_kinds = 
 dotnet_naming_symbols.unity_serialized_field_symbols_2.resharper_applicable_kinds = unity_serialised_field
 dotnet_naming_symbols.unity_serialized_field_symbols_2.resharper_required_modifiers = instance
+dotnet_naming_symbols.unity_serialized_field_symbols_3.applicable_accessibilities = *
+dotnet_naming_symbols.unity_serialized_field_symbols_3.applicable_kinds = 
+dotnet_naming_symbols.unity_serialized_field_symbols_3.resharper_applicable_kinds = unity_serialised_field
+dotnet_naming_symbols.unity_serialized_field_symbols_3.resharper_required_modifiers = instance
 
 # Standard properties
 end_of_line = crlf
