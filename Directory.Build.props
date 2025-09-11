@@ -7,13 +7,17 @@
     <PropertyGroup>
         <RootNamespace>Amarok</RootNamespace>
         <LangVersion>Latest</LangVersion>
-        <NoWarn>($NoWarn);NETSDK1138</NoWarn>
     </PropertyGroup>
 
     <PropertyGroup>
         <Authors>Olaf Kober</Authors>
         <Description>A fast and light-weight implementation of the observer pattern that supports synchronous and asynchronous invocation and/or subscribers. A potential replacement for regular .NET events.</Description>
         <Copyright>Copyright (c) 2018, Olaf Kober</Copyright>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <SuppressTfmSupportBuildWarnings>True</SuppressTfmSupportBuildWarnings>
+        <CheckEolTargetFramework>False</CheckEolTargetFramework>
     </PropertyGroup>
 
 

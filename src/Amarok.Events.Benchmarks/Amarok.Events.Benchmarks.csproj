@@ -6,11 +6,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="BenchmarkDotNet" Version="0.14.0" />
+        <PackageReference Include="BenchmarkDotNet" Version="0.15.2" />
         <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
-        <PackageReference Include="System.CodeDom" Version="8.0.0" />
-        <PackageReference Include="System.Collections.Immutable" Version="8.0.0" />
-        <PackageReference Include="System.Reflection.Metadata" Version="8.0.1" />
+        <PackageReference Include="System.CodeDom" Version="9.0.9" />
+        <PackageReference Include="System.Collections.Immutable" Version="9.0.9" />
+        <PackageReference Include="System.Reflection.Metadata" Version="9.0.9" />
     </ItemGroup>
 
     <ItemGroup>
