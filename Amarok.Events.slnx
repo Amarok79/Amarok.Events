@@ -1,0 +1,18 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitignore" />
+    <File Path="Amarok.Events.sln.DotSettings" />
+    <File Path="Amarok.Events.v3.ncrunchsolution" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Build.targets" />
+    <File Path="global.json" />
+    <File Path="LICENSE" />
+    <File Path="nuget.config" />
+    <File Path="README.md" />
+    <File Path="_cleanup.cmd" />
+  </Folder>
+  <Project Path="src/Amarok.Events.Benchmarks/Amarok.Events.Benchmarks.csproj" />
+  <Project Path="src/Amarok.Events.Tests/Amarok.Events.Tests.csproj" />
+  <Project Path="src/Amarok.Events/Amarok.Events.csproj" />
+</Solution>
