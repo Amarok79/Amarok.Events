@@ -1,4 +1,4 @@
-[![NuGet](https://img.shields.io/nuget/v/Amarok.Events.svg?logo=)](https://www.nuget.org/packages/Amarok.Events/)
+﻿[![NuGet](https://img.shields.io/nuget/v/Amarok.Events.svg?logo=)](https://www.nuget.org/packages/Amarok.Events/)
 
 # Introduction
 
