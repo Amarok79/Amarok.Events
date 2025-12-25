@@ -13,7 +13,7 @@ allocations and therefore suitable for high-performance scenarios or resource-co
 
 The library is redistributed as NuGet package: [Amarok.Events](https://www.nuget.org/packages/Amarok.Events/)
 
-The package provides strong-named binaries for *.NET Standard 2.0*, *.NET 6.0*, *.NET 8.0*, and *.NET 9.0*. Tests are performed with *.NET Framework 4.8*, *.NET 6.0*, *.NET 8.0*, and *.NET 9.0*.
+The package provides strong-named binaries for *.NET Standard 2.0*, *.NET 6.0*, *.NET 8.0*, and *.NET 10.0*. Tests are performed with *.NET Framework 4.8*, *.NET 6.0*, *.NET 8.0*, and *.NET 10.0*.
 
 # Documentation
 
